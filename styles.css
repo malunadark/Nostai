@@ -1,4 +1,4 @@
-/* Сброс стилей */
+/* Убираем отступы, делаем фон на весь экран */
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +18,7 @@ body, html {
     background-color: black;
 }
 
-/* Контейнер на весь экран */
+/* Контейнер */
 .container {
     position: relative;
     width: 100%;
@@ -30,24 +30,24 @@ body, html {
     text-align: center;
 }
 
-/* Фон */
+/* Фоновое изображение */
 .background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    background-image: url('assets/Nostai.png'); /* Путь к изображению */
-    background-size: cover; /* Обеспечивает покрытие всего контейнера изображением */
-    background-position: center; /* Центрирует изображение */
-    background-repeat: no-repeat; /* Чтобы фон не повторялся */
+    z-index: -2;
+    background-image: url('assets/Nostai.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Анимация солнечных лучей */
 .sun-rays {
     position: absolute;
-    top: 50%;
+    top: 30%; /* Подстрой, чтобы совпадало с солнцем */
     left: 50%;
     width: 600px;
     height: 600px;
@@ -56,56 +56,76 @@ body, html {
     opacity: 0.7;
     transform: translate(-50%, -50%);
     animation: sunMove 6s infinite alternate ease-in-out;
-    z-index: -1;
+    z-index: 1; /* Теперь лучи будут над фоном */
+    pointer-events: none;
+}
+
+/* Анимация огня */
+.fire-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: radial-gradient(circle, rgba(255,69,0,0.6) 0%, rgba(255,69,0,0) 70%);
+    filter: blur(40px);
+    animation: fireMove 2s infinite alternate ease-in-out;
+    opacity: 0.7;
+    z-index: 0;
 }
 
 /* Заголовок */
 .title {
-    font-size: 72px;
+    font-size: 64px;
     font-weight: bold;
     letter-spacing: 5px;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 30px rgba(255, 255, 100, 0.8);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
-    text-transform: uppercase;
-    mix-blend-mode: screen;
-    background: linear-gradient(90deg, rgba(255,255,255,0.9) 20%, rgba(255,255,100,0.5) 80%);
-    padding: 10px 30px;
-    border-radius: 15px;
-    text-shadow: 0 0 30px rgba(255, 255, 0, 1);
+    z-index: 2;
 }
 
 /* Меню */
 .menu {
     position: absolute;
-    bottom: 50px;
-    z-index: 10;
-    text-align: center;
+    bottom: 10%;
+    z-index: 2;
 }
 
 .menu a {
     color: white;
     text-decoration: none;
-    font-size: 28px;
+    font-size: 24px;
     margin: 0 15px;
     transition: 0.3s ease-in-out;
-    text-shadow: 0 0 15px rgba(255, 255, 100, 0.8);
 }
 
 .menu a:hover {
     color: orange;
-    text-shadow: 0 0 25px orange;
+    text-shadow: 0 0 10px orange;
 }
 
-/* Анимация лучей */
+/* Анимации */
 @keyframes sunMove {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
     }
-    to {
-        transform: translate(-50%, -50%) rotate(15deg);
+    100% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes fireMove {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1.1);
     }
 }
