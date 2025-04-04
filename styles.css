@@ -37,8 +37,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
-    background-image: url('assets/Nostai.png');
+    z-index: -1;
+    background-image: url('./assets/Nostai.png'); /* Вот тут указываем путь */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
