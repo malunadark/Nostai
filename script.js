@@ -1,12 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const fire = document.querySelector(".fire");
+.sun-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
+    filter: blur(50px);
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    animation: sunMove 4s infinite alternate ease-in-out;
+}
 
-    function flickerFire() {
-        let randomScale = 1 + Math.random() * 0.2;
-        let randomOpacity = 0.7 + Math.random() * 0.3;
-        fire.style.transform = `translateX(-50%) scale(${randomScale})`;
-        fire.style.opacity = randomOpacity;
-    }
-
-    setInterval(flickerFire, 200);
-});
