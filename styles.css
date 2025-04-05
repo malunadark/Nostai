@@ -20,7 +20,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('assets/Nostai.png'); /* Путь к изображению */
+    background-image: url('https://raw.githubusercontent.com/malunadark/Nostai-site/main/assets/Nostai.png'); /* Путь к изображению на GitHub */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
