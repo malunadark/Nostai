@@ -1,4 +1,4 @@
-/* Убираем отступы */
+/* Убираем отступы и настройки для всех элементов */
 * {
     margin: 0;
     padding: 0;
@@ -8,9 +8,9 @@
 body, html {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     font-family: 'DestroyCyr', sans-serif;
     background-color: black;
+    overflow: hidden;
 }
 
 /* Фоновое изображение */
@@ -20,14 +20,12 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./assets/Nostai.png'); /* Путь к вашему изображению */
+    background-image: url('assets/Nostai.png'); /* Путь к изображению */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: -2; /* Установил более низкий z-index для фона */
-    animation: fadeIn 2s ease-in-out;
+    z-index: -2;
 }
-
 
 /* Анимация солнечных лучей */
 .sun-rays {
@@ -41,19 +39,7 @@ body, html {
     opacity: 0.8;
     transform: translate(-50%, -50%) scale(1);
     animation: sunMove 5s infinite alternate ease-in-out;
-    z-index: -1; /* Установил выше, чем фон */
-}
-
-/* Анимация огня */
-.fire-overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 50%;
-    background: radial-gradient(circle, rgba(255,140,0,0.7) 0%, rgba(255,69,0,0.6) 50%, rgba(255,69,0,0) 80%);
-    filter: blur(50px);
-    opacity: 0.7; /* Сделал opacity чуть меньше */
-    animation: fireMove 3s infinite alternate ease-in-out;
+    z-index: -1;
 }
 
 /* Заголовок */
@@ -97,23 +83,8 @@ body, html {
 
 /* Анимации */
 @keyframes sunMove {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg) scale(1);
-    }
-    to {
-        transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
-    }
-}
-
-@keyframes fireMove {
-    from {
-        opacity: 0.7;
-        transform: scale(1);
-    }
-    to {
-        opacity: 0.8; /* Сделал анимацию плавнее */
-        transform: scale(1.05); /* Уменьшил масштаб */
-    }
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
 }
 
 @keyframes glow {
