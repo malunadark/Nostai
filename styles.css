@@ -1,24 +1,99 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nostai – Зов Глубин</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Подключение внешнего CSS -->
-</head>
-<body>
-    <!-- Фон -->
-    <div class="background"></div>
+/* Убираем отступы и настройки для всех элементов */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <!-- Заголовок -->
-    <h1 class="title">NOSTAI</h1>
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'DestroyCyr', sans-serif;
+    background-color: black;
+    overflow: hidden;
+}
 
-    <!-- Меню -->
-    <nav class="menu">
-        <a href="chronicles.html">Хроники Забвения</a>
-        <a href="mystery.html">Порог Тайны</a>
-        <a href="shadow.html">Голос Тени</a>
-        <a href="gifts.html">Дары Провидцев</a>
-    </nav>
-</body>
-</html>
+/* Фоновое изображение */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://raw.githubusercontent.com/malunadark/Nostai-site/main/assets/Nostai.png'); /* Путь к изображению на GitHub */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+}
+
+/* Анимация солнечных лучей */
+.sun-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,255,100,0.6) 10%, rgba(255,255,0,0) 90%);
+    filter: blur(70px);
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+    animation: sunMove 5s infinite alternate ease-in-out;
+    z-index: -1;
+}
+
+/* Заголовок */
+.title {
+    font-size: 72px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    text-shadow: 0 0 25px rgba(255, 255, 0, 1);
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    animation: glow 2s infinite alternate;
+}
+
+/* Меню */
+.menu {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards 0.5s;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 26px;
+    margin: 0 20px;
+    transition: 0.3s ease-in-out;
+}
+
+.menu a:hover {
+    color: orange;
+    text-shadow: 0 0 15px orange;
+    transform: scale(1.1);
+}
+
+/* Анимации */
+@keyframes sunMove {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 15px yellow; }
+    50% { text-shadow: 0 0 30px orange; }
+    100% { text-shadow: 0 0 15px yellow; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
