@@ -13,13 +13,8 @@
             font-family: 'DestroyCyr', sans-serif;
             background-color: black;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
         }
 
-        /* Фон */
         .background {
             position: fixed;
             top: 0;
@@ -33,7 +28,6 @@
             z-index: -2;
         }
 
-        /* Солнечные лучи */
         .sun-rays {
             position: absolute;
             top: 50%;
@@ -48,29 +42,26 @@
             z-index: -1;
         }
 
-        /* Анимация солнечных лучей */
         @keyframes sunMove {
             0% { transform: translate(-50%, -50%) scale(1); }
             100% { transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* Заголовок */
         .title {
             color: white;
             font-size: 64px;
+            margin-top: 50px;
             z-index: 1;
             position: relative;
         }
 
-        /* Меню */
         .menu {
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
             z-index: 1;
             position: relative;
-            align-items: center;
-            margin-top: 30px;
         }
 
         .menu a {
@@ -80,34 +71,19 @@
             transition: color 0.3s;
         }
 
-        /* Эффект наведения на ссылки */
         .menu a:hover {
             color: #ffcc00;
-        }
-
-        /* Управление аудио */
-        #heartbeat {
-            display: none; /* Сделать аудио невидимым */
         }
     </style>
 </head>
 <body>
-    <!-- Фон -->
     <div class="background"></div>
 
-    <!-- Музыка сердцебиения -->
-    <audio id="heartbeat" autoplay loop>
-        <source src="assets/audio/heartbeat.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-    </audio>
-
-    <!-- Эффекты -->
     <div class="sun-rays"></div>
+    <div class="fire-overlay"></div>
 
-    <!-- Заголовок -->
     <h1 class="title">NOSTAI</h1>
 
-    <!-- Меню -->
     <nav class="menu">
         <a href="chronicles.html">Хроники Забвения</a>
         <a href="mystery.html">Порог Тайны</a>
