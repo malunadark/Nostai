@@ -24,7 +24,7 @@ body, html {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index: -2; /* Установил более низкий z-index для фона */
     animation: fadeIn 2s ease-in-out;
 }
 
@@ -40,7 +40,7 @@ body, html {
     opacity: 0.8;
     transform: translate(-50%, -50%) scale(1);
     animation: sunMove 5s infinite alternate ease-in-out;
-    z-index: -1;
+    z-index: -1; /* Установил выше, чем фон */
 }
 
 /* Анимация огня */
@@ -51,7 +51,7 @@ body, html {
     height: 50%;
     background: radial-gradient(circle, rgba(255,140,0,0.7) 0%, rgba(255,69,0,0.6) 50%, rgba(255,69,0,0) 80%);
     filter: blur(50px);
-    opacity: 0.8;
+    opacity: 0.7; /* Сделал opacity чуть меньше */
     animation: fireMove 3s infinite alternate ease-in-out;
 }
 
@@ -110,8 +110,8 @@ body, html {
         transform: scale(1);
     }
     to {
-        opacity: 0.9;
-        transform: scale(1.1);
+        opacity: 0.8; /* Сделал анимацию плавнее */
+        transform: scale(1.05); /* Уменьшил масштаб */
     }
 }
 
