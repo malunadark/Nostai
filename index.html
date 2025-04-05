@@ -13,9 +13,13 @@
             font-family: 'DestroyCyr', sans-serif;
             background-color: black;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        /* Фоновое изображение */
+        /* Фон */
         .background {
             position: fixed;
             top: 0;
@@ -54,24 +58,21 @@
         .title {
             color: white;
             font-size: 64px;
-            margin-top: 50px;
             z-index: 1;
             position: relative;
-            text-align: center;
         }
 
         /* Меню */
         .menu {
-            margin-top: 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
             z-index: 1;
             position: relative;
             align-items: center;
+            margin-top: 30px;
         }
 
-        /* Ссылки в меню */
         .menu a {
             color: white;
             text-decoration: none;
