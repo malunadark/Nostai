@@ -15,18 +15,19 @@
             overflow: hidden;
         }
 
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/Nostai.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -2;
-        }
+       .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/images/Noctara.png');
+    background-size: cover;         /* Чтобы картинка растягивалась по экрану */
+    background-position: center;    /* Центрируем */
+    background-repeat: no-repeat;   /* Не повторяем */
+    z-index: -2;                    /* За контентом */
+}
+
 
         .sun-rays {
             position: absolute;
