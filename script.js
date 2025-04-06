@@ -11,3 +11,15 @@
     animation: sunMove 4s infinite alternate ease-in-out;
 }
 
+@keyframes sunMove {
+    0% {
+        transform: translate(-50%, -50%) scale(1); /* Начальная позиция, без изменений */
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2); /* Расширение и увеличение эффекта */
+        opacity: 0.5;
+    }
+}
+
+
