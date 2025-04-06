@@ -5,7 +5,16 @@
     box-sizing: border-box;
 }
 
-/* Фон */
+/* Подключение шрифта DestroyCyr */
+@font-face {
+    font-family: 'DestroyCyr';
+    src: url('fonts/DestroyCyr.woff2') format('woff2'),
+         url('fonts/DestroyCyr.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Фон с анимацией */
 .background {
     position: fixed;
     top: 0;
@@ -17,21 +26,32 @@
     background-position: center;
     background-repeat: no-repeat;
     z-index: -1;
+    animation: backgroundAnimation 10s infinite alternate; /* Анимация для фона */
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        filter: brightness(100%); /* Исходное состояние */
+    }
+    100% {
+        filter: brightness(60%); /* Затемнение фона */
+    }
 }
 
 /* Заголовок */
 .title {
+    font-family: 'DestroyCyr', sans-serif; /* Используем шрифт DestroyCyr */
     font-size: 64px;
     color: white;
     text-align: center;
     margin-top: 20vh;
-    text-shadow: 0 0 15px rgba(255,255,255,0.8);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
-/* Меню */
+/* Меню (вертикальное) */
 .menu {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Размещение элементов по вертикали */
     align-items: center;
     margin-top: 40px;
 }
@@ -46,4 +66,37 @@
 
 .menu a:hover {
     color: #ffcc00;
+}
+
+/* Меню слева */
+.menu-left {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравнивание по левому краю */
+    padding-left: 20px;
+}
+
+/* Меню справа */
+.menu-right {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Выравнивание по правому краю */
+    padding-right: 20px;
+}
+
+/* Стили для body */
+body {
+    font-family: 'DestroyCyr', sans-serif; /* Применяем шрифт DestroyCyr ко всему сайту */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #000; /* Черный фон на случай, если изображение не загрузится */
 }
