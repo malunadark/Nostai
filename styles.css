@@ -87,3 +87,30 @@
     left: 58%;
     transform: translate(-50%, 50%);
 }
+
+/* Эффекты наведения с рунами */
+.rune-hover {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.rune-hover::after {
+    content: attr(data-runes);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #ffcc00;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.rune-hover:hover::after {
+    opacity: 1;
+}
+
+.rune-hover:hover {
+    color: transparent;
+}
