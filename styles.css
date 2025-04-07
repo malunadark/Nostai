@@ -8,8 +8,8 @@
 /* Подключение шрифта DestroyCyr */
 @font-face {
     font-family: 'DestroyCyr';
-    src: url('fonts/DestroyCyr.woff2') format('woff2'),
-         url('fonts/DestroyCyr.woff') format('woff');
+    src: url('assets/fonts/DestroyCyr.woff2') format('woff2'),
+         url('assets/fonts/DestroyCyr.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
