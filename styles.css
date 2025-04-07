@@ -48,48 +48,51 @@
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
-/* Меню (вертикальное) */
 .menu {
-    display: flex;
-    flex-direction: column; /* Размещение элементов по вертикали */
-    align-items: center;
-    margin-top: 40px;
-}
-
-.menu a {
-    color: white;
-    text-decoration: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
     font-size: 24px;
-    margin: 10px 0;
-    transition: color 0.3s;
+    color: white;
+    font-family: 'Arial', sans-serif;
 }
 
-.menu a:hover {
+.menu-item {
+    position: absolute;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
     color: #ffcc00;
+    cursor: pointer;
 }
 
-/* Меню слева */
-.menu-left {
-    position: fixed;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%); /* Центрирование по вертикали */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Выравнивание по левому краю */
-    padding-left: 20px;
+
+/* Хроники Забвения — ближе к солнцу */
+.chronicles {
+    top: 35%;
+    left: 54%;
+    transform: translate(-50%, -50%);
 }
 
-/* Меню справа */
-.menu-right {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%); /* Центрирование по вертикали */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Выравнивание по правому краю */
-    padding-right: 20px;
+/* Порог Тайны — к левому костру */
+.mystery {
+    top: 65%;
+    left: 25%;
+}
+
+/* Голос Тени — к правому костру */
+.shadow {
+    top: 70%;
+    right: 20%;
+}
+
+/* Дары Провидцев — над дальним костром / городом */
+.gifts {
+    bottom: 10%;
+    left: 60%;
 }
 
 /* Стили для body */
