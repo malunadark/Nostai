@@ -5,13 +5,12 @@
 }
 
 @font-face {
-    font-family: 'TerrorLetter';
-    src: url('assets/fonts/TerrorLetter-p7v11.ttf') format('truetype');
+    font-family: 'Aldus';
+    src: url('assets/fonts/Royal-7B3K.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
-
 
 /* Сброс */
 * {
@@ -40,52 +39,49 @@
     color: white;
     text-align: center;
     margin-top: 20vh;
-    text-shadow: 0 0 15px rgba(255,255,255,0.8);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
     z-index: 1;
     position: relative;
     font-family: 'DestroyCyr', sans-serif;
 }
 
+/* Меню */
 .menu-item {
-    position: absolute;
+    font-family: 'Aldus'; /* Используем имя шрифта, определённое в @font-face */
     font-size: 24px;
-    color: white;
-    text-decoration: none;
-    font-weight: normal;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    transition: color 0.3s;
-    white-space: nowrap;
-    z-index: 1;
-    font-family: 'TerrorLetter', sans-serif;
-
-    background-color: rgba(0, 0, 0, 0.4); /* затемнённая подложка */
-    padding: 6px 12px;
-    border-radius: 8px;
-    backdrop-filter: blur(3px); /* лёгкий блюр для стеклянности */
+    letter-spacing: 0.03em;
+    color: #D9CDB3;
+    transition: all 0.3s ease;
 }
-
 
 .menu-item:hover {
     color: #ffcc00;
+    filter: blur(0.5px);
+    text-shadow: 0 0 8px rgba(255, 230, 200, 0.2);
+    transform: scale(1.02);
 }
 
 /* Позиции элементов меню */
 .chronicles {
+    position: absolute;
     top: 43%; /* где солнце */
     left: 53%;
 }
 
 .mystery {
+    position: absolute;
     top: 70%; /* к левому костру */
     left: 22%;
 }
 
 .shadow {
+    position: absolute;
     top: 74%; /* к правому костру с бойцами */
     right: 16%;
 }
 
 .gifts {
+    position: absolute;
     bottom: 8%; /* над дальним костром в "город" */
     left: 58%;
 }
