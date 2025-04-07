@@ -5,8 +5,8 @@
 }
 
 @font-face {
-    font-family: 'Deutsch Gothic Cyr';
-    src: url('assets/fonts/Royal-7B3K.ttf') format('truetype');
+    font-family: 'DeutschGothicCyr';
+    src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -47,11 +47,13 @@
 
 /* Меню */
 .menu-item {
-    font-family: 'Deutsch Gothic Cyr'; /* Используем имя шрифта, определённое в @font-face */
+    position: absolute;
+    font-family: 'DeutschGothicCyr', serif;
     font-size: 24px;
     letter-spacing: 0.03em;
     color: #D9CDB3;
     transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .menu-item:hover {
@@ -61,27 +63,27 @@
     transform: scale(1.02);
 }
 
-/* Позиции элементов меню */
+/* Позиции элементов меню (подогнано по картинке) */
 .chronicles {
-    position: absolute;
-    top: 43%; /* где солнце */
-    left: 53%;
+    top: 38%;
+    left: 47.5%;
+    transform: translate(-50%, -50%);
 }
 
 .mystery {
-    position: absolute;
-    top: 70%; /* к левому костру */
-    left: 22%;
+    top: 68%;
+    left: 20%;
+    transform: translate(-50%, -50%);
 }
 
 .shadow {
-    position: absolute;
-    top: 74%; /* к правому костру с бойцами */
-    right: 16%;
+    top: 76%;
+    right: 14%;
+    transform: translate(50%, -50%);
 }
 
 .gifts {
-    position: absolute;
-    bottom: 8%; /* над дальним костром в "город" */
+    bottom: 9%;
     left: 58%;
+    transform: translate(-50%, 50%);
 }
