@@ -1,4 +1,4 @@
-/* Подключение шрифтов */
+/* === Подключение шрифтов === */
 @font-face {
     font-family: 'DestroyCyr';
     src: url('assets/fonts/destroycyr.ttf') format('truetype');
@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: 'DeutschGothicCyr';
-    src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+    src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -15,19 +15,16 @@
 @font-face {
     font-family: 'FutharkAoe';
     src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
 }
 
-/* Сброс */
+/* === Сброс стилей === */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Фон */
+/* === Фоновое изображение === */
 .background {
     position: fixed;
     top: 0;
@@ -41,7 +38,32 @@
     z-index: -1;
 }
 
-/* Заголовок */
+/* === Эффект солнечных лучей === */
+.sun-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
+    filter: blur(50px);
+    opacity: 0.7;
+    transform: translate(-50%, -50%);
+    animation: sunMove 4s infinite alternate ease-in-out;
+}
+
+@keyframes sunMove {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.5;
+    }
+}
+
+/* === Заголовок === */
 .title {
     font-size: 64px;
     color: white;
@@ -53,7 +75,7 @@
     font-family: 'DestroyCyr', sans-serif;
 }
 
-/* Меню */
+/* === Меню === */
 .menu-item {
     position: absolute;
     font-family: 'DeutschGothicCyr', serif;
@@ -71,7 +93,7 @@
     transform: scale(1.02);
 }
 
-/* Позиции элементов меню (подогнано по картинке) */
+/* === Позиции элементов меню === */
 .chronicles {
     top: 38%;
     left: 47.5%;
@@ -96,12 +118,11 @@
     transform: translate(-50%, 50%);
 }
 
-/* Эффекты наведения с рунами */
+/* === Эффект при наведении на руну (малый) === */
 .rune-hover {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    font-family: 'FutharkAoe', sans-serif; /* Использование шрифта FutharkAoe */
 }
 
 .rune-hover::after {
@@ -124,27 +145,66 @@
     color: transparent;
 }
 
-/* Солнечные лучи */
-.sun-rays {
+/* === Центральный рунный блок с эффектами === */
+.rune-block {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
-    filter: blur(50px);
-    opacity: 0.7;
     transform: translate(-50%, -50%);
-    animation: sunMove 4s infinite alternate ease-in-out;
+    font-family: 'FutharkAoe', serif;
+    font-size: 72px;
+    color: #ffcc00;
+    text-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+    padding: 20px 40px;
+    border: 2px solid rgba(255, 204, 0, 0.3);
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 2;
 }
 
-@keyframes sunMove {
+.rune-block::after {
+    content: attr(data-runes);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #ffcc00;
+    font-family: 'DeutschGothicCyr', serif;
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.rune-block:hover {
+    color: transparent;
+    text-shadow: none;
+    border-color: #ffe599;
+    box-shadow: 0 0 30px rgba(255, 255, 200, 0.4);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.rune-block:hover::after {
+    opacity: 1;
+}
+
+/* === Медленное появление всего сайта (fade-in) === */
+body {
+    animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
     0% {
-        transform: translate(-50%, -50%) scale(1); /* Начальная позиция, без изменений */
-        opacity: 0.7;
+        opacity: 0;
     }
     100% {
-        transform: translate(-50%, -50%) scale(1.2); /* Расширение и увеличение эффекта */
-        opacity: 0.5;
+        opacity: 1;
     }
 }
