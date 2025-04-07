@@ -17,20 +17,21 @@
 <a href="#" class="menu-item shadow">Голос тени</a>
 <a href="#" class="menu-item gifts">Дары провидцев</a>
 
+<!-- Добавление элемента с эффектом наведения -->
+<div class="rune-hover" data-runes="Руна тайны">Элемент с эффектом</div>
 
+<!-- Дополнительно можно добавить скрипт для музыки -->
+<audio id="heartSound" loop>
+    <source src="assets/heartbeat.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+</audio>
 
-    <!-- Дополнительно можно добавить скрипт для музыки -->
-    <audio id="heartSound" loop>
-        <source src="assets/heartbeat.mp3" type="audio/mpeg">
-        Ваш браузер не поддерживает аудио.
-    </audio>
-
-    <script>
-        // Автоматическое воспроизведение звука при загрузке страницы
-        window.addEventListener('load', function() {
-            const heartSound = document.getElementById('heartSound');
-            heartSound.play();
-        });
-    </script>
+<script>
+    // Автоматическое воспроизведение звука при загрузке страницы
+    window.addEventListener('load', function() {
+        const heartSound = document.getElementById('heartSound');
+        heartSound.play();
+    });
+</script>
 </body>
 </html>
