@@ -5,7 +5,7 @@
 }
 
 @font-face {
-    font-family: 'Aldus';
+    font-family: 'Deutsch Gothic Cyr';
     src: url('assets/fonts/Royal-7B3K.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -47,7 +47,7 @@
 
 /* Меню */
 .menu-item {
-    font-family: 'Aldus'; /* Используем имя шрифта, определённое в @font-face */
+    font-family: 'Deutsch Gothic Cyr'; /* Используем имя шрифта, определённое в @font-face */
     font-size: 24px;
     letter-spacing: 0.03em;
     color: #D9CDB3;
