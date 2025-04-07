@@ -42,19 +42,24 @@
     font-family: 'DestroyCyr', sans-serif;
 }
 
-/* Меню */
 .menu-item {
     position: absolute;
     font-size: 24px;
     color: white;
     text-decoration: none;
     font-weight: normal;
-    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     transition: color 0.3s;
     white-space: nowrap;
     z-index: 1;
     font-family: 'TerrorLetter', sans-serif;
+
+    background-color: rgba(0, 0, 0, 0.4); /* затемнённая подложка */
+    padding: 6px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(3px); /* лёгкий блюр для стеклянности */
 }
+
 
 .menu-item:hover {
     color: #ffcc00;
