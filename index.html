@@ -1,150 +1,46 @@
-/* Подключение шрифтов */
-@font-face {
-    font-family: 'DestroyCyr';
-    src: url('assets/fonts/destroycyr.ttf') format('truetype');
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nostai – Зов Глубин</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
 
-@font-face {
-    font-family: 'DeutschGothicCyr';
-    src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+  <!-- Фоновое изображение -->
+  <div class="background"></div>
 
-@font-face {
-    font-family: 'FutharkAoe';
-    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+  <!-- Эффект солнечных лучей -->
+  <div class="sun-rays"></div>
 
-/* Сброс */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+  <!-- Заголовок -->
+  <h1 class="title">NOSTAI</h1>
 
-/* Фон */
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('assets/Nostai.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
+  <!-- Меню -->
+  <a href="#" class="menu-item chronicles">Хроники забвения</a>
+  <a href="#" class="menu-item mystery">Порог тайны</a>
+  <a href="#" class="menu-item shadow">Голос тени</a>
+  <a href="#" class="menu-item gifts">Дары провидцев</a>
 
-/* Эффект солнечных лучей */
-.sun-rays {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
-    filter: blur(50px);
-    opacity: 0.7;
-    transform: translate(-50%, -50%);
-    animation: sunMove 4s infinite alternate ease-in-out;
-}
+  <!-- Элемент с руническим эффектом -->
+  <div class="rune-hover" data-runes="ᚠᚢᚦᚨᚱᚲ">Futhark</div>
 
-@keyframes sunMove {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.5;
-    }
-}
+  <!-- Фоновый звук -->
+  <audio id="heartSound" loop>
+    <source src="assets/heartbeat.mp3" type="audio/mpeg" />
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-/* Заголовок */
-.title {
-    font-size: 64px;
-    color: white;
-    text-align: center;
-    margin-top: 20vh;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    z-index: 1;
-    position: relative;
-    font-family: 'DestroyCyr', sans-serif;
-}
+  <!-- Скрипт для автозапуска звука -->
+  <script>
+    window.addEventListener('load', function () {
+      const heartSound = document.getElementById('heartSound');
+      heartSound.play().catch(() => {
+        console.log('Автовоспроизведение заблокировано браузером.');
+      });
+    });
+  </script>
 
-/* Меню */
-.menu-item {
-    position: absolute;
-    font-family: 'DeutschGothicCyr', serif;
-    font-size: 24px;
-    letter-spacing: 0.03em;
-    color: #D9CDB3;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.menu-item:hover {
-    color: #ffcc00;
-    filter: blur(0.5px);
-    text-shadow: 0 0 8px rgba(255, 230, 200, 0.2);
-    transform: scale(1.02);
-}
-
-/* Позиции элементов меню */
-.chronicles {
-    top: 38%;
-    left: 47.5%;
-    transform: translate(-50%, -50%);
-}
-
-.mystery {
-    top: 68%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-}
-
-.shadow {
-    top: 76%;
-    right: 14%;
-    transform: translate(50%, -50%);
-}
-
-.gifts {
-    bottom: 9%;
-    left: 58%;
-    transform: translate(-50%, 50%);
-}
-
-/* Эффект рунного наведения */
-.rune-hover {
-    cursor: pointer;
-    position: relative;
-    transition: all 0.3s ease;
-    font-family: 'FutharkAoe', sans-serif;
-}
-
-.rune-hover::after {
-    content: attr(data-runes);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    color: #ffcc00;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.rune-hover:hover::after {
-    opacity: 1;
-}
-
-.rune-hover:hover {
-    color: transparent;
-}
+</body>
+</html>
