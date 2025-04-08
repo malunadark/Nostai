@@ -147,12 +147,9 @@
     color: transparent;
 }
 
-/* === Центральный рунный блок === */
+/* === Общий стиль рунного блока === */
 .rune-block {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-family: 'FutharkAoe', serif;
     font-size: 72px;
     color: #ffcc00;
@@ -195,6 +192,65 @@
 
 .rune-block:hover::after {
     opacity: 1;
+}
+
+/* === Анимации рун === */
+
+/* 🔥 Пульсация */
+.rune-block.spell {
+    top: 30%;
+    left: 25%;
+    animation: pulse-glow 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 15px rgba(255, 100, 0, 0.5);
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255, 200, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* 🌌 Плавание */
+.rune-block.calm {
+    top: 40%;
+    left: 75%;
+    animation: floaty 5s infinite ease-in-out;
+}
+
+@keyframes floaty {
+    0%, 100% { transform: translate(-50%, -52%); }
+    50% { transform: translate(-50%, -48%); }
+}
+
+/* 🌀 Хаотично */
+.rune-block.chaos {
+    top: 65%;
+    left: 35%;
+    animation: chaos-shake 1.2s infinite;
+}
+
+@keyframes chaos-shake {
+    0%   { transform: translate(-50%, -50%) rotate(0deg); }
+    25%  { transform: translate(-49%, -51%) rotate(1deg); }
+    50%  { transform: translate(-51%, -49%) rotate(-1deg); }
+    75%  { transform: translate(-50.5%, -50.5%) rotate(0.5deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+/* 🕯️ Мистично исчезает/появляется */
+.rune-block.mystic {
+    top: 70%;
+    left: 70%;
+    animation: mystic-fade 6s ease-in-out infinite;
+}
+
+@keyframes mystic-fade {
+    0%, 100% { opacity: 0.7; filter: blur(1px); }
+    50% { opacity: 1; filter: blur(0); }
 }
 
 /* === Плавное появление страницы === */
