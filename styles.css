@@ -24,7 +24,7 @@
     box-sizing: border-box;
 }
 
-/* === Фоновое изображение === */
+/* === Фон === */
 .background {
     position: fixed;
     top: 0;
@@ -75,7 +75,7 @@
     font-family: 'DestroyCyr', sans-serif;
 }
 
-/* === Меню === */
+/* === Элементы меню === */
 .menu-item {
     position: absolute;
     font-family: 'DeutschGothicCyr', serif;
@@ -84,6 +84,12 @@
     color: #D9CDB3;
     transition: all 0.3s ease;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 6px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(3px);
+    z-index: 1;
 }
 
 .menu-item:hover {
@@ -93,30 +99,28 @@
     transform: scale(1.02);
 }
 
-%);
-/* Позиции элементов меню */
+/* === Позиции меню === */
 .chronicles {
-    top: 38%;   /* подняли в луч */
-    left: 51%;  /* ближе к центру */
+    top: 38%;
+    left: 51%;
 }
 
 .mystery {
-    top: 62%;   /* ниже и левее */
+    top: 62%;
     left: 18%;
 }
 
 .shadow {
-    top: 65%;   /* ближе к яркому костру справа */
+    top: 65%;
     right: 8%;
 }
 
 .gifts {
-    bottom: 10%; /* правый нижний угол */
+    bottom: 10%;
     right: 14%;
 }
 
-
-/* === Эффект при наведении на руну (малый) === */
+/* === Эффект рун при наведении (малый) === */
 .rune-hover {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -143,7 +147,7 @@
     color: transparent;
 }
 
-/* === Центральный рунный блок с эффектами === */
+/* === Центральный рунный блок === */
 .rune-block {
     position: absolute;
     top: 50%;
@@ -193,7 +197,7 @@
     opacity: 1;
 }
 
-/* === Медленное появление всего сайта (fade-in) === */
+/* === Плавное появление страницы === */
 body {
     animation: fadeIn 2s ease-out;
 }
