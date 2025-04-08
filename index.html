@@ -23,8 +23,8 @@
   <a href="#" class="menu-item shadow">Голос тени</a>
   <a href="#" class="menu-item gifts">Дары провидцев</a>
 
-  <!-- Элемент с руническим эффектом -->
-  <div class="rune-hover" data-runes="ᚠᚢᚦᚨᚱᚲ">Futhark</div>
+  <!-- Центральный рунический блок -->
+  <div class="rune-block" data-runes="ᚠᚢᚦᚨᚱᚲ">Futhark</div>
 
   <!-- Фоновый звук -->
   <audio id="heartSound" loop>
@@ -32,7 +32,7 @@
     Ваш браузер не поддерживает аудио.
   </audio>
 
-  <!-- Скрипт для автозапуска звука -->
+  <!-- Скрипт автозапуска звука -->
   <script>
     window.addEventListener('load', function () {
       const heartSound = document.getElementById('heartSound');
