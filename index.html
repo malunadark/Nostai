@@ -16,17 +16,12 @@
 
   <!-- Заголовок -->
   <h1 class="title">NOSTAI</h1>
-<!-- 🔥 Мощно, как заклинание -->
-<div class="rune-block spell" data-runes="ᛉᛞᛗ" style="top: 30%; left: 25%;">ᚠᚢᚦ</div>
 
-<!-- 🌌 Спокойно и паряще -->
-<div class="rune-block calm" data-runes="ᚱᛃᛇ" style="top: 40%; left: 75%;">ᚷᛁᚹ</div>
-
-<!-- 🌀 Хаотично и "живыми" -->
-<div class="rune-block chaos" data-runes="ᛜᛟᛞ" style="top: 65%; left: 35%;">ᛏᛒᛚ</div>
-
-<!-- 🕯️ Мистично -->
-<div class="rune-block mystic" data-runes="ᚾᛋ᛬" style="top: 70%; left: 70%;">ᛇᛗᚠ</div>
+  <!-- Руны -->
+  <div class="rune-block spell" data-runes="ᛉᛞᛗ" style="top: 30%; left: 25%;">ᚠᚢᚦ</div>
+  <div class="rune-block calm" data-runes="ᚱᛃᛇ" style="top: 40%; left: 75%;">ᚷᛁᚹ</div>
+  <div class="rune-block chaos" data-runes="ᛜᛟᛞ" style="top: 65%; left: 35%;">ᛏᛒᛚ</div>
+  <div class="rune-block mystic" data-runes="ᚾᛋ᛬" style="top: 70%; left: 70%;">ᛇᛗᚠ</div>
 
   <!-- Меню -->
   <a href="#" class="menu-item chronicles">Хроники забвения</a>
@@ -36,6 +31,44 @@
 
   <!-- Центральный рунический блок -->
   <div class="rune-block" data-runes="ᚠᚢᚦᚨᚱᚲ">Futhark</div>
+
+  <!-- 🔐 Скрытый вход -->
+  <div style="text-align: center; margin-top: 60px;">
+    <input id="secretCode" placeholder="Введите код доступа" style="
+      padding: 10px 16px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background-color: rgba(30, 30, 30, 0.8);
+      color: #fff;
+      margin-right: 10px;
+      font-family: 'Georgia', serif;
+    " />
+    <button onclick="checkCode()" style="
+      padding: 10px 18px;
+      font-size: 18px;
+      background-color: rgba(50, 50, 50, 0.9);
+      color: #fff;
+      border: 2px solid #666;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      box-shadow: 0 0 10px rgba(100,100,255,0.2);
+    ">
+      🌀 Войти
+    </button>
+  </div>
+
+  <script>
+    function checkCode() {
+      const code = document.getElementById("secretCode").value;
+      if (code === "nostai777") {
+        window.location.href = "http://YOUR-SERVER-IP:PORT?key=TEST123"; // ← замени на свой адрес
+      } else {
+        alert("Неверный код доступа.");
+      }
+    }
+  </script>
 
   <!-- Фоновый звук -->
   <audio id="heartSound" loop>
