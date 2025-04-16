@@ -19,13 +19,17 @@
     }
 
     body {
-      margin: 0;
-      padding: 0;
-     background-image: url('assets/Nostai.png');
-      overflow: hidden;
-      color: #fff;
-      font-family: 'DeutschGothic', serif;
-    }
+      .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/Nostai.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
 
     .title {
       font-family: 'DestroyCyr', sans-serif;
