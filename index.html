@@ -1,132 +1,212 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nostai – Зов Глубин</title>
-  <link rel="stylesheet" href="styles.css" />
   <style>
     @font-face {
       font-family: 'DeutschGothic';
       src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     }
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
 
     body {
       margin: 0;
-      font-family: 'Georgia', serif;
+      padding: 0;
+      background: black;
       overflow: hidden;
-      background: #000;
-    }
-
-    .title {
-      text-align: center;
-      font-size: 4em;
-      margin-top: 30px;
       color: #fff;
-      text-shadow: 0 0 20px #fff;
-    }
-
-    /* Меню */
-    .menu-item {
-      position: absolute;
-      background-color: rgba(30,30,30,0.8);
-      padding: 10px 20px;
-      color: #fff;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 20px;
       font-family: 'DeutschGothic', serif;
     }
 
-    .chronicles { top: 38%; left: 63%; }
-    .mystery { top: 60%; left: 32%; }
-    .shadow { top: 74%; left: 72%; }
-    .gifts { top: 82%; left: 62%; }
+    .title {
+      font-family: 'DestroyCyr', sans-serif;
+      font-size: 5em;
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+      text-shadow: 0 0 20px #fff, 0 0 40px #fff;
+    }
 
-    /* Уникальные руны */
+    .menu-item {
+      position: absolute;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #fff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-family: 'DeutschGothic', serif;
+      text-align: center;
+    }
+
+    /* Расположение меню как костры вокруг солнца */
+    .menu1 { top: 30%; left: 20%; }
+    .menu2 { top: 20%; left: 70%; }
+    .menu3 { top: 60%; left: 15%; }
+    .menu4 { top: 65%; left: 75%; }
+
+    .login-button {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #fff;
+      color: #fff;
+      font-size: 18px;
+      font-family: 'DeutschGothic', serif;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login-button:hover {
+      background: #fff;
+      color: #000;
+    }
+
     .rune {
       position: absolute;
-      font-size: 48px;
       font-family: 'FutharkAoe', serif;
+      font-size: 48px;
     }
 
-    /* 1. Светящаяся руна */
-    .rune1 {
-      top: 20%; left: 10%;
-      color: #ffee44;
-      text-shadow: 0 0 10px #ffee44, 0 0 20px #ffcc00;
-      animation: glowRune 2s ease-in-out infinite alternate;
+    /* Светящаяся на дереве */
+    .rune-tree {
+      top: 25%;
+      left: 10%;
+      color: #ffff88;
+      text-shadow: 0 0 10px #ffee44, 0 0 25px #fffaaa;
+      animation: glow 2s infinite alternate;
     }
 
-    @keyframes glowRune {
-      0% { text-shadow: 0 0 5px #ffee88; }
-      100% { text-shadow: 0 0 20px #fff000; }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ffee99; }
+      to   { text-shadow: 0 0 20px #ffffcc; }
     }
 
-    /* 2. Парящая по кругу */
-    .rune2 {
-      animation: floatInCircle 10s linear infinite;
+    /* Парящая */
+    .rune-floating {
+      color: #ffff66;
+      font-size: 44px;
+      animation: floatRune 18s linear infinite;
     }
 
-    @keyframes floatInCircle {
-      0%   { top: 30%; left: 30%; }
-      25%  { top: 20%; left: 50%; }
-      50%  { top: 40%; left: 70%; }
-      75%  { top: 60%; left: 50%; }
-      100% { top: 30%; left: 30%; }
+    @keyframes floatRune {
+      0%   { top: 10%; left: 5%; }
+      25%  { top: 25%; left: 40%; }
+      50%  { top: 60%; left: 60%; }
+      75%  { top: 30%; left: 80%; }
+      100% { top: 10%; left: 5%; }
     }
 
-    /* 3. Трепещущая */
-    .rune3 {
-      top: 60%; left: 20%;
-      color: #ffaa88;
-      animation: tremble 0.3s infinite alternate;
+    /* Ползущая и трансформирующаяся */
+    .rune-creeping {
+      color: #ffaa33;
+      font-size: 42px;
+      animation: creepMove 14s infinite ease-in-out;
     }
 
-    @keyframes tremble {
-      0% { transform: translateX(-2px); }
-      100% { transform: translateX(2px); }
+    @keyframes creepMove {
+      0% { top: 75%; left: 20%; transform: scale(1); }
+      25% { top: 80%; left: 30%; transform: scale(1.1) rotate(20deg); }
+      50% { top: 85%; left: 50%; transform: scale(0.9) rotate(-10deg); }
+      75% { top: 60%; left: 40%; transform: scale(1.2) rotate(10deg); }
+      100% { top: 75%; left: 20%; transform: scale(1); }
     }
 
-    /* 4. Медленно вращающаяся */
-    .rune4 {
-      top: 40%; left: 80%;
-      color: #ffcc99;
-      animation: rotateRune 8s linear infinite;
+    /* Вращающийся круг */
+    .rune-circle {
+      top: 50%; left: 50%;
+      width: 220px; height: 220px;
+      transform: translate(-50%, -50%);
+      animation: rotateCircle 16s linear infinite;
     }
 
-    @keyframes rotateRune {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes rotateCircle {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* 5. Пульсирующая */
-    .rune5 {
-      top: 70%; left: 50%;
-      color: #ffffff;
-      animation: pulse 1.5s ease-in-out infinite;
+    .rune-circle span {
+      position: absolute;
+      font-size: 38px;
+      color: #ffdd44;
+      transform-origin: 110px 110px;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.4); opacity: 0.6; }
+    .rune-circle span:nth-child(1) { transform: rotate(0deg) translateX(110px); }
+    .rune-circle span:nth-child(2) { transform: rotate(72deg) translateX(110px); }
+    .rune-circle span:nth-child(3) { transform: rotate(144deg) translateX(110px); }
+    .rune-circle span:nth-child(4) { transform: rotate(216deg) translateX(110px); }
+    .rune-circle span:nth-child(5) { transform: rotate(288deg) translateX(110px); }
+
+    /* Пульсирующая звезда */
+    .rune-star {
+      top: 75%; left: 50%;
+      width: 200px; height: 200px;
+      transform: translate(-50%, 0);
+      animation: pulseStar 4s infinite ease-in-out;
     }
+
+    .rune-star span {
+      position: absolute;
+      font-size: 40px;
+      color: #ffee66;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+
+    @keyframes pulseStar {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      50% { transform: translate(-50%, 0) scale(1.2); }
+    }
+
+    .rune-star span:nth-child(1) { top: 0%; left: 50%; }
+    .rune-star span:nth-child(2) { top: 85%; left: 10%; }
+    .rune-star span:nth-child(3) { top: 85%; left: 90%; }
+    .rune-star span:nth-child(4) { top: 30%; left: 0%; }
+    .rune-star span:nth-child(5) { top: 30%; left: 100%; }
   </style>
 </head>
 <body>
   <h1 class="title">NOSTAI</h1>
 
   <!-- Руны -->
-  <div class="rune rune1">ᚠ</div>
-  <div class="rune rune2">ᚢ</div>
-  <div class="rune rune3">ᚦ</div>
-  <div class="rune rune4">ᚨ</div>
-  <div class="rune rune5">ᛒ</div>
+  <div class="rune rune-tree">ᚠ</div>
+  <div class="rune rune-floating">ᛃ</div>
+  <div class="rune rune-creeping">ᛇ</div>
+
+  <div class="rune rune-circle">
+    <span>ᛋ</span><span>ᛏ</span><span>ᚦ</span><span>ᚱ</span><span>ᚢ</span>
+  </div>
+
+  <div class="rune rune-star">
+    <span>ᛉ</span>
+    <span>ᛗ</span>
+    <span>ᚠ</span>
+    <span>ᚹ</span>
+    <span>ᚷ</span>
+  </div>
 
   <!-- Меню -->
-  <a href="#" class="menu-item chronicles">Хроники забвения</a>
-  <a href="#" class="menu-item mystery">Порог тайны</a>
-  <a href="#" class="menu-item shadow">Голос тени</a>
-  <a href="#" class="menu-item gifts">Дары провидцев</a>
+  <a href="#" class="menu-item menu1">Хроники Забвения</a>
+  <a href="#" class="menu-item menu2">Порог Тайны</a>
+  <a href="#" class="menu-item menu3">Голос Тени</a>
+  <a href="#" class="menu-item menu4">Дары Провидцев</a>
+
+  <!-- Кнопка Войти -->
+  <button class="login-button">Войти</button>
 </body>
 </html>
