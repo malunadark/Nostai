@@ -6,26 +6,17 @@
   <title>Nostai – Зов Глубин</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
+    @font-face {
+      font-family: 'DeutschGothic';
+      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+    }
+
     body {
       margin: 0;
       font-family: 'Georgia', serif;
       overflow: hidden;
       background: #000;
     }
-
-/* === Фон === */
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('assets/Nostai.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
 
     .title {
       text-align: center;
@@ -35,123 +26,107 @@
       text-shadow: 0 0 20px #fff;
     }
 
+    /* Меню */
+    .menu-item {
+      position: absolute;
+      background-color: rgba(30,30,30,0.8);
+      padding: 10px 20px;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-family: 'DeutschGothic', serif;
+    }
+
+    .chronicles { top: 38%; left: 63%; }
+    .mystery { top: 60%; left: 32%; }
+    .shadow { top: 74%; left: 72%; }
+    .gifts { top: 82%; left: 62%; }
+
+    /* Уникальные руны */
     .rune {
-      font-family: 'FutharkAoe', serif;
-      color: #ffcc00;
+      position: absolute;
       font-size: 48px;
-      position: absolute;
+      font-family: 'FutharkAoe', serif;
     }
 
-    .rune-tree {
-      top: 25%; left: 18%;
-      text-shadow: 0 0 20px #ffffaa, 0 0 40px #fffccc;
-      animation: glow 2s ease-in-out infinite alternate;
+    /* 1. Светящаяся руна */
+    .rune1 {
+      top: 20%; left: 10%;
+      color: #ffee44;
+      text-shadow: 0 0 10px #ffee44, 0 0 20px #ffcc00;
+      animation: glowRune 2s ease-in-out infinite alternate;
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #ffee99; }
-      to { text-shadow: 0 0 30px #ffffcc; }
+    @keyframes glowRune {
+      0% { text-shadow: 0 0 5px #ffee88; }
+      100% { text-shadow: 0 0 20px #fff000; }
     }
 
-    .rune-floating {
-      font-size: 44px;
-      color: #ffff66;
-      animation: floatRune 25s linear infinite;
+    /* 2. Парящая по кругу */
+    .rune2 {
+      animation: floatInCircle 10s linear infinite;
     }
 
-    @keyframes floatRune {
-      0%   { top: 10%; left: 5%; }
-      25%  { top: 20%; left: 40%; }
-      50%  { top: 60%; left: 60%; }
-      75%  { top: 30%; left: 80%; }
-      100% { top: 10%; left: 5%; }
+    @keyframes floatInCircle {
+      0%   { top: 30%; left: 30%; }
+      25%  { top: 20%; left: 50%; }
+      50%  { top: 40%; left: 70%; }
+      75%  { top: 60%; left: 50%; }
+      100% { top: 30%; left: 30%; }
     }
 
-    .rune-creeping {
-      font-size: 40px;
-      color: #ffaa33;
-      animation: creepMove 12s infinite ease-in-out;
+    /* 3. Трепещущая */
+    .rune3 {
+      top: 60%; left: 20%;
+      color: #ffaa88;
+      animation: tremble 0.3s infinite alternate;
     }
 
-    @keyframes creepMove {
-      0% { top: 70%; left: 20%; }
-      25% { top: 75%; left: 30%; }
-      50% { top: 80%; left: 50%; }
-      75% { top: 60%; left: 40%; }
-      100% { top: 70%; left: 20%; }
+    @keyframes tremble {
+      0% { transform: translateX(-2px); }
+      100% { transform: translateX(2px); }
     }
 
-    .rune-circle {
-      top: 50%; left: 50%;
-      width: 200px; height: 200px;
-      transform: translate(-50%, -50%);
-      animation: rotateCircle 20s linear infinite;
+    /* 4. Медленно вращающаяся */
+    .rune4 {
+      top: 40%; left: 80%;
+      color: #ffcc99;
+      animation: rotateRune 8s linear infinite;
     }
 
-    @keyframes rotateCircle {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(-50%, -50%) rotate(360deg); }
+    @keyframes rotateRune {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    .rune-circle span {
-      position: absolute;
-      font-size: 36px;
-      transform-origin: 100px 100px;
+    /* 5. Пульсирующая */
+    .rune5 {
+      top: 70%; left: 50%;
+      color: #ffffff;
+      animation: pulse 1.5s ease-in-out infinite;
     }
 
-    .rune-circle span:nth-child(1) { transform: rotate(0deg) translateX(100px); }
-    .rune-circle span:nth-child(2) { transform: rotate(72deg) translateX(100px); }
-    .rune-circle span:nth-child(3) { transform: rotate(144deg) translateX(100px); }
-    .rune-circle span:nth-child(4) { transform: rotate(216deg) translateX(100px); }
-    .rune-circle span:nth-child(5) { transform: rotate(288deg) translateX(100px); }
-
-    .rune-star {
-      top: 75%; left: 50%;
-      width: 200px; height: 200px;
-      transform: translate(-50%, 0);
-      animation: pulseStar 6s infinite ease-in-out;
-    }
-
-    .rune-star span {
-      position: absolute;
-      font-size: 40px;
-      color: #ffee66;
-      text-shadow: 0 0 10px #ffcc00;
-    }
-
-    @keyframes pulseStar {
-      0%, 100% { transform: translate(-50%, 0) scale(1); }
-      50% { transform: translate(-50%, 0) scale(1.2); }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
   <h1 class="title">NOSTAI</h1>
 
-  <div class="rune rune-tree">ᚠ</div>
-  <div class="rune rune-floating">ᛃ</div>
-  <div class="rune rune-creeping" id="creepingRune">ᛇ</div>
+  <!-- Руны -->
+  <div class="rune rune1">ᚠ</div>
+  <div class="rune rune2">ᚢ</div>
+  <div class="rune rune3">ᚦ</div>
+  <div class="rune rune4">ᚨ</div>
+  <div class="rune rune5">ᛒ</div>
 
-  <div class="rune rune-circle">
-    <span>ᚢ</span><span>ᛋ</span><span>ᛏ</span><span>ᚦ</span><span>ᚱ</span>
-  </div>
-
-  <div class="rune rune-star">
-    <span style="top: 0%; left: 50%;">ᛉ</span>
-    <span style="top: 85%; left: 10%;">ᛗ</span>
-    <span style="top: 85%; left: 90%;">ᚠ</span>
-    <span style="top: 30%; left: 0%;">ᚹ</span>
-    <span style="top: 30%; left: 100%;">ᚷ</span>
-  </div>
-
-  <script>
-    const runes = ['ᛇ', 'ᛝ', 'ᛞ', 'ᛉ', 'ᚾ'];
-    let runeIndex = 0;
-    setInterval(() => {
-      document.getElementById('creepingRune').textContent = runes[runeIndex];
-      runeIndex = (runeIndex + 1) % runes.length;
-    }, 4000);
-  </script>
+  <!-- Меню -->
+  <a href="#" class="menu-item chronicles">Хроники забвения</a>
+  <a href="#" class="menu-item mystery">Порог тайны</a>
+  <a href="#" class="menu-item shadow">Голос тени</a>
+  <a href="#" class="menu-item gifts">Дары провидцев</a>
 </body>
 </html>
