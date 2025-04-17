@@ -18,18 +18,25 @@
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
 
-    body {
-      .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('assets/Nostai.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/Nostai.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+    }
 
     .title {
       font-family: 'DestroyCyr', sans-serif;
@@ -53,7 +60,6 @@
       text-align: center;
     }
 
-    /* Расположение меню как костры вокруг солнца */
     .menu1 { top: 30%; left: 20%; }
     .menu2 { top: 20%; left: 70%; }
     .menu3 { top: 60%; left: 15%; }
@@ -86,7 +92,6 @@
       font-size: 48px;
     }
 
-    /* Светящаяся на дереве */
     .rune-tree {
       top: 25%;
       left: 10%;
@@ -100,7 +105,6 @@
       to   { text-shadow: 0 0 20px #ffffcc; }
     }
 
-    /* Парящая */
     .rune-floating {
       color: #ffff66;
       font-size: 44px;
@@ -115,7 +119,6 @@
       100% { top: 10%; left: 5%; }
     }
 
-    /* Ползущая и трансформирующаяся */
     .rune-creeping {
       color: #ffaa33;
       font-size: 42px;
@@ -130,7 +133,6 @@
       100% { top: 75%; left: 20%; transform: scale(1); }
     }
 
-    /* Вращающийся круг */
     .rune-circle {
       top: 50%; left: 50%;
       width: 220px; height: 220px;
@@ -156,7 +158,6 @@
     .rune-circle span:nth-child(4) { transform: rotate(216deg) translateX(110px); }
     .rune-circle span:nth-child(5) { transform: rotate(288deg) translateX(110px); }
 
-    /* Пульсирующая звезда */
     .rune-star {
       top: 75%; left: 50%;
       width: 200px; height: 200px;
@@ -184,9 +185,10 @@
   </style>
 </head>
 <body>
+  <div class="background"></div>
+
   <h1 class="title">NOSTAI</h1>
 
-  <!-- Руны -->
   <div class="rune rune-tree">ᚠ</div>
   <div class="rune rune-floating">ᛃ</div>
   <div class="rune rune-creeping">ᛇ</div>
@@ -203,13 +205,11 @@
     <span>ᚷ</span>
   </div>
 
-  <!-- Меню -->
   <a href="#" class="menu-item menu1">Хроники Забвения</a>
   <a href="#" class="menu-item menu2">Порог Тайны</a>
   <a href="#" class="menu-item menu3">Голос Тени</a>
   <a href="#" class="menu-item menu4">Дары Провидцев</a>
 
-  <!-- Кнопка Войти -->
   <button class="login-button">Войти</button>
 </body>
 </html>
