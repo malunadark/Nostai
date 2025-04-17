@@ -21,5 +21,44 @@
         opacity: 0.5;
     }
 }
+<script>
+  const loginButton = document.querySelector('.login-button');
+  const modal = document.getElementById('loginModal');
+  const characterSelection = document.getElementById('characterSelection');
+  const factionModal = document.getElementById('factionModal');
+
+  loginButton.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+  });
+
+  function proceedToSelection() {
+    modal.classList.add('hidden');
+    characterSelection.classList.remove('hidden');
+  }
+
+  function selectCharacter(role) {
+    characterSelection.classList.add('hidden');
+    factionModal.classList.remove('hidden');
+  }
+
+  function chooseFaction(faction) {
+    factionModal.classList.add('hidden');
+
+    // Воспроизводим соответствующий звук
+    const audio = document.getElementById('audio-' + faction);
+    if (audio) {
+      audio.play();
+    }
+
+    alert("Ты выбрал: " + {
+      pridshie: "Придшие",
+      padshie: "Падшие",
+      otverzhenie: "Отверженные"
+    }[faction]);
+
+    // Здесь можно запускать стриминг/переход
+  }
+</script>
+
 
 
