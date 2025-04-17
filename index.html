@@ -315,13 +315,19 @@
     <h2 class="selection-title">Выбери своё лицо</h2>
     <div class="characters">
       <div class="character" onclick="selectCharacter('shaman')">
-        <h3>Шаман</h3>
+        <h3>Придшие</h3>
        </div>
       <div class="character" onclick="selectCharacter('cultist')">
-        <h3>Культист</h3>   
+        <h3>Падшие</h3>   
       </div>
     </div>
   </div>
+<div id="factionModal" class="faction-modal">
+  <h2>Выбери свою судьбу</h2>
+  <button onclick="chooseFaction('pridshie')">Придшие</button>
+  <button onclick="chooseFaction('padshie')">Падшие</button>
+  <button onclick="chooseFaction('otverzhenie')">Отверженные</button>
+</div>
 
   <script>
     const loginButton = document.querySelector('.login-button');
@@ -336,12 +342,45 @@
       modal.classList.add('hidden');
       characterSelection.classList.remove('hidden');
     }
+<script>
+  const loginButton = document.querySelector('.login-button');
+  const modal = document.getElementById('loginModal');
+  const characterSelection = document.getElementById('characterSelection');
+  const factionModal = document.getElementById('factionModal');
 
-    function selectCharacter(role) {
-      characterSelection.classList.add('hidden');
-      alert('Ты выбрал: ' + (role === 'shaman' ? 'Шаман' : 'Культист'));
-      // В дальнейшем здесь можно запускать Pixel Streaming, переход на следующий этап и т.п.
+  loginButton.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+  });
+
+  function proceedToSelection() {
+    modal.classList.add('hidden');
+    characterSelection.classList.remove('hidden');
+  }
+
+  function selectCharacter(role) {
+    characterSelection.classList.add('hidden');
+    factionModal.classList.remove('hidden');
+  }
+
+  function chooseFaction(faction) {
+    factionModal.classList.add('hidden');
+
+    // Воспроизводим соответствующий звук
+    const audio = document.getElementById('audio-' + faction);
+    if (audio) {
+      audio.play();
     }
-  </script>
+
+    alert("Ты выбрал: " + {
+      pridshie: "Придшие",
+      padshie: "Падшие",
+      otverzhenie: "Отверженные"
+    }[faction]);
+
+    // Здесь можно запускать стриминг/переход
+  }
+</script>
+
+  
 </body>
 </html>
