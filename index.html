@@ -176,11 +176,6 @@
     </div>
   </div>
 
-  <!-- Аудиоэффекты (позже добавим пути к файлам) -->
-  <audio id="audio-pridshie" src="assets/sounds/pridshie.mp3"></audio>
-  <audio id="audio-padshie" src="assets/sounds/padshie.mp3"></audio>
-  <audio id="audio-otverzhenie" src="assets/sounds/otverzhenie.mp3"></audio>
-
   <!-- Скрипты -->
   <script>
     const loginButton = document.querySelector('.login-button');
@@ -204,18 +199,8 @@
 
     function chooseFaction(faction) {
       factionModal.classList.add('hidden');
-      const audio = document.getElementById('audio-' + faction);
-      if (audio) {
-        audio.play();
-      }
-
-      const factionNames = {
-        pridshie: "Придшие",
-        padshie: "Падшие",
-        otverzhenie: "Отверженные"
-      };
-
-      alert("Ты выбрал: " + (factionNames[faction] || faction));
+      // Поставьте сюда звуковой эффект, когда файлы будут готовы
+      alert("Ты выбрал: " + faction);
     }
   </script>
 </body>
