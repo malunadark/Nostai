@@ -5,7 +5,7 @@
   width: 400px;
   height: 400px;
   background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
-  filter: blur(50px);
+  filter: blur(30px); /* уменьшено для более мягкого эффекта */
   opacity: 0.7;
   transform: translate(-50%, -50%);
   animation: sunMove 4s infinite alternate ease-in-out;
@@ -19,7 +19,7 @@
     opacity: 0.7;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.5); /* увеличение масштаба для анимации */
+    opacity: 0.4; /* немного снижена прозрачность */
   }
 }
