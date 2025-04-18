@@ -37,7 +37,6 @@
   z-index: -1;
 }
 
-
 /* === Эффект солнечных лучей === */
 .sun-rays {
   z-index: 0; /* фон, оставляем тут */
@@ -51,6 +50,7 @@
 .modal {
   z-index: 10; /* всплывающее окно */
 }
+
 .modal-content {
   max-width: 500px;
   width: 90%;
@@ -58,19 +58,6 @@
   border-radius: 10px;
   padding: 20px;
   color: white;
-}
-
-}
-
-@keyframes sunMove {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.5;
-    }
 }
 
 /* === Заголовок === */
@@ -329,63 +316,4 @@
 
 @keyframes spinCircle {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* ✨ Звезда из рун */
-.rune-star {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    width: 200px;
-    height: 200px;
-    transform: translate(-50%, -50%);
-}
-
-.rune-star .rune {
-    position: absolute;
-    font-family: 'FutharkAoe', serif;
-    font-size: 28px;
-    color: #ffe599;
-    text-shadow: 0 0 8px rgba(255, 204, 0, 0.4);
-}
-
-.rune-star .rune:nth-child(1) { top: 0; left: 50%; }
-.rune-star .rune:nth-child(2) { top: 50%; left: 0; }
-.rune-star .rune:nth-child(3) { top: 50%; left: 100%; }
-.rune-star .rune:nth-child(4) { top: 100%; left: 50%; }
-.rune-star .rune:nth-child(5) { top: 25%; left: 25%; }
-.rune-star .rune:nth-child(6) { top: 25%; left: 75%; }
-
-/* === Плавное появление страницы === */
-body {
-    animation: fadeIn 2s ease-out;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-#factionModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  z-index: 30;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-family: 'DeutschGothic';
-}
-
-#factionModal:not(.hidden) {
-  display: flex;
-}
-
+    
