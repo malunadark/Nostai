@@ -2,125 +2,186 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nostai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nostai – Зов Глубин</title>
   <link rel="stylesheet" href="styles.css" />
-
   <style>
-    body {
+    @font-face {
+      font-family: 'DeutschGothic';
+      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
+
+    body, html {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: black;
-      color: white;
+      padding: 0;
+      height: 100%;
       overflow: hidden;
+      background-color: #000;
+      font-family: 'DeutschGothic', serif;
     }
 
-    .sun-rays {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(255,255,0,0.5) 0%, rgba(255,255,0,0) 80%);
-      filter: blur(50px);
-      opacity: 0.7;
-      transform: translate(-50%, -50%);
-      animation: sunMove 4s infinite alternate ease-in-out;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes sunMove {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.5;
-      }
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding-top: 100px;
-    }
-
-    .login-button {
-      font-size: 20px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-
-    .modal, .character-selection, .faction-modal {
-      display: none;
+    .background {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(20, 20, 20, 0.95);
-      border: 1px solid white;
-      padding: 20px;
-      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/Nostai.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
     }
 
-    .modal.visible, .character-selection.visible, .faction-modal.visible {
-      display: block;
+    .title {
+      font-family: 'DestroyCyr', sans-serif;
+      font-size: 5em;
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+      text-shadow: 0 0 20px #fff, 0 0 40px #fff;
     }
 
-    .faction-button {
-      margin: 10px;
-      padding: 10px 20px;
-      background: #333;
-      color: white;
-      border: 1px solid white;
+    .menu-item { /* ...оставляем как есть... */ }
+
+    .login-button { /* ...оставляем как есть... */ }
+
+    /* РУНЫ и АНИМАЦИИ – без изменений */
+
+    /* МОДАЛКИ */
+    .modal,
+    #characterSelection,
+    #factionModal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
+      font-family: 'DeutschGothic';
+    }
+
+    .modal-content {
+      background: #111;
+      padding: 30px;
+      border: 2px solid #fff;
+      border-radius: 15px;
+      color: #fff;
+      font-family: 'DeutschGothic';
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .modal-content input,
+    .modal-content button {
+      font-family: 'DeutschGothic';
+    }
+
+    .characters, .factions {
+      display: flex;
+      gap: 60px;
+    }
+
+    .character, .faction {
+      border: 2px solid #fff;
+      padding: 30px;
+      width: 220px;
+      text-align: center;
       cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s;
     }
 
-    .faction-button:hover {
-      background: #555;
+    .character:hover,
+    .faction:hover {
+      transform: scale(1.05);
+      border-color: #ffd700;
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 <body>
+  <div class="background"></div>
+  <h1 class="title">NOSTAI</h1>
 
-  <div class="sun-rays"></div>
-
-  <div class="container">
-    <h1>NOSTAI</h1>
-    <button class="login-button">Войти</button>
+  <!-- Руны -->
+  <div class="rune rune-tree">ᚠ</div>
+  <div class="rune rune-floating">ᛃ</div>
+  <div class="rune rune-creeping">ᛇ</div>
+  <div class="rune rune-circle">
+    <span>ᛋ</span><span>ᛏ</span><span>ᚦ</span><span>ᚱ</span><span>ᚢ</span>
+  </div>
+  <div class="rune rune-star">
+    <span>ᛉ</span><span>ᛗ</span><span>ᚠ</span><span>ᚹ</span><span>ᚷ</span>
   </div>
 
-  <!-- Модал логина -->
-  <div id="loginModal" class="modal">
-    <h2>Добро пожаловать</h2>
-    <button onclick="proceedToSelection()">Продолжить</button>
+  <!-- Меню -->
+  <a href="#" class="menu-item menu1">Хроники Забвения</a>
+  <a href="#" class="menu-item menu2">Порог Тайны</a>
+  <a href="#" class="menu-item menu3">Голос Тени</a>
+  <a href="#" class="menu-item menu4">Дары Провидцев</a>
+
+  <button class="login-button">Войти</button>
+
+  <!-- Модальное окно входа -->
+  <div id="loginModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Вход в Глубины</h2>
+      <input type="text" placeholder="Имя или Email" />
+      <input type="password" placeholder="Ключ доступа" />
+      <button onclick="proceedToSelection()">Войти</button>
+    </div>
   </div>
 
   <!-- Выбор персонажа -->
-  <div id="characterSelection" class="character-selection">
-    <h2>Выбери сторону</h2>
-    <button onclick="selectCharacter('volunteers')">Волонтеры</button>
-    <button onclick="selectCharacter('vsrf')">ВС РФ</button>
-    <button onclick="selectCharacter('redcross')">Красный Крест</button>
-    <button onclick="selectCharacter('emergencies')">МЧС</button>
+  <div id="characterSelection" class="hidden">
+    <h2 class="selection-title">Выбери своё лицо</h2>
+    <div class="characters">
+      <div class="character" onclick="selectCharacter('volunteer')">
+        <h3>Волонтёры</h3>
+      </div>
+      <div class="character" onclick="selectCharacter('vs_rf')">
+        <h3>ВС РФ / Красный Крест</h3>
+      </div>
+      <div class="character" onclick="selectCharacter('mchs')">
+        <h3>МЧС</h3>
+      </div>
+    </div>
   </div>
 
   <!-- Выбор фракции -->
-  <div id="factionModal" class="faction-modal">
-    <h2>Выбери фракцию</h2>
-    <button class="faction-button" onclick="chooseFaction('pridshie')">Придшие</button>
-    <button class="faction-button" onclick="chooseFaction('padshie')">Падшие</button>
-    <button class="faction-button" onclick="chooseFaction('otverzhenie')">Отверженные</button>
+  <div id="factionModal" class="modal hidden">
+    <h2 class="selection-title">Выбери свою судьбу</h2>
+    <div class="factions">
+      <div class="faction" onclick="chooseFaction('pridshie')">Придшие</div>
+      <div class="faction" onclick="chooseFaction('padshie')">Падшие</div>
+      <div class="faction" onclick="chooseFaction('otverzhenie')">Отверженные</div>
+    </div>
   </div>
 
-  <!-- Звуки фракций -->
-  <audio id="audio-pridshie" src="assets/audio/pridshie.mp3"></audio>
-  <audio id="audio-padshie" src="assets/audio/padshie.mp3"></audio>
-  <audio id="audio-otverzhenie" src="assets/audio/otverzhenie.mp3"></audio>
+  <!-- Аудиоэффекты (позже добавим пути к файлам) -->
+  <audio id="audio-pridshie" src="assets/sounds/pridshie.mp3"></audio>
+  <audio id="audio-padshie" src="assets/sounds/padshie.mp3"></audio>
+  <audio id="audio-otverzhenie" src="assets/sounds/otverzhenie.mp3"></audio>
 
+  <!-- Скрипты -->
   <script>
     const loginButton = document.querySelector('.login-button');
     const modal = document.getElementById('loginModal');
@@ -128,33 +189,33 @@
     const factionModal = document.getElementById('factionModal');
 
     loginButton.addEventListener('click', () => {
-      modal.classList.add('visible');
+      modal.classList.remove('hidden');
     });
 
     function proceedToSelection() {
-      modal.classList.remove('visible');
-      characterSelection.classList.add('visible');
+      modal.classList.add('hidden');
+      characterSelection.classList.remove('hidden');
     }
 
     function selectCharacter(role) {
-      characterSelection.classList.remove('visible');
-      factionModal.classList.add('visible');
+      characterSelection.classList.add('hidden');
+      factionModal.classList.remove('hidden');
     }
 
     function chooseFaction(faction) {
-      factionModal.classList.remove('visible');
-
+      factionModal.classList.add('hidden');
       const audio = document.getElementById('audio-' + faction);
       if (audio) {
-        audio.currentTime = 0;
         audio.play();
       }
 
-      alert("Ты выбрал: " + {
+      const factionNames = {
         pridshie: "Придшие",
         padshie: "Падшие",
         otverzhenie: "Отверженные"
-      }[faction]);
+      };
+
+      alert("Ты выбрал: " + (factionNames[faction] || faction));
     }
   </script>
 </body>
