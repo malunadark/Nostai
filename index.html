@@ -2,481 +2,190 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
+  <title>Nostai — Выбор Фракции</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nostai – Зов Глубин</title>
-  <link rel="stylesheet" href="styles.css" />
   <style>
     @font-face {
       font-family: 'DeutschGothic';
-      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+      src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
     }
+
     @font-face {
       font-family: 'DestroyCyr';
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'FutharkAoe';
-      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
 
     body, html {
       margin: 0;
       padding: 0;
-      height: 100%;
       overflow: hidden;
-    }
-
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
       height: 100%;
-      background-image: url('assets/Nostai.png');
+      background: url('assets/Nostai.png') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -1;
-    }
-
-    .title {
-      font-family: 'DestroyCyr', sans-serif;
-      font-size: 5em;
-      text-align: center;
-      margin-top: 20px;
+      font-family: 'DeutschGothic', serif;
       color: #fff;
-      text-shadow: 0 0 20px #fff, 0 0 40px #fff;
     }
 
-    .menu-item {
+    canvas {
+      display: block;
+    }
+
+    #title {
       position: absolute;
-      padding: 10px 20px;
+      top: 30px;
+      width: 100%;
+      text-align: center;
+      font-family: 'DestroyCyr', serif;
+      font-size: 64px;
+      color: #ffcc00;
+      text-shadow: 0 0 15px #ffcc00;
+      z-index: 10;
+    }
+
+    .label {
+      position: absolute;
+      font-size: 20px;
       background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #fff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 18px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
       font-family: 'DeutschGothic', serif;
-      text-align: center;
-    }
-
-    .menu1 { top: 30%; left: 20%; }
-    .menu2 { top: 20%; left: 70%; }
-    .menu3 { top: 60%; left: 15%; }
-    .menu4 { top: 65%; left: 75%; }
-
-    .login-button {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid #fff;
-      color: #fff;
-      font-size: 18px;
-      font-family: 'DeutschGothic', serif;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .login-button:hover {
-      background: #fff;
-      color: #000;
     }
 
     .rune {
       position: absolute;
-      font-family: 'FutharkAoe', serif;
-      font-size: 48px;
+      width: 64px;
+      height: 64px;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
 
-    .rune-tree {
-      top: 25%;
-      left: 10%;
-      color: #ffff88;
-      text-shadow: 0 0 10px #ffee44, 0 0 25px #fffaaa;
-      animation: glow 2s infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #ffee99; }
-      to   { text-shadow: 0 0 20px #ffffcc; }
-    }
-
-    .rune-floating {
-      color: #ffff66;
-      font-size: 44px;
-      animation: floatRune 18s linear infinite;
-    }
-
-    @keyframes floatRune {
-      0%   { top: 10%; left: 5%; }
-      25%  { top: 25%; left: 40%; }
-      50%  { top: 60%; left: 60%; }
-      75%  { top: 30%; left: 80%; }
-      100% { top: 10%; left: 5%; }
-    }
-
-    .rune-creeping {
-      color: #ffaa33;
-      font-size: 42px;
-      animation: creepMove 14s infinite ease-in-out;
-    }
-
-    @keyframes creepMove {
-      0% { top: 75%; left: 20%; transform: scale(1); }
-      25% { top: 80%; left: 30%; transform: scale(1.1) rotate(20deg); }
-      50% { top: 85%; left: 50%; transform: scale(0.9) rotate(-10deg); }
-      75% { top: 60%; left: 40%; transform: scale(1.2) rotate(10deg); }
-      100% { top: 75%; left: 20%; transform: scale(1); }
-    }
-
-    .rune-circle {
-      top: 50%; left: 50%;
-      width: 220px; height: 220px;
-      transform: translate(-50%, -50%);
-      animation: rotateCircle 16s linear infinite;
-    }
-
-    @keyframes rotateCircle {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .rune-circle span {
-      position: absolute;
-      font-size: 38px;
-      color: #ffdd44;
-      transform-origin: 110px 110px;
-    }
-
-    .rune-circle span:nth-child(1) { transform: rotate(0deg) translateX(110px); }
-    .rune-circle span:nth-child(2) { transform: rotate(72deg) translateX(110px); }
-    .rune-circle span:nth-child(3) { transform: rotate(144deg) translateX(110px); }
-    .rune-circle span:nth-child(4) { transform: rotate(216deg) translateX(110px); }
-    .rune-circle span:nth-child(5) { transform: rotate(288deg) translateX(110px); }
-
-    .rune-star {
-      top: 75%; left: 50%;
-      width: 200px; height: 200px;
-      transform: translate(-50%, 0);
-      animation: pulseStar 4s infinite ease-in-out;
-    }
-
-    .rune-star span {
-      position: absolute;
-      font-size: 40px;
-      color: #ffee66;
-      text-shadow: 0 0 10px #ffcc00;
-    }
-
-    @keyframes pulseStar {
-      0%, 100% { transform: translate(-50%, 0) scale(1); }
-      50% { transform: translate(-50%, 0) scale(1.2); }
-    }
-
-    .rune-star span:nth-child(1) { top: 0%; left: 50%; }
-    .rune-star span:nth-child(2) { top: 85%; left: 10%; }
-    .rune-star span:nth-child(3) { top: 85%; left: 90%; }
-    .rune-star span:nth-child(4) { top: 30%; left: 0%; }
-    .rune-star span:nth-child(5) { top: 30%; left: 100%; }
-
-    /* Modal and character selection */
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 10;
-    }
-
-    .modal-content {
-      background: #111;
-      padding: 30px;
-      border: 2px solid #fff;
-      border-radius: 15px;
-      color: #fff;
-      font-family: 'DeutschGothic';
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 300px;
-      text-align: center;
-    }
-
-    .modal-content input {
-      padding: 10px;
-      background: #222;
-      border: 1px solid #555;
-      color: #fff;
-      font-size: 16px;
-    }
-
-    .modal-content button {
-      background: #fff;
-      color: #000;
-      padding: 10px;
-      font-family: 'DeutschGothic';
-      cursor: pointer;
-      border: none;
-      transition: 0.3s;
-    }
-
-    .modal-content button:hover {
-      background: #ffd700;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #characterSelection {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-family: 'DeutschGothic';
-    }
-
-    .selection-title {
-      font-size: 3em;
-      margin-bottom: 40px;
-    }
-
-    .characters {
-      display: flex;
-      gap: 60px;
-    }
-
-    .character {
-      border: 2px solid #fff;
-      padding: 30px;
-      width: 220px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .character:hover {
-      transform: scale(1.05);
-      border-color: #ffd700;
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1.1) rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-  <h1 class="title">NOSTAI</h1>
-
-  <div class="rune rune-tree">ᚠ</div>
-  <div class="rune rune-floating">ᛃ</div>
-  <div class="rune rune-creeping">ᛇ</div>
-
-  <div class="rune rune-circle">
-    <span>ᛋ</span><span>ᛏ</span><span>ᚦ</span><span>ᚱ</span><span>ᚢ</span>
-  </div>
-
-  <div class="rune rune-star">
-    <span>ᛉ</span>
-    <span>ᛗ</span>
-    <span>ᚠ</span>
-    <span>ᚹ</span>
-    <span>ᚷ</span>
-  </div>
-
-  <a href="#" class="menu-item menu1">Хроники Забвения</a>
-  <a href="#" class="menu-item menu2">Порог Тайны</a>
-  <a href="#" class="menu-item menu3">Голос Тени</a>
-  <a href="#" class="menu-item menu4">Дары Провидцев</a>
-
-  <button class="login-button">Войти</button>
-
-  <!-- Модальное окно входа -->
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <h2>Вход в Глубины</h2>
-      <input type="text" placeholder="Имя или Email" />
-      <input type="password" placeholder="Ключ доступа" />
-      <button onclick="proceedToSelection()">Войти</button>
-    </div>
-  </div>
-
-  <!-- Экран выбора персонажа -->
-  <div id="characterSelection" class="hidden">
-    <h2 class="selection-title">Выбери своё лицо</h2>
-    <div class="characters">
-      <div class="character" onclick="selectCharacter('shaman')">
-        <h3>Придшие</h3>
-       </div>
-      <div class="character" onclick="selectCharacter('cultist')">
-        <h3>Падшие</h3>   
-      </div>
-    </div>
-  </div>
-<div id="factionModal" class="faction-modal">
-  <h2>Выбери свою судьбу</h2>
-  <button onclick="chooseFaction('pridshie')">Придшие</button>
-  <button onclick="chooseFaction('padshie')">Падшие</button>
-  <button onclick="chooseFaction('otverzhenie')">Отверженные</button>
-</div>
-
+  <div id="title">NOSTAI</div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/loaders/GLTFLoader.js"></script>
   <script>
-    const loginButton = document.querySelector('.login-button');
-    const modal = document.getElementById('loginModal');
-    const characterSelection = document.getElementById('characterSelection');
-
-    loginButton.addEventListener('click', () => {
-      modal.classList.remove('hidden');
-    });
-
-    function proceedToSelection() {
-      modal.classList.add('hidden');
-      characterSelection.classList.remove('hidden');
-    }
-<script>
-  const loginButton = document.querySelector('.login-button');
-  const modal = document.getElementById('loginModal');
-  const characterSelection = document.getElementById('characterSelection');
-  const factionModal = document.getElementById('factionModal');
-
-  loginButton.addEventListener('click', () => {
-    modal.classList.remove('hidden');
-  });
-
-  function proceedToSelection() {
-    modal.classList.add('hidden');
-    characterSelection.classList.remove('hidden');
-  }
-
-  function selectCharacter(role) {
-    characterSelection.classList.add('hidden');
-    factionModal.classList.remove('hidden');
-  }
-
-  function chooseFaction(faction) {
-    factionModal.classList.add('hidden');
-
-    // Воспроизводим соответствующий звук
-    const audio = document.getElementById('audio-' + faction);
-    if (audio) {
-      audio.play();
-    }
-
-    alert("Ты выбрал: " + {
-      pridshie: "Придшие",
-      padshie: "Падшие",
-      otverzhenie: "Отверженные"
-    }[faction]);
-
-    // Здесь можно запускать стриминг/переход
-  }
-</script>
-
-  
-</body>
-  <div id="scene-container" style="width: 100vw; height: 100vh; position: absolute; z-index: 1;"></div>
-<script>
-  let scene, camera, renderer, light;
-  const container = document.getElementById('scene-container');
-
-  init();
-  animate();
-
-  function init() {
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 3, 8);
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    container.appendChild(renderer.domElement);
-
-    // Свет
-    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
-    scene.add(ambient);
-
-    const spotLight = new THREE.SpotLight(0xffcc66, 1.2, 20, Math.PI / 4, 0.5);
-    spotLight.position.set(0, 6, 0);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
-
-    // Пол с рунами (пока заглушка)
-    const planeGeo = new THREE.CircleGeometry(5, 64);
-    const runeMat = new THREE.MeshStandardMaterial({ color: 0xffcc66, emissive: 0xffcc66, emissiveIntensity: 1 });
-    const runeCircle = new THREE.Mesh(planeGeo, runeMat);
-    runeCircle.rotation.x = -Math.PI / 2;
-    runeCircle.receiveShadow = true;
-    scene.add(runeCircle);
-
-    // Загрузка заглушек персонажей (временно кубы)
-    const positions = [
-      { x: 0, z: -3, name: "Волонтёры", font: 'DestroyCyr' },
-      { x: 3, z: 0, name: "ВС РФ", font: 'DeutschGothic' },
-      { x: 0, z: 3, name: "Красный Крест", font: 'FutharkAoe' },
-      { x: -3, z: 0, name: "МЧС", font: 'Arial' },
+    let scene, camera, renderer, raycaster, mouse;
+    let models = [];
+    let labels = [];
+    const factions = ['Волонтёр', 'ВС РФ', 'Красный Крест', 'МЧС'];
+    const modelPaths = [
+      'assets/models/volunteer.glb',
+      'assets/models/vsrf.glb',
+      'assets/models/redcross.glb',
+      'assets/models/mchs.glb'
     ];
 
-    positions.forEach(pos => {
-      const geo = new THREE.BoxGeometry(1, 2, 1);
-      const mat = new THREE.MeshStandardMaterial({ color: 0x888888 });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(pos.x, 1, pos.z);
-      mesh.castShadow = true;
-      scene.add(mesh);
+    init();
 
-      // Подпись при наведении (будет реализовано позже)
-      const div = document.createElement('div');
-      div.className = 'label';
-      div.innerText = pos.name;
-      div.style.position = 'absolute';
-      div.style.color = '#ffcc66';
-      div.style.fontFamily = pos.font;
-      div.style.pointerEvents = 'none';
-      div.style.display = 'none';
-      container.appendChild(div);
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 1.6, 6);
 
-      mesh.userData.label = div;
-    });
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
 
-    // Слежение за мышью
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
+      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambient);
 
-    window.addEventListener('mousemove', event => {
+      const directional = new THREE.DirectionalLight(0xffaa55, 2);
+      directional.position.set(2, 4, 2);
+      scene.add(directional);
+
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
+
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('click', onClick);
+
+      loadModels();
+      animate();
+    }
+
+    function loadModels() {
+      const loader = new THREE.GLTFLoader();
+      const angleStep = (Math.PI * 2) / modelPaths.length;
+      modelPaths.forEach((path, i) => {
+        loader.load(path, gltf => {
+          const model = gltf.scene;
+          model.scale.set(1.2, 1.2, 1.2);
+          const angle = i * angleStep;
+          const radius = 3;
+          model.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+          scene.add(model);
+          models.push(model);
+
+          // Добавляем label
+          const label = document.createElement('div');
+          label.className = 'label';
+          label.innerText = factions[i];
+          label.style.opacity = 0;
+          document.body.appendChild(label);
+          labels.push({ element: label, model });
+        });
+      });
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onMouseMove(event) {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
 
+    function onClick() {
       raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(scene.children);
+      const intersects = raycaster.intersectObjects(models, true);
+      if (intersects.length > 0) {
+        const selected = intersects[0].object;
+        showRunes();
+      }
+    }
 
-      container.querySelectorAll('.label').forEach(label => label.style.display = 'none');
+    function showRunes() {
+      for (let i = 0; i < 6; i++) {
+        const rune = document.createElement('img');
+        rune.src = `assets/textures/rune${i + 1}.png`;
+        rune.className = 'rune';
+        rune.style.left = `${50 + Math.sin(i) * 200}px`;
+        rune.style.top = `${50 + Math.cos(i) * 200}px`;
+        rune.style.animationDelay = `${i * 0.5}s`;
+        document.body.appendChild(rune);
+      }
+    }
 
-      intersects.forEach(obj => {
-        if (obj.object.userData.label) {
-          const label = obj.object.userData.label;
-          label.style.left = event.clientX + 10 + 'px';
-          label.style.top = event.clientY + 'px';
-          label.style.display = 'block';
-        }
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(models, true);
+
+      labels.forEach(({ element, model }) => {
+        const vector = model.position.clone().project(camera);
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+        element.style.left = `${x}px`;
+        element.style.top = `${y}px`;
+        element.style.opacity = intersects.find(i => i.object.parent === model || i.object === model) ? 1 : 0;
       });
-    });
-  }
-
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-  }
-</script>
+    }
+  </script>
+</body>
 </html>
