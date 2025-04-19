@@ -383,4 +383,101 @@
 
   
 </body>
+  <div id="scene-container" style="width: 100vw; height: 100vh; position: absolute; z-index: 1;"></div>
+<script>
+  let scene, camera, renderer, light;
+  const container = document.getElementById('scene-container');
+
+  init();
+  animate();
+
+  function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 3, 8);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Свет
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
+
+    const spotLight = new THREE.SpotLight(0xffcc66, 1.2, 20, Math.PI / 4, 0.5);
+    spotLight.position.set(0, 6, 0);
+    spotLight.castShadow = true;
+    scene.add(spotLight);
+
+    // Пол с рунами (пока заглушка)
+    const planeGeo = new THREE.CircleGeometry(5, 64);
+    const runeMat = new THREE.MeshStandardMaterial({ color: 0xffcc66, emissive: 0xffcc66, emissiveIntensity: 1 });
+    const runeCircle = new THREE.Mesh(planeGeo, runeMat);
+    runeCircle.rotation.x = -Math.PI / 2;
+    runeCircle.receiveShadow = true;
+    scene.add(runeCircle);
+
+    // Загрузка заглушек персонажей (временно кубы)
+    const positions = [
+      { x: 0, z: -3, name: "Волонтёры", font: 'DestroyCyr' },
+      { x: 3, z: 0, name: "ВС РФ", font: 'DeutschGothic' },
+      { x: 0, z: 3, name: "Красный Крест", font: 'FutharkAoe' },
+      { x: -3, z: 0, name: "МЧС", font: 'Arial' },
+    ];
+
+    positions.forEach(pos => {
+      const geo = new THREE.BoxGeometry(1, 2, 1);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x888888 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(pos.x, 1, pos.z);
+      mesh.castShadow = true;
+      scene.add(mesh);
+
+      // Подпись при наведении (будет реализовано позже)
+      const div = document.createElement('div');
+      div.className = 'label';
+      div.innerText = pos.name;
+      div.style.position = 'absolute';
+      div.style.color = '#ffcc66';
+      div.style.fontFamily = pos.font;
+      div.style.pointerEvents = 'none';
+      div.style.display = 'none';
+      container.appendChild(div);
+
+      mesh.userData.label = div;
+    });
+
+    // Слежение за мышью
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    window.addEventListener('mousemove', event => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      container.querySelectorAll('.label').forEach(label => label.style.display = 'none');
+
+      intersects.forEach(obj => {
+        if (obj.object.userData.label) {
+          const label = obj.object.userData.label;
+          label.style.left = event.clientX + 10 + 'px';
+          label.style.top = event.clientY + 'px';
+          label.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+</script>
+
 </html>
