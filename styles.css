@@ -24,40 +24,43 @@
     box-sizing: border-box;
 }
 
+/* === Фон === */
 .background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('assets/Nostai.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/Nostai.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
 
 /* === Эффект солнечных лучей === */
 .sun-rays {
-  z-index: 0; /* фон, оставляем тут */
+    z-index: 0;
 }
 
+/* === Основной контент === */
 #main-content {
-  z-index: 1; /* обычные элементы */
-  position: relative;
+    position: relative;
+    z-index: 1;
 }
 
+/* === Модальные окна === */
 .modal {
-  z-index: 10; /* всплывающее окно */
+    z-index: 10;
 }
 
 .modal-content {
-  max-width: 500px;
-  width: 90%;
-  background: #111;
-  border-radius: 10px;
-  padding: 20px;
-  color: white;
+    max-width: 500px;
+    width: 90%;
+    background: #111;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
 }
 
 /* === Заголовок === */
@@ -67,12 +70,12 @@
     text-align: center;
     margin-top: 20vh;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    z-index: 1;
-    position: relative;
     font-family: 'DestroyCyr', sans-serif;
+    position: relative;
+    z-index: 1;
 }
 
-/* === Элементы меню === */
+/* === Меню === */
 .menu-item {
     position: absolute;
     font-family: 'DeutschGothicCyr', serif;
@@ -97,27 +100,12 @@
 }
 
 /* === Позиции меню === */
-.chronicles {
-    top: 38%;
-    left: 51%;
-}
+.chronicles { top: 38%; left: 51%; }
+.mystery    { top: 62%; left: 18%; }
+.shadow     { top: 65%; right: 8%; }
+.gifts      { bottom: 10%; right: 14%; }
 
-.mystery {
-    top: 62%;
-    left: 18%;
-}
-
-.shadow {
-    top: 65%;
-    right: 8%;
-}
-
-.gifts {
-    bottom: 10%;
-    right: 14%;
-}
-
-/* === Эффект рун при наведении (малый) === */
+/* === Эффект рун при наведении === */
 .rune-hover {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -144,7 +132,7 @@
     color: transparent;
 }
 
-/* === Общий стиль рунного блока === */
+/* === Блок руны === */
 .rune-block {
     position: absolute;
     font-family: 'FutharkAoe', serif;
@@ -158,6 +146,7 @@
     box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
     transition: all 0.3s ease;
     cursor: pointer;
+    transform: translate(-50%, -50%);
     z-index: 2;
 }
 
@@ -192,8 +181,6 @@
 }
 
 /* === Анимации рун === */
-
-/* 🔥 Пульсация */
 .rune-block.spell {
     top: 30%;
     left: 25%;
@@ -211,7 +198,6 @@
     }
 }
 
-/* 🌌 Плавание */
 .rune-block.calm {
     top: 40%;
     left: 75%;
@@ -223,7 +209,6 @@
     50% { transform: translate(-50%, -48%); }
 }
 
-/* 🌀 Хаотично */
 .rune-block.chaos {
     top: 65%;
     left: 35%;
@@ -238,7 +223,6 @@
     100% { transform: translate(-50%, -50%) rotate(0deg); }
 }
 
-/* 🕯️ Мистично исчезает/появляется */
 .rune-block.mystic {
     top: 70%;
     left: 70%;
@@ -250,7 +234,6 @@
     50% { opacity: 1; filter: blur(0); }
 }
 
-/* 🌲 Светится на дереве */
 .rune-block.tree {
     top: 20%;
     left: 20%;
@@ -262,30 +245,34 @@
     100% { filter: drop-shadow(0 0 20px #fff2aa); }
 }
 
-/* 🌬️ Парит */
 .rune-block.floating {
+    position: absolute;
+    top: 50%;
+    left: 60%;
     animation: floatingRune 6s ease-in-out infinite;
 }
 
 @keyframes floatingRune {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-20px); }
 }
 
-/* 🪱 Ползает и трансформируется */
 .rune-block.crawling {
+    position: absolute;
+    top: 80%;
+    left: 40%;
     animation: crawlShift 8s infinite linear;
 }
 
 @keyframes crawlShift {
-    0%   { transform: translateX(0) rotate(0deg) scale(1); }
-    25%  { transform: translateX(20px) rotate(5deg) scale(0.95); }
-    50%  { transform: translateX(0px) rotate(-5deg) scale(1.1); }
-    75%  { transform: translateX(-20px) rotate(3deg) scale(1); }
-    100% { transform: translateX(0) rotate(0deg) scale(1); }
+    0%   { transform: translate(-50%, -50%) translateX(0) rotate(0deg) scale(1); }
+    25%  { transform: translate(-50%, -50%) translateX(20px) rotate(5deg) scale(0.95); }
+    50%  { transform: translate(-50%, -50%) translateX(0) rotate(-5deg) scale(1.1); }
+    75%  { transform: translate(-50%, -50%) translateX(-20px) rotate(3deg) scale(1); }
+    100% { transform: translate(-50%, -50%) translateX(0) rotate(0deg) scale(1); }
 }
 
-/* 🧿 Хоровод рун */
+/* === Вращающийся круг рун === */
 .rune-circle {
     position: absolute;
     top: 50%;
@@ -316,4 +303,5 @@
 
 @keyframes spinCircle {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
-    
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
