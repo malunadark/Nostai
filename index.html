@@ -26,6 +26,32 @@
       color: #fff;
     }
 
+    .auth-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+     }
+
+    .auth-container input {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .auth-container button {
+      background-color: #ffcc00;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
     canvas {
       display: block;
     }
@@ -188,4 +214,28 @@
     }
   </script>
 </body>
+  <body>
+  <div class="auth-container">
+    <h1>NOSTAI</h1>
+    <input type="text" id="username" placeholder="Имя пользователя" />
+    <input type="password" id="password" placeholder="Пароль" />
+    <button onclick="login()">Войти</button>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Здесь можно подключить серверную проверку или временную проверку
+      if (username && password) {
+        // Переход на кат-сцену
+        window.location.href = 'faction-scene.html';
+      } else {
+        alert('Пожалуйста, введите имя пользователя и пароль.');
+      }
+    }
+  </script>
+</body>
+</html>
 </html>
