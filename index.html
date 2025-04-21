@@ -14,7 +14,11 @@
       font-family: 'DestroyCyr';
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
-
+    
+    @font-face {
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
     body, html {
       margin: 0;
       padding: 0;
@@ -26,12 +30,37 @@
       color: #fff;
     }
 
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #title {
+      position: absolute;
+      top: 30px;
+      width: 100%;
+      text-align: center;
+      font-family: 'DestroyCyr', serif;
+      font-size: 64px;
+      color: #ffcc00;
+      text-shadow: 0 0 15px #ffcc00;
+      z-index: 3;
+    }
+
     .auth-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background-color: rgba(0, 0, 0, 0.7);
       padding: 40px;
       border-radius: 10px;
       text-align: center;
-     }
+      z-index: 4;
+    }
 
     .auth-container input {
       display: block;
@@ -52,22 +81,6 @@
       border-radius: 5px;
     }
 
-    canvas {
-      display: block;
-    }
-
-    #title {
-      position: absolute;
-      top: 30px;
-      width: 100%;
-      text-align: center;
-      font-family: 'DestroyCyr', serif;
-      font-size: 64px;
-      color: #ffcc00;
-      text-shadow: 0 0 15px #ffcc00;
-      z-index: 10;
-    }
-
     .label {
       position: absolute;
       font-size: 20px;
@@ -78,6 +91,7 @@
       white-space: nowrap;
       transition: opacity 0.3s ease;
       font-family: 'DeutschGothic', serif;
+      z-index: 2;
     }
 
     .rune {
@@ -86,6 +100,7 @@
       height: 64px;
       opacity: 0;
       animation: fadeIn 2s forwards;
+      z-index: 2;
     }
 
     @keyframes fadeIn {
@@ -98,28 +113,48 @@
 </head>
 <body>
   <div id="title">NOSTAI</div>
+
+  <!-- Форма логина -->
+  <div class="auth-container">
+    <h1>NOSTAI</h1>
+    <input type="text" id="username" placeholder="Имя пользователя" />
+    <input type="password" id="password" placeholder="Пароль" />
+    <button onclick="login()">Войти</button>
+  </div>
+
+  <!-- Three.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/loaders/GLTFLoader.js"></script>
+
   <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (username && password) {
+        document.querySelector('.auth-container').style.display = 'none'; // Скрыть логин
+        startScene(); // Запуск сцены
+      } else {
+        alert('Пожалуйста, введите имя пользователя и пароль.');
+      }
+    }
+
+    // --- THREE.JS СЦЕНА ---
     let scene, camera, renderer, raycaster, mouse;
     let models = [];
     let labels = [];
-    const factions = ['Волонтёр', 'ВС РФ', 'Красный Крест', 'МЧС'];
+    const factions = ['Волонтёр', 'ВС РФ'];
     const modelPaths = [
       'assets/models/volunteer.glb',
       'assets/models/vsrf.glb',
-      'assets/models/redcross.glb',
-      'assets/models/mchs.glb'
     ];
 
-    init();
-
-    function init() {
+    function startScene() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.set(0, 1.6, 6);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
@@ -154,7 +189,7 @@
           scene.add(model);
           models.push(model);
 
-          // Добавляем label
+          // Label
           const label = document.createElement('div');
           label.className = 'label';
           label.innerText = factions[i];
@@ -180,7 +215,6 @@
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(models, true);
       if (intersects.length > 0) {
-        const selected = intersects[0].object;
         showRunes();
       }
     }
@@ -190,8 +224,8 @@
         const rune = document.createElement('img');
         rune.src = `assets/textures/rune${i + 1}.png`;
         rune.className = 'rune';
-        rune.style.left = `${50 + Math.sin(i) * 200}px`;
-        rune.style.top = `${50 + Math.cos(i) * 200}px`;
+        rune.style.left = `${window.innerWidth / 2 + Math.sin(i) * 200}px`;
+        rune.style.top = `${window.innerHeight / 2 + Math.cos(i) * 200}px`;
         rune.style.animationDelay = `${i * 0.5}s`;
         document.body.appendChild(rune);
       }
@@ -214,28 +248,4 @@
     }
   </script>
 </body>
-  <body>
-  <div class="auth-container">
-    <h1>NOSTAI</h1>
-    <input type="text" id="username" placeholder="Имя пользователя" />
-    <input type="password" id="password" placeholder="Пароль" />
-    <button onclick="login()">Войти</button>
-  </div>
-
-  <script>
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      // Здесь можно подключить серверную проверку или временную проверку
-      if (username && password) {
-        // Переход на кат-сцену
-        window.location.href = 'faction-scene.html';
-      } else {
-        alert('Пожалуйста, введите имя пользователя и пароль.');
-      }
-    }
-  </script>
-</body>
-</html>
 </html>
