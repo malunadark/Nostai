@@ -79,3 +79,16 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+const runePaths = {
+  volunteer: 'textures/runes/volunteer.png',
+  vsrf: 'textures/runes/vsrf.png',
+
+function showRunes(faction) {
+  const rune = document.createElement('div');
+  rune.className = 'rune';
+  rune.style.backgroundImage = `url('${runePaths[faction]}')`;
+  document.body.appendChild(rune);
+  requestAnimationFrame(() => rune.classList.add('fade-in'));
+}
+
