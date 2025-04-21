@@ -20,10 +20,8 @@ const loader = new THREE.GLTFLoader();
 const characters = {};
 
 const characterPaths = {
-  volunteer: 'models/volunteer.glb',
-  vsrf: 'models/vsrf.glb',
-  redCross: 'models/red_cross.glb',
-  ems: 'models/ems.glb'
+  volunteer: 'assets/models/volunteer.glb',
+  vsrf: 'assets/models/vsrf.glb',
 };
 
 let loadedModels = 0;
