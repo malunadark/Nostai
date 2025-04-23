@@ -57,12 +57,43 @@ const runePaths = {
 };
 
 function showRunes(faction) {
-  const rune = document.createElement('div');
-  rune.className = 'rune';
-  rune.style.backgroundImage = `url('${runePaths[faction]}')`;
-  document.body.appendChild(rune);
-  requestAnimationFrame(() => rune.classList.add('fade-in'));
+  // Удаляем старые руны
+  document.querySelectorAll('.rune').forEach(r => r.remove());
+
+  const runeCount = 6;
+  const radius = 1.2; // радиус круга
+
+  // Получаем позицию модели в мировых координатах
+  const model = characters[faction];
+  if (!model) return;
+
+  const worldPosition = new THREE.Vector3();
+  model.getWorldPosition(worldPosition);
+
+  for (let i = 0; i < runeCount; i++) {
+    const angle = (i / runeCount) * Math.PI * 2;
+    const offsetX = Math.cos(angle) * radius;
+    const offsetY = Math.sin(angle) * radius;
+
+    // Позиция руны в 3D
+    const runePosition = worldPosition.clone().add(new THREE.Vector3(offsetX, offsetY, 0));
+    
+    // Перевод в 2D-координаты экрана
+    const screenPos = runePosition.clone().project(camera);
+    const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
+    const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
+
+    const rune = document.createElement('div');
+    rune.className = 'rune';
+    rune.style.left = `${x}px`;
+    rune.style.top = `${y}px`;
+    rune.style.backgroundImage = `url('${runePaths[faction]}')`;
+
+    document.body.appendChild(rune);
+    requestAnimationFrame(() => rune.classList.add('fade-in'));
+  }
 }
+
 
 // Raycaster для клика по моделям
 const raycaster = new THREE.Raycaster();
