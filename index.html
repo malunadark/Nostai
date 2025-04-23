@@ -64,12 +64,7 @@
     }
   </style>
 </head>
-<body>
 
-<div id="faction-menu">
-  <button class="faction-button" data-faction="volunteer">Волонтёр</button>
-  <button class="faction-button" data-faction="vsrf">ВС РФ</button>
-</div>
 
 <!-- Three.js и GLTFLoader -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
@@ -97,10 +92,8 @@
   const characters = {};
 
   const characterPaths = {
-    volunteer: assests/models/volunteer.png',
-    vsrf: 'assests/models/vsrf.glb',
- 
-  };
+        vsrf: 'assests/models/VS_RF.glb',
+   };
 
   let loadedModels = 0;
   const totalModels = Object.keys(characterPaths).length;
