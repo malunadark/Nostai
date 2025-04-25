@@ -137,3 +137,45 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+const factionRunes = {
+  vsrf: ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᛃ', 'ᛏ'] // символы Futhark
+};
+
+function showRunes(faction) {
+  document.querySelectorAll('.rune').forEach(r => r.remove());
+
+  const model = characters[faction];
+  if (!model) return;
+
+  const worldPosition = new THREE.Vector3();
+  model.getWorldPosition(worldPosition);
+
+  const runes = factionRunes[faction] || [];
+  const radius = 1.5;
+
+  runes.forEach((symbol, i) => {
+    const angle = (i / runes.length) * Math.PI * 2;
+    const offsetX = Math.cos(angle) * radius;
+    const offsetY = Math.sin(angle) * radius;
+
+    const runePos = worldPosition.clone().add(new THREE.Vector3(offsetX, offsetY, 0));
+    const screenPos = runePos.clone().project(camera);
+    const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
+    const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
+
+    const rune = document.createElement('div');
+    rune.className = 'rune';
+    rune.textContent = symbol;
+    rune.style.left = `${x}px`;
+    rune.style.top = `${y}px`;
+    rune.style.fontFamily = 'Futhark';
+    rune.style.fontSize = '48px';
+    rune.style.color = '#ffcc00';
+    rune.style.textShadow = '0 0 10px #ffcc88';
+
+    document.body.appendChild(rune);
+    requestAnimationFrame(() => rune.classList.add('fade-in'));
+  });
+}
+
