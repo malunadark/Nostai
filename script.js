@@ -19,15 +19,12 @@ scene.add(directional);
 // Загрузка моделей
 const loader = new THREE.GLTFLoader();
 const characters = {};
-
-const characters = {};
 const characterPaths = {
   vsrf: 'assets/models/VS_RF.glb',
   volonter: 'assets/models/Volonter_0425195121_texture.glb'
 };
 
 const modelDistance = 2;
-const loader = new THREE.GLTFLoader();
 
 let loadedModels = 0;
 const totalModels = Object.keys(characterPaths).length;
@@ -53,7 +50,6 @@ Object.entries(characterPaths).forEach(([key, path], index) => {
   });
 });
 
-
 // Показываем только одну модель
 function displayCharacter(faction) {
   for (const [key, model] of Object.entries(characters)) {
@@ -63,7 +59,7 @@ function displayCharacter(faction) {
 
 // Ритуальные руны
 const runePaths = {
-  volunteer: 'textures/runes/volunteer.png',
+  volonter: 'textures/runes/volunteer.png',
   vsrf: 'textures/runes/vsrf.png',
 };
 
@@ -78,25 +74,31 @@ function showRunes(faction) {
   const worldPosition = new THREE.Vector3();
   model.getWorldPosition(worldPosition);
 
-  for (let i = 0; i < runeCount; i++) {
-    const angle = (i / runeCount) * Math.PI * 2;
+  const runes = factionRunes[faction] || [];
+  
+  runes.forEach((symbol, i) => {
+    const angle = (i / runes.length) * Math.PI * 2;
     const offsetX = Math.cos(angle) * radius;
     const offsetY = Math.sin(angle) * radius;
 
-    const runePosition = worldPosition.clone().add(new THREE.Vector3(offsetX, offsetY, 0));
-    const screenPos = runePosition.clone().project(camera);
+    const runePos = worldPosition.clone().add(new THREE.Vector3(offsetX, offsetY, 0));
+    const screenPos = runePos.clone().project(camera);
     const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
     const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
 
     const rune = document.createElement('div');
     rune.className = 'rune';
+    rune.textContent = symbol;
     rune.style.left = `${x}px`;
     rune.style.top = `${y}px`;
-    rune.style.backgroundImage = `url('${runePaths[faction]}')`;
-    document.body.appendChild(rune);
+    rune.style.fontFamily = 'Futhark';
+    rune.style.fontSize = '48px';
+    rune.style.color = '#ffcc00';
+    rune.style.textShadow = '0 0 10px #ffcc88';
 
+    document.body.appendChild(rune);
     requestAnimationFrame(() => rune.classList.add('fade-in'));
-  }
+  });
 }
 
 // Клик по моделям
@@ -138,44 +140,8 @@ function animate() {
 }
 animate();
 
+// Символы рун для фракций
 const factionRunes = {
-  vsrf: ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᛃ', 'ᛏ'] // символы Futhark
+  vsrf: ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᛃ', 'ᛏ'], // Символы для Futhark
+  volonter: ['ᛋ', 'ᛒ', 'ᚦ', 'ᛘ', 'ᛇ', 'ᛏ'], // Символы для Волонтера
 };
-
-function showRunes(faction) {
-  document.querySelectorAll('.rune').forEach(r => r.remove());
-
-  const model = characters[faction];
-  if (!model) return;
-
-  const worldPosition = new THREE.Vector3();
-  model.getWorldPosition(worldPosition);
-
-  const runes = factionRunes[faction] || [];
-  const radius = 1.5;
-
-  runes.forEach((symbol, i) => {
-    const angle = (i / runes.length) * Math.PI * 2;
-    const offsetX = Math.cos(angle) * radius;
-    const offsetY = Math.sin(angle) * radius;
-
-    const runePos = worldPosition.clone().add(new THREE.Vector3(offsetX, offsetY, 0));
-    const screenPos = runePos.clone().project(camera);
-    const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
-    const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
-
-    const rune = document.createElement('div');
-    rune.className = 'rune';
-    rune.textContent = symbol;
-    rune.style.left = `${x}px`;
-    rune.style.top = `${y}px`;
-    rune.style.fontFamily = 'Futhark';
-    rune.style.fontSize = '48px';
-    rune.style.color = '#ffcc00';
-    rune.style.textShadow = '0 0 10px #ffcc88';
-
-    document.body.appendChild(rune);
-    requestAnimationFrame(() => rune.classList.add('fade-in'));
-  });
-}
-
