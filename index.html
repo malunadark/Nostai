@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <title>Nostai — Выбор Фракции</title>
   <style>
-@font-face {
-  font-family: 'Futhark';
-  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-}
-</style>
+    @font-face {
+      font-family: 'Futhark';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
+    
     html, body {
       margin: 0;
       padding: 0;
@@ -71,13 +71,14 @@
     const totalModels = Object.keys(characterPaths).length;
     const modelDistance = 2;
 
-    for (const [index, [key, path]] of Object.entries(Object.entries(characterPaths))) {
+    // Загружаем модели персонажей
+    for (const [key, path] of Object.entries(characterPaths)) {
       loader.load(path, function (gltf) {
         const model = gltf.scene;
         model.userData.faction = key;
         model.visible = true;
 
-        const angle = index * (Math.PI * 2 / totalModels);
+        const angle = Object.keys(characterPaths).indexOf(key) * (Math.PI * 2 / totalModels);
         model.position.set(Math.cos(angle) * modelDistance, 0, Math.sin(angle) * modelDistance);
         model.lookAt(0, 1.6, 0);
         model.scale.set(1.5, 1.5, 1.5);
@@ -93,9 +94,10 @@
     }
 
     const runePaths = {
-          vsrf: 'textures/runes/Runies.png'
+      vsrf: 'textures/runes/Runies.png'
     };
 
+    // Функция для отображения рун вокруг выбранной фракции
     function showRunes(faction) {
       document.querySelectorAll('.rune').forEach(r => r.remove());
 
@@ -132,6 +134,7 @@
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
+    // Обработчик клика для выбора фракции
     window.addEventListener('click', event => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -153,12 +156,14 @@
       }
     });
 
+    // Обработчик изменения размера окна
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // Анимация сцены
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
