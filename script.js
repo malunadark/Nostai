@@ -20,20 +20,29 @@ scene.add(directional);
 const loader = new THREE.GLTFLoader();
 const characters = {};
 
+const characters = {};
 const characterPaths = {
   vsrf: 'assets/models/VS_RF.glb',
+  volonter: 'assets/models/Volonter_0425195121_texture.glb'
 };
+
+const modelDistance = 2;
+const loader = new THREE.GLTFLoader();
 
 let loadedModels = 0;
 const totalModels = Object.keys(characterPaths).length;
 
-for (const [key, path] of Object.entries(characterPaths)) {
+Object.entries(characterPaths).forEach(([key, path], index) => {
   loader.load(path, function (gltf) {
     const model = gltf.scene;
-    model.visible = true;
     model.userData.faction = key;
-    model.position.x = key === 'volunteer' ? -1.2 : 1.2;
+    model.visible = true;
+
+    const angle = index * (Math.PI * 2 / totalModels);
+    model.position.set(Math.cos(angle) * modelDistance, 0, Math.sin(angle) * modelDistance);
+    model.lookAt(0, 1.6, 0);
     model.scale.set(1.5, 1.5, 1.5);
+
     characters[key] = model;
     scene.add(model);
 
@@ -42,7 +51,8 @@ for (const [key, path] of Object.entries(characterPaths)) {
       console.log('Все модели загружены');
     }
   });
-}
+});
+
 
 // Показываем только одну модель
 function displayCharacter(faction) {
