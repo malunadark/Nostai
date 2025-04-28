@@ -22,13 +22,13 @@ const loader = new THREE.GLTFLoader();
 const characters = [
     { 
         name: "Волонтёр", 
-        path: "assets/models/volonter/scene.gltf", 
+        path: "assets/models/Volonter_0425195121_texture.glb", 
         position: { x: -3, y: 0, z: 0 }, 
         id: "volonter" 
     },
     { 
         name: "ВС РФ", 
-        path: "assets/models/VS_RF/scene.gltf", 
+        path: "assets/models/VS_RF.glb", 
         position: { x: 3, y: 0, z: 0 }, 
         id: "vs_rf"
     }
