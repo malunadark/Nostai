@@ -7,16 +7,12 @@
 @font-face {
     font-family: 'DeutschGothicCyr';
     src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
-  font-family: 'FutharkAoe';
-  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    font-family: 'FutharkAoe';
+    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
-
 
 /* === Сброс стилей === */
 * {
@@ -25,27 +21,11 @@
     box-sizing: border-box;
 }
 
-/* === Переменные для улучшения читаемости === */
 :root {
     --main-color: #ffcc00;
     --background-color: rgba(0, 0, 0, 0.2);
     --border-color: rgba(255, 204, 0, 0.3);
     --text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-}
-
-/* === Руна === */
-.rune {
-    position: absolute;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
-    transition: opacity 1s ease, transform 1s ease;
-    z-index: 5;
-    pointer-events: none;
-}
-
-.rune.fade-in {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
 }
 
 /* === Фон === */
@@ -62,234 +42,69 @@
     z-index: -1;
 }
 
-/* === Эффект солнечных лучей === */
-.sun-rays {
-    z-index: 0;
-}
-
-/* === Основной контент === */
-#main-content {
-    position: relative;
-    z-index: 1;
-}
-
-/* === Модальные окна === */
-.modal {
-    z-index: 10;
-}
-
-.modal-content {
-    max-width: 500px;
-    width: 90%;
-    background: #111;
-    border-radius: 10px;
-    padding: 20px;
-    color: white;
-}
-
 /* === Заголовок === */
 .title {
     font-size: 64px;
     color: white;
     text-align: center;
-    margin-top: 20vh;
+    margin-top: 5vh;
     text-shadow: var(--text-shadow);
     font-family: 'DestroyCyr', sans-serif;
-    position: relative;
     z-index: 1;
+    position: relative;
+    opacity: 0;
+    animation: fadeInTitle 2s ease forwards;
 }
 
-/* === Меню === */
-.menu-item {
-    position: absolute;
+@keyframes fadeInTitle {
+    to { opacity: 1; }
+}
+
+/* === Подписи под персонажами === */
+.character-label {
     font-family: 'DeutschGothicCyr', serif;
     font-size: 24px;
-    letter-spacing: 0.03em;
     color: #D9CDB3;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    text-decoration: none;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 6px 12px;
-    border-radius: 8px;
-    backdrop-filter: blur(3px);
-    z-index: 1;
-}
-
-.menu-item:hover {
-    color: var(--main-color);
-    filter: blur(0.5px);
-    text-shadow: 0 0 8px rgba(255, 230, 200, 0.2);
-    transform: scale(1.02);
-}
-
-/* === Позиции меню === */
-.chronicles { top: 38%; left: 51%; }
-.mystery    { top: 62%; left: 18%; }
-.shadow     { top: 65%; right: 8%; }
-.gifts      { bottom: 10%; right: 14%; }
-
-/* === Эффект рун при наведении === */
-.rune-hover {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.rune-hover::after {
-    content: attr(data-runes);
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
+    text-align: center;
+    margin-top: 8px;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    color: var(--main-color);
+    animation: fadeIn 2s ease forwards;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
 }
 
-.rune-hover:hover::after {
-    opacity: 1;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.rune-hover:hover {
-    color: transparent;
-}
-
-/* === Блок руны === */
-.rune-block {
+/* === Руна (через шрифт) === */
+.rune {
     position: absolute;
     font-family: 'FutharkAoe', serif;
     font-size: 72px;
     color: var(--main-color);
     text-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
-    padding: 20px 40px;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    background-color: var(--background-color);
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    transform: translate(-50%, -50%);
     z-index: 2;
-}
-
-.rune-block::after {
-    content: attr(data-runes);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    color: var(--main-color);
-    font-family: 'DeutschGothicCyr', serif;
-    font-size: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+    animation: pulseRune 3s infinite alternate ease-in-out, fadeInRune 2s forwards;
 }
 
-.rune-block:hover {
-    color: transparent;
-    text-shadow: none;
-    border-color: #ffe599;
-    box-shadow: 0 0 30px rgba(255, 255, 200, 0.4);
-    background-color: rgba(0, 0, 0, 0.5);
+@keyframes pulseRune {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
 }
 
-.rune-block:hover::after {
-    opacity: 1;
+@keyframes fadeInRune {
+    to { opacity: 1; }
 }
 
-/* === Анимации рун === */
-.rune-block.spell {
-    top: 30%;
-    left: 25%;
-    animation: pulse-glow 2s infinite alternate ease-in-out;
+/* === Эффект появления всей сцены === */
+.fade-in {
+    opacity: 0;
+    animation: fadeInScene 2s forwards;
 }
 
-@keyframes pulse-glow {
-    0% {
-        box-shadow: 0 0 15px rgba(255, 100, 0, 0.5);
-        transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-        box-shadow: 0 0 30px rgba(255, 200, 0, 0.8);
-        transform: translate(-50%, -50%) scale(1.1);
-    }
+@keyframes fadeInScene {
+    to { opacity: 1; }
 }
-
-.rune-block.calm {
-    top: 40%;
-    left: 75%;
-    animation: floaty 5s infinite ease-in-out;
-}
-
-@keyframes floaty {
-    0%, 100% { transform: translate(-50%, -52%); }
-    50% { transform: translate(-50%, -48%); }
-}
-
-.rune-block.chaos {
-    top: 65%;
-    left: 35%;
-    animation: chaos-shake 1.2s infinite;
-}
-
-@keyframes chaos-shake {
-    0%   { transform: translate(-50%, -50%) rotate(0deg); }
-    25%  { transform: translate(-49%, -51%) rotate(1deg); }
-    50%  { transform: translate(-51%, -49%) rotate(-1deg); }
-    75%  { transform: translate(-50.5%, -50.5%) rotate(0.5deg); }
-    100% { transform: translate(-50%, -50%) rotate(0deg); }
-}
-
-.rune-block.mystic {
-    top: 70%;
-    left: 70%;
-    animation: mystic-fade 6s ease-in-out infinite;
-}
-
-@keyframes mystic-fade {
-    0%, 100% { opacity: 0.7; filter: blur(1px); }
-    50% { opacity: 1; filter: blur(0); }
-}
-
-.rune-block.tree {
-    top: 20%;
-    left: 20%;
-    animation: glowTree 3s ease-in-out infinite alternate;
-}
-
-@keyframes glowTree {
-    0% { filter: drop-shadow(0 0 5px #ffe599); }
-    100% { filter: drop-shadow(0 0 20px #fff2aa); }
-}
-
-.rune-block.floating {
-    position: absolute;
-    top: 50%;
-    left: 60%;
-    animation: floatingRune 6s ease-in-out infinite;
-}
-
-@keyframes floatingRune {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-20px); }
-}
-
-.rune-block.crawling {
-    position: absolute;
-    top: 80%;
-    left: 40%;
-    animation: crawlShift 8s infinite linear;
-}
-
-@keyframes crawlShift {
-    0%   { transform: translate(-50%, -50%) translateX(0) rotate(0deg) scale(1); }
-    25%  { transform: translate(-50%, -50%) translateX(20px) rotate(5deg) scale(0.95); }
-    50%  { transform: translate(-50%, -50%) translateX(0) rotate(-5deg) scale(1.1); }
-    75%  { transform: translate(-
