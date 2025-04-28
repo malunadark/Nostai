@@ -1,92 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Nostai — Выбор Фракции</title>
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Шрифты -->
-  <style>
-    @font-face {
-      font-family: 'Futhark';
-      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'DeutschGothic';
-      src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'DestroyCyr';
-      src: url('assets/fonts/DestroyCyr.ttf') format('truetype');
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('assets/Nostai.png') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'DeutschGothic', sans-serif;
-      overflow: hidden;
-    }
-
-    #loginModal {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(50, 50, 50, 0.9);
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      z-index: 10;
-    }
-
-    #loginModal input {
-      width: 200px;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
-    }
-
-    #loginModal button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background: linear-gradient(#ccc, #999);
-      border: none;
-      cursor: pointer;
-    }
-
-    #scene-container {
-      width: 100%;
-      height: 100vh;
-    }
-
-    /* Стиль для рун через шрифт */
-    .rune {
-      font-family: 'Futhark', sans-serif;
-      color: white;
-      font-size: 48px;
-      position: absolute;
-      user-select: none;
-      pointer-events: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Nostai - Выбор Фракции</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
-
 <body>
-  <div id="loginModal">
-    <h2>Вход в NOSTAI</h2>
-    <input type="text" id="username" placeholder="Введите имя">
-    <br>
-    <button onclick="enterNostai()">Войти</button>
-  </div>
 
-  <div id="scene-container"></div>
+<div class="background"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.148.0/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="script.js"></script>
+<h1 class="title">Выбери свою судьбу</h1>
+
+<div id="main-content" class="fade-in"></div>
+
+<div id="runes-container"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
