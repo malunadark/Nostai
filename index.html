@@ -7,15 +7,15 @@
   <style>
     @font-face {
       font-family: 'Futhark';
-      src: url('Nostai-site/assets/fonts/FutharkAoe.ttf') format('truetype');
+      src: url(assets/fonts/FutharkAoe.ttf') format('truetype');
     }
     @font-face {
       font-family: 'Destroy';
-      src: url('Nostai-site/assets/fonts/DestroyCyr.ttf') format('truetype');
+      src: url(assets/fonts/DestroyCyr.ttf') format('truetype');
     }
     @font-face {
       font-family: 'DeutschGothic';
-      src: url('Nostai-site/assets/fonts/DeutschGothicCyr.ttf') format('truetype');
+      src: url(assets/fonts/DeutschGothicCyr.ttf') format('truetype');
     }
 
     html, body {
@@ -23,7 +23,7 @@
       padding: 0;
       overflow: hidden;
       height: 100%;
-      background: url('assets/Nostai.png') no-repeat center center fixed;
+      background: url(assets/Nostai.png') no-repeat center center fixed;
       background-size: cover;
       font-family: 'DeutschGothic', sans-serif;
       color: white;
@@ -79,7 +79,7 @@
     <h1 style="font-family: 'Destroy', sans-serif;">Вход в NOSTAI</h1>
     <input type="text" id="username" placeholder="Введите имя">
     <br>
-    <button onclick="startGame()">Войти</button>
+    <button onclick="startGame()">Войти в Бездну</button>
   </div>
 
   <!-- Скрипты -->
@@ -117,8 +117,8 @@
     const loader = new THREE.GLTFLoader();
     const characters = {};
     const characterPaths = {
-      vsrf: 'Nostai-site/assets/models/VS_RF.glb',
-      volonter: 'Nostai-site/assets/models/Volonter_0425195121_texture.glb'
+      vsrf: assets/models/VS_RF.glb',
+      volonter: assets/models/Volonter_0425195121_texture.glb'
     };
 
     let loadedModels = 0;
@@ -150,8 +150,8 @@
     }
 
     const runePaths = {
-      vsrf: 'Nostai-site/assets/textures/runes/Runies.png',
-      volonter: 'Nostai-site/assets/textures/runes/Runies.png'
+      vsrf: assets/textures/runes/Runies.png',
+      volonter: assets/textures/runes/Runies.png'
     };
 
     function showRunes(faction) {
