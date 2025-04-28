@@ -13,9 +13,10 @@
 }
 
 @font-face {
-    font-family: 'FutharkAoe';
-    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+  font-family: 'Futhark';
+  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
+
 
 /* === Сброс стилей === */
 * {
