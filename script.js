@@ -1,106 +1,59 @@
-// Создание сцены
+// Three.js сцена
 const scene = new THREE.Scene();
-scene.background = null;
-
-// Камера
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 10;
-
-// Рендерер
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const camera = new THREE.PerspectiveCamera(
+    75, 
+    window.innerWidth / window.innerHeight, 
+    0.1, 
+    1000
+);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('main-content').appendChild(renderer.domElement);
+renderer.setPixelRatio(window.devicePixelRatio);
 
-// Свет
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+// Освещение
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-// Загрузка 3D-моделей персонажей
+// Загрузчик моделей
 const loader = new THREE.GLTFLoader();
 
-// Данные о персонажах
-const characters = [
-    { 
-        name: "Волонтёр", 
-        path: "assets/models/Volonter_0425195121_texture.glb", 
-        position: { x: -3, y: 0, z: 0 }, 
-        id: "volonter" 
-    },
+// Массив моделей
+const models = [
     { 
         name: "ВС РФ", 
-        path: "assets/models/VS_RF.glb", 
-        position: { x: 3, y: 0, z: 0 }, 
-        id: "vs_rf"
+        path: 'assets/models/VS_RF.glb', 
+        position: new THREE.Vector3(-3, 0, 0) 
+    },
+    { 
+        name: "Волонтёр", 
+        path: 'assets/models/Volonter_0425195121_texture.glb', 
+        position: new THREE.Vector3(3, 0, 0) 
     }
 ];
 
-// Отслеживание загруженных моделей
-const characterModels = [];
-
-// Загружаем всех персонажей
-characters.forEach(charData => {
-    loader.load(charData.path, gltf => {
+// Загрузка моделей
+models.forEach((modelData) => {
+    loader.load(modelData.path, (gltf) => {
         const model = gltf.scene;
-        model.position.set(charData.position.x, charData.position.y, charData.position.z);
-        model.scale.set(2, 2, 2);
-        model.userData.id = charData.id; // сохраняем ID для клика
+        model.position.copy(modelData.position);
+        model.scale.set(1.5, 1.5, 1.5); // Увеличиваем модели
         scene.add(model);
-        characterModels.push(model);
-
-        // Добавляем подпись
-        const label = document.createElement('div');
-        label.className = 'character-label';
-        label.textContent = charData.name;
-        document.getElementById('main-content').appendChild(label);
-
-        function updateLabelPosition() {
-            const vector = model.position.clone().project(camera);
-            const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
-            const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-            label.style.left = `${x}px`;
-            label.style.top = `${y + 30}px`;
-        }
-
-        renderer.setAnimationLoop(() => {
-            updateLabelPosition();
-            renderer.render(scene, camera);
-        });
+    }, undefined, (error) => {
+        console.error('Ошибка загрузки модели:', error);
     });
 });
 
-// Управление кликами по моделям
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+// Камера
+camera.position.z = 10;
 
-renderer.domElement.addEventListener('click', (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Анимация
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+animate();
 
-    raycaster.setFromCamera(mouse, camera);
-
-    const intersects = raycaster.intersectObjects(characterModels, true);
-
-    if (intersects.length > 0) {
-        const selectedId = intersects[0].object.parent.userData.id;
-        alert(`Вы выбрали фракцию: ${selectedId}`);
-        // Здесь можешь перенаправить на страницу выбранной фракции, например:
-        // window.location.href = `/factions/${selectedId}.html`;
-    }
-});
-
-// Добавление рун
-const runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᛉ']; // Можно дополнять
-
-runes.forEach(rune => {
-    const runeDiv = document.createElement('div');
-    runeDiv.className = 'rune';
-    runeDiv.textContent = rune;
-    runeDiv.style.left = `${Math.random() * 100}%`;
-    runeDiv.style.top = `${Math.random() * 100}%`;
-    document.getElementById('runes-container').appendChild(runeDiv);
-});
-
-// Адаптация к экрану
+// При изменении размеров окна
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
