@@ -17,12 +17,16 @@ directional.position.set(5, 10, 7.5);
 scene.add(directional);
 
 // Загрузка моделей
-const loader = new THREE.GLTFLoader();
-const characters = {};
 const characterPaths = {
   vsrf: 'assets/models/VS_RF.glb',
   volonter: 'assets/models/Volonter_0425195121_texture.glb'
 };
+
+const runePaths = {
+  vsrf: 'assets/textures/runes/Runies.png',
+  volonter: 'assets/textures/runes/Runies.png'
+};
+
 
 const modelDistance = 2;
 
