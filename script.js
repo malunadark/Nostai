@@ -1,21 +1,17 @@
-// Сцена, камера, рендерер
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// Свет
 const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
 scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(0, 5, 5);
 scene.add(directionalLight);
 
-// Загрузчик моделей
 const loader = new THREE.GLTFLoader();
 
-// Функция для загрузки модели
 function loadModel(path, position) {
     loader.load(
         path,
@@ -30,8 +26,6 @@ function loadModel(path, position) {
                 }
             });
             scene.add(model);
-
-            // Анимация "покачивания"
             animateModel(model);
         },
         undefined,
@@ -41,11 +35,10 @@ function loadModel(path, position) {
     );
 }
 
-// Загрузка двух моделей
 loadModel('assets/models/VS_RF.glb', new THREE.Vector3(-3, 0, 0));
 loadModel('assets/models/Volonter_0425195121_texture.glb', new THREE.Vector3(3, 0, 0));
 
-// Руна - создаём плоскую текстуру
+// Добавляем руны
 function createRune(position) {
     const texture = new THREE.TextureLoader().load('assets/textures/runes/Runies.png');
     const material = new THREE.SpriteMaterial({ map: texture, color: 0xffffff });
@@ -56,7 +49,6 @@ function createRune(position) {
     return sprite;
 }
 
-// Размещаем руны вокруг центра
 const runes = [];
 const runeCount = 5;
 const radius = 5;
@@ -68,14 +60,12 @@ for (let i = 0; i < runeCount; i++) {
     runes.push(createRune(new THREE.Vector3(x, 1.5, z)));
 }
 
-// Плавное вращение рун
 function animateRunes() {
     runes.forEach(rune => {
         rune.rotation.z += 0.01;
     });
 }
 
-// Покачивание моделей
 function animateModel(model) {
     let up = true;
     setInterval(() => {
@@ -89,7 +79,6 @@ function animateModel(model) {
     }, 50);
 }
 
-// Анимация сцены
 function animate() {
     requestAnimationFrame(animate);
     animateRunes();
@@ -97,7 +86,6 @@ function animate() {
 }
 animate();
 
-// Адаптивность
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
