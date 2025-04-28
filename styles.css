@@ -1,110 +1,49 @@
-/* === Подключение шрифтов === */
-@font-face {
-    font-family: 'DestroyCyr';
-    src: url('assets/fonts/destroycyr.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'DeutschGothicCyr';
-    src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'FutharkAoe';
-    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-}
-
-/* === Сброс стилей === */
-* {
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    overflow: hidden;
+    height: 100%;
+    font-family: 'DeutschGothicCyr', sans-serif;
 }
 
-:root {
-    --main-color: #ffcc00;
-    --background-color: rgba(0, 0, 0, 0.2);
-    --border-color: rgba(255, 204, 0, 0.3);
-    --text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-}
-
-/* === Фон === */
-.background {
-    position: fixed;
+#bg {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('assets/Nostai.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
-
-/* === Заголовок === */
-.title {
-    font-size: 64px;
-    color: white;
-    text-align: center;
-    margin-top: 5vh;
-    text-shadow: var(--text-shadow);
-    font-family: 'DestroyCyr', sans-serif;
+    display: block;
     z-index: 1;
-    position: relative;
-    opacity: 0;
-    animation: fadeInTitle 2s ease forwards;
 }
 
-@keyframes fadeInTitle {
-    to { opacity: 1; }
-}
-
-/* === Подписи под персонажами === */
-.character-label {
-    font-family: 'DeutschGothicCyr', serif;
-    font-size: 24px;
-    color: #D9CDB3;
-    text-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
+#overlay {
+    position: absolute;
+    top: 30px;
+    width: 100%;
     text-align: center;
-    margin-top: 8px;
-    position: absolute;
-    animation: fadeIn 2s ease forwards;
-    opacity: 0;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* === Руна (через шрифт) === */
-.rune {
-    position: absolute;
-    font-family: 'FutharkAoe', serif;
-    font-size: 72px;
-    color: var(--main-color);
-    text-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
     z-index: 2;
-    opacity: 0;
-    animation: pulseRune 3s infinite alternate ease-in-out, fadeInRune 2s forwards;
+    color: white;
+    text-shadow: 2px 2px 4px #000;
+    font-size: 48px;
+    pointer-events: none;
 }
 
-@keyframes pulseRune {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+@font-face {
+    font-family: 'DeutschGothicCyr';
+    src: url('fonts/DeutschGothicCyr.ttf') format('truetype');
 }
 
-@keyframes fadeInRune {
-    to { opacity: 1; }
+@font-face {
+    font-family: 'DestroyCyr';
+    src: url('fonts/DestroyCyr.ttf') format('truetype');
 }
 
-/* === Эффект появления всей сцены === */
-.fade-in {
-    opacity: 0;
-    animation: fadeInScene 2s forwards;
+@font-face {
+    font-family: 'FutharkAoe';
+    src: url('fonts/FutharkAoe.ttf') format('truetype');
 }
 
-@keyframes fadeInScene {
-    to { opacity: 1; }
+body {
+    background: url('assets/Nostai.png') no-repeat center center fixed;
+    background-size: cover;
 }
