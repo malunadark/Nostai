@@ -1,11 +1,101 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>NOSTAI</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: url('assets/Nostai.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    @font-face {
+      font-family: 'DeutschGothic';
+      src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
+
+    h1 {
+      font-family: 'DestroyCyr', sans-serif;
+      color: white;
+      font-size: 80px;
+      text-align: center;
+      margin-top: 30px;
+      text-shadow: 2px 2px 10px black;
+      z-index: 2;
+      position: relative;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .menu button {
+      font-family: 'DeutschGothic', serif;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+      position: relative;
+    }
+
+    .menu button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .rune {
+      font-family: 'FutharkAoe';
+      font-size: 18px;
+      color: #fff;
+      position: absolute;
+      animation: float 5s infinite ease-in-out;
+      text-shadow: 0 0 8px #ffcc66;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.7; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+    }
+
+    #sun-glow {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,200,0.4) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
+  <div id="sun-glow"></div>
+
   <h1>NOSTAI</h1>
 
   <div class="menu">
@@ -15,6 +105,17 @@
     <button><span class="rune">ᚨ</span> Дары</button>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <script>
+    const runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚾ', 'ᛃ', 'ᛇ', 'ᛈ'];
+    for (let i = 0; i < 20; i++) {
+      const rune = document.createElement('div');
+      rune.className = 'rune';
+      rune.textContent = runes[Math.floor(Math.random() * runes.length)];
+      rune.style.left = Math.random() * 100 + 'vw';
+      rune.style.top = Math.random() * 100 + 'vh';
+      rune.style.animationDuration = (3 + Math.random() * 5) + 's';
+      document.body.appendChild(rune);
+    }
+  </script>
 </body>
 </html>
