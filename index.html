@@ -17,11 +17,6 @@
     }
 
     @font-face {
-      font-family: 'DestroyCyr';
-      src: url('assets/fonts/destroycyr.ttf') format('truetype');
-    }
-
-    @font-face {
       font-family: 'FutharkAoe';
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
@@ -33,8 +28,6 @@
       text-align: center;
       margin-top: 30px;
       text-shadow: 2px 2px 10px black;
-      z-index: 2;
-      position: relative;
     }
 
     .menu {
@@ -42,12 +35,10 @@
       justify-content: center;
       gap: 20px;
       margin-top: 20px;
-      position: relative;
-      z-index: 2;
     }
 
     .menu button {
-      font-family: 'DeutschGothic', serif;
+      font-family: 'DeutschGothic';
       background: rgba(0, 0, 0, 0.7);
       border: none;
       padding: 10px 20px;
@@ -63,59 +54,89 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    .rune {
-      font-family: 'FutharkAoe';
-      font-size: 18px;
-      color: #fff;
+    /* Сияние */
+    .sun-glow {
       position: absolute;
-      animation: float 5s infinite ease-in-out;
-      text-shadow: 0 0 8px #ffcc66;
-      pointer-events: none;
+      top: 10%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(255,255,100,0.6), transparent 70%);
+      border-radius: 50%;
+      animation: pulse 5s infinite;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+      50% { transform: translateX(-50%) scale(1.2); opacity: 0.9; }
+    }
+
+    /* Руны по кругу */
+    .rune-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      transform: translate(-50%, -50%);
+      animation: rotate 40s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .rune {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      color: #fff;
+      font-family: 'FutharkAoe';
+      font-size: 22px;
+      text-shadow: 0 0 6px rgba(0,255,255,0.8);
+      animation: float 3s ease-in-out infinite;
     }
 
     @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.7; }
-      100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
-    #sun-glow {
-      position: absolute;
-      top: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255,255,200,0.4) 0%, rgba(255,255,255,0) 70%);
-      border-radius: 50%;
-      filter: blur(40px);
-      z-index: 1;
-    }
+    /* Расположение рун по кругу */
+    .rune:nth-child(1) { top: 0%; left: 50%; transform: translate(-50%, -50%); }
+    .rune:nth-child(2) { top: 15%; left: 85%; transform: translate(-50%, -50%); }
+    .rune:nth-child(3) { top: 50%; left: 100%; transform: translate(-50%, -50%); }
+    .rune:nth-child(4) { top: 85%; left: 85%; transform: translate(-50%, -50%); }
+    .rune:nth-child(5) { top: 100%; left: 50%; transform: translate(-50%, -50%); }
+    .rune:nth-child(6) { top: 85%; left: 15%; transform: translate(-50%, -50%); }
+    .rune:nth-child(7) { top: 50%; left: 0%; transform: translate(-50%, -50%); }
+    .rune:nth-child(8) { top: 15%; left: 15%; transform: translate(-50%, -50%); }
+
   </style>
 </head>
 <body>
-  <div id="sun-glow"></div>
+  <div class="sun-glow"></div>
 
   <h1>NOSTAI</h1>
-
   <div class="menu">
-    <button><span class="rune">ᚠ</span> Хроники</button>
-    <button><span class="rune">ᚢ</span> Тайны</button>
-    <button><span class="rune">ᚦ</span> Тени</button>
-    <button><span class="rune">ᚨ</span> Дары</button>
+    <button>Хроники</button>
+    <button>Тайны</button>
+    <button>Тени</button>
+    <button>Дары</button>
   </div>
 
-  <script>
-    const runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚾ', 'ᛃ', 'ᛇ', 'ᛈ'];
-    for (let i = 0; i < 20; i++) {
-      const rune = document.createElement('div');
-      rune.className = 'rune';
-      rune.textContent = runes[Math.floor(Math.random() * runes.length)];
-      rune.style.left = Math.random() * 100 + 'vw';
-      rune.style.top = Math.random() * 100 + 'vh';
-      rune.style.animationDuration = (3 + Math.random() * 5) + 's';
-      document.body.appendChild(rune);
-    }
-  </script>
+  <div class="rune-circle">
+    <div class="rune">ᚠ</div>
+    <div class="rune">ᚢ</div>
+    <div class="rune">ᚦ</div>
+    <div class="rune">ᚨ</div>
+    <div class="rune">ᚱ</div>
+    <div class="rune">ᚹ</div>
+    <div class="rune">ᛉ</div>
+    <div class="rune">ᛏ</div>
+  </div>
 </body>
 </html>
