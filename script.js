@@ -1,16 +1,15 @@
 window.addEventListener('DOMContentLoaded', () => {
   const runes = document.querySelectorAll('.rune');
 
-  // Случайное размещение рун
+  // Распределение рун случайно по экрану
   runes.forEach(rune => {
-    rune.style.position = 'absolute';
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
     rune.style.left = `${x}px`;
     rune.style.top = `${y}px`;
   });
 
-  // Эффект (частицы)
+  // Магический эффект (частицы)
   window.triggerEffect = function(type) {
     const container = document.getElementById('effect-container');
     if (!container) return;
@@ -19,27 +18,28 @@ window.addEventListener('DOMContentLoaded', () => {
       const p = document.createElement('div');
       p.classList.add('particle');
 
-      // Цвет частицы в зависимости от типа
+      // Цвет по типу эффекта
       if (type === 'fire') p.style.background = 'orange';
       else if (type === 'water') p.style.background = 'aqua';
       else if (type === 'air') p.style.background = 'white';
       else if (type === 'smoke') p.style.background = 'gray';
 
-      // Начальная позиция — по центру
-      p.style.left = `${window.innerWidth / 2}px`;
-      p.style.top = `${window.innerHeight / 2}px`;
+      // Положение в центре
+      const x0 = window.innerWidth / 2;
+      const y0 = window.innerHeight / 2;
+      p.style.left = `${x0}px`;
+      p.style.top = `${y0}px`;
 
-      // Движение в случайном направлении
+      // Движение
       const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * 100;
+      const distance = Math.random() * 150;
       const x = Math.cos(angle) * distance;
       const y = Math.sin(angle) * distance;
-
       p.style.transform = `translate(${x}px, ${y}px)`;
 
       container.appendChild(p);
 
-      // Удаление через 2 секунды
+      // Удаление через 2 сек
       setTimeout(() => p.remove(), 2000);
     }
   };
