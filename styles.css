@@ -37,100 +37,78 @@ h1 {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Общий стиль рун */
+.rune-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .rune {
   position: absolute;
   font-family: 'FutharkAoe', sans-serif;
-  font-size: 36px;
+  font-size: 28px;
   color: white;
   text-shadow: 0 0 10px white;
-  pointer-events: none;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
 }
 
-/* Круговое размещение рун */
-.rune-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 300px;
-  transform: translate(-50%, -50%);
-  animation: rotateCircle 20s linear infinite;
-}
-
-.rune-circle .rune {
-  position: absolute;
-}
-
-.rune-circle .rune:nth-child(1) { transform: rotate(0deg) translate(150px) rotate(0deg); }
-.rune-circle .rune:nth-child(2) { transform: rotate(72deg) translate(150px) rotate(-72deg); }
-.rune-circle .rune:nth-child(3) { transform: rotate(144deg) translate(150px) rotate(-144deg); }
-.rune-circle .rune:nth-child(4) { transform: rotate(216deg) translate(150px) rotate(-216deg); }
-.rune-circle .rune:nth-child(5) { transform: rotate(288deg) translate(150px) rotate(-288deg); }
-
-@keyframes rotateCircle {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Индивидуальные анимации */
+/* Анимации */
 @keyframes glow {
-  0%, 100% { text-shadow: 0 0 10px white; }
-  50% { text-shadow: 0 0 25px white; }
+  0%, 100% { opacity: 0.8; text-shadow: 0 0 10px white; }
+  50% { opacity: 1; text-shadow: 0 0 25px white; }
 }
-.rune-glow {
-  animation: glow 2s ease-in-out infinite;
-}
+.animate-glow { animation-name: glow; }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-.rune-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes crawl {
-  0% { transform: translateX(0) rotate(0deg); }
-  50% { transform: translateX(10px) rotate(10deg); }
-  100% { transform: translateX(0) rotate(0deg); }
-}
-.rune-crawl {
-  animation: crawl 4s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.rune-spin {
-  animation: spin 5s linear infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-}
-.rune-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* Летающие руны */
-@keyframes fly {
-  0% {
-    top: 100%;
-    left: 10%;
-    opacity: 0;
-  }
-  50% {
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
     opacity: 1;
   }
-  100% {
-    top: -10%;
-    left: 80%;
-    opacity: 0;
+  20%, 22%, 24%, 55% {
+    opacity: 0.3;
   }
 }
-.rune-fly {
-  animation: fly 10s linear infinite;
+.animate-flicker { animation-name: flicker; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+.animate-float { animation-name: float; }
+
+@keyframes chaos {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -5px) rotate(5deg); }
+  50% { transform: translate(-10px, 5px) rotate(-5deg); }
+  75% { transform: translate(5px, -10px) rotate(10deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-chaos { animation-name: chaos; }
+
+#effect-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  opacity: 0.8;
+  border-radius: 50%;
+  animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }
