@@ -1,46 +1,50 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const runes = document.querySelectorAll('.rune');
+// Модалка
+const descriptions = {
+  "Хроники Забвения": "🔥 Архив сожжённой памяти, отражения войн, провалов и ритуалов забвения.",
+  "Порог Тайны": "💧 Врата между мирами, где истина и иллюзия сплетаются в одно.",
+  "Голом Тени": "⚔ Тайный орден, рожденный из боли и темноты. Их клятвы вечны.",
+  "Дары Провидцев": "➿ Наследие тех, кто видел сквозь время. Дары, изменяющие судьбу."
+};
 
-  // Распределение рун случайно по экрану
-  runes.forEach(rune => {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    rune.style.left = `${x}px`;
-    rune.style.top = `${y}px`;
-  });
-
-  // Магический эффект (частицы)
-  window.triggerEffect = function(type) {
-    const container = document.getElementById('effect-container');
-    if (!container) return;
-
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.classList.add('particle');
-
-      // Цвет по типу эффекта
-      if (type === 'fire') p.style.background = 'orange';
-      else if (type === 'water') p.style.background = 'aqua';
-      else if (type === 'air') p.style.background = 'white';
-      else if (type === 'smoke') p.style.background = 'gray';
-
-      // Положение в центре
-      const x0 = window.innerWidth / 2;
-      const y0 = window.innerHeight / 2;
-      p.style.left = `${x0}px`;
-      p.style.top = `${y0}px`;
-
-      // Движение
-      const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * 150;
-      const x = Math.cos(angle) * distance;
-      const y = Math.sin(angle) * distance;
-      p.style.transform = `translate(${x}px, ${y}px)`;
-
-      container.appendChild(p);
-
-      // Удаление через 2 сек
-      setTimeout(() => p.remove(), 2000);
-    }
-  };
+document.querySelectorAll('button').forEach(btn => {
+  if (btn.id !== 'mute-btn') {
+    btn.addEventListener('click', () => {
+      const title = btn.textContent.trim();
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-text').innerText = descriptions[title] || "Скрытый раздел...";
+      document.getElementById('modal').style.display = 'block';
+    });
+  }
 });
+
+document.querySelector('.close-btn').addEventListener('click', () => {
+  document.getElementById('modal').style.display = 'none';
+});
+
+// Мут/плей аудио
+const audio = document.getElementById('bg-audio');
+const muteBtn = document.getElementById('mute-btn');
+
+muteBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    muteBtn.textContent = '🔊';
+  } else {
+    audio.pause();
+    muteBtn.textContent = '🔇';
+  }
+});
+
+// Летающие руны
+function createRune() {
+  const rune = document.createElement('div');
+  rune.className = 'rune';
+  rune.innerText = ['ᚠ','ᛉ','ᛏ','ᛃ','ᛗ','ᚨ'][Math.floor(Math.random() * 6)];
+  rune.style.left = Math.random() * 100 + 'vw';
+  rune.style.fontSize = (Math.random() * 20 + 20) + 'px';
+  rune.style.animationDuration = (Math.random() * 10 + 10) + 's';
+  document.getElementById('flying-runes').appendChild(rune);
+  setTimeout(() => rune.remove(), 15000);
+}
+
+setInterval(createRune, 1000);
