@@ -2,69 +2,48 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOSTAI</title>
-  <link rel="stylesheet" href="styles.css" />
-
+  <link rel="stylesheet" href="style.css" />
   <style>
     @font-face {
-      font-family: 'DestroyCyr';
-      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'DeutschGothic';
       src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
     }
-
-    @font-face {
-      font-family: 'FutharkAoe';
-      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    }
   </style>
 </head>
 <body>
-  <h1>NOSTAI</h1>
+  <!-- Фоновые руны -->
+  <div id="flying-runes"></div>
 
-  <div class="menu">
-    <button class="magic-button" data-rune="ᚠ" onclick="triggerEffect('fire')">🔥Хроники Забвения</button>
-    <button class="magic-button" data-rune="ᚢ" onclick="triggerEffect('water')">💧Порог Тайны</button>
-    <button class="magic-button" data-rune="ᚦ" onclick="triggerEffect('air')">🌬Голом Тени</button>
-    <button class="magic-button" data-rune="ᛃ" onclick="triggerEffect('smoke')">💨Дары Провидцев</button>
-  </div>
+  <!-- Кнопки разделов -->
+  <main>
+    <button>Хроники Забвения</button>
+    <button>Порог Тайны</button>
+    <button>Голом Тени</button>
+    <button>Дары Провидцев</button>
+  </main>
 
   <!-- Модалка -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2 id="modal-title"></h2>
-    <p id="modal-text"></p>
-  </div>
-</div>
-
-
-  <div id="effect-container"></div> 
-  <div id="flying-runes"></div>
-  <div class="rune-container">
-    <div class="rune animate-glow">ᚨ</div>
-    <div class="rune animate-flicker">ᛋ</div>
-    <div class="rune animate-float">ᛗ</div>
-    <div class="rune animate-chaos">ᛉ</div>
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-text"></p>
+    </div>
   </div>
 
-  <script src="script.js" type="module"></script>
-  <script>
-function createRune() {
-  const rune = document.createElement('div');
-  rune.className = 'rune';
-  rune.innerText = ['ᚠ','ᛉ','ᛏ','ᛃ','ᛗ','ᚨ'][Math.floor(Math.random() * 6)];
-  rune.style.left = Math.random() * 100 + 'vw';
-  rune.style.fontSize = (Math.random() * 20 + 20) + 'px';
-  rune.style.animationDuration = (Math.random() * 10 + 10) + 's';
-  document.getElementById('flying-runes').appendChild(rune);
-  setTimeout(() => rune.remove(), 15000);
-}
+  <!-- Фоновый звук -->
+  <audio id="bg-audio" loop autoplay>
+    <source src="assets/audio/ambient.mp3" type="audio/mpeg">
+  </audio>
+  <button id="mute-btn">🔊</button>
 
-setInterval(createRune, 1000);
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
