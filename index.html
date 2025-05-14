@@ -24,29 +24,22 @@
 </head>
 <body>
   <h1>NOSTAI</h1>
+
   <div class="menu">
- <button onclick="triggerEffect('fire')">🔥Хроники Забвения</button>
-<button onclick="triggerEffect('water')">💧Порог Тайны</button>
-<button onclick="triggerEffect('air')">🌬Голом Тени</button>
-<button onclick="triggerEffect('smoke')">💨Дары Провидцев</button>
+    <button class="magic-button" data-rune="ᚠ" onclick="triggerEffect('fire')">🔥Хроники Забвения</button>
+    <button class="magic-button" data-rune="ᚢ" onclick="triggerEffect('water')">💧Порог Тайны</button>
+    <button class="magic-button" data-rune="ᚦ" onclick="triggerEffect('air')">🌬Голом Тени</button>
+    <button class="magic-button" data-rune="ᛃ" onclick="triggerEffect('smoke')">💨Дары Провидцев</button>
+  </div>
 
-</div>
-
-<div id="effect-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></div>
-
-
+  <div id="effect-container"></div>
   <div class="rune-container">
-  <!-- Множество рун -->
-  <div class="rune animate-glow">ᚠ</div>
-  <div class="rune animate-flicker">ᚢ</div>
-  <div class="rune animate-float">ᚦ</div>
-  <div class="rune animate-chaos">ᚨ</div>
-  <!-- повтори нужное количество -->
-</div>
+    <div class="rune animate-glow">ᚨ</div>
+    <div class="rune animate-flicker">ᛋ</div>
+    <div class="rune animate-float">ᛗ</div>
+    <div class="rune animate-chaos">ᛉ</div>
+  </div>
 
-  <div class="rune-fly rune">ᛃ</div>
-  <div class="rune-fly rune">ᛋ</div>
-
-  <script type="module" src="script.js"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
