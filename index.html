@@ -25,19 +25,23 @@
 <body>
   <h1>NOSTAI</h1>
   <div class="menu">
-    <button>Хроники</button>
-    <button>Тайны</button>
-    <button>Тени</button>
-    <button>Дары</button>
-  </div>
+  <button onclick="triggerEffect('air')">Хроники</button>
+  <button onclick="triggerEffect('fire')">Тайны</button>
+  <button onclick="triggerEffect('water')">Тени</button>
+  <button onclick="triggerEffect('smoke')">Дары</button>
+</div>
 
-  <div class="rune-circle">
-    <div class="rune rune-glow">ᚠ</div>
-    <div class="rune rune-float">ᚱ</div>
-    <div class="rune rune-crawl">ᛉ</div>
-    <div class="rune rune-spin">ᛞ</div>
-    <div class="rune rune-pulse">ᛟ</div>
-  </div>
+<div id="effect-container"></div>
+
+
+  <div class="rune-container">
+  <!-- Множество рун -->
+  <div class="rune animate-glow">ᚠ</div>
+  <div class="rune animate-flicker">ᚢ</div>
+  <div class="rune animate-float">ᚦ</div>
+  <div class="rune animate-chaos">ᚨ</div>
+  <!-- повтори нужное количество -->
+</div>
 
   <div class="rune-fly rune">ᛃ</div>
   <div class="rune-fly rune">ᛋ</div>
