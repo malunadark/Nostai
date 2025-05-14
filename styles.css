@@ -102,10 +102,11 @@ h1 {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: white;
-  opacity: 0.8;
   border-radius: 50%;
-  animation: fadeOut 2s forwards;
+  opacity: 0.8;
+  transition: transform 1.5s ease-out, opacity 2s;
+  pointer-events: none;
+  z-index: 11;
 }
 
 @keyframes fadeOut {
