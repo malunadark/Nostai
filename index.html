@@ -2,50 +2,18 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOSTAI</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    @font-face {
-      font-family: 'FutharkAoe';
-      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'DeutschGothic';
-      src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-    }
-  </style>
+  <title>Nostai</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Фоновые руны -->
-  <div id="flying-runes"></div>
+  <div class="star-container">
+    <div class="title">NOSTAI</div>
 
-  <!-- Кнопки разделов -->
-<div class="star-container">
-  <div class="menu-button top">Порог Тайны</div>
-  <div class="menu-button left">Хроники Забвения</div>
-  <div class="title">NOSTAI</div>
-  <div class="menu-button right">Голос Тени</div>
-  <div class="menu-button bottom">Дары Провидцев</div>
-</div>
-
-
-  <!-- Модалка -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2 id="modal-title"></h2>
-      <p id="modal-text"></p>
-    </div>
+    <button class="menu-button" style="--angle: 270deg;">Хроники Забвения</button>
+    <button class="menu-button" style="--angle: 342deg;">Голос Тени</button>
+    <button class="menu-button" style="--angle: 54deg;">Дары Провидцев</button>
+    <button class="menu-button" style="--angle: 126deg;">Порог Тайны</button>
+    <button class="menu-button" style="--angle: 198deg;">Вход в Бездну</button>
   </div>
-
-  <!-- Фоновый звук -->
-  <audio id="bg-audio" loop autoplay>
-    <source src="assets/audio/ambient.mp3" type="audio/mpeg">
-  </audio>
-  <button id="mute-btn">🔊</button>
-
-  <script src="script.js"></script>
 </body>
 </html>
