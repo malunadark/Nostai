@@ -3,6 +3,11 @@
   src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'DestroyCyr';
+  src: url('assets/fonts/DestroyCyr.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   background: url('assets/Nostai.png') no-repeat center center fixed;
@@ -23,54 +28,37 @@ body {
 
 .title {
   position: absolute;
-  top: 50%;
+  top: 38%; /* Чуть выше центра */
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 64px;
   font-family: 'DestroyCyr', serif;
   color: white;
+  text-align: center;
+  pointer-events: none;
 }
 
 .menu-button {
   position: absolute;
-  padding: 12px 20px;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 50px;
+  margin: -25px 0 0 -100px;
+  background: rgba(0, 0, 0, 0.6);
   border: 2px solid white;
-  background: rgba(0, 0, 0, 0.5);
-  font-family: 'DeutschGothic', serif;
   color: white;
+  font-family: 'DeutschGothic', serif;
+  font-size: 18px;
   cursor: pointer;
-  transition: background 0.3s;
   text-align: center;
+  transition: background 0.3s;
+  transform: rotate(calc(var(--angle))) translateY(-250px) rotate(calc(-1 * var(--angle)));
 }
 
 .menu-button:hover {
   background: rgba(255, 255, 255, 0.2);
 }
-
-.menu-button.top {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.menu-button.bottom {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.menu-button.left {
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-}
-
-.menu-button.right {
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-}
-
 
 
 /* Летящие руны */
