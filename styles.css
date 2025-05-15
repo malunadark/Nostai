@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: black;
+  background: url('assets/Nostai.png') no-repeat center center fixed;
   color: white;
   font-family: 'DeutschGothic', serif;
   overflow: hidden;
