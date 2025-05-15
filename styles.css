@@ -1,12 +1,16 @@
+@font-face {
+  font-family: 'DeutschGothic';
+  src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+}
+
 body {
   margin: 0;
-  background: url('./assets/Nostai.png') no-repeat center center fixed; /* <-- Добавь ./ */
-  background-size: cover; /* ОБЯЗАТЕЛЬНО, если хочешь, чтобы картинка покрывала весь экран */
+  background: url('assets/Nostai.png') no-repeat center center fixed;
+  background-size: cover;
   color: white;
   font-family: 'DeutschGothic', serif;
   overflow: hidden;
 }
-
 
 .star-container {
   position: absolute;
@@ -15,7 +19,6 @@ body {
   transform: translate(-50%, -50%);
   width: 600px;
   height: 600px;
-  position: relative;
 }
 
 .title {
@@ -67,6 +70,7 @@ body {
   right: 0;
   transform: translateY(-50%);
 }
+
 
 
 /* Летящие руны */
