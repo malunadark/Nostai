@@ -1,10 +1,12 @@
 body {
   margin: 0;
-  background: url('assets/Nostai.png') no-repeat center center fixed;
+  background: url('./assets/Nostai.png') no-repeat center center fixed; /* <-- Добавь ./ */
+  background-size: cover; /* ОБЯЗАТЕЛЬНО, если хочешь, чтобы картинка покрывала весь экран */
   color: white;
   font-family: 'DeutschGothic', serif;
   overflow: hidden;
 }
+
 
 main {
   position: absolute;
