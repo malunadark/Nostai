@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'DeutschGothic';
-  src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
 }
 
 @font-face {
@@ -48,7 +48,7 @@ body {
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid white;
   color: white;
-  font-family: 'DeutschGothic', serif;
+  font-family: 'Deutsch Gothic', serif;
   font-size: 18px;
   cursor: pointer;
   text-align: center;
