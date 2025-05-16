@@ -8,6 +8,11 @@
   src: url('assets/fonts/DestroyCyr.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'FutharkAoe.ttf';
+  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   padding: 0;
