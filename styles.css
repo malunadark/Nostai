@@ -1,4 +1,4 @@
-/* Шрифты */
+/* ШРИФТЫ */
 @font-face {
   font-family: 'Deutsch Gothic';
   src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
@@ -14,7 +14,7 @@
   src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
 
-/* Основные стили страницы */
+/* ОБЩИЕ СТИЛИ */
 html, body {
   margin: 0;
   padding: 0;
@@ -25,7 +25,7 @@ html, body {
   background: url('assets/Nostai.png') center/cover no-repeat fixed;
 }
 
-/* Фоновый контейнер на случай использования div.background */
+/* ФОН */
 .background {
   position: fixed;
   inset: 0;
@@ -33,15 +33,32 @@ html, body {
   background-size: cover;
   background-position: center;
   z-index: 0;
-  filter: brightness(1);
+  transition: filter 0.5s ease;
 }
 
-/* Заголовок NOSTAI */
+/* ПРИГЛУШЕНИЕ ФОНА */
+.background.dimmed {
+  filter: brightness(0.4) blur(2px);
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 3;
+  display: none;
+}
+.overlay.active {
+  display: block;
+}
+
+/* ЗАГОЛОВОК */
 .nostai-title {
   position: absolute;
-  top: 35%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   font-family: 'DestroyCyr', sans-serif;
   font-size: 64px;
   color: white;
@@ -50,7 +67,7 @@ html, body {
   pointer-events: none;
 }
 
-/* Кнопки меню */
+/* КНОПКИ ПО КРУГУ */
 .menu-button {
   width: 200px;
   height: 60px;
@@ -65,7 +82,6 @@ html, body {
   font-family: 'Deutsch Gothic', serif;
   transition: all 0.3s ease;
 }
-
 .menu-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #ff6600;
@@ -73,7 +89,32 @@ html, body {
   cursor: pointer;
 }
 
-/* Контейнер для рун */
+/* РАСПОЛОЖЕНИЕ КНОПОК ПО ЗВЕЗДЕ */
+.menu-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  z-index: 2;
+}
+
+.menu-container .menu-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center -180px;
+}
+
+/* Углы звезды (можно регулировать под дизайн) */
+.menu-button:nth-child(1) { transform: rotate(0deg)   translateX(-50%) translateY(-180px); }  /* Верх */
+.menu-button:nth-child(2) { transform: rotate(72deg)  translateX(-50%) translateY(-180px); }
+.menu-button:nth-child(3) { transform: rotate(144deg) translateX(-50%) translateY(-180px); }
+.menu-button:nth-child(4) { transform: rotate(216deg) translateX(-50%) translateY(-180px); }
+.menu-button:nth-child(5) { transform: rotate(288deg) translateX(-50%) translateY(-180px); }
+
+/* ЛЕТАЮЩИЕ РУНЫ */
 #flying-runes {
   position: fixed;
   top: 0;
@@ -84,22 +125,24 @@ html, body {
   z-index: 1;
 }
 
-/* Одна руна */
 .rune {
   position: absolute;
   font-family: 'FutharkAoe', serif;
   font-size: 24px;
   color: rgba(255, 255, 255, 0.4);
-  animation: floatRune 12s linear forwards;
+  animation: fadeFloatRune 12s ease-in-out infinite;
 }
 
-/* Анимация руны */
-@keyframes floatRune {
+/* ПЛАВНОЕ ПАРЕНИЕ РУН */
+@keyframes fadeFloatRune {
   0% {
     transform: translateY(100vh) rotate(0deg);
     opacity: 0;
   }
-  10% {
+  20% {
+    opacity: 1;
+  }
+  80% {
     opacity: 1;
   }
   100% {
