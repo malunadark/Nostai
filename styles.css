@@ -1,3 +1,4 @@
+/* Шрифты */
 @font-face {
   font-family: 'Deutsch Gothic';
   src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
@@ -9,34 +10,36 @@
 }
 
 @font-face {
-  font-family: 'FutharkAoe.ttf';
+  font-family: 'FutharkAoe';
   src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
 
-body {
+/* Основные стили страницы */
+html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Deutsch Gothic', sans-serif;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-  background: black;
-  position: relative;
-  height: 100vh;
-  width: 100vw;
+  font-family: 'Deutsch Gothic', serif;
+  background: url('assets/Nostai.png') center/cover no-repeat fixed;
 }
 
+/* Фоновый контейнер на случай использования div.background */
 .background {
-  background-image: url('assets/Nostai.png'); /* путь к фону */
+  position: fixed;
+  inset: 0;
+  background-image: url('assets/Nostai.png');
   background-size: cover;
   background-position: center;
-  position: absolute;
-  inset: 0;
   z-index: 0;
   filter: brightness(1);
 }
 
+/* Заголовок NOSTAI */
 .nostai-title {
   position: absolute;
-  top: 35%; /* Чуть выше середины */
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'DestroyCyr', sans-serif;
@@ -44,8 +47,10 @@ body {
   color: white;
   z-index: 2;
   text-shadow: 0 0 10px #ff6600;
+  pointer-events: none;
 }
 
+/* Кнопки меню */
 .menu-button {
   width: 200px;
   height: 60px;
@@ -57,6 +62,7 @@ body {
   font-size: 18px;
   position: absolute;
   z-index: 2;
+  font-family: 'Deutsch Gothic', serif;
   transition: all 0.3s ease;
 }
 
@@ -67,9 +73,7 @@ body {
   cursor: pointer;
 }
 
-
-
-/* Летящие руны */
+/* Контейнер для рун */
 #flying-runes {
   position: fixed;
   top: 0;
@@ -80,14 +84,16 @@ body {
   z-index: 1;
 }
 
+/* Одна руна */
 .rune {
   position: absolute;
   font-family: 'FutharkAoe', serif;
   font-size: 24px;
-  color: rgba(255,255,255,0.4);
-  animation: floatRune 10s linear infinite;
+  color: rgba(255, 255, 255, 0.4);
+  animation: floatRune 12s linear forwards;
 }
 
+/* Анимация руны */
 @keyframes floatRune {
   0% {
     transform: translateY(100vh) rotate(0deg);
