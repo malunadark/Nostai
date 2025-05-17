@@ -48,3 +48,14 @@ function createRune() {
 }
 
 setInterval(createRune, 1000);
+
+function openModal() {
+  document.querySelector('.overlay').classList.add('active');
+  document.querySelector('.background').classList.add('dimmed');
+}
+
+function closeModal() {
+  document.querySelector('.overlay').classList.remove('active');
+  document.querySelector('.background').classList.remove('dimmed');
+}
+
