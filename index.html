@@ -3,130 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>NOSTAI</title>
-  <link rel="stylesheet" href="assets/fonts/> <!-- Подключи свои шрифты здесь -->
-  <style>
-    body {
-      margin: 0;
-      background: url('assets/Nostai.png') center/cover no-repeat;
-      overflow: hidden;
-      font-family: 'Deutsch Gothic', serif;
-    }
-
-    #nostai-title {
-      position: absolute;
-      top: 35%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 64px;
-      color: white;
-      text-shadow: 0 0 15px #ff5722;
-      font-family: 'DestroyCyr', serif;
-      z-index: 5;
-    }
-
-    .menu-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 400px;
-      height: 400px;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-    }
-
-    .menu-btn {
-      position: absolute;
-      width: 180px;
-      height: 50px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-180px) rotate(calc(-1 * var(--angle)));
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: 1px solid white;
-      font-size: 16px;
-      cursor: pointer;
-      font-family: 'Deutsch Gothic', serif;
-    }
-
-    #mute-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      background: transparent;
-      color: white;
-      border: none;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    #flying-runes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .rune {
-      position: absolute;
-      top: -40px;
-      color: #fff;
-      animation: fall linear forwards;
-      opacity: 0.8;
-      font-family: 'Futhark Aoe', sans-serif;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-
-    #modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-    }
-
-    .modal-content {
-      background: #222;
-      margin: 10% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 60%;
-      color: white;
-      font-family: 'Deutsch Gothic', serif;
-      position: relative;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 28px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div id="flying-runes"></div>
-
-<h1 id="nostai-title">NOSTAI</h1>
-
 <div class="background"></div>
 <div class="overlay" id="modal-overlay"></div>
-<div id="flying-runes"></div>
 
 <h1 class="nostai-title">NOSTAI</h1>
 
@@ -140,11 +23,13 @@
 
 <button id="mute-btn">🔊</button>
 
+<div id="flying-runes"></div>
+
 <audio id="bg-audio" loop preload="auto">
   <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Модалка -->
+<!-- Модальное окно -->
 <div id="modal">
   <div class="modal-content">
     <span class="close-btn">&times;</span>
@@ -154,7 +39,6 @@
 </div>
 
 <script>
-// Описания для кнопок
 const descriptions = {
   "Хроники Забвения": "🔥 Архив сожжённой памяти, отражения войн, провалов и ритуалов забвения.",
   "Порог Тайны": "💧 Врата между мирами, где истина и иллюзия сплетаются в одно.",
@@ -163,8 +47,7 @@ const descriptions = {
   "Вход в Бездну": "🌑 Путь вглубь собственной тьмы. Обратной дороги нет."
 };
 
-// Модалка
-document.querySelectorAll('.menu-btn').forEach(btn => {
+document.querySelectorAll('.menu-button').forEach(btn => {
   btn.addEventListener('click', () => {
     const title = btn.textContent.trim();
     document.getElementById('modal-title').innerText = title;
@@ -172,11 +55,11 @@ document.querySelectorAll('.menu-btn').forEach(btn => {
     document.getElementById('modal').style.display = 'block';
   });
 });
+
 document.querySelector('.close-btn').addEventListener('click', () => {
   document.getElementById('modal').style.display = 'none';
 });
 
-// Аудио
 const audio = document.getElementById('bg-audio');
 const muteBtn = document.getElementById('mute-btn');
 
@@ -197,18 +80,22 @@ muteBtn.addEventListener('click', () => {
   }
 });
 
-// Летающие руны
+// Летающие руны с разной анимацией
+const runeAnimations = ['float', 'rotate', 'scale', 'wobble'];
+
 function createRune() {
   const rune = document.createElement('div');
   rune.className = 'rune';
   rune.innerText = ['ᚠ','ᛉ','ᛏ','ᛃ','ᛗ','ᚨ'][Math.floor(Math.random() * 6)];
   rune.style.left = Math.random() * 100 + 'vw';
-  rune.style.fontSize = (Math.random() * 20 + 20) + 'px';
-  rune.style.animationDuration = (Math.random() * 10 + 10) + 's';
+  rune.style.top = Math.random() * 100 + 'vh';
+  rune.style.fontSize = (Math.random() * 30 + 20) + 'px';
+  rune.classList.add(runeAnimations[Math.floor(Math.random() * runeAnimations.length)]);
   document.getElementById('flying-runes').appendChild(rune);
   setTimeout(() => rune.remove(), 15000);
 }
-setInterval(createRune, 1000);
+
+setInterval(createRune, 800);
 </script>
 
 </body>
