@@ -15,7 +15,7 @@
 }
 
 /* ОБЩИЕ СТИЛИ */
-html, body {
+  body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -26,7 +26,7 @@ html, body {
 }
 
 /* ФОН */
-.background {
+.background image{
   position: fixed;
   inset: 0;
   background-image: url('assets/Nostai.png');
