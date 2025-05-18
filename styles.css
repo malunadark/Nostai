@@ -72,6 +72,20 @@ html, body {
   z-index: 2;
 }
 
+.menu-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+}
+
+/* Положение кнопок по звезде */
+.rotate1 { transform: rotate(0deg) translateY(-180px); }
+.rotate2 { transform: rotate(72deg) translateY(-180px); }
+.rotate3 { transform: rotate(144deg) translateY(-180px); }
+.rotate4 { transform: rotate(216deg) translateY(-180px); }
+.rotate5 { transform: rotate(288deg) translateY(-180px); }
+
 .menu-button {
   width: 200px;
   height: 60px;
@@ -81,11 +95,14 @@ html, body {
   text-align: center;
   line-height: 60px;
   font-size: 18px;
-  position: absolute;
-  z-index: 2;
   font-family: 'Deutsch Gothic', serif;
   transition: all 0.3s ease;
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
+
+/* ХОВЕР */
 .menu-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #ff6600;
@@ -93,13 +110,50 @@ html, body {
   cursor: pointer;
 }
 
-.menu-button:nth-child(1) { transform: rotate(0deg)   translateX(-50%) translateY(-180px); }
-.menu-button:nth-child(2) { transform: rotate(72deg)  translateX(-50%) translateY(-180px); }
-.menu-button:nth-child(3) { transform: rotate(144deg) translateX(-50%) translateY(-180px); }
-.menu-button:nth-child(4) { transform: rotate(216deg) translateX(-50%) translateY(-180px); }
-.menu-button:nth-child(5) { transform: rotate(288deg) translateX(-50%) translateY(-180px); }
+/* УНИКАЛЬНЫЕ АНИМАЦИИ */
+.menu-wrapper:nth-child(1) .menu-button {
+  animation-name: pulseSubtle;
+}
+.menu-wrapper:nth-child(2) .menu-button {
+  animation-name: floatSubtle;
+}
+.menu-wrapper:nth-child(3) .menu-button {
+  animation-name: rotateSubtle;
+}
+.menu-wrapper:nth-child(4) .menu-button {
+  animation-name: skewSubtle;
+}
+.menu-wrapper:nth-child(5) .menu-button {
+  animation-name: waveSubtle;
+}
 
-/* МУТ БАТТОН */
+/* АНИМАЦИИ */
+@keyframes pulseSubtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes rotateSubtle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes skewSubtle {
+  0%, 100% { transform: skew(0deg); }
+  50% { transform: skew(0.5deg, 0.5deg); }
+}
+
+@keyframes waveSubtle {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+/* КНОПКА ЗВУКА */
 #mute-btn {
   position: absolute;
   top: 10px;
