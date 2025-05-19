@@ -3,101 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <title>NOSTAI</title>
-  <link rel="stylesheet" href="assets/fonts/fonts.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Фон и дым -->
+  <div class="background"></div>
+  <div class="smoke"></div>
 
-<div class="background"></div>
-<div class="overlay" id="modal-overlay"></div>
+  <!-- Музыкальная кнопка -->
+  <button id="mute-btn">🔊</button>
+  <audio id="background-audio" autoplay loop>
+    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-<h1 class="nostai-title">NOSTAI</h1>
+  <!-- Заголовок -->
+  <div class="nostai-title">NOSTAI</div>
 
-<div class="menu-container">
-  <div class="menu-wrapper rotate1"><div class="menu-button">Голос Тени</div></div>
-  <div class="menu-wrapper rotate2"><div class="menu-button">Дары Провидцев</div></div>
-  <div class="menu-wrapper rotate3"><div class="menu-button">Хроники Забвения</div></div>
-  <div class="menu-wrapper rotate4"><div class="menu-button">Порог Тайны</div></div>
-  <div class="menu-wrapper rotate5"><div class="menu-button">Вход в Бездну</div></div>
-</div>
-
-
-<button id="mute-btn">🔊</button>
-
-<div id="flying-runes"></div>
-
-<audio id="bg-audio" loop preload="auto">
-  <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Модальное окно -->
-<div id="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2 id="modal-title"></h2>
-    <p id="modal-text"></p>
+  <!-- Звезда-кнопки -->
+  <div class="menu-container">
+    <div class="menu-button" style="top: -100px; left: 100px;">Фракции</div>
+    <div class="menu-button" style="top: 100px; left: -100px;">Лор</div>
+    <div class="menu-button" style="top: 200px; left: 100px;">Магазин</div>
+    <div class="menu-button" style="top: 100px; left: 300px;">О проекте</div>
+    <div class="menu-button" style="top: 400px; left: 100px;">Войти</div>
   </div>
-</div>
 
-<script>
-const descriptions = {
-  "Хроники Забвения": "🔥 Архив сожжённой памяти, отражения войн, провалов и ритуалов забвения.",
-  "Порог Тайны": "💧 Врата между мирами, где истина и иллюзия сплетаются в одно.",
-  "Голос Тени": "⚔ Тайный орден, рожденный из боли и темноты. Их клятвы вечны.",
-  "Дары Провидцев": "➿ Наследие тех, кто видел сквозь время. Дары, изменяющие судьбу.",
-  "Вход в Бездну": "🌑 Путь вглубь собственной тьмы. Обратной дороги нет."
-};
+  <!-- Летающие руны -->
+  <div class="rune rune1">ᚨ</div>
+  <div class="rune rune2">ᛉ</div>
+  <div class="rune rune3">ᛟ</div>
+  <div class="rune rune4">ᚲ</div>
+  <div class="rune rune5">ᛏ</div>
 
-document.querySelectorAll('.menu-button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const title = btn.textContent.trim();
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-text').innerText = descriptions[title] || "Скрытый раздел...";
-    document.getElementById('modal').style.display = 'block';
-  });
-});
+  <script>
+    const audio = document.getElementById('background-audio');
+    const muteBtn = document.getElementById('mute-btn');
+    let isMuted = false;
 
-document.querySelector('.close-btn').addEventListener('click', () => {
-  document.getElementById('modal').style.display = 'none';
-});
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteBtn.textContent = isMuted ? '🔇' : '🔊';
+    });
 
-const audio = document.getElementById('bg-audio');
-const muteBtn = document.getElementById('mute-btn');
-
-document.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.volume = 0.6;
-    audio.play().catch(e => console.log('Не удалось воспроизвести аудио:', e));
-  }
-}, { once: true });
-
-muteBtn.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.play();
-    muteBtn.textContent = '🔊';
-  } else {
-    audio.pause();
-    muteBtn.textContent = '🔇';
-  }
-});
-
-// Летающие руны с разной анимацией
-const runeAnimations = ['float', 'rotate', 'scale', 'wobble'];
-
-function createRune() {
-  const rune = document.createElement('div');
-  rune.className = 'rune';
-  rune.innerText = ['ᚠ','ᛉ','ᛏ','ᛃ','ᛗ','ᚨ'][Math.floor(Math.random() * 6)];
-  rune.style.left = Math.random() * 100 + 'vw';
-  rune.style.top = Math.random() * 100 + 'vh';
-  rune.style.fontSize = (Math.random() * 30 + 20) + 'px';
-  rune.classList.add(runeAnimations[Math.floor(Math.random() * runeAnimations.length)]);
-  document.getElementById('flying-runes').appendChild(rune);
-  setTimeout(() => rune.remove(), 15000);
-}
-
-setInterval(createRune, 800);
-</script>
-
+    // Автовоспроизведение (обход для некоторых браузеров)
+    window.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
+  </script>
 </body>
 </html>
