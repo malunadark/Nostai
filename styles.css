@@ -23,6 +23,26 @@ html, body {
   background: black;
 }
 
+.broadcast-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: 'Deutsch Gothic', serif;
+  text-decoration: none;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 14px;
+  border: 1px solid #00ffe0;
+  color: #00ffe0;
+  font-size: 16px;
+  z-index: 1000;
+  transition: background 0.3s;
+}
+
+.broadcast-btn:hover {
+  background: rgba(0,0,0,0.9);
+}
+
+
 /* Фон */
 .background {
   position: fixed;
