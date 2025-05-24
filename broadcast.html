@@ -1,0 +1,54 @@
+broadcast.html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>📡 Вещательная — NOSTAI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-color: #111; color: #c0ffdf; font-family: 'Courier New', monospace; margin: 0; padding: 20px;">
+
+  <h1 style="color:#6cffea;">📡 ЭФИР ВЕЩАНИЯ</h1>
+  <p style="color:#888;">Передача фоновая. Прослушивание открытого канала фракций. <br>Содержимое не поддаётся верификации.</p>
+
+  <div class="radio-chat" style="position: relative; width: 90%; max-width: 600px; height: 300px; margin-top: 20px;">
+    <div class="chat-window" id="chat-window"></div>
+  </div>
+
+  <script>
+    const chatWindow = document.getElementById("chat-window");
+
+    const factions = {
+      "МЧС": "#ff4444",
+      "ВС РФ": "#8888ff",
+      "Красный Крест": "#ffffff",
+      "Волонтёры": "#88ff88"
+    };
+
+    const messages = [
+      { faction: "МЧС", text: "Северный сектор. Обнаружены очаги тления. Сохраняйте осторожность." },
+      { faction: "ВС РФ", text: "Колонна на подходе. Времени почти не осталось." },
+      { faction: "Красный Крест", text: "Пункт приёма пострадавших перенесён на точку D-3." },
+      { faction: "Волонтёры", text: "Видели странные огни у разрушенного туннеля. Кто подтвердит?" },
+      { faction: "МЧС", text: "Ожидается повторное задымление. Срочно укрепите периметр." },
+      { faction: "ВС РФ", text: "Эвакуация приостановлена. Причина: неизвестные сигналы." },
+      { faction: "Красный Крест", text: "В лагере нехватка медикаментов. Кто может доставить?" },
+      { faction: "Волонтёры", text: "Радиосигнал с юга… кто-нибудь ещё это слышал?" }
+    ];
+
+    function addChatLine() {
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      const line = document.createElement("div");
+      line.className = "chat-line";
+      line.innerHTML = `<span style="color: ${factions[msg.faction]}; font-weight: bold;">[${msg.faction}]</span> ${msg.text}`;
+      chatWindow.appendChild(line);
+      if (chatWindow.children.length > 12) {
+        chatWindow.removeChild(chatWindow.firstChild);
+      }
+    }
+
+    setInterval(addChatLine, 5000);
+  </script>
+
+</body>
+</html>
