@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Uncial Antiqua', serif;
+  background: url('assets/bg-parchment.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.book-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 40px;
+}
+
+.book-left-page,
+.book-right-page {
+  width: 45%;
+  height: 80%;
+  background: rgba(255, 248, 220, 0.92); /* пергамент */
+  padding: 40px;
+  border: 3px double #5e3b2c;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  margin: 0 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.book-left-page h2 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #3b1f0f;
+  text-align: center;
+}
+
+.chapter-list {
+  list-style: none;
+  padding: 0;
+}
+
+.chapter-list li {
+  cursor: pointer;
+  margin: 12px 0;
+  transition: all 0.3s ease;
+  color: #4a2a16;
+}
+
+.chapter-list li:hover {
+  color: #8b0000;
+  text-shadow: 0 0 5px #8b0000;
+}
+
+#chapter-content {
+  color: #2d1a0b;
+}
