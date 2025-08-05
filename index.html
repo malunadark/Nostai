@@ -5,60 +5,54 @@
   <title>NOSTAI</title>
   <link rel="stylesheet" href="styles.css">
 
-  <style>
-    /* Заголовок со свечением */
-    .nostai-title {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 48px;
-      font-family: 'Georgia', serif;
-      text-align: center;
-      z-index: 2;
-      animation: subtleGlow 6s ease-in-out infinite;
-    }
+<style>
+@font-face {
+  font-family: 'Deutsch Gothic';
+  src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+}
 
-    /* Подзаголовок */
-    .nostai-subtitle {
-      position: absolute;
-      top: 52%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 20px;
-      font-style: italic;
-      text-align: center;
-      z-index: 2;
-    }
+.nostai-subtitle {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-style: italic;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(to right, #a0a0a0, #4f4f4f, #2a2a2a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  z-index: 2;
+}
 
-    @keyframes subtleGlow {
-      0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.1); }
-      50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
-    }
+@keyframes subtleGlow {
+  0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.1); }
+  50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+}
 
-    /* Кнопки меню */
-    .menu-button {
-      position: absolute;
-      color: #ccc;
-      font-family: 'Georgia', serif;
-      font-size: 16px;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 2;
-    }
-
-    .menu-button:hover {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      transform: scale(1.05);
-    }
-
+/* Остальной CSS без изменений... */
+<style>
+ .menu-button {
+  position: absolute;
+  color: #b0b0b0; /* Стальной серый */
+  font-family: 'Deutsch Gothic', serif;
+  font-size: 16px;
+  padding: 8px 12px;
+  background: rgba(20, 20, 20, 0.65); /* более тёмный фон */
+  border: 1px solid rgba(160, 160, 160, 0.3); /* холодная граница */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  text-align: center;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+}
+.menu-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #d0d0d0;
+  transform: scale(1.05);
+}
     /* Виньетка поверх */
     .vignette {
       position: fixed;
@@ -81,7 +75,6 @@
       z-index: 1;
       overflow: hidden;
     }
-
     /* ДЫМ */
     .smoke-layer {
       width: 200%;
@@ -198,3 +191,4 @@
   </script>
 </body>
 </html>
+
