@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Хроники Забвения</title>
 
-  <!-- ✅ Подключение шрифта в стиле старинной книги -->
+  <!-- Шрифты -->
   <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Cinzel+Decorative&display=swap" rel="stylesheet">
 
-  <!-- ✅ Подключение CSS -->
+  <!-- Стили -->
   <link rel="stylesheet" href="chronicles.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <!-- Скрипт для смены глав -->
+  <!-- Скрипт смены глав -->
   <script>
     const chapterContent = {
       1: "Глава I — Когда пепел ещё не остыл, начали шептать забытые имена...",
@@ -37,10 +37,10 @@
     document.querySelectorAll(".chapter-list li").forEach(item => {
       item.addEventListener("click", () => {
         const chapterId = item.getAttribute("data-chapter");
-        document.getElementById("chapter-content").innerHTML = `<p>${chapterContent[chapterId]}</p>`;
+        const content = document.getElementById("chapter-content");
+        content.innerHTML = `<p>${chapterContent[chapterId]}</p>`;
       });
     });
   </script>
 </body>
 </html>
-
