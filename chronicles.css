@@ -16,7 +16,7 @@
 /* Шрифты и фон для всей страницы */
 body {
   font-family: 'Uncial Antiqua', 'Cinzel Decorative', serif;
-  background: url('assets/parchment.png') repeat;
+  background: url('assets/parchment.jpg') repeat;
   margin: 0;
   padding: 0;
   color: #3b2f2f;
