@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Хроники Забвения</title>
-
-  <!-- Шрифты -->
-  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Cinzel+Decorative&display=swap" rel="stylesheet">
-
-  <!-- Стили -->
-  <link rel="stylesheet" href="chronicles.css">
+  <link rel="stylesheet" href="chronicles.css"> <!-- Убедись, что путь верный -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Uncial+Antiqua&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="book-container">
     <div class="book-left-page">
       <h2>Хроники Забвения</h2>
       <ul class="chapter-list">
-        <li data-chapter="1">Глава I — Пробуждение</li>
-        <li data-chapter="2">Глава II — Пепел Времени</li>
-        <li data-chapter="3">Глава III — Тени на Алтае</li>
+        <li class="chapter-link" data-chapter="chapter1">Глава <strong>I</strong> — Пробуждение</li>
+        <li class="chapter-link" data-chapter="chapter2">Глава <strong>II</strong> — Пепел Времени</li>
+        <li class="chapter-link" data-chapter="chapter3">Глава <strong>III</strong> — Тени на Алтае</li>
       </ul>
     </div>
     <div class="book-right-page" id="chapter-content">
-      <p>Выберите главу, чтобы начать чтение...</p>
+      Выберите главу, чтобы начать чтение...
     </div>
   </div>
 
-  <!-- Скрипт смены глав -->
   <script>
-    const chapterContent = {
-      1: "Глава I — Когда пепел ещё не остыл, начали шептать забытые имена...",
-      2: "Глава II — Мир рушился не мгновенно. Он трескался, как лёд под ногами.",
-      3: "Глава III — Дым застилал горы, а в глазах стариков плескались тени."
+    const contentElement = document.getElementById('chapter-content');
+
+    const chapters = {
+      'chapter1': `
+        <h2>Глава I — Пробуждение</h2>
+        <p>Тьма ещё не рассеялась, когда первый свет проник сквозь завесу Забвения...</p>
+      `,
+      'chapter2': `
+        <h2>Глава II — Пепел Времени</h2>
+        <p>Пески времени давно истёрли истину, но тени прошлого вновь сгущаются...</p>
+      `,
+      'chapter3': `
+        <h2>Глава III — Тени на Алтае</h2>
+        <p>Склоны Алтая покрыты туманом, в котором скрываются забытые легенды...</p>
+      `
     };
 
-    document.querySelectorAll(".chapter-list li").forEach(item => {
-      item.addEventListener("click", () => {
-        const chapterId = item.getAttribute("data-chapter");
-        const content = document.getElementById("chapter-content");
-        content.innerHTML = `<p>${chapterContent[chapterId]}</p>`;
+    document.querySelectorAll('.chapter-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const chapterId = link.getAttribute('data-chapter');
+        contentElement.innerHTML = chapters[chapterId];
+        contentElement.classList.add('fade-in');
+        setTimeout(() => contentElement.classList.remove('fade-in'), 500);
       });
     });
   </script>
 </body>
 </html>
+
