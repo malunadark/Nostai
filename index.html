@@ -149,14 +149,14 @@
     <div class="shadow shadow-2"></div>
   </div>
 
-  <!-- Звезда-кнопки -->
-  <div class="menu-container">
-    <div class="menu-button" style="top: -100px; left: 100px;">Голос Тени</div>
-    <div class="menu-button" style="top: 100px; left: -100px;">Дары Провидцев</div>
-    <div class="menu-button" style="top: 200px; left: 100px;">Хроники Забвения</div>
-    <div class="menu-button" style="top: 100px; left: 300px;">Порог Тайны</div>
-    <div class="menu-button" id="enterBtn" style="top: 400px; left: 100px;">Вход в Бездну</div>
-  </div>
+
+ <!-- Звезда-кнопки -->
+<div class="menu-button" style="top: -100px; left: 100px;">Голос Тени</div>
+<div class="menu-button" style="top: 100px; left: -100px;">Дары Провидцев</div>
+<div class="menu-button" id="chroniclesBtn" style="top: 200px; left: 100px;">Хроники Забвения</div> <!-- ✅ Вот здесь ID -->
+<div class="menu-button" style="top: 100px; left: 300px;">Порог Тайны</div>
+<div class="menu-button" id="enterBtn" style="top: 400px; left: 100px;">Вход в Бездну</div>
+
 
   <!-- Летающие руны -->
   <div class="rune rune1">ᚨ</div>
@@ -191,4 +191,36 @@
   </script>
 </body>
 </html>
+
+<script>
+  const audio = document.getElementById('background-audio');
+  const muteBtn = document.getElementById('mute-btn');
+  let isMuted = false;
+
+  muteBtn.addEventListener('click', () => {
+    isMuted = !isMuted;
+    audio.muted = isMuted;
+    muteBtn.textContent = isMuted ? '🔇' : '🔊';
+  });
+
+  window.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().catch(() => {});
+    }
+  }, { once: true });
+
+  // Переход на "Вход в Бездну"
+  document.getElementById('enterBtn').addEventListener('click', () => {
+    window.location.href = 'register.html';
+  });
+
+  // Переход на "Хроники Забвения"
+  document.getElementById('chroniclesBtn').addEventListener('click', () => {
+    window.location.href = 'chronicles.html'; // Убедись, что файл существует
+  });
+</script>
+
+
+
+
 
