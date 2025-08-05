@@ -1,4 +1,19 @@
-/* Шрифты */
+/* Подключение кастомных шрифтов */
+@font-face {
+  font-family: 'Uncial Antiqua';
+  src: url('assets/fonts/UncialAntiqua.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cinzel Decorative';
+  src: url('assets/fonts/CinzelDecorative.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Шрифты и фон для всей страницы */
 body {
   font-family: 'Uncial Antiqua', 'Cinzel Decorative', serif;
   background: url('assets/parchment.png') repeat;
@@ -18,6 +33,7 @@ body {
   padding: 20px;
   border-radius: 12px;
   animation: fadeIn 1.5s ease;
+  font-family: 'Cinzel Decorative', serif; /* отдельно для книги */
 }
 
 /* Левая и правая страницы */
@@ -75,4 +91,5 @@ body {
   font-size: 18px;
   line-height: 1.6;
 }
+
 
