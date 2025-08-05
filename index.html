@@ -165,34 +165,7 @@
   <div class="rune rune4">ᚲ</div>
   <div class="rune rune5">ᛏ</div>
 
-  <!-- Скрипты -->
   <script>
-    const audio = document.getElementById('background-audio');
-    const muteBtn = document.getElementById('mute-btn');
-    let isMuted = false;
-
-    muteBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      audio.muted = isMuted;
-      muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    });
-
-    // Автовоспроизведение
-    window.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(() => {});
-      }
-    }, { once: true });
-
-    // Переход при нажатии на "Вход в Бездну"
-    document.getElementById('enterBtn').addEventListener('click', () => {
-      window.location.href = 'register.html';
-    });
-  </script>
-</body>
-</html>
-
-<script>
   const audio = document.getElementById('background-audio');
   const muteBtn = document.getElementById('mute-btn');
   let isMuted = false;
@@ -216,11 +189,10 @@
 
   // Переход на "Хроники Забвения"
   document.getElementById('chroniclesBtn').addEventListener('click', () => {
-    window.location.href = 'chronicles.html'; // Убедись, что файл существует
+    window.location.href = 'chronicles.html';
   });
 </script>
+</body>
+</html>
 
-
-
-
-
+  
