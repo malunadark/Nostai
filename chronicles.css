@@ -1,14 +1,14 @@
 /* Подключение кастомных шрифтов */
 @font-face {
   font-family: 'Uncial Antiqua';
-  src: url('assets/fonts/UncialAntiqua.ttf') format('truetype');
+  src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Cinzel Decorative';
-  src: url('assets/fonts/CinzelDecorative.ttf') format('truetype');
+  src: url('assets/fonts/CinzelDecorative-Black.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
