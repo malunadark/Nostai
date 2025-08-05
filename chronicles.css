@@ -81,15 +81,19 @@ body {
 }
 
 /* Анимация появления текста */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
 }
 
-#chapter-content p {
-  animation: fadeIn 0.5s ease-in;
-  font-size: 18px;
-  line-height: 1.6;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
