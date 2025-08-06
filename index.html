@@ -5,128 +5,129 @@
   <title>NOSTAI</title>
   <link rel="stylesheet" href="styles.css">
 
-<style>
-@font-face {
-  font-family: 'Deutsch Gothic';
-  src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-}
+  <style>
+  @font-face {
+    font-family: 'Deutsch Gothic';
+    src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
+  }
 
-.nostai-subtitle {
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  font-style: italic;
-  font-family: 'Georgia', serif;
-  background: linear-gradient(to right, #a0a0a0, #4f4f4f, #2a2a2a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  z-index: 2;
-}
+  .nostai-title {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 60px; /* уменьшено */
+    font-family: 'Deutsch Gothic', serif;
+    color: white;
+    text-shadow: 0 0 20px #ff5e00;
+    z-index: 3;
+  }
 
-@keyframes subtleGlow {
-  0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.1); }
-  50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
-}
+  .nostai-subtitle {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-style: italic;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(to right, #a0a0a0, #4f4f4f, #2a2a2a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    z-index: 2;
+  }
 
-/* Остальной CSS без изменений... */
-<style>
- .menu-button {
-  position: absolute;
-  color: #b0b0b0; /* Стальной серый */
-  font-family: 'Deutsch Gothic', serif;
-  font-size: 16px;
-  padding: 8px 12px;
-  background: rgba(20, 20, 20, 0.65); /* более тёмный фон */
-  border: 1px solid rgba(160, 160, 160, 0.3); /* холодная граница */
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 2;
-  text-align: center;
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
-}
-.menu-button:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #d0d0d0;
-  transform: scale(1.05);
-}
-    /* Виньетка поверх */
-    .vignette {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,0.75) 100%);
-      z-index: 1;
-    }
+  .vignette {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,0.75) 100%);
+    z-index: 1;
+  }
 
-    /* ЗОНА ЗАРАЖЕНИЯ */
-    .infection-zone {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40%;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-    /* ДЫМ */
-    .smoke-layer {
-      width: 200%;
-      height: 100%;
-      background: url('assets/effects/smoke.jpg') repeat-x;
-      background-size: cover;
-      animation: moveSmoke 60s linear infinite;
-      opacity: 0.25;
-      filter: blur(4px);
-    }
+  .infection-zone {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
 
-    @keyframes moveSmoke {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+  .smoke-layer {
+    width: 200%;
+    height: 100%;
+    background: url('assets/effects/smoke.jpg') repeat-x;
+    background-size: cover;
+    animation: moveSmoke 60s linear infinite;
+    opacity: 0.25;
+    filter: blur(4px);
+  }
 
-    /* СИЛУЭТЫ */
-    .shadow {
-      position: absolute;
-      bottom: 0;
-      width: 80px;
-      height: 180px;
-      background: url('assets/effects/shadow.jpg') center/contain no-repeat;
-      opacity: 0;
-      animation: appearShadow 30s infinite;
-      filter: brightness(0.5);
-    }
+  @keyframes moveSmoke {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 
-    .shadow-1 {
-      left: 20%;
-      animation-delay: 10s;
-    }
+  .shadow {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    height: 180px;
+    background: url('assets/effects/shadow.jpg') center/contain no-repeat;
+    opacity: 0;
+    animation: appearShadow 30s infinite;
+    filter: brightness(0.5);
+  }
 
-    .shadow-2 {
-      left: 65%;
-      animation-delay: 20s;
-    }
+  .shadow-1 {
+    left: 20%;
+    animation-delay: 10s;
+  }
 
-    @keyframes appearShadow {
-      0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
-      40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-      50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
-      60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-    }
+  .shadow-2 {
+    left: 65%;
+    animation-delay: 20s;
+  }
+
+  @keyframes appearShadow {
+    0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
+    40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+    50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
+    60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+  }
+
+  .rune {
+    position: absolute;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Georgia', serif;
+    animation: floatRune 20s infinite ease-in-out;
+  }
+
+  @keyframes floatRune {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+
+  .rune1 { top: 20%; left: 10%; animation-delay: 0s; }
+  .rune2 { top: 40%; left: 20%; animation-delay: 5s; }
+  .rune3 { top: 60%; left: 80%; animation-delay: 10s; }
+  .rune4 { top: 70%; left: 50%; animation-delay: 15s; }
+  .rune5 { top: 30%; left: 70%; animation-delay: 20s; }
   </style>
 </head>
-  <!-- Three.js + GLTFLoader -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/loaders/GLTFLoader.js"></script>
-<script src="door-scene.js"></script>
+
 <body>
   <div id="three-container"></div>
+
+  <!-- Вещательная -->
   <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
 
   <!-- Фон и дым -->
@@ -141,7 +142,7 @@
   </audio>
 
   <!-- Заголовок и подзаголовок -->
-  <div class="nostai-title">NOSTAI</div>
+  <div class="nostai-title">ВХОД В БЕЗДНУ</div>
   <div class="nostai-subtitle">Когда ты входишь — ты уже не выходишь прежним.</div>
 
   <!-- Виньетка -->
@@ -154,15 +155,6 @@
     <div class="shadow shadow-2"></div>
   </div>
 
-
-<div class="star-menu">
-  <div class="menu-button" style="top: -100px; left: 100px;">Голос Тени</div>
-  <div class="menu-button" style="top: 100px; left: -100px;">Дары Провидцев</div>
-  <div class="menu-button" id="chroniclesBtn" style="top: 200px; left: 100px;">Хроники Забвения</div>
-  <div class="menu-button" style="top: 100px; left: 300px;">Порог Тайны</div>
-  <div class="menu-button" id="enterBtn" style="top: 400px; left: 100px;">Вход в Бездну</div>
-</div>
-
   <!-- Летающие руны -->
   <div class="rune rune1">ᚨ</div>
   <div class="rune rune2">ᛉ</div>
@@ -170,36 +162,46 @@
   <div class="rune rune4">ᚲ</div>
   <div class="rune rune5">ᛏ</div>
 
+  <!-- Three.js + GLTFLoader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="door-scene.js"></script>
+
   <script>
-  const audio = document.getElementById('background-audio');
-  const muteBtn = document.getElementById('mute-btn');
-  let isMuted = false;
+    const audio = document.getElementById('background-audio');
+    const muteBtn = document.getElementById('mute-btn');
+    let isMuted = false;
 
-  muteBtn.addEventListener('click', () => {
-    isMuted = !isMuted;
-    audio.muted = isMuted;
-    muteBtn.textContent = isMuted ? '🔇' : '🔊';
-  });
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteBtn.textContent = isMuted ? '🔇' : '🔊';
+    });
 
-  window.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play().catch(() => {});
+    window.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
+
+    // Навигация через двери (примеры)
+    const doors = {
+      'door_bezdna': 'register.html',
+      'door_chronicles': 'chronicles.html'
+      // Добавь здесь id моделей дверей и соответствующие ссылки
+    };
+
+    for (const [id, link] of Object.entries(doors)) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('click', () => {
+          el.classList.add('camera-zoom');
+          setTimeout(() => {
+            window.location.href = link;
+          }, 1500); // задержка для анимации
+        });
+      }
     }
-  }, { once: true });
-
-  // Переход на "Вход в Бездну"
-  document.getElementById('enterBtn').addEventListener('click', () => {
-    window.location.href = 'register.html';
-  });
-
-  // Переход на "Хроники Забвения"
-  document.getElementById('chroniclesBtn').addEventListener('click', () => {
-    window.location.href = 'chronicles.html';
-  });
-</script>
+  </script>
 </body>
 </html>
-
-  
-
-
