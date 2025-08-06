@@ -95,3 +95,7 @@ function openDoor(callback) {
 
   requestAnimationFrame(rotate);
 }
+doorBezdna.name = 'door_bezdna';
+doorChronicles.name = 'door_chronicles';
+// и так далее...
+
