@@ -8,20 +8,20 @@
   <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js"></script>
 </head>
 <body>
+
+  <!-- Фон книги -->
   <div class="background"></div>
 
-  <div class="infection-zone">
-    <div class="smoke-layer"></div>
-  </div>
+  <!-- Анимация дыма -->
+  <div class="smoke"></div>
 
-  <div class="shadow shadow-1"></div>
-  <div class="shadow shadow-2"></div>
+  <!-- Тени -->
+  <div class="shadow shadow-left"></div>
+  <div class="shadow shadow-right"></div>
 
+  <!-- Книга -->
   <div id="book">
-    <div class="hard page-cover">
-      <h1>Хроники Забвения</h1>
-      <p class="subtitle">Выбери свою судьбу...</p>
-    </div>
+    <div class="hard page">Хроники Забвения</div>
 
     <div class="page">
       <h2>Глава I — Неизведанное</h2>
@@ -41,10 +41,7 @@
       Лишь те, кто осмелится шагнуть в глубь гор, узнают правду о Пропавших...</p>
     </div>
 
-    <div class="hard page-cover">
-      <h2>Конец первой книги</h2>
-      <p>Продолжение следует...</p>
-    </div>
+    <div class="hard page">Конец первой книги</div>
   </div>
 
   <script>
