@@ -1,63 +1,128 @@
-/* Подключение кастомных шрифтов */
+/* Подключение шрифтов */
 @font-face {
-  font-family: 'Uncial Antiqua';
-  src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'Deutsch Gothic';
+  src: url('assets/Deutsch Gothic.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Cinzel Decorative';
-  src: url('assets/fonts/CinzelDecorative-Black.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'DestroyCyr';
+  src: url('assets/destroycyr.ttf') format('truetype');
 }
 
-/* Шрифты и фон для всей страницы */
-body {
-  font-family: 'Uncial Antiqua', 'Cinzel Decorative', serif;
-  background: url('assets/book.png') no-repeat center center;
-    background-size: cover;
-  color: #a0c8ff;
-font-family:'CinzelDecorative-Black.ttf'
-font-family: 'UncialAntiqua-Regular.ttf' 
-  margin: 0; padding: 20px;
+@font-face {
+  font-family: 'FutharkAoe';
+  src: url('assets/FutharkAoe.ttf') format('truetype');
 }
+
+/* Базовые стили */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  font-family: 'Deutsch Gothic', serif;
+  background: black;
+  color: #eee;
+}
+
+/* Фоновое изображение */
+.background {
+  position: fixed;
+  inset: 0;
+  background-image: url('assets/book.png');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: brightness(0.35);
+}
+
+/* Зона заражения с дымом */
+.infection-zone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.smoke-layer {
+  width: 200%;
+  height: 100%;
+  background: url('assets/smoke.jpg') repeat-x;
+  background-size: cover;
+  animation: moveSmoke 60s linear infinite;
+  opacity: 0.15;
+  filter: blur(4px);
+}
+
+@keyframes moveSmoke {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Тени */
+.shadow {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  height: 180px;
+  background: url('assets/shadow.jpg') center/contain no-repeat;
+  opacity: 0;
+  animation: appearShadow 30s infinite;
+  filter: brightness(0.5);
+  z-index: 0;
+}
+
+.shadow-1 {
+  left: 20%;
+  animation-delay: 10s;
+}
+.shadow-2 {
+  left: 65%;
+  animation-delay: 20s;
+}
+
+@keyframes appearShadow {
+  0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
+  40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+  50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
+  60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+}
+
 /* Контейнер книги */
 .book-container {
+  position: relative;
+  z-index: 1;
   display: flex;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 60px auto;
-  background: #fefaf1;
-  border: 4px solid #aa9166;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-  padding: 20px;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid #555;
   border-radius: 12px;
-  animation: fadeIn 1.5s ease;
-  font-family: 'Cinzel Decorative', serif; /* отдельно для книги */
-}
-
-/* Левая и правая страницы */
-.book-left-page, .book-right-page {
-  flex: 1;
+  box-shadow: 0 0 30px #ff7f50;
+  color: #ffc080;
   padding: 30px;
-  border-right: 1px solid #d1bfa0;
-  background: rgba(255, 252, 240, 0.9);
+  min-height: 400px;
 }
 
-.book-right-page {
-  border-right: none;
-  animation: fadeIn 0.5s ease;
-  transition: all 0.5s ease-in-out;
+/* Левая страница */
+.book-left-page {
+  flex: 1;
+  padding-right: 20px;
+  border-right: 1px solid #444;
 }
 
-/* Заголовок */
 .book-left-page h2 {
+  font-family: 'DestroyCyr', serif;
   font-size: 32px;
-  font-family: 'Cinzel Decorative', serif;
   margin-bottom: 20px;
-  text-align: center;
-  color: #5c4122;
+  text-shadow:
+    0 0 8px #ffb366,
+    0 0 15px #ff7f50;
 }
 
 /* Список глав */
@@ -67,34 +132,38 @@ font-family: 'UncialAntiqua-Regular.ttf'
   margin: 0;
 }
 
-.chapter-list li {
-  margin: 12px 0;
-  font-size: 18px;
+.chapter-link {
+  font-family: 'DestroyCyr', serif;
+  font-size: 22px;
+  margin: 15px 0;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  user-select: none;
+  transition: color 0.3s ease;
 }
 
-.chapter-list li:hover {
-  background-color: #f1e7d0;
-  text-decoration: underline;
+.chapter-link:hover {
+  color: #ff6f00;
+  text-shadow: 0 0 10px #ffb366;
 }
 
-/* Анимация появления текста */
-.fade-in {
+/* Правая страница */
+.book-right-page {
+  flex: 2;
+  padding-left: 25px;
+  font-family: 'UncialAntiqua-Regular', serif;
+  font-size: 20px;
+  line-height: 1.5;
+  overflow-y: auto;
+  max-height: 450px;
+  color: #ffdca0;
+}
+
+/* Анимация появления содержимого */
+#chapter-content.fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-
-
