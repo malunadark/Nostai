@@ -3,25 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <title>Хроники Забвения</title>
-  <link rel="stylesheet" href="chronicles.css"/>
+  <link rel="stylesheet" href="chronicles.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Локальный turn.js -->
-  <script src="turn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
 </head>
 <body>
-  <!-- Фон -->
   <div class="background"></div>
 
-  <!-- Дым -->
   <div class="infection-zone">
     <div class="smoke-layer"></div>
   </div>
 
-  <!-- Тени -->
   <div class="shadow shadow-1"></div>
   <div class="shadow shadow-2"></div>
 
-  <!-- Книга -->
   <div id="book">
     <div class="hard page-cover">
       <h1>Хроники Забвения</h1>
@@ -53,14 +48,13 @@
   </div>
 
   <script>
-    $(function(){
+    $(function() {
       $("#book").turn({
         width: 900,
         height: 600,
         autoCenter: true,
         gradients: true,
-        elevation: 50,
-        duration: 1200
+        duration: 1000
       });
     });
   </script>
