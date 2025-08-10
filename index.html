@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Двери в лесу</title>
+  <title>Двери в лесу — NOSTAI</title>
   <style>
     @font-face {
       font-family: 'DestroyCyr';
@@ -20,17 +20,56 @@
       position: relative;
     }
 
+    /* Вещательная кнопка */
+    .broadcast-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: 'DestroyCyr', serif;
+      text-decoration: none;
+      background: rgba(0,0,0,0.6);
+      padding: 8px 14px;
+      border: 1px solid #00ffe0;
+      color: #00ffe0;
+      font-size: 16px;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    .broadcast-btn:hover {
+      background: rgba(0,0,0,0.9);
+    }
+
+    /* Кнопка звука */
+    #mute-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: transparent;
+      color: #00ffe0;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    /* Двери */
     .door {
       position: absolute;
-      width: 120px; /* размер двери */
+      width: 120px;
       height: 240px;
       background: url('assets/door.png') no-repeat center center;
       background-size: contain;
       cursor: pointer;
-      /* Можно добавить тень или свечения для двери */
       filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+      transition: filter 0.3s ease;
+      z-index: 500;
+    }
+    .door:hover {
+      filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
     }
 
+    /* Подписи */
     .label {
       position: absolute;
       width: 140px;
@@ -45,102 +84,108 @@
       font-weight: bold;
       font-family: 'DestroyCyr', serif;
       letter-spacing: 1.2px;
+      z-index: 600;
     }
 
-    /* Позиции дверей и надписей (пример, можно подкорректировать) */
-    #door1 {
-      top: 20%;
-      left: 10%;
-    }
-    #label1 {
-      top: 20% ;
-      left: 10%;
-      transform: translateX(-10%);
-    }
-
-    #door2 {
-      top: 50%;
-      left: 70%;
-    }
-    #label2 {
-      top: 50%;
-      left: 70%;
-      transform: translateX(-10%);
-    }
-
-    #door3 {
-      /* Вход в Бездну — напротив солнца */
-      top: 35%;
-      left: 85%;
-    }
+    /* Цвет и тень для "Вход в Бездну" */
     #label3 {
-      top: 35%;
-      left: 85%;
-      transform: translateX(-10%);
       color: #ff5f5f;
       text-shadow:
         0 0 10px #ff0000,
         0 0 20px #ff4500;
     }
 
-    #door4 {
-      top: 65%;
-      left: 30%;
-    }
-    #label4 {
-      top: 65%;
-      left: 30%;
-      transform: translateX(-10%);
-    }
+    /* Позиции дверей и подписей */
+    #door1 { top: 20%; left: 10%; }
+    #label1 { top: 20%; left: 10%; transform: translateX(-10%); }
 
-    #door5 {
-      top: 80%;
-      left: 50%;
+    #door2 { top: 50%; left: 70%; }
+    #label2 { top: 50%; left: 70%; transform: translateX(-10%); }
+
+    #door3 { top: 35%; left: 85%; }
+    #label3 { top: 35%; left: 85%; transform: translateX(-10%); }
+
+    #door4 { top: 65%; left: 30%; }
+    #label4 { top: 65%; left: 30%; transform: translateX(-10%); }
+
+    #door5 { top: 80%; left: 50%; }
+    #label5 { top: 80%; left: 50%; transform: translateX(-10%); }
+
+    /* Анимация зума при клике */
+    .camera-zoom {
+      animation: zoomIn 1.5s forwards;
+      z-index: 1000 !important;
     }
-    #label5 {
-      top: 80%;
-      left: 50%;
-      transform: translateX(-10%);
+    @keyframes zoomIn {
+      0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+      }
+      100% {
+        transform: scale(1.5);
+        filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.9));
+      }
     }
   </style>
 </head>
 <body>
-<!-- Двери с подписями и реальными ссылками -->
-<div id="door1" class="door" data-link="porog-tainy.html"></div>
-<div id="label1" class="label">Порог Тайны</div>
 
-<div id="door2" class="door" data-link="golos-teni.html"></div>
-<div id="label2" class="label">Голос Тени</div>
+  <!-- Вещательная кнопка -->
+  <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
 
-<div id="door3" class="door" data-link="vhod-v-bezdnu.html"></div>
-<div id="label3" class="label">Вход в Бездну</div>
+  <!-- Кнопка звука -->
+  <button id="mute-btn">🔊</button>
+  <audio id="background-audio" autoplay loop>
+    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-<div id="door4" class="door" data-link="hroniki-zabveniya.html"></div>
-<div id="label4" class="label">Хроники Забвения</div>
+  <!-- Двери с подписями -->
+  <div id="door1" class="door" data-link="porog-tainy.html"></div>
+  <div id="label1" class="label">Порог Тайны</div>
 
-<div id="door5" class="door" data-link="dary-providcev.html"></div>
-<div id="label5" class="label">Дары Провидцев</div>
+  <div id="door2" class="door" data-link="golos-teni.html"></div>
+  <div id="label2" class="label">Голос Тени</div>
 
-<script>
-  // Получаем все двери
-  const doors = document.querySelectorAll('.door');
+  <div id="door3" class="door" data-link="vhod-v-bezdnu.html"></div>
+  <div id="label3" class="label">Вход в Бездну</div>
 
-  doors.forEach(door => {
-    door.addEventListener('click', () => {
-      // Добавляем класс анимации зума
-      door.classList.add('camera-zoom');
+  <div id="door4" class="door" data-link="hroniki-zabveniya.html"></div>
+  <div id="label4" class="label">Хроники Забвения</div>
 
-      // Через 1.5 секунды переходим по ссылке из data-link
-      const link = door.getAttribute('data-link');
-      setTimeout(() => {
-        window.location.href = link;
-      }, 1500);
+  <div id="door5" class="door" data-link="dary-providcev.html"></div>
+  <div id="label5" class="label">Дары Провидцев</div>
+
+  <script>
+    // Управление звуком
+    const audio = document.getElementById('background-audio');
+    const muteBtn = document.getElementById('mute-btn');
+    let isMuted = false;
+
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteBtn.textContent = isMuted ? '🔇' : '🔊';
     });
-  });
-</script>
 
+    // Автозапуск звука по первому клику (браузерные ограничения)
+    window.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
 
-
-
-
-
+    // Клики по дверям
+    const doors = document.querySelectorAll('.door');
+    doors.forEach(door => {
+      door.addEventListener('click', () => {
+        door.classList.add('camera-zoom');
+        const link = door.getAttribute('data-link');
+        setTimeout(() => {
+          window.location.href = link;
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
