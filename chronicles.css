@@ -1,0 +1,122 @@
+/* ======== Базовые стили ======== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: black;
+  color: #fdf5e6;
+  font-family: 'Deutsch Gothic', serif;
+  overflow-x: hidden;
+}
+
+/* ======== Фон книги ======== */
+.background {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background: url('assets/book.png') center center / cover no-repeat;
+  z-index: 0;
+  filter: brightness(0.35);
+}
+
+/* ======== Дым ======== */
+.infection-zone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.smoke-layer {
+  width: 100%;
+  height: 100%;
+  background: url('assets/smoke-fog.gif') center center / cover no-repeat;
+  opacity: 0.15;
+  filter: blur(3px);
+}
+
+/* ======== Тени ======== */
+.shadow {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  height: 180px;
+  background: url('assets/effects/shadow.jpg') center/contain no-repeat;
+  opacity: 0;
+  animation: appearShadow 30s infinite;
+  filter: brightness(0.5);
+  z-index: 1;
+}
+
+.shadow-1 { left: 20%; animation-delay: 10s; }
+.shadow-2 { left: 65%; animation-delay: 20s; }
+
+@keyframes appearShadow {
+  0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
+  40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+  50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
+  60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+}
+
+/* ======== Книга ======== */
+#book {
+  width: 900px;
+  height: 600px;
+  margin: 50px auto;
+  z-index: 10;
+  position: relative;
+}
+
+/* Стили для страниц */
+#book .page, #book .hard {
+  width: 450px;
+  height: 600px;
+  padding: 30px;
+  box-sizing: border-box;
+  background: #fdf5e6;
+  color: #3b2f2f;
+  overflow-y: auto;
+  font-size: 18px;
+  line-height: 1.6;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Жёсткие обложки */
+#book .hard {
+  background: #5c3b1e;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* Заголовки внутри страниц */
+#book h1, #book h2 {
+  margin-top: 0;
+  font-family: 'DestroyCyr', serif;
+  color: #6b4a17;
+  text-shadow: 0 0 3px #ffb366;
+}
+
+/* Подзаголовок обложки */
+.subtitle {
+  font-family: 'Deutsch Gothic', serif;
+  font-size: 20px;
+  margin-top: 15px;
+  color: #ffb366;
+  text-shadow: 0 0 4px #ffb366;
+}
+
+/* Стили для текста абзацев */
+#book p {
+  margin: 10px 0;
+}
