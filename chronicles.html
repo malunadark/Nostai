@@ -6,103 +6,8 @@
   <link rel="stylesheet" href="chronicles.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js"></script>
-
-  <style>
-    /* Подключение шрифтов */
-    @font-face {
-      font-family: 'UncialAntiqua';
-      src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'CinzelDecorative';
-      src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'DestroyCyr';
-      src: url('assets/fonts/destroycyr.ttf') format('truetype');
-    }
-
-    /* Базовые стили */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      color: #ffdca0;
-      font-family: 'DestroyCyr', serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Фон книги */
-    .background {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('assets/book.png') no-repeat center center;
-      background-size: cover;
-      filter: brightness(0.3);
-      z-index: 0;
-    }
-
-    /* Книга */
-    #book {
-      width: 900px;
-      height: 600px;
-      z-index: 2;
-      box-shadow: 0 0 30px #ffbb70;
-      border-radius: 10px;
-      background: #3a2619;
-    }
-
-    /* Страницы */
-    #book .page, #book .hard {
-      background: #4a361f;
-      padding: 40px;
-      box-sizing: border-box;
-      height: 600px;
-      color: #ffdca0;
-      overflow-y: auto;
-      border: 1px solid #6b4b26;
-      border-radius: 6px;
-    }
-
-    /* Твёрдые страницы (обложка) */
-    #book .hard {
-      background: #6b4b26;
-      font-weight: bold;
-      font-size: 2rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    h2 {
-      font-family: 'CinzelDecorative', serif;
-      margin-top: 0;
-      font-weight: 700;
-      font-size: 28px;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-top: 10px;
-      font-family: 'DestroyCyr', serif;
-    }
-
-    .subtitle {
-      font-family: 'UncialAntiqua', serif;
-      font-size: 1.2rem;
-      color: #ffb366;
-    }
-  </style>
 </head>
 <body>
-
-  <div class="background"></div>
 
   <div id="book">
     <div class="hard page">Хроники Забвения<br><span class="subtitle">Выбери свою судьбу...</span></div>
@@ -122,7 +27,7 @@
     <div class="page">
       <h2>Глава III — Тени на Алтае</h2>
       <p>Склоны Алтая окутаны туманом, в котором скрываются древние легенды.  
-      Лишь те, кто осмелится шагнуть в глубь лесов, узнают правду о Пропавших...</p>
+      Лишь те, кто осмелится шагнуть в глубь гор, узнают правду о Пропавших...</p>
     </div>
 
     <div class="hard page">Конец первой книги</div>
@@ -135,7 +40,7 @@
         height: 600,
         autoCenter: true,
         gradients: true,
-        duration: 1000
+        duration: 800
       });
     });
   </script>
