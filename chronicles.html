@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Хроники Забвения</title>
-  <link rel="stylesheet" href="chronicles.css"> <!-- Убедись, что путь верный -->
+  <link rel="stylesheet" href="chronicles.css" />
 </head>
 <body>
+  <!-- Фон -->
+  <div class="background"></div>
+
+  <!-- Зона заражения с дымом -->
+  <div class="infection-zone">
+    <div class="smoke-layer"></div>
+  </div>
+
+  <!-- Тени -->
+  <div class="shadow shadow-1"></div>
+  <div class="shadow shadow-2"></div>
+
+  <!-- Контейнер книги -->
   <div class="book-container">
     <div class="book-left-page">
       <h2>Хроники Забвения</h2>
@@ -20,6 +33,7 @@
     </div>
   </div>
 
+  <!-- Скрипт переключения глав -->
   <script>
     const contentElement = document.getElementById('chapter-content');
 
@@ -49,4 +63,3 @@
   </script>
 </body>
 </html>
-
