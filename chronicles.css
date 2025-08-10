@@ -1,16 +1,18 @@
-/* Подключение кастомных шрифтов */
+/* Подключение шрифтов */
 @font-face {
   font-family: 'UncialAntiqua';
   src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'CinzelDecorative';
   src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'DestroyCyr';
   src: url('assets/fonts/destroycyr.ttf') format('truetype');
@@ -19,36 +21,26 @@
 }
 
 /* Базовые стили */
-body, html {
+body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background: #111;
-  font-family: 'DestroyCyr', serif;
+  height: 100vh;
+  background-color: #111;
   color: #ffdca0;
+  font-family: 'DestroyCyr', serif;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 }
 
-/* Фон книги */
-.background {
-  position: fixed;
-  inset: 0;
-  background: url('assets/book.png') no-repeat center center;
-  background-size: cover;
-  filter: brightness(0.35);
-  z-index: 0;
-}
-
-/* Дым */
+/* Анимация дыма */
 .smoke {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 150px;
+  height: 200px;
   background: url('assets/smoke-fog.gif') repeat-x bottom center;
   background-size: contain;
   opacity: 0.15;
@@ -77,18 +69,17 @@ body, html {
 
 /* Контейнер книги */
 #book {
-  position: relative;
   width: 900px;
   height: 600px;
   z-index: 3;
   box-shadow: 0 0 30px #ffbb70;
   border-radius: 10px;
-  background: transparent; /* без цвета фона, только содержимое */
+  background: #3a2619;
 }
 
 /* Страницы книги */
 .page, .hard {
-  background: rgba(74, 54, 31, 0.95); /* полупрозрачный коричневый */
+  background: #4a361f;
   padding: 40px;
   box-sizing: border-box;
   height: 100%;
@@ -97,9 +88,9 @@ body, html {
   border: 1px solid #6b4b26;
   border-radius: 6px;
   font-family: 'DestroyCyr', serif;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
 }
 
+/* Обложка книги */
 .hard {
   background: #6b4b26;
   font-weight: bold;
@@ -108,22 +99,26 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  user-select: none;
+  flex-direction: column;
 }
 
+/* Заголовки */
 h2 {
   margin-top: 0;
-  font-family: 'CinzelDecorative', serif;
   font-weight: 700;
   font-size: 28px;
+  font-family: 'CinzelDecorative', serif;
 }
 
+/* Подзаголовок */
 .subtitle {
   font-family: 'UncialAntiqua', serif;
   font-size: 1.2rem;
   color: #ffb366;
+  margin-top: 0.5rem;
 }
 
+/* Текст */
 p {
   font-size: 18px;
   line-height: 1.6;
