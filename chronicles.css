@@ -74,25 +74,25 @@ body {
   z-index: 3;
   box-shadow: 0 0 30px #ffbb70;
   border-radius: 10px;
-  background: #3a2619;
+  background: url('assets/book.png') no-repeat center center;
+  background-size: cover;
 }
 
 /* Страницы книги */
 .page, .hard {
-  background: #4a361f;
+  background: transparent; /* прозрачный фон, чтобы видно было книгу */
   padding: 40px;
   box-sizing: border-box;
   height: 100%;
   color: #ffdca0;
   overflow-y: auto;
-  border: 1px solid #6b4b26;
-  border-radius: 6px;
+  border: none; /* убрать рамки, чтобы не перекрывали фон */
   font-family: 'DestroyCyr', serif;
 }
 
 /* Обложка книги */
 .hard {
-  background: #6b4b26;
+  background: transparent; /* прозрачный фон */
   font-weight: bold;
   font-size: 2rem;
   text-align: center;
