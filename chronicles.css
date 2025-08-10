@@ -1,85 +1,131 @@
-/* Подключение шрифтов */
+/* Подключение кастомных шрифтов */
 @font-face {
   font-family: 'UncialAntiqua';
   src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
-
 @font-face {
   font-family: 'CinzelDecorative';
   src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
-
 @font-face {
   font-family: 'DestroyCyr';
   src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Базовые стили */
-body {
-  margin: 0; 
+body, html {
+  margin: 0;
   padding: 0;
-  background: #fff;
+  height: 100%;
+  background: #111;
+  font-family: 'DestroyCyr', serif;
+  color: #ffdca0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-family: 'DestroyCyr', serif;
-  color: #333;
   overflow: hidden;
+}
+
+/* Фон книги */
+.background {
+  position: fixed;
+  inset: 0;
+  background: url('assets/book.png') no-repeat center center;
+  background-size: cover;
+  filter: brightness(0.35);
+  z-index: 0;
+}
+
+/* Дым */
+.smoke {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: url('assets/smoke-fog.gif') repeat-x bottom center;
+  background-size: contain;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Тени слева и справа */
+.shadow {
+  position: fixed;
+  bottom: 0;
+  width: 150px;
+  height: 200px;
+  background: url('assets/effects/shadow.jpg') no-repeat center;
+  background-size: contain;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 2;
+}
+.shadow-left {
+  left: 0;
+}
+.shadow-right {
+  right: 0;
 }
 
 /* Контейнер книги */
 #book {
+  position: relative;
   width: 900px;
   height: 600px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  z-index: 3;
+  box-shadow: 0 0 30px #ffbb70;
   border-radius: 10px;
-  background: white;
-  z-index: 1;
+  background: transparent; /* без цвета фона, только содержимое */
 }
 
 /* Страницы книги */
-#book .page, #book .hard {
-  background: white;
+.page, .hard {
+  background: rgba(74, 54, 31, 0.95); /* полупрозрачный коричневый */
+  padding: 40px;
   box-sizing: border-box;
-  padding: 40px 50px;
-  height: 600px;
+  height: 100%;
+  color: #ffdca0;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #6b4b26;
   border-radius: 6px;
-  color: #111;
-  font-size: 18px;
-  line-height: 1.6;
+  font-family: 'DestroyCyr', serif;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
 }
 
-/* Твердые страницы - обложки */
-#book .hard {
+.hard {
+  background: #6b4b26;
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'CinzelDecorative', serif;
-  color: #222;
+  user-select: none;
 }
 
 h2 {
-  font-family: 'CinzelDecorative', serif;
   margin-top: 0;
+  font-family: 'CinzelDecorative', serif;
   font-weight: 700;
   font-size: 28px;
 }
 
-p {
-  font-family: 'DestroyCyr', serif;
-  margin-top: 12px;
-}
-
 .subtitle {
   font-family: 'UncialAntiqua', serif;
-  font-size: 1.3rem;
-  color: #555;
-  margin-top: 12px;
-  font-style: italic;
+  font-size: 1.2rem;
+  color: #ffb366;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 10px;
 }
