@@ -16,12 +16,13 @@
 /* Шрифты и фон для всей страницы */
 body {
   font-family: 'Uncial Antiqua', 'Cinzel Decorative', serif;
-  background: url('assets/book.png') repeat;
-  margin: 0;
-  padding: 0;
-  color: #3b2f2f;
+  background: url('assets/book.png') no-repeat center center;
+    background-size: cover;
+  color: #a0c8ff;
+font-family:'CinzelDecorative-Black.ttf'
+font-family: 'UncialAntiqua-Regular.ttf' 
+  margin: 0; padding: 20px;
 }
-
 /* Контейнер книги */
 .book-container {
   display: flex;
