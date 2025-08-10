@@ -1,91 +1,124 @@
-/* Шрифты */
+/* Подключение шрифтов */
 @font-face {
   font-family: 'Deutsch Gothic';
   src: url('assets/Deutsch Gothic.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'DestroyCyr';
   src: url('assets/destroycyr.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'FutharkAoe';
   src: url('assets/FutharkAoe.ttf') format('truetype');
 }
 
-/* Базовые стили */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   background: black;
   color: #eee;
-  font-family: 'Deutsch Gothic', serif;
+  font-family: 'UncialAntiqua-Regular', serif;
 }
 
 /* Фон */
 .background {
   position: fixed;
   inset: 0;
-  background: #000;
-  z-index: 0;
+  background-image: url('assets/book.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -3;
+  filter: brightness(0.4);
+}
+
+/* Дым */
+.infection-zone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  pointer-events: none;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.smoke-layer {
+  width: 200%;
+  height: 100%;
+  background: url('assets/smoke.jpg') repeat-x;
+  background-size: cover;
+  animation: moveSmoke 60s linear infinite;
+  opacity: 0.15;
+  filter: blur(4px);
+}
+
+@keyframes moveSmoke {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Тени */
+.shadow {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  height: 180px;
+  background: url('assets/shadow.jpg') center/contain no-repeat;
+  opacity: 0;
+  animation: appearShadow 30s infinite;
+  filter: brightness(0.5);
+  z-index: -1;
+}
+
+.shadow-1 { left: 20%; animation-delay: 10s; }
+.shadow-2 { left: 65%; animation-delay: 20s; }
+
+@keyframes appearShadow {
+  0%, 90%, 100% { opacity: 0; }
+  40% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+  60% { opacity: 0.3; }
 }
 
 /* Книга */
-.book-container {
-  position: relative;
-  width: 900px;
-  height: 600px;
+#book {
   margin: 50px auto;
-  background: url('assets/book.png') no-repeat center/cover;
-  display: flex;
-  z-index: 2;
-  box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
 
-.book-left-page,
-.book-right-page {
-  width: 50%;
-  height: 100%;
+#book .page, #book .hard {
+  width: 450px;
+  height: 600px;
   padding: 40px;
   box-sizing: border-box;
 }
 
-/* Левая страница */
-.book-left-page h2 {
-  font-size: 26px;
-  margin-bottom: 20px;
-}
-.chapter-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.chapter-link {
-  cursor: pointer;
-  font-size: 20px;
-  margin-bottom: 15px;
-  transition: color 0.3s ease;
-}
-.chapter-link:hover {
-  color: #ff9f43;
-  text-shadow: 0 0 5px #ffbf80;
-}
-
-/* Правая страница */
 .page {
-  width: 100%;
-  height: 100%;
-  background: transparent;
+  background: rgba(255, 240, 210, 0.85);
   font-size: 18px;
-  line-height: 1.6;
-  color: #5b3a29;
-  font-family: serif;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  transform-origin: left center;
-}
-.page.turn {
-  transform: rotateY(-180deg);
-  box-shadow: -20px 0 40px rgba(0,0,0,0.4) inset;
+  line-height: 1.5;
+  color: #2b1d0e;
 }
 
+.hard {
+  background: url('assets/book.png') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: #ffdca0;
+}
 
+.page-cover h1, .page-cover h2 {
+  font-family: 'DestroyCyr', serif;
+  font-size: 36px;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-style: italic;
+  opacity: 0.8;
+}
