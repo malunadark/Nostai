@@ -165,14 +165,7 @@ html, body {
   color: #ff6600;
 }
 
-/* Анимации кнопок */
-.menu-button:nth-child(1) { animation: pulseSubtle 6s infinite ease-in-out; }
-.menu-button:nth-child(2) { animation: floatSubtle 5s infinite ease-in-out; }
-.menu-button:nth-child(3) { animation: rotateSubtle 7s infinite ease-in-out; }
-.menu-button:nth-child(4) { animation: shakeSubtle 4s infinite ease-in-out; }
-.menu-button:nth-child(5) { animation: scaleSubtle 6s infinite ease-in-out; }
-
-/* Летающие руны */
+* Летающие руны */
 .rune {
   position: absolute;
   font-family: 'FutharkAoe', serif;
@@ -275,6 +268,7 @@ html, body {
   0% { transform: scale(1); }
   100% { transform: scale(1.5); }
 }
+
 
 
 
