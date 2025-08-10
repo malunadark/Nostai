@@ -1,115 +1,99 @@
-/* ======== Базовые стили ======== */
-html, body {
-  margin: 0;
-  padding: 0;
+/* --- Общие стили --- */
+body, html {
+  margin: 0; padding: 0;
   height: 100%;
-  background: black;
-  color: #fdf5e6;
-  font-family: 'Deutsch Gothic', serif;
-  overflow-x: hidden;
+  background: #111;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffdca0;
 }
 
-/* ======== Фон книги ======== */
+/* Фон книги */
 .background {
   position: fixed;
-  top: 0; bottom: 0; left: 0; right: 0;
-  background: url('assets/book.png') center center / cover no-repeat;
+  inset: 0;
+  background: url('assets/book.png') no-repeat center center;
+  background-size: cover;
+  filter: brightness(0.3);
   z-index: 0;
-  filter: brightness(0.35);
 }
 
-/* ======== Дым ======== */
-.infection-zone {
+/* Анимация дыма */
+.smoke {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%;
+  height: 200px;
+  background: url('assets/smoke-fog.gif') repeat-x bottom center;
+  background-size: contain;
+  opacity: 0.15;
   pointer-events: none;
   z-index: 1;
-  overflow: hidden;
 }
 
-.smoke-layer {
-  width: 100%;
-  height: 100%;
-  background: url('assets/smoke-fog.gif') center center / cover no-repeat;
-  opacity: 0.15;
-  filter: blur(3px);
-}
-
-/* ======== Тени ======== */
+/* Тени по краям */
 .shadow {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  width: 80px;
-  height: 180px;
-  background: url('assets/effects/shadow.jpg') center/contain no-repeat;
-  opacity: 0;
-  animation: appearShadow 30s infinite;
-  filter: brightness(0.5);
-  z-index: 1;
+  width: 150px;
+  height: 200px;
+  background: url('assets/shadow.png') no-repeat center;
+  background-size: contain;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.shadow-1 { left: 20%; animation-delay: 10s; }
-.shadow-2 { left: 65%; animation-delay: 20s; }
-
-@keyframes appearShadow {
-  0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
-  40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-  50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
-  60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+.shadow-left {
+  left: 0;
 }
 
+.shadow-right {
+  right: 0;
+}
+
+/* Книга */
 #book {
+  position: relative;
   width: 900px;
   height: 600px;
-  margin: 60px auto;
-  box-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
-  background: #eee;
-  border-radius: 8px;
-  position: relative;
-  z-index: 10;
+  z-index: 3;
+  box-shadow: 0 0 30px #ffbb70;
+  border-radius: 10px;
+  background: #3a2619;
 }
 
+/* Страницы */
 .page, .hard {
-  background: white;
+  background: #4a361f;
   padding: 40px;
   box-sizing: border-box;
-  color: #333;
-  font-size: 20px;
-  line-height: 1.5;
-  user-select: none;
+  height: 100%;
+  color: #ffdca0;
+  overflow-y: auto;
 }
 
-.page-cover {
-  background: linear-gradient(135deg, #5c3a00 0%, #f3c377 100%);
-  color: white;
+.hard {
+  background: #6b4b26;
+  font-weight: bold;
+  font-size: 2rem;
   text-align: center;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  user-select: none;
+  align-items: center;
 }
 
-/* Заголовки внутри страниц */
-#book h1, #book h2 {
+h2 {
   margin-top: 0;
-  font-family: 'DestroyCyr', serif;
-  color: #6b4a17;
-  text-shadow: 0 0 3px #ffb366;
+  font-weight: 700;
 }
 
-/* Подзаголовок обложки */
-.subtitle {
-  font-family: 'Deutsch Gothic', serif;
-  font-size: 20px;
-  margin-top: 15px;
-  color: #ffb366;
-  text-shadow: 0 0 4px #ffb366;
-}
-
-/* Стили для текста абзацев */
-#book p {
-  margin: 10px 0;
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 10px;
 }
