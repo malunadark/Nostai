@@ -23,26 +23,6 @@ html, body {
   background: black;
 }
 
-.broadcast-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-family: 'Deutsch Gothic', serif;
-  text-decoration: none;
-  background: rgba(0,0,0,0.6);
-  padding: 8px 14px;
-  border: 1px solid #00ffe0;
-  color: #00ffe0;
-  font-size: 16px;
-  z-index: 1000;
-  transition: background 0.3s;
-}
-
-.broadcast-btn:hover {
-  background: rgba(0,0,0,0.9);
-}
-
-
 /* Фон */
 .background {
   position: fixed;
@@ -91,6 +71,7 @@ html, body {
   opacity: 0;
   animation: appearShadow 30s infinite;
   filter: brightness(0.5);
+  z-index: 1;
 }
 
 .shadow-1 {
@@ -132,40 +113,7 @@ html, body {
   text-shadow: 0 0 15px #ff5722;
 }
 
-/* Кнопки */
-.star-menu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
-  z-index: 2;
-}
-
-.menu-button {
-  position: absolute;
-  color: #b0b0b0;
-  font-family: 'Deutsch Gothic', serif;
-  font-size: 16px;
-  padding: 8px 12px;
-  background: rgba(20, 20, 20, 0.65);
-  border: 1px solid rgba(160, 160, 160, 0.3);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 2;
-  text-align: center;
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.menu-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: #ff6600;
-  color: #ff6600;
-}
-
-* Летающие руны */
+/* Летающие руны */
 .rune {
   position: absolute;
   font-family: 'FutharkAoe', serif;
@@ -182,33 +130,7 @@ html, body {
 .rune4 { top: 80%; left: 80%; animation: fly4 9s infinite ease-in-out; }
 .rune5 { top: 40%; left: 50%; animation: fly5 11s infinite ease-in-out; }
 
-/* Анимации */
-@keyframes pulseSubtle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes floatSubtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes rotateSubtle {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes shakeSubtle {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); }
-}
-
-@keyframes scaleSubtle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-
+/* Анимации летающих рун */
 @keyframes fly1 {
   0% { transform: translate(0, 0); }
   50% { transform: translate(-20px, 10px); }
@@ -234,18 +156,6 @@ html, body {
   50% { transform: translate(10px, 10px); }
   100% { transform: translate(0, 0); }
 }
-.enter-glow {
-  background: rgba(30, 30, 60, 0.6);
-  animation: floatButton 3s ease-in-out infinite, subtleGlow 2s ease-in-out infinite;
-  border-radius: 8px;
-  padding: 12px 28px;
-  font-size: 20px;
-}
-
-@keyframes floatButton {
-  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-  50% { transform: translate(-50%, -50%) translateY(-10px); }
-}
 
 /* Кнопка звука */
 #mute-btn {
@@ -260,6 +170,7 @@ html, body {
   z-index: 10;
 }
 
+/* Анимация зума для дверей */
 .camera-zoom {
   animation: zoomIn 1.5s forwards;
 }
@@ -269,7 +180,61 @@ html, body {
   100% { transform: scale(1.5); }
 }
 
+/* Стили для дверей и подписей */
 
+.door {
+  position: absolute;
+  width: 120px;
+  height: 240px;
+  background: url('assets/door_transparent.png') no-repeat center / contain;
+  cursor: pointer;
+  filter: drop-shadow(0 0 5px rgba(255, 120, 0, 0.8));
+  z-index: 5;
+  transition: filter 0.3s ease;
+}
 
+.door:hover {
+  filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
+}
 
+.label {
+  position: absolute;
+  width: 140px;
+  text-align: center;
+  font-size: 22px;
+  font-family: 'DestroyCyr', serif;
+  color: #ffb366;
+  text-shadow:
+    0 0 8px rgba(255, 200, 100, 0.9),
+    0 0 15px rgba(255, 140, 0, 0.7);
+  pointer-events: none;
+  user-select: none;
+  font-weight: bold;
+  z-index: 6;
+  letter-spacing: 1.5px;
+}
 
+/* Позиции дверей и надписей */
+
+#door1 { top: 18%; left: 12%; }
+#label1 { top: 13%; left: 12%; transform: translateX(-10%); }
+
+#door2 { top: 52%; left: 68%; }
+#label2 { top: 47%; left: 68%; transform: translateX(-10%); }
+
+#door3 { /* Вход в Бездну напротив солнца */
+  top: 38%; left: 85%;
+}
+#label3 {
+  top: 33%; left: 85%; transform: translateX(-10%);
+  color: #ff5f5f;
+  text-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff4500;
+}
+
+#door4 { top: 68%; left: 32%; }
+#label4 { top: 63%; left: 32%; transform: translateX(-10%); }
+
+#door5 { top: 82%; left: 52%; }
+#label5 { top: 77%; left: 52%; transform: translateX(-10%); }
