@@ -1,23 +1,35 @@
-html, body {
+/* Подключение шрифтов */
+@font-face {
+  font-family: 'Deutsch Gothic';
+  src: url('assets/Deutsch Gothic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DestroyCyr';
+  src: url('assets/destroycyr.ttf') format('truetype');
+}
+
+/* Общие стили */
+body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   background: black;
-  font-family: serif;
+  color: #eee;
+  font-family: 'Deutsch Gothic', serif;
+  overflow-x: hidden;
 }
 
-/* Фон */
+/* Фон книги (можно заменить на свой) */
 .background {
   position: fixed;
-  inset: 0;
-  background-image: url('assets/book.png');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.4);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('assets/book-bg.jpg') no-repeat center center / cover;
   z-index: 0;
+  filter: brightness(0.4);
 }
 
-/* Дым */
+/* Зона с дымом */
 .infection-zone {
   position: fixed;
   bottom: 0;
@@ -44,9 +56,9 @@ html, body {
   100% { transform: translateX(-50%); }
 }
 
-/* Тени */
+/* Тени внизу страницы */
 .shadow {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 80px;
   height: 180px;
@@ -57,53 +69,79 @@ html, body {
   z-index: 2;
 }
 
-.shadow-1 { left: 20%; animation-delay: 10s; }
-.shadow-2 { left: 65%; animation-delay: 20s; }
+.shadow-1 {
+  left: 20%;
+  animation-delay: 10s;
+}
+.shadow-2 {
+  left: 65%;
+  animation-delay: 20s;
+}
 
 @keyframes appearShadow {
-  0%, 90%, 100% { opacity: 0; }
-  40% { opacity: 0.3; }
-  50% { opacity: 0.5; }
-  60% { opacity: 0.3; }
+  0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
+  40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+  50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
+  60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
 }
 
-/* Книга */
+/* Контейнер книги */
 #book {
-  margin: 50px auto;
+  width: 900px;
+  height: 600px;
+  margin: 50px auto 100px;
   position: relative;
-  z-index: 3; /* Чтобы книга была поверх всего */
+  z-index: 10;
 }
 
-#book .page, #book .hard {
+/* Страницы книги */
+#book .page,
+#book .hard {
   width: 450px;
   height: 600px;
-  padding: 40px;
+  padding: 30px 40px;
   box-sizing: border-box;
-}
-
-.page {
-  background: rgba(255, 240, 210, 0.85);
+  background: #fdf5e6;
+  color: #3b2f2f;
+  font-family: 'DestroyCyr', serif;
   font-size: 18px;
-  line-height: 1.5;
-  color: #2b1d0e;
+  line-height: 1.6;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  user-select: text;
 }
 
+/* Обложка книги */
 .hard {
-  background: url('assets/book.png') center/cover no-repeat;
+  background: #5c3b1e;
+  color: #fff;
+  font-family: 'Deutsch Gothic', serif;
+  font-size: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  color: #ffdca0;
+  user-select: none;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.7);
 }
 
-.page-cover h1, .page-cover h2 {
-  font-family: 'DestroyCyr', serif;
-  font-size: 36px;
+/* Заголовки */
+h1, h2 {
+  margin-top: 0;
 }
 
+h1 {
+  font-size: 3em;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+/* Подзаголовок на обложке */
 .subtitle {
-  font-size: 20px;
-  font-style: italic;
-  opacity: 0.8;
-}
+  font-size: 1.5em;
+  margin-top: 10px;
+  font-style:
