@@ -4,24 +4,32 @@
   <meta charset="UTF-8" />
   <title>Хроники Забвения</title>
   <link rel="stylesheet" href="chronicles.css"/>
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #ffb366;
+      font-family: 'DestroyCyr', serif;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <!-- Фон -->
   <div class="background"></div>
-
-  <!-- Зона заражения с дымом -->
   <div class="infection-zone">
     <div class="smoke-layer"></div>
   </div>
-
-  <!-- Тени -->
   <div class="shadow shadow-1"></div>
   <div class="shadow shadow-2"></div>
 
-  <!-- Контейнер книги -->
   <div class="book-container">
     <div class="book-left-page">
       <h2>Хроники Забвения</h2>
+      <a href="chronicles.html" class="back-link">← Вернуться к хроникам</a>
       <ul class="chapter-list">
         <li class="chapter-link" data-chapter="chapter1">Глава <strong>I</strong> — Неизведанное</li>
         <li class="chapter-link" data-chapter="chapter2">Глава <strong>II</strong> — Пепел Времени</li>
@@ -33,7 +41,6 @@
     </div>
   </div>
 
-  <!-- Скрипт переключения глав -->
   <script>
     const contentElement = document.getElementById('chapter-content');
 
