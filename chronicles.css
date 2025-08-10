@@ -1,20 +1,66 @@
-/* --- Общие стили --- */
-body, html {
-  margin: 0; padding: 0;
+/* Подключение твоих шрифтов */
+@font-face {
+  font-family: 'UncialAntiqua';
+  src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CinzelDecorative';
+  src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DestroyCyr';
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Теперь используем их в теле страницы */
+
+/* Базовый шрифт для текста */
+body {
+  font-family: 'DestroyCyr', serif;
+  /* остальные стили как раньше */
+  margin: 0; 
+  padding: 0;
   height: 100%;
-  background: #111;
+  background-color: #111;
   overflow: hidden;
+  color: #ffdca0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #ffdca0;
 }
+
+/* Заголовки книги */
+h1, h2 {
+  font-family: 'CinzelDecorative', serif;
+  font-weight: normal;
+}
+
+/* Подзаголовки или акценты */
+.subtitle {
+  font-family: 'UncialAntiqua', serif;
+  font-size: 1.2rem;
+  color: #ffb366;
+}
+
+/* Содержимое страницы книги */
+.page, .hard {
+  font-family: 'DestroyCyr', serif;
+  /* остальные стили как в примере */
+}
+
 
 /* Фон книги */
 .background {
   position: fixed;
-  inset: 0;
+  top: 0; bottom: 0; left: 0; right: 0;
   background: url('assets/book.png') no-repeat center center;
   background-size: cover;
   filter: brightness(0.3);
@@ -35,28 +81,26 @@ body, html {
   z-index: 1;
 }
 
-/* Тени по краям */
+/* Тени слева и справа */
 .shadow {
   position: fixed;
   bottom: 0;
   width: 150px;
   height: 200px;
-  background: url('assets/effects/shadow.png') no-repeat center;
+  background: url('assets/effects/shadow.jpg') no-repeat center;
   background-size: contain;
   opacity: 0.3;
   pointer-events: none;
   z-index: 2;
 }
-
 .shadow-left {
   left: 0;
 }
-
 .shadow-right {
   right: 0;
 }
 
-/* Книга */
+/* Контейнер книги */
 #book {
   position: relative;
   width: 900px;
@@ -67,7 +111,7 @@ body, html {
   background: #3a2619;
 }
 
-/* Страницы */
+/* Страницы книги */
 .page, .hard {
   background: #4a361f;
   padding: 40px;
@@ -75,6 +119,8 @@ body, html {
   height: 100%;
   color: #ffdca0;
   overflow-y: auto;
+  border: 1px solid #6b4b26;
+  border-radius: 6px;
 }
 
 .hard {
@@ -90,6 +136,7 @@ body, html {
 h2 {
   margin-top: 0;
   font-weight: 700;
+  font-size: 28px;
 }
 
 p {
