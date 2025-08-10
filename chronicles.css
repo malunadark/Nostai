@@ -61,42 +61,35 @@ html, body {
   60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
 }
 
-/* ======== Книга ======== */
 #book {
   width: 900px;
   height: 600px;
-  margin: 50px auto;
-  z-index: 10;
+  margin: 60px auto;
+  box-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+  background: #eee;
+  border-radius: 8px;
   position: relative;
+  z-index: 10;
 }
 
-/* Стили для страниц */
-#book .page, #book .hard {
-  width: 450px;
-  height: 600px;
-  padding: 30px;
+.page, .hard {
+  background: white;
+  padding: 40px;
   box-sizing: border-box;
-  background: #fdf5e6;
-  color: #3b2f2f;
-  overflow-y: auto;
-  font-size: 18px;
-  line-height: 1.6;
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
+  color: #333;
+  font-size: 20px;
+  line-height: 1.5;
+  user-select: none;
 }
 
-/* Жёсткие обложки */
-#book .hard {
-  background: #5c3b1e;
+.page-cover {
+  background: linear-gradient(135deg, #5c3a00 0%, #f3c377 100%);
   color: white;
-  font-weight: bold;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 24px;
+  user-select: none;
 }
 
 /* Заголовки внутри страниц */
