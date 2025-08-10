@@ -1,207 +1,123 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>NOSTAI</title>
-  <link rel="stylesheet" href="styles.css">
-
+  <meta charset="UTF-8" />
+  <title>Двери в лесу</title>
   <style>
-  @font-face {
-    font-family: 'Deutsch Gothic';
-    src: url('assets/fonts/DeutschGothic.ttf') format('truetype');
-  }
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+      /* Если шрифт не доступен, заменится на serif */
+    }
 
-  .nostai-title {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 60px; /* уменьшено */
-    font-family: 'Deutsch Gothic', serif;
-    color: white;
-    text-shadow: 0 0 20px #ff5e00;
-    z-index: 3;
-  }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      background: url('Nostai.png') no-repeat center center;
+      background-size: cover;
+      font-family: 'DestroyCyr', serif;
+      color: #dcdcdc;
+      overflow: hidden;
+      position: relative;
+    }
 
-  .nostai-subtitle {
-    position: absolute;
-    top: 52%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    font-style: italic;
-    font-family: 'Georgia', serif;
-    background: linear-gradient(to right, #a0a0a0, #4f4f4f, #2a2a2a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    z-index: 2;
-  }
+    .door {
+      position: absolute;
+      width: 120px; /* размер двери */
+      height: 240px;
+      background: url('assets/door.png') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      /* Можно добавить тень или свечения для двери */
+      filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+    }
 
-  .vignette {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,0.75) 100%);
-    z-index: 1;
-  }
+    .label {
+      position: absolute;
+      width: 140px;
+      text-align: center;
+      font-size: 20px;
+      text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.8),
+        0 0 15px rgba(0, 150, 255, 0.6);
+      pointer-events: none;
+      user-select: none;
+      color: #a0c8ff;
+      font-weight: bold;
+      font-family: 'DestroyCyr', serif;
+      letter-spacing: 1.2px;
+    }
 
-  .infection-zone {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
+    /* Позиции дверей и надписей (пример, можно подкорректировать) */
+    #door1 {
+      top: 20%;
+      left: 10%;
+    }
+    #label1 {
+      top: 20% ;
+      left: 10%;
+      transform: translateX(-10%);
+    }
 
-  .smoke-layer {
-    width: 200%;
-    height: 100%;
-    background: url('assets/effects/smoke.jpg') repeat-x;
-    background-size: cover;
-    animation: moveSmoke 60s linear infinite;
-    opacity: 0.25;
-    filter: blur(4px);
-  }
+    #door2 {
+      top: 50%;
+      left: 70%;
+    }
+    #label2 {
+      top: 50%;
+      left: 70%;
+      transform: translateX(-10%);
+    }
 
-  @keyframes moveSmoke {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
+    #door3 {
+      /* Вход в Бездну — напротив солнца */
+      top: 35%;
+      left: 85%;
+    }
+    #label3 {
+      top: 35%;
+      left: 85%;
+      transform: translateX(-10%);
+      color: #ff5f5f;
+      text-shadow:
+        0 0 10px #ff0000,
+        0 0 20px #ff4500;
+    }
 
-  .shadow {
-    position: absolute;
-    bottom: 0;
-    width: 80px;
-    height: 180px;
-    background: url('assets/effects/shadow.jpg') center/contain no-repeat;
-    opacity: 0;
-    animation: appearShadow 30s infinite;
-    filter: brightness(0.5);
-  }
+    #door4 {
+      top: 65%;
+      left: 30%;
+    }
+    #label4 {
+      top: 65%;
+      left: 30%;
+      transform: translateX(-10%);
+    }
 
-  .shadow-1 {
-    left: 20%;
-    animation-delay: 10s;
-  }
-
-  .shadow-2 {
-    left: 65%;
-    animation-delay: 20s;
-  }
-
-  @keyframes appearShadow {
-    0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
-    40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-    50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
-    60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-  }
-
-  .rune {
-    position: absolute;
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: 'Georgia', serif;
-    animation: floatRune 20s infinite ease-in-out;
-  }
-
-  @keyframes floatRune {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
-  }
-
-  .rune1 { top: 20%; left: 10%; animation-delay: 0s; }
-  .rune2 { top: 40%; left: 20%; animation-delay: 5s; }
-  .rune3 { top: 60%; left: 80%; animation-delay: 10s; }
-  .rune4 { top: 70%; left: 50%; animation-delay: 15s; }
-  .rune5 { top: 30%; left: 70%; animation-delay: 20s; }
+    #door5 {
+      top: 80%;
+      left: 50%;
+    }
+    #label5 {
+      top: 80%;
+      left: 50%;
+      transform: translateX(-10%);
+    }
   </style>
 </head>
-
 <body>
-  <div id="three-container"></div>
+  <div id="door1" class="door"></div>
+  <div id="label1" class="label">Порог Тайны</div>
 
-  <!-- Вещательная -->
-  <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
+  <div id="door2" class="door"></div>
+  <div id="label2" class="label">Голос Тени</div>
 
-  <!-- Фон и дым -->
-  <div class="background"></div>
-  <div class="smoke"></div>
+  <div id="door3" class="door"></div>
+  <div id="label3" class="label">Вход в Бездну</div>
 
-  <!-- Музыкальная кнопка -->
-  <button id="mute-btn">🔊</button>
-  <audio id="background-audio" autoplay loop>
-    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
-  </audio>
+  <div id="door4" class="door"></div>
+  <div id="label4" class="label">Хроники Забвения</div>
 
-  <!-- Заголовок и подзаголовок -->
-  <div class="nostai-title">ВХОД В БЕЗДНУ</div>
-  <div class="nostai-subtitle">Когда ты входишь — ты уже не выходишь прежним.</div>
-
-  <!-- Виньетка -->
-  <div class="vignette"></div>
-
-  <!-- Зона заражения -->
-  <div class="infection-zone">
-    <div class="smoke-layer"></div>
-    <div class="shadow shadow-1"></div>
-    <div class="shadow shadow-2"></div>
-  </div>
-
-  <!-- Летающие руны -->
-  <div class="rune rune1">ᚨ</div>
-  <div class="rune rune2">ᛉ</div>
-  <div class="rune rune3">ᛟ</div>
-  <div class="rune rune4">ᚲ</div>
-  <div class="rune rune5">ᛏ</div>
-
-  <!-- Three.js + GLTFLoader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="door-scene.js"></script>
-
-  <script>
-    const audio = document.getElementById('background-audio');
-    const muteBtn = document.getElementById('mute-btn');
-    let isMuted = false;
-
-    muteBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      audio.muted = isMuted;
-      muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    });
-
-    window.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(() => {});
-      }
-    }, { once: true });
-
-    // Навигация через двери (примеры)
-    const doors = {
-      'door_bezdna': 'register.html',
-      'door_chronicles': 'chronicles.html'
-      // Добавь здесь id моделей дверей и соответствующие ссылки
-    };
-
-    for (const [id, link] of Object.entries(doors)) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('click', () => {
-          el.classList.add('camera-zoom');
-          setTimeout(() => {
-            window.location.href = link;
-          }, 1500); // задержка для анимации
-        });
-      }
-    }
-  </script>
+  <div id="door5" class="door"></div>
+  <div id="label5" class="label">Дары Провидцев</div>
 </body>
 </html>
