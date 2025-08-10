@@ -175,18 +175,25 @@ html, body {
   animation: zoomIn 1.5s forwards;
 }
 
-@keyframes zoomIn {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.5); }
+.camera-zoom {
+  animation: zoomIn 1.5s forwards;
 }
 
-/* Стили для дверей и подписей */
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.9));
+  }
+}
 
 .door {
   position: absolute;
   width: 120px;
   height: 240px;
-  background: url('assets/door_transparent.png') no-repeat center / contain;
+  background: url('assets/door.png') no-repeat center / contain;
   cursor: pointer;
   filter: drop-shadow(0 0 5px rgba(255, 120, 0, 0.8));
   z-index: 5;
@@ -195,6 +202,8 @@ html, body {
 
 .door:hover {
   filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
+  cursor: pointer;
+  transition: filter 0.3s ease;
 }
 
 .label {
@@ -238,3 +247,4 @@ html, body {
 
 #door5 { top: 82%; left: 52%; }
 #label5 { top: 77%; left: 52%; transform: translateX(-10%); }
+
