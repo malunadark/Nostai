@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <title>Хроники Забвения</title>
   <link rel="stylesheet" href="chronicles.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js"></script>
 </head>
 <body>
 
@@ -44,6 +42,10 @@
     <div class="hard page">Завершение первого этапа</div>
   </div>
 
+  <!-- Скрипты подключаем внизу страницы -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js"></script>
+
   <script>
     $(function() {
       $("#book").turn({
@@ -55,26 +57,5 @@
       });
     });
   </script>
-   <!-- ... контент страницы ... -->
-
-<!-- Подключаем jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Подключаем turn.js -->
-<script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js"></script>
-
-<!-- Инициализация книги -->
-<script>
-  $(function() {
-    $("#book").turn({
-      width: 900,
-      height: 600,
-      autoCenter: true,
-      gradients: true,
-      duration: 1000
-    });
-  });
-</script>
-
 </body>
 </html>
