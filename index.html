@@ -105,23 +105,41 @@
   </style>
 </head>
 <body>
-  <!-- Двери с подписями -->
-<div id="door1" class="door"></div>
+<!-- Двери с подписями -->
+<div id="door1" class="door" data-link="page1.html"></div>
 <div id="label1" class="label">Порог Тайны</div>
 
-<div id="door2" class="door"></div>
+<div id="door2" class="door" data-link="page2.html"></div>
 <div id="label2" class="label">Голос Тени</div>
 
-<div id="door3" class="door"></div>
+<div id="door3" class="door" data-link="register.html"></div>
 <div id="label3" class="label">Вход в Бездну</div>
 
-<div id="door4" class="door"></div>
+<div id="door4" class="door" data-link="chronicles.html"></div>
 <div id="label4" class="label">Хроники Забвения</div>
 
-<div id="door5" class="door"></div>
+<div id="door5" class="door" data-link="gifts.html"></div>
 <div id="label5" class="label">Дары Провидцев</div>
-</body>
-</html>
+
+<script>
+  // Получаем все двери
+  const doors = document.querySelectorAll('.door');
+
+  doors.forEach(door => {
+    door.addEventListener('click', () => {
+      // Добавляем класс анимации зума
+      door.classList.add('camera-zoom');
+
+      // Через 1.5 секунды переходим по ссылке из data-link
+      const link = door.getAttribute('data-link');
+      setTimeout(() => {
+        window.location.href = link;
+      }, 1500);
+    });
+  });
+</script>
+
+
 
 
 
