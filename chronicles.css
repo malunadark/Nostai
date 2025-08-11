@@ -1,142 +1,150 @@
-/* --- Подключение шрифтов (пути к шрифтам в assets/fonts/) --- */
-@font-face {
-  font-family: 'UncialAntiqua';
-  src: url('assets/fonts/UncialAntiqua-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'CinzelDecorative';
-  src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'DestroyCyr';
-  src: url('assets/fonts/DestroyCyr.ttf') format('truetype');
-}
-
-/* --- Базовые сбросы --- */
-* { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; padding: 0; background: #000; font-family: 'DestroyCyr', serif; color: #ffdca0; overflow: hidden; }
-
-/* --- Дым (на весь экран, прозрачный) --- */
-.smoke {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: url('assets/smoke-fog.gif') repeat center bottom;
-  background-size: cover;
-  opacity: 0.18;
-  z-index: 10;
-  filter: blur(1px);
-}
-
-/* --- Тени по краям --- */
-.shadow {
-  position: fixed;
-  top: 0;
-  height: 100%;
-  width: 18%;
-  pointer-events: none;
-  z-index: 20;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.shadow-left { left: 0; background-image: url('assets/effects/shadow.jpg'); opacity: .85; }
-.shadow-right { right: 0; background-image: url('assets/effects/shadow.jpg'); opacity: .85; }
-
-/* --- Контейнер книги --- */
-.book {
-  --book-w: 900px;
-  --book-h: 600px;
-  width: var(--book-w);
-  height: var(--book-h);
-  margin: calc((100vh - var(--book-h)) / 2) auto;
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  background: #0b0b0b;
+  color: #ddd;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
   position: relative;
-  z-index: 30;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-  border-radius: 6px;
-  overflow: visible;
+  user-select: none;
 }
 
-/* --- Страница --- */
-/* Turn.js ожидает, что каждая "страница" будет иметь ширину = половина книжного разворота.
-   Сделаем 50% ширины контейнера (450px) и высоту 100% */
-.book .page, .book .hard {
-  width: calc(50% - 0px);   /* половина книжки */
-  height: 100%;
-  float: left;
-  display: block;
-  padding: 40px 36px;
-  box-sizing: border-box;
-  background: transparent;   /* чтобы был виден фон книги (изображение) */
-  color: #f6ddb1;
-  overflow-y: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Используем картинку book.png как текстуру страницы, но делаем её чуть темнее */
-.book .page > .page-inner, .book .hard > .cover-inner {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  box-sizing: border-box;
-  background: url('assets/book.png') no-repeat center center;
+/* Фон книги с текстурой */
+#book {
+  position: relative;
+  margin: 60px auto 80px auto;
+  width: 900px;
+  height: 600px;
+  z-index: 10;
+  box-shadow:
+    0 20px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(0,0,0,0.9);
+  background:
+    url('assets/book.png') center center no-repeat;
   background-size: cover;
-  border-radius: 3px;
-  padding: 40px;
-  color: #f6ddb1;
-  overflow: auto;
-  /* подсветка текста на книжной текстуре */
-  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+  border-radius: 8px;
 }
 
-/* Обложка/твердые страницы */
-.book .hard {
-  /* внешний вид обложки (пустой — текст внутри .cover-inner) */
-  width: calc(50% - 0px);
-  float: left;
+/* Страницы */
+.page, .hard {
+  background: rgba(46, 46, 46, 0.85);
+  color: #ddd;
+  border: 1px solid #444;
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.06),
+    0 4px 8px rgba(0,0,0,0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  user-select: text;
+  padding: 20px;
+  backdrop-filter: blur(2px);
 }
+
+.hard {
+  background: rgba(58, 58, 58, 0.95);
+  font-weight: bold;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,0.7),
+    0 6px 12px rgba(0,0,0,0.8);
+}
+
+.page-inner {
+  height: 100%;
+  overflow-y: auto;
+}
+
 .cover-inner {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
 }
 .cover-inner h1 {
-  font-family: 'CinzelDecorative', serif;
-  font-size: 40px;
-  margin: 0 0 12px;
-  color: #ffd18a;
-  letter-spacing: 1px;
+  font-size: 3.2rem;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  color: #f2f2f2;
+  text-shadow: 0 0 5px #cfd8dc, 0 0 10px #789262;
 }
-.subtitle {
-  font-family: 'UncialAntiqua', serif;
-  color: #ffddb7;
-  font-size: 18px;
-}
-
-/* Заголовки страниц внутри */
-.page-inner h2 {
-  font-family: 'CinzelDecorative', serif;
-  font-size: 26px;
-  margin: 0 0 8px;
-  color: #ffdfb3;
+.cover-inner .subtitle {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #a5a5a5;
+  text-shadow: 0 0 4px #4b4b4b;
 }
 
-/* Текст параграфа */
-.page-inner p {
-  font-family: 'DestroyCyr', serif;
-  font-size: 17px;
-  line-height: 1.6;
-  margin: 0 0 12px;
+h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: #8dc8a7;
+  text-shadow: 0 0 6px #6ca06c;
+}
+p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #ddd;
+  text-shadow: 0 0 1px #111;
 }
 
-/* Немного адаптивности — чтобы на узких экранах книга уменьшалась */
-@media (max-width: 980px) {
-  .book { --book-w: 760px; --book-h: 500px; width: var(--book-w); height: var(--book-h); margin-top: 20px; margin-bottom:20px; }
+.page-inner::-webkit-scrollbar {
+  width: 8px;
 }
-@media (max-width: 700px) {
-  /* на очень узких экранах отключаем turn.js поведение (покажем одну страницу, уберём float) */
-  .book .page, .book .hard { width: 100%; float: none; height: auto; }
-  .book { width: calc(100% - 20px); height: auto; margin: 20px; }
+.page-inner::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+.page-inner::-webkit-scrollbar-thumb {
+  background-color: #5b7b5b;
+  border-radius: 4px;
+}
+
+.cover-back .cover-inner {
+  font-size: 1.2rem;
+  color: #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-style: italic;
+}
+
+/* Дым как анимированный gif поверх */
+.smoke {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: url('assets/smoke-fog.gif') center center / cover no-repeat;
+  opacity: 0.35;
+  z-index: 1;
+}
+
+/* Тени по краям с изображением */
+.shadow {
+  position: fixed;
+  top: 0; bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 5;
+  background: url('assets/effects/shadow.jpg') center center no-repeat;
+  background-size: contain;
+  opacity: 0.8;
+}
+.shadow-left {
+  left: 0;
+  transform: scaleX(-1);
+}
+.shadow-right {
+  right: 0;
+}
+
+@media(max-width: 960px) {
+  #book {
+    width: 100vw;
+    height: 66vw;
+    max-height: 480px;
+    margin: 30px auto 60px auto;
+    border-radius: 0;
+  }
 }
