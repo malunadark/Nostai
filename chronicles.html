@@ -4,7 +4,184 @@
   <meta charset="utf-8" />
   <title>Хроники Забвения</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="chronicles.css" />
+  
+  <style>
+    /* Сброс базовых отступов */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0b0b0b;
+      color: #ddd;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Дым — фоновый слой */
+    .smoke {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at center, rgba(255 255 255 / 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse at center, rgba(255 255 255 / 0.06) 0%, transparent 60%);
+      animation: smokeMove 30s linear infinite;
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes smokeMove {
+      0% {
+        background-position: 0% 50%, 100% 50%;
+      }
+      100% {
+        background-position: 100% 50%, 0% 50%;
+      }
+    }
+
+    /* Тени по краям */
+    .shadow {
+      position: fixed;
+      top: 0; bottom: 0;
+      width: 80px;
+      pointer-events: none;
+      z-index: 5;
+      background: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
+    }
+    .shadow-left {
+      left: 0;
+    }
+    .shadow-right {
+      right: 0;
+      background: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+    }
+
+    /* Контейнер книги */
+    #book {
+      position: relative;
+      margin: 60px auto 80px auto;
+      width: 900px;
+      height: 600px;
+      z-index: 10;
+      box-shadow:
+        0 20px 30px rgba(0,0,0,0.7),
+        inset 0 0 40px rgba(0,0,0,0.9);
+      background: #181818;
+      border-radius: 8px;
+    }
+
+    /* Стили для страниц книги */
+    .page, .hard {
+      background: #2e2e2e;
+      color: #ddd;
+      border: 1px solid #444;
+      box-shadow:
+        inset 0 0 10px rgba(255,255,255,0.06),
+        0 4px 8px rgba(0,0,0,0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      user-select: text;
+      padding: 20px;
+    }
+
+    /* Твёрдые страницы (обложки) */
+    .hard {
+      background: linear-gradient(135deg, #3a3a3a, #222);
+      font-weight: bold;
+      box-shadow:
+        inset 0 0 40px rgba(0,0,0,0.7),
+        0 6px 12px rgba(0,0,0,0.8);
+    }
+
+    /* Внутренний контент страницы */
+    .page-inner {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    /* Обложка - контент */
+    .cover-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .cover-inner h1 {
+      font-size: 3.2rem;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      color: #f2f2f2;
+      text-shadow:
+        0 0 5px #cfd8dc,
+        0 0 10px #789262;
+    }
+
+    .cover-inner .subtitle {
+      font-size: 1.3rem;
+      font-style: italic;
+      color: #a5a5a5;
+      text-shadow: 0 0 4px #4b4b4b;
+    }
+
+    /* Заголовки глав */
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: #8dc8a7;
+      text-shadow: 0 0 6px #6ca06c;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #ddd;
+      text-shadow: 0 0 1px #111;
+    }
+
+    /* Стили скролла для контента страниц */
+    .page-inner::-webkit-scrollbar {
+      width: 8px;
+    }
+    .page-inner::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+    .page-inner::-webkit-scrollbar-thumb {
+      background-color: #5b7b5b;
+      border-radius: 4px;
+    }
+
+    /* Нижний текст на задней обложке */
+    .cover-back .cover-inner {
+      font-size: 1.2rem;
+      color: #999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-style: italic;
+    }
+
+    /* Медиазапрос для мобильных */
+    @media(max-width: 960px) {
+      #book {
+        width: 100vw;
+        height: 66vw;
+        max-height: 480px;
+        margin: 30px auto 60px auto;
+        border-radius: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -57,60 +234,22 @@
     </div>
   </div>
 
-  <!-- jQuery (CDN) -->
+  <!-- jQuery локально или CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Попытка загрузить turn.js с CDN, в случае неудачи подключаем локальный js/turn.min.js -->
+  <!-- Локальный turn.js -->
+  <script src="js/turn.min.js"></script>
+
   <script>
-    (function() {
-      // helper to dynamically load script
-      function loadScript(src, onload, onerror) {
-        var s = document.createElement('script');
-        s.src = src;
-        s.async = true;
-        s.onload = onload;
-        s.onerror = onerror;
-        document.head.appendChild(s);
-      }
-
-      // try CDN first
-      var cdn = 'https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js';
-
-      loadScript(cdn, initIfReady, function() {
-        // fallback to local file
-        loadScript('js/turn.min.js', initIfReady, function() {
-          console.error('Не удалось загрузить turn.js ни с CDN, ни локально. Проверь js/turn.min.js');
-        });
+    $(function() {
+      $('#book').turn({
+        width: 900,
+        height: 600,
+        autoCenter: true,
+        gradients: true,
+        duration: 800
       });
-
-      function initIfReady() {
-        // убедимся, что плагин зарегистрирован
-        if (jQuery && jQuery.fn && typeof jQuery.fn.turn === 'function') {
-          initBook();
-        } else {
-          // если не сразу — попробуем через небольшой таймаут
-          setTimeout(function() {
-            if (jQuery && jQuery.fn && typeof jQuery.fn.turn === 'function') initBook();
-            else console.error('turn.js загружен, но $.fn.turn не найден.');
-          }, 200);
-        }
-      }
-
-      function initBook() {
-        $(function() {
-          // Принудительно выставляем размер страниц (по половине ширины книги)
-          var bookWidth = 900, bookHeight = 600;
-          // Инициализация
-          $('#book').turn({
-            width: bookWidth,
-            height: bookHeight,
-            autoCenter: true,
-            gradients: true,
-            duration: 800
-          });
-        });
-      }
-    })();
+    });
   </script>
 
 </body>
