@@ -1,61 +1,117 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <title>Хроники Забвения</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="chronicles.css" />
 </head>
 <body>
 
-  <!-- Анимация дыма -->
-  <div class="smoke"></div>
+  <!-- Дым (фоновой слой, pointer-events none чтобы не мешал) -->
+  <div class="smoke" aria-hidden="true"></div>
 
-  <!-- Тени -->
-  <div class="shadow shadow-left"></div>
-  <div class="shadow shadow-right"></div>
+  <!-- Тени по краям -->
+  <div class="shadow shadow-left" aria-hidden="true"></div>
+  <div class="shadow shadow-right" aria-hidden="true"></div>
 
-  <!-- Книга -->
-  <div id="book">
-    <div class="hard page">
-      Хроники Забвения<br>
-      <span class="subtitle">Выбери свою судьбу...</span>
+  <!-- Книга: дочерние .page должны быть прямыми детьми #book -->
+  <div id="book" class="book">
+    <!-- Обложка (твёрдая страница) -->
+    <div class="hard page cover">
+      <div class="cover-inner">
+        <h1>Хроники Забвения</h1>
+        <div class="subtitle">Выбери свою судьбу...</div>
+      </div>
     </div>
 
+    <!-- Разворот 1 (левая) -->
     <div class="page">
-      <h2>Глава I — Неизведанное</h2>
-      <p>Туман лёг над выжженными землями, скрывая следы недавней катастрофы.<br>
-      Молчание тянулось, словно вечность, пока первые шаги не нарушили покой пепелища...</p>
+      <div class="page-inner">
+        <h2>Глава I — Неизведанное</h2>
+        <p>Туман лёг над выжженными землями, скрывая следы недавней катастрофы. Молчание тянулось, словно вечность, пока первые шаги не нарушили покой пепелища...</p>
+      </div>
     </div>
 
+    <!-- Разворот 1 (правая) -->
     <div class="page">
-      <h2>Глава II — Пепел Времени</h2>
-      <p>Пески времени давно истёрли истину, но тени прошлого вновь сгущаются.<br>
-      Старые карты ведут к заброшенным поселениям, где ещё слышен шёпот забытых имён...</p>
+      <div class="page-inner">
+        <h2>Глава II — Пепел Времени</h2>
+        <p>Пески времени давно истёрли истину, но тени прошлого вновь сгущаются. Старые карты ведут к заброшенным поселениям, где ещё слышен шёпот забытых имён...</p>
+      </div>
     </div>
 
+    <!-- Разворот 2 (левая) -->
     <div class="page">
-      <h2>Глава III — Тени на Алтае</h2>
-      <p>Склоны Алтая окутаны туманом, в котором скрываются древние легенды.<br>
-      Лишь те, кто осмелится шагнуть в глубь гор, узнают правду о Пропавших...</p>
+      <div class="page-inner">
+        <h2>Глава III — Тени на Алтае</h2>
+        <p>Склоны Алтая окутаны туманом, в котором скрываются древние легенды. Лишь те, кто осмелится шагнуть в глубь гор, узнают правду о Пропавших...</p>
+      </div>
     </div>
 
-    <div class="hard page">Завершение первого этапа</div>
+    <!-- Разворот 2 (правая) -- задняя обложка -->
+    <div class="hard page cover-back">
+      <div class="cover-inner">
+        Завершение первого этапа
+      </div>
+    </div>
   </div>
 
-  <!-- Скрипты -->
+  <!-- jQuery (CDN) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/turn.min.js"></script>
 
+  <!-- Попытка загрузить turn.js с CDN, в случае неудачи подключаем локальный js/turn.min.js -->
   <script>
-    $(function() {
-      $("#book").turn({
-        width: 900,
-        height: 600,
-        autoCenter: true,
-        gradients: true,
-        duration: 1000
+    (function() {
+      // helper to dynamically load script
+      function loadScript(src, onload, onerror) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.onload = onload;
+        s.onerror = onerror;
+        document.head.appendChild(s);
+      }
+
+      // try CDN first
+      var cdn = 'https://cdn.jsdelivr.net/gh/blasten/turn.js@4.1.0/turn.min.js';
+
+      loadScript(cdn, initIfReady, function() {
+        // fallback to local file
+        loadScript('js/turn.min.js', initIfReady, function() {
+          console.error('Не удалось загрузить turn.js ни с CDN, ни локально. Проверь js/turn.min.js');
+        });
       });
-    });
+
+      function initIfReady() {
+        // убедимся, что плагин зарегистрирован
+        if (jQuery && jQuery.fn && typeof jQuery.fn.turn === 'function') {
+          initBook();
+        } else {
+          // если не сразу — попробуем через небольшой таймаут
+          setTimeout(function() {
+            if (jQuery && jQuery.fn && typeof jQuery.fn.turn === 'function') initBook();
+            else console.error('turn.js загружен, но $.fn.turn не найден.');
+          }, 200);
+        }
+      }
+
+      function initBook() {
+        $(function() {
+          // Принудительно выставляем размер страниц (по половине ширины книги)
+          var bookWidth = 900, bookHeight = 600;
+          // Инициализация
+          $('#book').turn({
+            width: bookWidth,
+            height: bookHeight,
+            autoCenter: true,
+            gradients: true,
+            duration: 800
+          });
+        });
+      }
+    })();
   </script>
+
 </body>
 </html>
