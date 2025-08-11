@@ -4,229 +4,40 @@
   <meta charset="utf-8" />
   <title>Хроники Забвения</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  
-  <style>
-    /* Сброс базовых отступов */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: #0b0b0b;
-      color: #ddd;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-      user-select: none;
-    }
-
-    /* Дым — фоновый слой */
-    .smoke {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(255 255 255 / 0.04) 0%, transparent 70%),
-        radial-gradient(ellipse at center, rgba(255 255 255 / 0.06) 0%, transparent 60%);
-      animation: smokeMove 30s linear infinite;
-      z-index: 1;
-      mix-blend-mode: screen;
-    }
-
-    @keyframes smokeMove {
-      0% {
-        background-position: 0% 50%, 100% 50%;
-      }
-      100% {
-        background-position: 100% 50%, 0% 50%;
-      }
-    }
-
-    /* Тени по краям */
-    .shadow {
-      position: fixed;
-      top: 0; bottom: 0;
-      width: 80px;
-      pointer-events: none;
-      z-index: 5;
-      background: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
-    }
-    .shadow-left {
-      left: 0;
-    }
-    .shadow-right {
-      right: 0;
-      background: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
-    }
-
-    /* Контейнер книги */
-    #book {
-      position: relative;
-      margin: 60px auto 80px auto;
-      width: 900px;
-      height: 600px;
-      z-index: 10;
-      box-shadow:
-        0 20px 30px rgba(0,0,0,0.7),
-        inset 0 0 40px rgba(0,0,0,0.9);
-      background: #181818;
-      border-radius: 8px;
-    }
-
-    /* Стили для страниц книги */
-    .page, .hard {
-      background: #2e2e2e;
-      color: #ddd;
-      border: 1px solid #444;
-      box-shadow:
-        inset 0 0 10px rgba(255,255,255,0.06),
-        0 4px 8px rgba(0,0,0,0.5);
-      border-radius: 4px;
-      overflow: hidden;
-      user-select: text;
-      padding: 20px;
-    }
-
-    /* Твёрдые страницы (обложки) */
-    .hard {
-      background: linear-gradient(135deg, #3a3a3a, #222);
-      font-weight: bold;
-      box-shadow:
-        inset 0 0 40px rgba(0,0,0,0.7),
-        0 6px 12px rgba(0,0,0,0.8);
-    }
-
-    /* Внутренний контент страницы */
-    .page-inner {
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    /* Обложка - контент */
-    .cover-inner {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      text-align: center;
-      padding: 40px;
-    }
-
-    .cover-inner h1 {
-      font-size: 3.2rem;
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-      color: #f2f2f2;
-      text-shadow:
-        0 0 5px #cfd8dc,
-        0 0 10px #789262;
-    }
-
-    .cover-inner .subtitle {
-      font-size: 1.3rem;
-      font-style: italic;
-      color: #a5a5a5;
-      text-shadow: 0 0 4px #4b4b4b;
-    }
-
-    /* Заголовки глав */
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 16px;
-      color: #8dc8a7;
-      text-shadow: 0 0 6px #6ca06c;
-    }
-
-    p {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      color: #ddd;
-      text-shadow: 0 0 1px #111;
-    }
-
-    /* Стили скролла для контента страниц */
-    .page-inner::-webkit-scrollbar {
-      width: 8px;
-    }
-    .page-inner::-webkit-scrollbar-track {
-      background: #1e1e1e;
-    }
-    .page-inner::-webkit-scrollbar-thumb {
-      background-color: #5b7b5b;
-      border-radius: 4px;
-    }
-
-    /* Нижний текст на задней обложке */
-    .cover-back .cover-inner {
-      font-size: 1.2rem;
-      color: #999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      font-style: italic;
-    }
-
-    /* Медиазапрос для мобильных */
-    @media(max-width: 960px) {
-      #book {
-        width: 100vw;
-        height: 66vw;
-        max-height: 480px;
-        margin: 30px auto 60px auto;
-        border-radius: 0;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="chronicles.css" />
 </head>
 <body>
 
-  <!-- Дым (фоновой слой, pointer-events none чтобы не мешал) -->
   <div class="smoke" aria-hidden="true"></div>
-
-  <!-- Тени по краям -->
   <div class="shadow shadow-left" aria-hidden="true"></div>
   <div class="shadow shadow-right" aria-hidden="true"></div>
 
-  <!-- Книга: дочерние .page должны быть прямыми детьми #book -->
   <div id="book" class="book">
-    <!-- Обложка (твёрдая страница) -->
+    <!-- странички как раньше -->
     <div class="hard page cover">
       <div class="cover-inner">
         <h1>Хроники Забвения</h1>
         <div class="subtitle">Выбери свою судьбу...</div>
       </div>
     </div>
-
-    <!-- Разворот 1 (левая) -->
     <div class="page">
       <div class="page-inner">
         <h2>Глава I — Неизведанное</h2>
-        <p>Туман лёг над выжженными землями, скрывая следы недавней катастрофы. Молчание тянулось, словно вечность, пока первые шаги не нарушили покой пепелища...</p>
+        <p>Туман лёг над выжженными землями...</p>
       </div>
     </div>
-
-    <!-- Разворот 1 (правая) -->
     <div class="page">
       <div class="page-inner">
         <h2>Глава II — Пепел Времени</h2>
-        <p>Пески времени давно истёрли истину, но тени прошлого вновь сгущаются. Старые карты ведут к заброшенным поселениям, где ещё слышен шёпот забытых имён...</p>
+        <p>Пески времени давно истёрли истину...</p>
       </div>
     </div>
-
-    <!-- Разворот 2 (левая) -->
     <div class="page">
       <div class="page-inner">
         <h2>Глава III — Тени на Алтае</h2>
-        <p>Склоны Алтая окутаны туманом, в котором скрываются древние легенды. Лишь те, кто осмелится шагнуть в глубь гор, узнают правду о Пропавших...</p>
+        <p>Склоны Алтая окутаны туманом...</p>
       </div>
     </div>
-
-    <!-- Разворот 2 (правая) -- задняя обложка -->
     <div class="hard page cover-back">
       <div class="cover-inner">
         Завершение первого этапа
@@ -234,23 +45,13 @@
     </div>
   </div>
 
-  <!-- jQuery локально или CDN -->
+  <audio id="page-turn-sound" src="assets/audio/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+
+  <!-- Подключаем только JS-библиотеки -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- Локальный turn.js -->
   <script src="js/turn.min.js"></script>
-
-  <script>
-    $(function() {
-      $('#book').turn({
-        width: 900,
-        height: 600,
-        autoCenter: true,
-        gradients: true,
-        duration: 800
-      });
-    });
-  </script>
+  <!-- Всё остальное — в chronicles.js -->
+  <script src="chronicles.js"></script>
 
 </body>
 </html>
