@@ -17,4 +17,9 @@ Promise.resolve()
   .then(() => loadScript('https://code.jquery.com/jquery-3.6.0.min.js'))
   .then(() => loadScript('js/turn.min.js'))
   .then(() => loadScript('chronicles.js'))
+  .then(() => {
+    if (typeof initBook === 'function') {
+      initBook();
+    }
+  })
   .catch(console.error);
