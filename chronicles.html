@@ -6,14 +6,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="chronicles.css" />
 </head>
-<body>
+<body style="visibility:hidden">
 
   <div class="smoke" aria-hidden="true"></div>
   <div class="shadow shadow-left" aria-hidden="true"></div>
   <div class="shadow shadow-right" aria-hidden="true"></div>
 
   <div id="book" class="book">
-    <!-- странички как раньше -->
     <div class="hard page cover">
       <div class="cover-inner">
         <h1>Хроники Забвения</h1>
@@ -47,11 +46,6 @@
 
   <audio id="page-turn-sound" src="assets/audio/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
-  <!-- Подключаем только JS-библиотеки -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="js/turn.min.js"></script>
-  <!-- Всё остальное — в chronicles.js -->
   <script src="chronicles.js"></script>
-
 </body>
 </html>
