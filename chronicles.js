@@ -16,7 +16,7 @@ function loadScript(src) {
 }
 
 function initBook() {
-  var pageTurnSound = document.getElementById('page-turn-sound');
+  const pageTurnSound = document.getElementById('page-turn-sound');
   $('#book').turn({
     width: 900,
     height: 600,
@@ -29,6 +29,19 @@ function initBook() {
       pageTurnSound.play();
     }
   });
+
+  // Показать книгу и убрать лоадер
+  const loader = document.getElementById('loader');
+  if (loader) {
+    loader.style.transition = 'opacity 0.8s ease';
+    loader.style.opacity = 0;
+    setTimeout(() => {
+      loader.style.display = 'none';
+      document.body.style.visibility = 'visible';
+    }, 800);
+  } else {
+    document.body.style.visibility = 'visible';
+  }
 }
 
 // Последовательная загрузка скриптов
