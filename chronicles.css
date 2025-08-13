@@ -1,142 +1,39 @@
-/* Подключаем шрифты */
-@font-face {
-  font-family: 'DestroyCyr';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'DeutschGothic';
-  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'CinzelDecorative';
-  src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* Убираем фон, чтобы была только книга */
 body {
   margin: 0;
-  padding: 0;
-  background: #000; /* просто чёрный фон вокруг книги */
-  color: #f5f5f5;
-  overflow: hidden;
-  font-family: 'CinzelDecorative', serif;
-}
-
-/* Дым */
-.smoke {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('assets/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Тени */
-.shadow {
-  position: fixed;
-  top: 0;
-  width: 100px;
-  height: 100%;
-  z-index: 3;
-}
-.shadow-left {
-  left: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
-}
-.shadow-right {
-  right: 0;
-  background: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
-}
-
-/* Книга */
-.book {
-  margin: 30px auto;
-  box-shadow: 0 0 30px rgba(0,0,0,0.9);
-  z-index: 5;
-  position: relative;
-  background: url('assets/book.png') center/cover no-repeat;
-}
-
-/* Страницы */
-.page {
-  background: rgba(26, 26, 26, 0.95);
-  padding: 20px;
-  font-size: 16px;
-  line-height: 1.6;
-}
-.page-inner {
-  padding: 10px;
-}
-.page h2 {
-  font-size: 24px;
-  margin-top: 0;
-  font-family: 'DeutschGothic', serif;
-  color: #ffcc66;
-}
-.page p {
-  font-family: 'CinzelDecorative', serif;
-}
-
-/* Обложка */
-.cover {
-  color: #ffcc66;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.cover-inner h1 {
-  font-size: 42px;
-  margin: 0;
-  font-family: 'DestroyCyr', serif;
-}
-.cover-inner .subtitle {
-  font-size: 18px;
-  margin-top: 10px;
-  font-family: 'DeutschGothic', serif;
-}
-
-/* Задняя обложка */
-.cover-back {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #111;
-  font-family: 'DeutschGothic', serif;
+  color: #eee;
+  font-family: 'Deutsch Gothic', sans-serif;
 }
 
-/* Лоадер */
-#loader {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  font-size: 1.5em;
+#book-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
+#chronicles-book {
+  width: 800px;
+  height: 600px;
+}
+
+.page {
+  background: #222;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-family: 'DestroyCyr', serif;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #f0d000;
+}
+
+.page-content {
+  font-family: 'Deutsch Gothic', 'Cinzel Decorative', serif;
+  font-size: 20px;
+  line-height: 1.5;
   color: #ccc;
-  text-align: center;
-}
-#loader .loader-spinner {
-  border: 6px solid rgba(255, 255, 255, 0.2);
-  border-top: 6px solid #ccc;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 10px auto;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
