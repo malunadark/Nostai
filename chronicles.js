@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('book-container');
-  const flipSound = document.getElementById('book-page-turn-4_z1xaim4u.mp3');
+  const flipSound = document.getElementById('flip-sound');
 
   const book = document.createElement('div');
   book.id = 'chronicles-book';
@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     page.innerHTML = `<h2 class="page-title">${p.title}</h2><p class="page-content">${p.content}</p>`;
     book.appendChild(page);
   });
+
+  // Проверка подключения jQuery и turn.js
+  console.log("jQuery:", typeof $);
+  console.log("turn function:", typeof $('#chronicles-book').turn);
 
   // Инициализация turn.js
   $('#chronicles-book').turn({
