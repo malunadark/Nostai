@@ -1,11 +1,33 @@
-/* Фон и базовая разметка */
+/* Подключаем шрифты */
+@font-face {
+  font-family: 'DestroyCyr';
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DeutschGothic';
+  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CinzelDecorative';
+  src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Убираем фон, чтобы была только книга */
 body {
   margin: 0;
   padding: 0;
-  background: #000 url('assets/bg.jpg') center/cover no-repeat;
-  font-family: 'Times New Roman', serif;
+  background: #000; /* просто чёрный фон вокруг книги */
   color: #f5f5f5;
   overflow: hidden;
+  font-family: 'CinzelDecorative', serif;
 }
 
 /* Дым */
@@ -21,7 +43,7 @@ body {
   z-index: 2;
 }
 
-/* Тени по краям */
+/* Тени */
 .shadow {
   position: fixed;
   top: 0;
@@ -40,14 +62,16 @@ body {
 
 /* Книга */
 .book {
-  margin: 50px auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  margin: 30px auto;
+  box-shadow: 0 0 30px rgba(0,0,0,0.9);
   z-index: 5;
   position: relative;
+  background: url('assets/book.png') center/cover no-repeat;
 }
 
+/* Страницы */
 .page {
-  background: #1a1a1a;
+  background: rgba(26, 26, 26, 0.95);
   padding: 20px;
   font-size: 16px;
   line-height: 1.6;
@@ -58,11 +82,15 @@ body {
 .page h2 {
   font-size: 24px;
   margin-top: 0;
+  font-family: 'DeutschGothic', serif;
   color: #ffcc66;
 }
+.page p {
+  font-family: 'CinzelDecorative', serif;
+}
 
+/* Обложка */
 .cover {
-  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
   color: #ffcc66;
   text-align: center;
   display: flex;
@@ -70,12 +98,14 @@ body {
   align-items: center;
 }
 .cover-inner h1 {
-  font-size: 36px;
+  font-size: 42px;
   margin: 0;
+  font-family: 'DestroyCyr', serif;
 }
 .cover-inner .subtitle {
   font-size: 18px;
   margin-top: 10px;
+  font-family: 'DeutschGothic', serif;
 }
 
 /* Задняя обложка */
@@ -85,6 +115,7 @@ body {
   justify-content: center;
   align-items: center;
   background: #111;
+  font-family: 'DeutschGothic', serif;
 }
 
 /* Лоадер */
