@@ -21,23 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     book.appendChild(page);
   });
 
-  // Инициализация turn.js после загрузки
-  const initBook = () => {
-    if(typeof $ !== 'undefined' && $('#chronicles-book').turn){
-      $('#chronicles-book').turn({
-        width: 800,
-        height: 600,
-        autoCenter: true,
-        when: {
-          turning: function(e, page, view) {
-            flipSound.currentTime = 0;
-            flipSound.play();
-          }
-        }
-      });
-    } else {
-      setTimeout(initBook, 100);
+  // Инициализация turn.js
+  $('#chronicles-book').turn({
+    width: 800,
+    height: 600,
+    autoCenter: true,
+    when: {
+      turning: function(e, page, view) {
+        flipSound.currentTime = 0;
+        flipSound.play();
+      }
     }
-  };
-  initBook();
+  });
 });
