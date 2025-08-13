@@ -1,57 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Хроники Забвения</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="chronicles.css" />
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="chronicles.css">
+
+  <!-- Шрифты -->
+  <style>
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Deutsch Gothic';
+      src: url('assets/fonts/Deutsch%20Gothic.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Cinzel Decorative';
+      src: url('assets/fonts/CinzelDecorative-Regular.ttf') format('truetype');
+    }
+  </style>
 </head>
-<body style="visibility:hidden">
+<body>
 
-  <!-- Лоадер -->
-  <div id="loader" aria-label="Загрузка..." role="status">
-    <div class="loader-spinner"></div>
-    Загрузка...
-  </div>
+  <div id="book-container"></div>
 
-  <div class="smoke" aria-hidden="true"></div>
-  <div class="shadow shadow-left" aria-hidden="true"></div>
-  <div class="shadow shadow-right" aria-hidden="true"></div>
-
-  <div id="book" class="book">
-    <div class="hard page cover">
-      <div class="cover-inner">
-        <h1>Хроники Забвения</h1>
-        <div class="subtitle">Выбери свою судьбу...</div>
-      </div>
-    </div>
-    <div class="page">
-      <div class="page-inner">
-        <h2>Глава I — Неизведанное</h2>
-        <p>Туман лёг над выжженными землями...</p>
-      </div>
-    </div>
-    <div class="page">
-      <div class="page-inner">
-        <h2>Глава II — Пепел Времени</h2>
-        <p>Пески времени давно истёрли истину...</p>
-      </div>
-    </div>
-    <div class="page">
-      <div class="page-inner">
-        <h2>Глава III — Тени на Алтае</h2>
-        <p>Склоны Алтая окутаны туманом...</p>
-      </div>
-    </div>
-    <div class="hard page cover-back">
-      <div class="cover-inner">
-        Завершение первого этапа
-      </div>
-    </div>
-  </div>
-
-  <audio id="page-turn-sound" src="assets/audio/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-
+  <!-- Скрипты -->
   <script src="loader.js"></script>
+  <script src="chronicles.js"></script>
 </body>
 </html>
