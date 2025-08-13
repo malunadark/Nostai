@@ -1,4 +1,3 @@
-// Динамическая подгрузка скриптов
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     if(document.querySelector(`script[src="${src}"]`)){
@@ -14,7 +13,7 @@ function loadScript(src) {
   });
 }
 
-// Подгрузка необходимых библиотек (например, turn.js)
-loadScript('https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js')
-  .then(() => console.log('turn.js загружен'))
-  .catch(err => console.error('Ошибка загрузки turn.js', err));
+// Подгружаем локальный turn.min.js
+loadScript('js/turn.min.js')
+  .then(() => console.log('turn.min.js загружен'))
+  .catch(err => console.error('Ошибка загрузки turn.min.js', err));
