@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('book-container');
-  const flipSound = document.getElementById('flip-sound');
+  const flipSound = document.getElementById('book-page-turn-4_z1xaim4u.mp3');
 
   const book = document.createElement('div');
   book.id = 'chronicles-book';
