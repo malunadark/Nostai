@@ -3,14 +3,18 @@ body {
   background: #111;
   color: #eee;
   font-family: 'Deutsch Gothic', sans-serif;
+  overflow: hidden;
+  position: relative;
 }
 
 #book-container {
   width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 0;
+  z-index: 2;
+  position: relative;
 }
 
 #chronicles-book {
@@ -19,9 +23,16 @@ body {
 }
 
 .page {
-  background: #222;
+  width: 100%;
+  height: 100%;
+  background: url('assets/book.png') no-repeat center center;
+  background-size: cover;
   padding: 40px;
   box-sizing: border-box;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  color: #fff;
+  text-shadow: 1px 1px 4px #000;
+  position: relative;
 }
 
 .page-title {
@@ -29,6 +40,7 @@ body {
   font-size: 36px;
   margin-bottom: 20px;
   color: #f0d000;
+  text-shadow: 1px 1px 6px #000;
 }
 
 .page-content {
@@ -36,4 +48,24 @@ body {
   font-size: 20px;
   line-height: 1.5;
   color: #ccc;
+  text-shadow: 1px 1px 3px #000;
+}
+
+/* Дым */
+.smoke {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: url('assets/smoke-fog.gif') repeat;
+  animation: smokeMove 60s linear infinite;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes smokeMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-50%, -50%); }
 }
