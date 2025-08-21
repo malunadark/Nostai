@@ -1,250 +1,28 @@
+/* Подключаем кастомные шрифты */
 @font-face {
-  font-family: 'Deutsch Gothic';
-  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'DestroyCyr';
-  src: url('assets/fonts/DestroyCyr.ttf') format('truetype');
+  font-family: 'Nostai';
+  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'FutharkAoe';
-  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+  font-family: 'Runes';
+  src: url('../assets/fonts/FutharkAoe.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  font-family: 'Deutsch Gothic', serif;
-  background: black;
+/* Заголовки — шрифт Nostai */
+h1, h2, h3 {
+  font-family: 'Nostai', serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* Фон */
-.background {
-  position: fixed;
-  inset: 0;
-  background-image: url('assets/Nostai.png');
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-}
-
-/* ЗОНА ЗАРАЖЕНИЯ */
-.infection-zone {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* ДЫМ */
-.smoke-layer {
-  width: 200%;
-  height: 100%;
-  background: url('assets/effects/smoke.png') repeat-x;
-  background-size: cover;
-  animation: moveSmoke 60s linear infinite;
-  opacity: 0.25;
-  filter: blur(4px);
-}
-
-@keyframes moveSmoke {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* СИЛУЭТЫ */
-.shadow {
-  position: absolute;
-  bottom: 0;
-  width: 80px;
-  height: 180px;
-  background: url('assets/effects/shadow.png') center/contain no-repeat;
-  opacity: 0;
-  animation: appearShadow 30s infinite;
-  filter: brightness(0.5);
-  z-index: 1;
-}
-
-.shadow-1 {
-  left: 20%;
-  animation-delay: 10s;
-}
-.shadow-2 {
-  left: 65%;
-  animation-delay: 20s;
-}
-
-@keyframes appearShadow {
-  0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
-  40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-  50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
-  60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
-}
-
-/* Дым */
-.smoke {
-  position: fixed;
-  inset: 0;
-  background: url('assets/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.2;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Заголовок */
-.nostai-title {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'DestroyCyr', sans-serif;
-  font-size: 64px;
-  color: white;
-  z-index: 2;
-  text-shadow: 0 0 15px #ff5722;
-}
-
-/* Летающие руны */
+/* Рунные символы */
 .rune {
-  position: absolute;
-  font-family: 'FutharkAoe', serif;
-  font-size: 36px;
-  color: #ffffff;
-  text-shadow: 0 0 10px #ffae00, 0 0 20px #ff6600;
-  z-index: 2;
-  pointer-events: none;
+  font-family: 'Runes', sans-serif;
+  color: #55aaff;
+  text-shadow: 0 0 8px rgba(85,170,255,0.8);
 }
-
-.rune1 { top: 10%; left: 20%; animation: fly1 8s infinite ease-in-out; }
-.rune2 { top: 30%; left: 70%; animation: fly2 10s infinite ease-in-out; }
-.rune3 { top: 60%; left: 10%; animation: fly3 12s infinite ease-in-out; }
-.rune4 { top: 80%; left: 80%; animation: fly4 9s infinite ease-in-out; }
-.rune5 { top: 40%; left: 50%; animation: fly5 11s infinite ease-in-out; }
-
-/* Анимации летающих рун */
-@keyframes fly1 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-20px, 10px); }
-  100% { transform: translate(0, 0); }
-}
-@keyframes fly2 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(15px, -15px); }
-  100% { transform: translate(0, 0); }
-}
-@keyframes fly3 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(5px, 20px); }
-  100% { transform: translate(0, 0); }
-}
-@keyframes fly4 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-25px, -5px); }
-  100% { transform: translate(0, 0); }
-}
-@keyframes fly5 {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(10px, 10px); }
-  100% { transform: translate(0, 0); }
-}
-
-/* Кнопка звука */
-#mute-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  background: transparent;
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* Анимация зума для дверей */
-.camera-zoom {
-  animation: zoomIn 1.5s forwards;
-}
-
-.camera-zoom {
-  animation: zoomIn 1.5s forwards;
-}
-
-@keyframes zoomIn {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.5);
-    filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.9));
-  }
-}
-
-.door {
-  position: absolute;
-  width: 120px;
-  height: 240px;
-  background: url('assets/door.png') no-repeat center / contain;
-  cursor: pointer;
-  filter: drop-shadow(0 0 5px rgba(255, 120, 0, 0.8));
-  z-index: 5;
-  transition: filter 0.3s ease;
-}
-
-.door:hover {
-  filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
-  cursor: pointer;
-  transition: filter 0.3s ease;
-}
-
-.label {
-  position: absolute;
-  width: 140px;
-  text-align: center;
-  font-size: 22px;
-  font-family: 'DestroyCyr', serif;
-  color: #ffb366;
-  text-shadow:
-    0 0 8px rgba(255, 200, 100, 0.9),
-    0 0 15px rgba(255, 140, 0, 0.7);
-  pointer-events: none;
-  user-select: none;
-  font-weight: bold;
-  z-index: 6;
-  letter-spacing: 1.5px;
-}
-
-/* Позиции дверей и надписей */
-
-#door1 { top: 18%; left: 12%; }
-#label1 { top: 13%; left: 12%; transform: translateX(-10%); }
-
-#door2 { top: 52%; left: 68%; }
-#label2 { top: 47%; left: 68%; transform: translateX(-10%); }
-
-#door3 { /* Вход в Бездну напротив солнца */
-  top: 38%; left: 85%;
-}
-#label3 {
-  top: 33%; left: 85%; transform: translateX(-10%);
-  color: #ff5f5f;
-  text-shadow:
-    0 0 10px #ff0000,
-    0 0 20px #ff4500;
-}
-
-#door4 { top: 68%; left: 32%; }
-#label4 { top: 63%; left: 32%; transform: translateX(-10%); }
-
-#door5 { top: 82%; left: 52%; }
-#label5 { top: 77%; left: 52%; transform: translateX(-10%); }
-
