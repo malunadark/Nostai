@@ -1,28 +1,45 @@
-/* Подключаем кастомные шрифты */
 @font-face {
   font-family: 'Nostai';
   src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
 }
-
 @font-face {
   font-family: 'Runes';
   src: url('../assets/fonts/FutharkAoe.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
 }
 
-/* Заголовки — шрифт Nostai */
-h1, h2, h3 {
+body {
+  margin: 0;
+  height: 100vh;
+  background: url('../assets/Nostai.png') center/cover no-repeat;
   font-family: 'Nostai', serif;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  overflow: hidden;
+  color: white;
 }
 
-/* Рунные символы */
+#scene-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 0;
+}
+
+/* Руны */
+#flying-runes {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
 .rune {
-  font-family: 'Runes', sans-serif;
+  position: absolute;
+  font-family: 'Runes';
   color: #55aaff;
-  text-shadow: 0 0 8px rgba(85,170,255,0.8);
+  opacity: 0.6;
+  animation: float linear forwards;
+}
+@keyframes float {
+  from { top: 100vh; opacity: 1; }
+  to { top: -10vh; opacity: 0; }
 }
