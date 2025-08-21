@@ -1,195 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title> NOSTAI</title>
-  <style>
-    @font-face {
-      font-family: 'DestroyCyr';
-      src: url('assets/fonts/destroycyr.ttf') format('truetype');
-      /* Если шрифт не доступен, заменится на serif */
-    }
-
-   <body>
-  <h1>✨ Nostai ✨</h1>
-
-  <!-- Руны будут появляться автоматически из JS -->
-  <div id="flying-runes"></div>
-
-  <!-- 3D дверь + модалка как раньше -->
-</body>
-
-
-    /* Вещательная кнопка */
-    .broadcast-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-family: 'DestroyCyr', serif;
-      text-decoration: none;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 14px;
-      border: 1px solid #00ffe0;
-      color: #00ffe0;
-      font-size: 16px;
-      z-index: 1000;
-      transition: background 0.3s;
-    }
-
-    .broadcast-btn:hover {
-      background: rgba(0,0,0,0.9);
-    }
-
-    /* Кнопка звука */
-    #mute-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      background: transparent;
-      color: #00ffe0;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    /* Двери */
-    .door {
-      position: absolute;
-      width: 120px;
-      height: 240px;
-      background: url('assets/Door.glb') no-repeat center center;
-      background-size: contain;
-      cursor: pointer;
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
-      transition: filter 0.3s ease;
-      z-index: 500;
-    }
-    .door:hover {
-      filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
-    }
-
-    /* Подписи */
-    .label {
-      position: absolute;
-      width: 140px;
-      text-align: center;
-      font-size: 20px;
-      text-shadow:
-        0 0 8px rgba(255, 255, 255, 0.8),
-        0 0 15px rgba(0, 150, 255, 0.6);
-      pointer-events: none;
-      user-select: none;
-      color: #a0c8ff;
-      font-weight: bold;
-      font-family: 'DestroyCyr', serif;
-      letter-spacing: 1.2px;
-      z-index: 600;
-    }
-
-    /* Цвет и тень для "Вход в Бездну" */
-    #label3 {
-      color: #ff5f5f;
-      text-shadow:
-        0 0 10px #ff0000,
-        0 0 20px #ff4500;
-    }
-
-    /* Позиции дверей и подписей */
-    #door1 { top: 20%; left: 10%; }
-    #label1 { top: 20%; left: 10%; transform: translateX(-10%); }
-
-    #door2 { top: 50%; left: 70%; }
-    #label2 { top: 50%; left: 70%; transform: translateX(-10%); }
-
-    #door3 { top: 35%; left: 85%; }
-    #label3 { top: 35%; left: 85%; transform: translateX(-10%); }
-
-    #door4 { top: 65%; left: 30%; }
-    #label4 { top: 65%; left: 30%; transform: translateX(-10%); }
-
-    #door5 { top: 80%; left: 50%; }
-    #label5 { top: 80%; left: 50%; transform: translateX(-10%); }
-
-    /* Анимация зума при клике */
-    .camera-zoom {
-      animation: zoomIn 1.5s forwards;
-      z-index: 1000 !important;
-    }
-    @keyframes zoomIn {
-      0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
-      }
-      100% {
-        transform: scale(1.5);
-        filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.9));
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Nostai</title>
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+  <!-- Контейнер для 3D -->
+  <div id="scene-container"></div>
 
-  <!-- Вещательная кнопка -->
-  <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
+  <!-- Руны -->
+  <div id="flying-runes"></div>
 
-  <!-- Кнопка звука -->
-  <button id="mute-btn">🔊</button>
-  <audio id="background-audio" autoplay loop>
-    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
-  </audio>
-
-  <!-- Двери с подписями -->
-  <div id="door1" class="door" data-link="porog-tainy.html"></div>
-  <div id="label1" class="label">Порог Тайны</div>
-
-  <div id="door2" class="door" data-link="golos-teni.html"></div>
-  <div id="label2" class="label">Голос Тени</div>
-
-  <div id="door3" class="door" data-link="vhod-v-bezdnu.html"></div>
-  <div id="label3" class="label">Вход в Бездну</div>
-
-  <div id="door4" class="door" data-link="chronicles.html"></div>
-  <div id="label4" class="label">Хроники Забвения</div>
-
-  <div id="door5" class="door" data-link="dary-providcev.html"></div>
-  <div id="label5" class="label">Дары Провидцев</div>
-
-  <script>
-    // Управление звуком
-    const audio = document.getElementById('background-audio');
-    const muteBtn = document.getElementById('mute-btn');
-    let isMuted = false;
-
-    muteBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      audio.muted = isMuted;
-      muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    });
-
-    // Автозапуск звука по первому клику (браузерные ограничения)
-    window.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(() => {});
-      }
-    }, { once: true });
-
-    // Клики по дверям
-    const doors = document.querySelectorAll('.door');
-    doors.forEach(door => {
-      door.addEventListener('click', () => {
-        door.classList.add('camera-zoom');
-        const link = door.getAttribute('data-link');
-        setTimeout(() => {
-          window.location.href = link;
-        }, 1500);
-      });
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/loaders/FontLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/geometries/TextGeometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
-
-
-
-
