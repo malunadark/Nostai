@@ -1,21 +1,59 @@
 @font-face {
   font-family: 'Nostai';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Runes';
-  src: url('../assets/fonts/FutharkAoe.ttf') format('truetype');
+  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Gothic';
+  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
 }
 
 body {
   margin: 0;
   height: 100vh;
-  background: url('../assets/Nostai.png') center/cover no-repeat;
-  font-family: 'Nostai', serif;
   overflow: hidden;
   color: white;
+  background: black;
 }
 
+/* Фон */
+#background {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('assets/Nostai.png') center/cover no-repeat;
+  z-index: -2;
+}
+
+/* Дым */
+#smoke {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('assets/smoke-fog.gif') center/cover repeat;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Заголовок */
+#title {
+  font-family: 'Nostai';
+  font-size: 5em;
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  text-shadow: 0 0 30px #55aaff, 0 0 60px #ff4444;
+  z-index: 5;
+}
+
+/* Контейнер сцены */
 #scene-container {
   width: 100%;
   height: 100%;
@@ -30,7 +68,7 @@ body {
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 .rune {
   position: absolute;
@@ -42,4 +80,19 @@ body {
 @keyframes float {
   from { top: 100vh; opacity: 1; }
   to { top: -10vh; opacity: 0; }
+}
+
+/* Кнопка музыки */
+#music-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
 }
