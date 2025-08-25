@@ -10,7 +10,6 @@ document.getElementById('container').appendChild(renderer.domElement);
 // === СВЕТ ===
 const ambient = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambient);
-
 const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 10, 5);
 scene.add(pointLight);
@@ -19,16 +18,12 @@ scene.add(pointLight);
 const loader = new THREE.GLTFLoader();
 const fontLoader = new THREE.FontLoader();
 
-// === ПАРАМЕТРЫ ДВЕРИ ===
-const doorPos = { x: 0, y: 0, z: 0 };
-const doorName = "PORTAL";
-
-// === ЗАГРУЗКА ДВЕРИ ===
+// === ДВЕРЬ ===
 loader.load("assets/Door.glb",
   (gltf) => {
     const door = gltf.scene;
     door.scale.set(2,2,2);
-    door.position.set(doorPos.x, doorPos.y, doorPos.z);
+    door.position.set(0,0,0);
 
     door.traverse((child) => {
       if(child.isMesh) {
@@ -51,45 +46,41 @@ loader.load("assets/Door.glb",
 
     scene.add(door);
 
-    // Текст над дверью
-    fontLoader.load('assets/fonts/destroycyr.json', (font) => {
-      const geometry = new THREE.TextGeometry(doorName, {
+    // Текст над дверью (шрифт Deutsch Gothic)
+    fontLoader.load('assets/fonts/DeutschGothic.json', (font) => {
+      const geometry = new THREE.TextGeometry("Врата", {
         font: font,
-        size: 0.4,
-        height: 0.05
+        size: 0.6,
+        height: 0.1
       });
       const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMesh = new THREE.Mesh(geometry, material);
-      textMesh.position.set(doorPos.x - 1.5, doorPos.y + 3, doorPos.z);
+      textMesh.position.set(-1.5, 3, 0);
       scene.add(textMesh);
     });
   },
   undefined,
-  (err) => { console.error("Ошибка загрузки двери:", err); }
+  (err) => console.error("Ошибка загрузки двери:", err)
 );
 
-// === РУНЫ ВОКРУГ ДВЕРИ ===
+// === ЛЕТАЮЩИЕ РУНЫ ===
 fontLoader.load('assets/fonts/FutharkAoe.json', (font) => {
-  const runeChars = ["ᚠ","ᚢ","ᚦ","ᚨ","ᚱ","ᚲ","ᚷ"];
-  runeChars.forEach((runeChar, i) => {
+  const runes = ["ᚠ","ᚢ","ᚦ","ᚨ","ᚱ","ᚲ","ᚷ"];
+  runes.forEach((runeChar, i) => {
     const geom = new THREE.TextGeometry(runeChar, { font: font, size: 0.3, height: 0.05 });
     const mat = new THREE.MeshBasicMaterial({ color: 0x88ccff });
     const rune = new THREE.Mesh(geom, mat);
 
-    const angle = (i / runeChars.length) * Math.PI * 2;
-    const radius = 2;
+    const angle = (i / runes.length) * Math.PI * 2;
+    const radius = 2.5;
     rune.position.set(
       Math.cos(angle) * radius,
       1 + Math.sin(angle * 2),
       Math.sin(angle) * radius
     );
 
-    gsap.to(rune.rotation, {
-      y: "+=6.28",
-      duration: 10 + Math.random()*5,
-      repeat: -1,
-      ease: "linear"
-    });
+    gsap.to(rune.rotation, { y: "+=6.28", duration: 12, repeat: -1, ease: "linear" });
+    gsap.to(rune.position, { y: rune.position.y + 0.5, duration: 2, yoyo: true, repeat: -1 });
 
     scene.add(rune);
   });
@@ -102,7 +93,7 @@ function animate() {
 }
 animate();
 
-// === ПРИ ИЗМЕНЕНИИ РАЗМЕРА ОКНА ===
+// === ОБНОВЛЕНИЕ ОКНА ===
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
