@@ -6,11 +6,24 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Фон -->
+  <div id="background"></div>
+
+  <!-- Дым -->
+  <div id="smoke"></div>
+
+  <!-- Заголовок -->
+  <h1 id="title">Nostai</h1>
+
   <!-- Контейнер для 3D -->
   <div id="scene-container"></div>
 
   <!-- Руны -->
   <div id="flying-runes"></div>
+
+  <!-- Кнопка музыки -->
+  <button id="music-toggle">🔊</button>
+  <audio id="bg-music" src="assets/audio/Уходящая Судьба.mp3" loop></audio>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -20,4 +33,3 @@
   <script src="js/main.js"></script>
 </body>
 </html>
-
