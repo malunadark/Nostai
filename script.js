@@ -1,7 +1,7 @@
 // === СЦЕНА ===
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.set(0, 1.6, 5);
+camera.position.set(0, 2, 8);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -11,46 +11,52 @@ document.getElementById("scene-container").appendChild(renderer.domElement);
 const light = new THREE.PointLight(0xffffff, 2, 100);
 light.position.set(5, 5, 5);
 scene.add(light);
+scene.add(new THREE.AmbientLight(0x555555));
 
-// Фоновый свет
-const ambientLight = new THREE.AmbientLight(0x888888);
-scene.add(ambientLight);
-
-// === ЗАГРУЗКА ДВЕРИ ===
+// === ЗАГРУЗКА ДВЕРЕЙ ===
 const loader = new THREE.GLTFLoader();
-let door;
-loader.load("assets/Door.glb", (gltf) => {
-  door = gltf.scene;
-  door.scale.set(2, 2, 2);
-  door.position.set(0, 0, 0);
-  scene.add(door);
-});
-
-// === 3D ТАБЛИЧКИ МИРОВ ===
-const worldsData = [
-  { name: "Порог Тайны", link: "door_tainy.html", pos: [-2, 1, -3] },
-  { name: "Хроники Забвения", link: "door_zabvenie.html", pos: [2, 1.5, -3] },
-  { name: "Голос Тени", link: "door_teni.html", pos: [-1, 0.5, -4] },
-  { name: "Дары Провидцев", link: "door_providcy.html", pos: [1, 0.7, -4] },
-  { name: "Вход в Бездну", link: "abyss.html", pos: [0, 2, -5] }
+const doorPositions = [
+  [-4, 0, -6],
+  [-2, 0, -5],
+  [0, 0, -7],  // центр
+  [2, 0, -5],
+  [4, 0, -6],
+  [1, 0, -8]
 ];
 
-const loaderFont = new THREE.FontLoader();
-const clickableObjects = [];
+const doorNames = [
+  "Порог Тайны",
+  "Голос Тени",
+  "Вход в Бездну",
+  "Хроники Забвения",
+  "Дары Провидцев",
+  "Сумеречный Предел"
+];
 
-loaderFont.load('assets/fonts/destroycyr.json', font => {
-  worldsData.forEach(world => {
-    const geometry = new THREE.TextGeometry(world.name, {
-      font: font,
-      size: 0.3,
-      height: 0.05
+const clickableObjects = [];
+const fontLoader = new THREE.FontLoader();
+
+doorPositions.forEach((pos, i) => {
+  loader.load("assets/Door.glb", (gltf) => {
+    const door = gltf.scene;
+    door.scale.set(2, 2, 2);
+    door.position.set(...pos);
+    scene.add(door);
+
+    // Добавляем название
+    fontLoader.load('assets/fonts/destroycyr.json', (font) => {
+      const geometry = new THREE.TextGeometry(doorNames[i], {
+        font: font,
+        size: 0.3,
+        height: 0.05
+      });
+      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMesh = new THREE.Mesh(geometry, material);
+      textMesh.position.set(pos[0] - 1, pos[1] + 3, pos[2]);
+      textMesh.userData.link = doorNames[i];
+      scene.add(textMesh);
+      clickableObjects.push(textMesh);
     });
-    const material = new THREE.MeshBasicMaterial({ color: world.name.includes("Бездну") ? 0xff4444 : 0x55aaff });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(...world.pos);
-    mesh.userData.link = world.link;
-    scene.add(mesh);
-    clickableObjects.push(mesh);
   });
 });
 
@@ -60,43 +66,6 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
-
-// === КЛИК ПО ДВЕРИ ===
-function enterWorld(link) {
-  if (!door) return;
-
-  gsap.to(camera.position, {
-    duration: 2,
-    z: 1,
-    ease: "power2.inOut",
-    onComplete: () => {
-      gsap.to(door.rotation, {
-        duration: 2,
-        y: Math.PI / 2,
-        ease: "power2.inOut",
-        onComplete: () => {
-          window.location.href = link;
-        }
-      });
-    }
-  });
-}
-
-// === RAYCAST ДЛЯ 3D ТАБЛИЧЕК ===
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener('click', (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
-  if (intersects.length > 0) {
-    const link = intersects[0].object.userData.link;
-    enterWorld(link);
-  }
-});
 
 // === РУНЫ ===
 function createRune() {
@@ -110,6 +79,21 @@ function createRune() {
   setTimeout(() => rune.remove(), 15000);
 }
 setInterval(createRune, 800);
+
+// === МУЗЫКА ===
+const music = document.getElementById("bg-music");
+const musicToggle = document.getElementById("music-toggle");
+
+music.play().catch(() => {}); // автозапуск
+musicToggle.addEventListener("click", () => {
+  if (music.paused) {
+    music.play();
+    musicToggle.textContent = "🔊";
+  } else {
+    music.pause();
+    musicToggle.textContent = "🔈";
+  }
+});
 
 // === Адаптивность ===
 window.addEventListener("resize", () => {
