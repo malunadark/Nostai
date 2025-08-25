@@ -8,6 +8,11 @@
   src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'DeutschGothic';
+  src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+}
+
 body, html {
   margin: 0;
   padding: 0;
@@ -20,4 +25,23 @@ body, html {
 #container {
   width: 100%;
   height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+#smoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('assets/smoke-fog.gif') repeat;
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  z-index: 2;
+  pointer-events: none;
+}
+
+audio {
+  display: none;
 }
