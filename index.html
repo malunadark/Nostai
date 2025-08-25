@@ -2,26 +2,187 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Nostai</title>
+  <title>NOSTAI</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Заголовок со свечением */
+    .nostai-title {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 48px;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      z-index: 2;
+      animation: subtleGlow 6s ease-in-out infinite;
+    }
+
+    /* Подзаголовок */
+    .nostai-subtitle {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 20px;
+      font-style: italic;
+      text-align: center;
+      z-index: 2;
+    }
+
+    @keyframes subtleGlow {
+      0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.1); }
+      50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+    }
+
+    /* Виньетка поверх */
+    .vignette {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,0.75) 100%);
+      z-index: 1;
+    }
+
+    /* ЗОНА ЗАРАЖЕНИЯ */
+    .infection-zone {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* ДЫМ */
+    .smoke-layer {
+      width: 200%;
+      height: 100%;
+      background: url('assets/effects/smoke.jpg') repeat-x;
+      background-size: cover;
+      animation: moveSmoke 60s linear infinite;
+      opacity: 0.25;
+      filter: blur(4px);
+    }
+
+    @keyframes moveSmoke {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* СИЛУЭТЫ */
+    .shadow {
+      position: absolute;
+      bottom: 0;
+      width: 80px;
+      height: 180px;
+      background: url('assets/effects/shadow.jpg') center/contain no-repeat;
+      opacity: 0;
+      animation: appearShadow 30s infinite;
+      filter: brightness(0.5);
+    }
+
+    .shadow-1 {
+      left: 20%;
+      animation-delay: 10s;
+    }
+
+    .shadow-2 {
+      left: 65%;
+      animation-delay: 20s;
+    }
+
+    @keyframes appearShadow {
+      0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
+      40% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+      50% { opacity: 0.5; transform: scale(1.1) translateY(-10px); }
+      60% { opacity: 0.3; transform: scale(1.05) translateY(-5px); }
+    }
+
+    /* Контейнер для 3D дверей */
+    #door-container {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 600px;
+      z-index: 2;
+    }
+  </style>
 </head>
 <body>
-  <!-- Контейнер для сцены -->
-  <div id="container"></div>
+  <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
 
-  <!-- Дым -->
-  <div id="smoke"></div>
+  <!-- Фон и дым -->
+  <div class="background"></div>
+  <div class="smoke"></div>
 
-  <!-- Музыка -->
-  <audio id="bg-music" src="assets/Уходящая Судьба.mp3" autoplay loop></audio>
+  <!-- Музыкальная кнопка -->
+  <button id="mute-btn">🔊</button>
+  <audio id="background-audio" autoplay loop>
+    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-  <!-- Three.js + GSAP + turn.js -->
+  <!-- Заголовок и подзаголовок -->
+  <div class="nostai-title">NOSTAI</div>
+  <div class="nostai-subtitle">Когда ты входишь — ты уже не выходишь прежним.</div>
+
+  <!-- Виньетка -->
+  <div class="vignette"></div>
+
+  <!-- Зона заражения -->
+  <div class="infection-zone">
+    <div class="smoke-layer"></div>
+    <div class="shadow shadow-1"></div>
+    <div class="shadow shadow-2"></div>
+  </div>
+
+  <!-- Контейнер для дверей -->
+  <div id="door-container"></div>
+
+  <!-- Летающие руны -->
+  <div class="rune rune1">ᚨ</div>
+  <div class="rune rune2">ᛉ</div>
+  <div class="rune rune3">ᛟ</div>
+  <div class="rune rune4">ᚲ</div>
+  <div class="rune rune5">ᛏ</div>
+
+  <!-- Three.js + GSAP -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/FontLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/geometries/TextGeometry.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="assets/js/turn.min.js"></script>
+
+  <!-- Скрипт дверей -->
   <script src="script.js"></script>
+
+  <!-- Мутация звука -->
+  <script>
+    const audio = document.getElementById('background-audio');
+    const muteBtn = document.getElementById('mute-btn');
+    let isMuted = false;
+
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteBtn.textContent = isMuted ? '🔇' : '🔊';
+    });
+
+    window.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
+  </script>
 </body>
 </html>
