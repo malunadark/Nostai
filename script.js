@@ -15,45 +15,36 @@ scene.add(new THREE.AmbientLight(0x555555));
 
 // === ЗАГРУЗКА ДВЕРЕЙ ===
 const loader = new THREE.GLTFLoader();
-const doorPositions = [
-  [-4, 0, -6],
-  [-2, 0, -5],
-  [0, 0, -7],  // центр
-  [2, 0, -5],
-  [4, 0, -6],
-  [1, 0, -8]
-];
-
-const doorNames = [
-  "Порог Тайны",
-  "Голос Тени",
-  "Вход в Бездну",
-  "Хроники Забвения",
-  "Дары Провидцев",
-  "Сумеречный Предел"
-];
-
-const clickableObjects = [];
 const fontLoader = new THREE.FontLoader();
+const clickableObjects = [];
 
-doorPositions.forEach((pos, i) => {
+// Позиции дверей (подогнаны под твой фон)
+const doorPositions = {
+  "Вход в Бездну": { x: 0, y: 0, z: -10 },        // по центру, напротив солнца
+  "Хроники Забвения": { x: -6, y: 0, z: -8 },     // слева у мужчины
+  "Порог Тайны": { x: 6, y: 0, z: -8 },           // справа у костра
+  "Дары Провидцев": { x: 4, y: 0, z: -12 },       // возле грузовика
+  "Голос Тени": { x: -10, y: 0, z: -14 }          // дальние деревья
+};
+
+Object.entries(doorPositions).forEach(([name, pos]) => {
   loader.load("assets/Door.glb", (gltf) => {
     const door = gltf.scene;
     door.scale.set(2, 2, 2);
-    door.position.set(...pos);
+    door.position.set(pos.x, pos.y, pos.z);
     scene.add(door);
 
-    // Добавляем название
+    // Текст над дверью
     fontLoader.load('assets/fonts/destroycyr.json', (font) => {
-      const geometry = new THREE.TextGeometry(doorNames[i], {
+      const geometry = new THREE.TextGeometry(name, {
         font: font,
-        size: 0.3,
+        size: 0.4,
         height: 0.05
       });
       const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMesh = new THREE.Mesh(geometry, material);
-      textMesh.position.set(pos[0] - 1, pos[1] + 3, pos[2]);
-      textMesh.userData.link = doorNames[i];
+      textMesh.position.set(pos.x - 1.5, pos.y + 3, pos.z);
+      textMesh.userData.link = name;
       scene.add(textMesh);
       clickableObjects.push(textMesh);
     });
