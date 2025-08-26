@@ -3,10 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>NOSTAI</title>
-  <link rel="stylesheet" href="styles.css">
-
   <style>
-    /* Заголовок со свечением */
+    @font-face {
+      font-family: 'destroycyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'FutharkAoe';
+      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'DeutschGothic';
+      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'destroycyr', sans-serif;
+      background: url('assets/Nostai.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* Заголовок */
     .nostai-title {
       position: absolute;
       top: 40%;
@@ -20,7 +42,6 @@
       animation: subtleGlow 6s ease-in-out infinite;
     }
 
-    /* Подзаголовок */
     .nostai-subtitle {
       position: absolute;
       top: 52%;
@@ -38,7 +59,7 @@
       50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
     }
 
-    /* Виньетка поверх */
+    /* Виньетка */
     .vignette {
       position: fixed;
       top: 0; left: 0;
@@ -49,7 +70,7 @@
       z-index: 1;
     }
 
-    /* ЗОНА ЗАРАЖЕНИЯ */
+    /* Зона заражения */
     .infection-zone {
       position: fixed;
       bottom: 0;
@@ -61,7 +82,6 @@
       overflow: hidden;
     }
 
-    /* ДЫМ */
     .smoke-layer {
       width: 200%;
       height: 100%;
@@ -77,7 +97,6 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* СИЛУЭТЫ */
     .shadow {
       position: absolute;
       bottom: 0;
@@ -89,15 +108,8 @@
       filter: brightness(0.5);
     }
 
-    .shadow-1 {
-      left: 20%;
-      animation-delay: 10s;
-    }
-
-    .shadow-2 {
-      left: 65%;
-      animation-delay: 20s;
-    }
+    .shadow-1 { left: 20%; animation-delay: 10s; }
+    .shadow-2 { left: 65%; animation-delay: 20s; }
 
     @keyframes appearShadow {
       0%, 90%, 100% { opacity: 0; transform: scale(1) translateY(0); }
@@ -116,57 +128,44 @@
       height: 600px;
       z-index: 2;
     }
+
+    /* Музыкальная кнопка */
+    #mute-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 5px;
+      font-size: 18px;
+      color: #fff;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <a href="broadcast.html" class="broadcast-btn">📡 Вещательная</a>
-
-  <!-- Фон и дым -->
-  <div class="background"></div>
-  <div class="smoke"></div>
-
-  <!-- Музыкальная кнопка -->
-  <button id="mute-btn">🔊</button>
-  <audio id="background-audio" autoplay loop>
-    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
-  </audio>
-
-  <!-- Заголовок и подзаголовок -->
+  <!-- Фоновые эффекты -->
   <div class="nostai-title">NOSTAI</div>
   <div class="nostai-subtitle">Когда ты входишь — ты уже не выходишь прежним.</div>
-
-  <!-- Виньетка -->
   <div class="vignette"></div>
 
-  <!-- Зона заражения -->
   <div class="infection-zone">
     <div class="smoke-layer"></div>
     <div class="shadow shadow-1"></div>
     <div class="shadow shadow-2"></div>
   </div>
 
-  <!-- Контейнер для дверей -->
+  <!-- Контейнер под 3D -->
   <div id="door-container"></div>
 
-  <!-- Летающие руны -->
-  <div class="rune rune1">ᚨ</div>
-  <div class="rune rune2">ᛉ</div>
-  <div class="rune rune3">ᛟ</div>
-  <div class="rune rune4">ᚲ</div>
-  <div class="rune rune5">ᛏ</div>
+  <!-- Музыка -->
+  <button id="mute-btn">🔊</button>
+  <audio id="background-audio" autoplay loop>
+    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
 
-  <!-- Three.js + GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/FontLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/geometries/TextGeometry.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-
-  <!-- Скрипт дверей -->
-  <script src="script.js"></script>
-
-  <!-- Мутация звука -->
   <script>
     const audio = document.getElementById('background-audio');
     const muteBtn = document.getElementById('mute-btn');
@@ -184,5 +183,8 @@
       }
     }, { once: true });
   </script>
+
+  <!-- Подключение дверей -->
+  <script type="module" src="assets/js/doors.js"></script>
 </body>
 </html>
