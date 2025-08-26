@@ -1,3 +1,8 @@
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/GLTFLoader.js";
+import { FontLoader } from "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/geometries/TextGeometry.js";
+
 // === Основные настройки сцены ===
 const scene = new THREE.Scene();
 
@@ -22,7 +27,7 @@ pointLight.position.set(0, 5, 10);
 scene.add(pointLight);
 
 // === Двери ===
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 const doors = [
   { name: "Голос Тени", url: "shadow.html", x: -3 },
   { name: "Дары Провидцев", url: "seer.html", x: -1 },
@@ -34,7 +39,7 @@ const doors = [
 const clickableObjects = [];
 
 // Загружаем шрифт для надписей
-const fontLoader = new THREE.FontLoader();
+const fontLoader = new FontLoader();
 fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
   doors.forEach((doorData) => {
     loader.load("assets/Door.glb", (gltf) => {
@@ -49,22 +54,19 @@ fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.
           child.material.opacity = 0.6;
           child.material.depthWrite = false;
           child.material.side = THREE.DoubleSide;
-
-          // Свечение
           child.material.emissive = new THREE.Color(0x6666ff);
           child.material.emissiveIntensity = 0.4;
         }
       });
 
       // Подпись над дверью
-      const textGeo = new THREE.TextGeometry(doorData.name, {
+      const textGeo = new TextGeometry(doorData.name, {
         font: font,
         size: 0.4,
-        height: 0.05
+        height: 0.05,
       });
       const textMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMesh = new THREE.Mesh(textGeo, textMat);
-
       textMesh.position.set(doorData.x - 1.5, 3, doorData.z || 0);
 
       // Делаем кликабельным
@@ -99,7 +101,6 @@ window.addEventListener("click", (event) => {
 function animate() {
   requestAnimationFrame(animate);
 
-  // легкое "дыхание" у дверей
   clickableObjects.forEach((obj) => {
     if (obj.isMesh && obj.material && obj.material.opacity) {
       obj.material.opacity = 0.6 + Math.sin(Date.now() * 0.002) * 0.1;
