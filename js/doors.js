@@ -1,85 +1,73 @@
-// Создание сцены
+// Сцена
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 8);
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 2, 5);
 
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("door-container").appendChild(renderer.domElement);
 
 // Свет
-const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambient);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambientLight);
+
 const pointLight = new THREE.PointLight(0xffffff, 1);
-pointLight.position.set(5, 10, 5);
+pointLight.position.set(2, 5, 5);
 scene.add(pointLight);
 
 // Загрузчики
 const loader = new THREE.GLTFLoader();
 const fontLoader = new THREE.FontLoader();
 
-// Двери (названия и ссылки)
-const doors = [
-  { name: "Голос Тени", url: "shadow.html", x: -3 },
-  { name: "Дары Провидцев", url: "seer.html", x: -1 },
-  { name: "Хроники Забвения", url: "chronicles.html", x: 1 },
-  { name: "Порог Тайны", url: "mystery.html", x: 3 },
-  { name: "Вход в Бездну", url: "register.html", x: 0, z: -3 }
-];
+// Данные двери
+const doorData = { name: "Хроники Забвения", url: "chronicles.html", x: 0, z: 0 };
 
-// Загружаем шрифт
-fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
-  doors.forEach((doorData) => {
-    loader.load("assets/Door.glb", (gltf) => {
-      const door = gltf.scene;
-      door.position.set(doorData.x, 0, doorData.z || 0);
-      door.scale.set(1.2, 1.2, 1.2);
+loader.load("assets/Door.glb", (gltf) => {
+  const door = gltf.scene;
+  door.position.set(doorData.x, 0, doorData.z);
+  door.scale.set(1.5, 1.5, 1.5);
 
-      // прозрачность
-      door.traverse((child) => {
-        if (child.isMesh) {
-          child.material.transparent = true;
-          child.material.opacity = 0.6;
-          child.material.depthWrite = false;
-          child.material.side = THREE.DoubleSide;
-        }
-      });
+  // Прозрачность и свечение
+  door.traverse((child) => {
+    if (child.isMesh) {
+      child.material.transparent = true;
+      child.material.opacity = 0.75;
+      child.material.depthWrite = false;
+      child.material.emissive = new THREE.Color(0x2222ff);
+      child.material.emissiveIntensity = 0.4;
+    }
+  });
 
-      scene.add(door);
+  scene.add(door);
 
-      // текст над дверью
-      const geometry = new THREE.TextGeometry(doorData.name, {
-        font: font,
-        size: 0.3,
-        height: 0.05
-      });
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const textMesh = new THREE.Mesh(geometry, material);
-      textMesh.position.set(doorData.x - 1, 2.5, (doorData.z || 0));
-      textMesh.userData.url = doorData.url;
-      scene.add(textMesh);
+  // Надпись над дверью
+  fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
+    const geometry = new THREE.TextGeometry(doorData.name, {
+      font: font,
+      size: 0.45,
+      height: 0.05
+    });
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const textMesh = new THREE.Mesh(geometry, material);
+    textMesh.position.set(-2.5, 3.2, 0);
+    scene.add(textMesh);
 
-      clickableObjects.push(textMesh);
+    // Клик по двери
+    window.addEventListener("click", (event) => {
+      const mouse = new THREE.Vector2(
+        (event.clientX / window.innerWidth) * 2 - 1,
+        -(event.clientY / window.innerHeight) * 2 + 1
+      );
+
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects([door, textMesh], true);
+
+      if (intersects.length > 0) {
+        window.location.href = doorData.url;
+      }
     });
   });
-});
-
-// Кликабельные объекты
-const clickableObjects = [];
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener("click", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(clickableObjects);
-
-  if (intersects.length > 0) {
-    const url = intersects[0].object.userData.url;
-    if (url) window.location.href = url;
-  }
 });
 
 // Анимация
