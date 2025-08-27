@@ -1,101 +1,106 @@
-let scene, camera, renderer, door;
-let isAnimating = false;
-let targetUrl = null;
+// === СЦЕНА ===
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  60,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+camera.position.set(0, 2, 6);
 
-initScene();
-animate();
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById("scene-container").appendChild(renderer.domElement);
 
-function initScene() {
-  const container = document.getElementById('three-container');
+// === СВЕТ ===
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 7);
+scene.add(light);
 
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 1.6, 5);
-
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
-
-  const light = new THREE.AmbientLight(0xffffff, 2);
-  scene.add(light);
-
-  const loader = new THREE.GLTFLoader();
-  loader.load('assets/images/door.glb', gltf => {
+// === ЗАГРУЗКА ДВЕРИ ===
+const loader = new THREE.GLTFLoader();
+let door;
+loader.load(
+  "../assets/models/Door.glb",
+  (gltf) => {
     door = gltf.scene;
-    door.position.set(0, 0, 0);
     door.scale.set(1.5, 1.5, 1.5);
+    door.position.set(0, 0, 0);
+    door.userData = { url: "chronicles.html" };
     scene.add(door);
-  });
+  },
+  undefined,
+  (error) => console.error("Ошибка загрузки двери:", error)
+);
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+// === ЛЕТЯЩИЕ РУНЫ ===
+const runeGeometry = new THREE.PlaneGeometry(0.4, 0.4);
+const runeTexture = new THREE.TextureLoader().load("../assets/images/Хроники Забвения.png");
+const runeMaterial = new THREE.MeshBasicMaterial({ map: runeTexture, transparent: true });
+const runes = [];
 
-  document.getElementById('enterBtn').addEventListener('click', () => {
-    targetUrl = 'register.html';
-    triggerCameraMove();
-  });
-
-  document.getElementById('chroniclesBtn').addEventListener('click', () => {
-    targetUrl = 'chronicles.html';
-    triggerCameraMove();
-  });
+for (let i = 0; i < 12; i++) {
+  const rune = new THREE.Mesh(runeGeometry, runeMaterial);
+  rune.position.set(
+    (Math.random() - 0.5) * 8,
+    Math.random() * 4 + 1,
+    (Math.random() - 0.5) * 8
+  );
+  rune.rotation.z = Math.random() * Math.PI * 2;
+  scene.add(rune);
+  runes.push(rune);
 }
 
+// === ЗОНА заражения (легкая зеленая дымка у пола) ===
+const zoneGeometry = new THREE.PlaneGeometry(20, 20);
+const zoneTexture = new THREE.TextureLoader().load("../assets/images/smoke-fog.gif");
+const zoneMaterial = new THREE.MeshBasicMaterial({
+  map: zoneTexture,
+  transparent: true,
+  opacity: 0.15,
+});
+const zone = new THREE.Mesh(zoneGeometry, zoneMaterial);
+zone.rotation.x = -Math.PI / 2;
+zone.position.y = 0.01;
+scene.add(zone);
+
+// === РЕНДЕР ===
 function animate() {
   requestAnimationFrame(animate);
+
+  // вращение рун
+  runes.forEach(r => {
+    r.position.y += 0.01;
+    r.rotation.z += 0.02;
+    if (r.position.y > 6) r.position.y = 1;
+  });
+
   renderer.render(scene, camera);
 }
+animate();
 
-function triggerCameraMove() {
-  if (isAnimating || !door) return;
-  isAnimating = true;
+// === КЛИК ПО ДВЕРИ ===
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-  const startZ = camera.position.z;
-  const endZ = 1.5;
-  const duration = 3000;
-  const start = performance.now();
+window.addEventListener("click", (event) => {
+  if (!door) return;
 
-  function move(time) {
-    const elapsed = time - start;
-    const progress = Math.min(elapsed / duration, 1);
-    camera.position.z = startZ + (endZ - startZ) * progress;
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    if (progress < 1) {
-      requestAnimationFrame(move);
-    } else {
-      openDoor(() => {
-        window.location.href = targetUrl;
-      });
-    }
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(door, true);
+
+  if (intersects.length > 0) {
+    window.location.href = door.userData.url;
   }
+});
 
-  requestAnimationFrame(move);
-}
-
-function openDoor(callback) {
-  const duration = 1000;
-  const startRotation = door.rotation.y;
-  const endRotation = startRotation + Math.PI / 2;
-  const start = performance.now();
-
-  function rotate(time) {
-    const elapsed = time - start;
-    const progress = Math.min(elapsed / duration, 1);
-    door.rotation.y = startRotation + (endRotation - startRotation) * progress;
-
-    if (progress < 1) {
-      requestAnimationFrame(rotate);
-    } else {
-      setTimeout(callback, 300);
-    }
-  }
-
-  requestAnimationFrame(rotate);
-}
-doorBezdna.name = 'door_bezdna';
-doorChronicles.name = 'door_chronicles';
-// и так далее...
-
+// === АДАПТИВ ===
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
