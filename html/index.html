@@ -1,41 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOSTAI</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>NOSTAI</title>
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
-
-<!-- Фон, дым и виньетка -->
-<div class="smoke-layer"></div>
-<div class="vignette"></div>
-
-<!-- Контейнер для 3D сцены -->
-<div id="scene-container"></div>
-
-<!-- DOM РУНЫ (для дополнительных эффектов) -->
-<div id="runes">
-  <div class="rune rune-glow" id="rune1"></div>
-  <div class="rune rune-rotate" id="rune2"></div>
-  <div class="rune rune-pulse" id="rune3"></div>
-  <div class="rune" id="rune4"></div>
-  <div class="rune" id="rune5"></div>
-</div>
-
-<!-- Вещательная музыка -->
-<audio id="bg-music" src="assets/music.mp3" autoplay loop></audio>
-
-<!-- THREE.js и GLTFLoader -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/examples/js/loaders/GLTFLoader.js"></script>
-
-<!-- Скрипты -->
-<script src="js/turn.min.js"></script>
-<script src="js/doors.js"></script>
-<script src="script.js"></script>
+  <div id="scene-container"></div>
+  <div class="vignette"></div> <!-- виньетка -->
+  <script src="../js/door-scene.js"></script>
 </body>
 </html>
-
-
