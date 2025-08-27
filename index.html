@@ -1,100 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Nostai</title>
-  <link rel="stylesheet" href="assets/styles.css">
-
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-
-  <!-- Загрузчик моделей GLTF -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
-
-  <!-- Загрузчик шрифтов -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/FontLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/geometries/TextGeometry.js"></script>
-
-  <style>
-    .rune {
-      position: absolute;
-      font-family: 'FutharkAoe', sans-serif;
-      font-size: 32px;
-      color: rgba(255, 255, 255, 0.8);
-      animation: floatRune linear infinite;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    @keyframes floatRune {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSTAI</title>
+<link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-  <!-- Заголовки -->
-  <div class="nostai-title">NOSTAI</div>
-  <div class="nostai-subtitle">Когда ты входишь — ты уже не выходишь прежним.</div>
 
-  <!-- Эффекты -->
-  <div class="infection-zone">
-    <div class="smoke-layer"></div>
-    <div class="shadow shadow-1"></div>
-    <div class="shadow shadow-2"></div>
-  </div>
-  <div class="vignette"></div>
+<!-- Фон, дым и виньетка -->
+<div class="smoke-layer"></div>
+<div class="vignette"></div>
 
-  <!-- Летающие руны -->
-  <div id="runes"></div>
+<!-- Контейнер для 3D сцены -->
+<div id="scene-container"></div>
 
-  <!-- Контейнер для 3D -->
-  <div id="door-container"></div>
+<!-- DOM РУНЫ (для дополнительных эффектов) -->
+<div id="runes">
+  <div class="rune rune-glow" id="rune1"></div>
+  <div class="rune rune-rotate" id="rune2"></div>
+  <div class="rune rune-pulse" id="rune3"></div>
+  <div class="rune" id="rune4"></div>
+  <div class="rune" id="rune5"></div>
+</div>
 
-  <!-- Музыка -->
-  <button id="mute-btn">🔊</button>
-  <audio id="background-audio" autoplay loop>
-    <source src="assets/Уходящая Судьба.mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
-  </audio>
+<!-- Вещательная музыка -->
+<audio id="bg-music" src="assets/music.mp3" autoplay loop></audio>
 
-  <script>
-    // Музыка
-    const audio = document.getElementById('background-audio');
-    const muteBtn = document.getElementById('mute-btn');
-    let isMuted = false;
+<!-- THREE.js и GLTFLoader -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/examples/js/loaders/GLTFLoader.js"></script>
 
-    muteBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      audio.muted = isMuted;
-      muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    });
+<!-- Скрипты -->
+<script src="assets/turn.min.js"></script>
+<script src="assets/doors.js"></script>
+<script src="assets/script.js"></script>
 
-    window.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(() => {});
-      }
-    }, { once: true });
-
-    // Летающие руны
-    const runes = ["ᚠ","ᚢ","ᚦ","ᚨ","ᚱ","ᚲ","ᚷ","ᚹ","ᚺ","ᚾ","ᛁ","ᛃ","ᛇ","ᛈ","ᛉ","ᛋ","ᛏ","ᛒ","ᛖ","ᛗ","ᛚ","ᛜ","ᛟ","ᛞ"];
-    function createRune() {
-      const rune = document.createElement("div");
-      rune.className = "rune";
-      rune.textContent = runes[Math.floor(Math.random() * runes.length)];
-      rune.style.left = Math.random() * 100 + "vw";
-      rune.style.animationDuration = 5 + Math.random() * 5 + "s";
-      document.getElementById("runes").appendChild(rune);
-
-      setTimeout(() => rune.remove(), 10000);
-    }
-    setInterval(createRune, 800);
-  </script>
-
-  <!-- Подключение двери -->
-  <script type="module" src="assets/js/doors.js"></script>
 </body>
 </html>
-
