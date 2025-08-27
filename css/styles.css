@@ -1,73 +1,45 @@
-/* === ФОН САЙТА === */
+/* === Общие стили === */
 body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'destroycyr', sans-serif;
-  background: url('assets/Nostai.png') no-repeat center center fixed;
+  font-family: 'Deutsch Gothic', serif;
+  background: url('../assets/images/Nostai.png') no-repeat center center fixed;
   background-size: cover;
 }
 
-/* === ДЫМ === */
-.smoke-layer {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('assets/smoke-fog.gif') repeat;
-  opacity: 0.3;
-  mix-blend-mode: screen;
-  z-index: 2;
+/* Анимационный дым поверх фона */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/images/smoke-fog.gif') repeat;
+  opacity: 0.35;
+  z-index: 1;
   pointer-events: none;
 }
 
-/* === ВИНЬЕТКА === */
+/* Контейнер для сцены */
+#scene-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* Виньетка */
 .vignette {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
   z-index: 3;
 }
-
-/* === ШРИФТЫ === */
-@font-face { font-family:'destroycyr'; src:url('assets/fonts/destroycyr.ttf') format('truetype'); }
-@font-face { font-family:'Deutsch Gothic'; src:url('assets/fonts/Deutsch Gothic.ttf') format('truetype'); }
-@font-face { font-family:'FutharkAoe'; src:url('assets/fonts/FutharkAoe.ttf') format('truetype'); }
-
-/* === РУНЫ === */
-.rune {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  animation: floatRune 6s ease-in-out infinite;
-}
-
-@keyframes floatRune {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-  50% { transform: translateY(-30px) rotate(180deg); opacity: 1; }
-  100% { transform: translateY(0) rotate(360deg); opacity: 0.5; }
-}
-
-.rune-glow { animation: glowRune 4s ease-in-out infinite; }
-@keyframes glowRune {
-  0%,100% { filter: drop-shadow(0 0 10px #fffa); }
-  50% { filter: drop-shadow(0 0 25px #fff); }
-}
-
-.rune-rotate { animation: rotateRune 5s linear infinite; }
-@keyframes rotateRune {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.rune-pulse { animation: pulseRune 3s ease-in-out infinite; }
-@keyframes pulseRune {
-  0%,100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.3); opacity: 1; }
-}
-
-
