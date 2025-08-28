@@ -89,18 +89,46 @@ for (let i = 0; i < 30; i++) {
 }
 
 // ========================
-// РУНЫ
 // ========================
-const runeTexture = textureLoader.load('../assets/images/rune.png');
-const runeMaterial = new THREE.SpriteMaterial({ map: runeTexture, transparent: true });
-const runes = [];
-for (let i = 0; i < 5; i++) {
-  const rune = new THREE.Sprite(runeMaterial);
-  rune.position.set(Math.random() * 4 - 2, Math.random() * 3, Math.random() * -1);
-  rune.scale.set(0.5, 0.5, 1);
-  scene.add(rune);
-  runes.push(rune);
-}
+// РУНЫ (3D текст)
+// ========================
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+
+const fontLoader = new FontLoader();
+fontLoader.load('../assets/fonts/FutharkAoe.json', function (font) {
+  const runeMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc00, emissive: 0x442200 });
+
+  const runes = [];
+  const runeChars = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ']; // примеры рун, можешь заменить на свои
+
+  runeChars.forEach((char, i) => {
+    const geometry = new TextGeometry(char, {
+      font: font,
+      size: 0.5,
+      height: 0.05,
+      curveSegments: 4,
+    });
+    const mesh = new THREE.Mesh(geometry, runeMaterial);
+
+    // случайное положение
+    mesh.position.set(Math.random() * 4 - 2, Math.random() * 3, Math.random() * -1);
+    mesh.rotation.y = Math.random() * Math.PI * 2;
+
+    scene.add(mesh);
+    runes.push(mesh);
+  });
+
+  // Анимация рун
+  function animateRunes() {
+    runes.forEach((rune, i) => {
+      rune.rotation.y += 0.01 + i * 0.001;
+    });
+    requestAnimationFrame(animateRunes);
+  }
+  animateRunes();
+});
+
 
 // ========================
 // АНИМАЦИИ
