@@ -1,10 +1,8 @@
 /* === Общие стили === */
 body {
   margin: 0;
-  padding: 0;
   overflow: hidden;
-  font-family: 'Deutsch Gothic', serif;
-  background: url('../assets/images/Nostai.png') no-repeat center center fixed;
+  background: url('../images/Nostai.png') no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -43,3 +41,4 @@ body::after {
   background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
   z-index: 3;
 }
+
