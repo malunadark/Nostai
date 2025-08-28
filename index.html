@@ -25,7 +25,7 @@
       font-family: 'Deutsch Gothic', sans-serif;
     }
 
-    /* Анимационный дым */
+    /* Анимационный дым поверх фона */
     body::after {
       content: "";
       position: fixed;
@@ -39,7 +39,7 @@
       pointer-events: none;
     }
 
-    /* Контейнер для 3D сцены */
+    /* Контейнер для 3D-сцены */
     #scene-container {
       position: absolute;
       top: 0;
@@ -60,34 +60,29 @@
       background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
       z-index: 3;
     }
-
-    /* Кнопка управления музыкой */
-    #music-toggle {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      background: rgba(20,20,20,0.7);
-      color: #fff;
-      font-family: 'Deutsch Gothic';
-      border: none;
-      cursor: pointer;
-      z-index: 10;
-    }
   </style>
 </head>
 <body>
-
-  <!-- Контейнер сцены и эффектов -->
+  <!-- Контейнер для 3D сцены -->
   <div id="scene-container"></div>
   <div class="vignette"></div>
 
-  <!-- Музыка -->
-  <audio id="bg-music" src="assets/audio/Уходящая Судьба.mp3" autoplay loop></audio>
-  <button id="music-toggle">⏸ Пауза</button>
+  <!-- Музыка на фоне -->
+  <audio id="bg-music" autoplay loop>
+    <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- Скрипт -->
+  <!-- Скрипт сцены (door-scene.js) -->
   <script type="module" src="js/door-scene.js"></script>
 
+  <script>
+    // Автовоспроизведение музыки (в некоторых браузерах требуется клик)
+    const music = document.getElementById('bg-music');
+    music.volume = 0.5;
+
+    document.body.addEventListener('click', () => {
+      music.play().catch(() => console.log('Нажмите, чтобы включить музыку'));
+    });
+  </script>
 </body>
 </html>
