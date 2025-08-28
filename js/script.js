@@ -49,6 +49,31 @@ function animate() {
 }
 animate();
 
+// Генерация парящих рун
+const runes = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ'];
+for(let i=0;i<runes.length;i++){
+    const r = document.createElement('div');
+    r.className = 'rune';
+    r.style.position = 'absolute';
+    r.style.top = Math.random()*window.innerHeight+'px';
+    r.style.left = Math.random()*window.innerWidth+'px';
+    r.style.fontFamily = 'destroycyr, sans-serif';
+    r.style.color = '#fff';
+    r.style.fontSize = '2rem';
+    r.textContent = runes[i];
+    document.body.appendChild(r);
+
+    // Анимация парения
+    let direction = 1;
+    setInterval(()=>{
+        const currentTop = parseFloat(r.style.top);
+        if(currentTop <= 0 || currentTop >= window.innerHeight-30) direction*=-1;
+        r.style.top = (currentTop + direction*0.5) + 'px';
+    },16);
+}
+
+
 // === МУЗЫКА ВЕЩАТЕЛЬНАЯ ===
 const music = document.getElementById('bg-music');
 music.volume = 0.5;
+
