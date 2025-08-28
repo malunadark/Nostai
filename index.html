@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nostai</title>
 
-  <!-- === Шрифты === -->
   <style>
+    /* Шрифты */
     @font-face {
       font-family: 'FutharkAoe';
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
@@ -16,40 +16,21 @@
       src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     }
 
-    /* === Общие стили === */
     body {
       margin: 0;
       overflow: hidden;
-      background: url('assets/images/Nostai.png') no-repeat center center fixed;
-      background-size: cover;
       font-family: 'Deutsch Gothic', sans-serif;
     }
 
-    /* Анимационный дым поверх фона */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('assets/images/smoke-fog.gif') repeat;
-      opacity: 0.35;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Контейнер для 3D-сцены */
     #scene-container {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 2;
+      z-index: 1;
     }
 
-    /* Виньетка */
     .vignette {
       position: fixed;
       top: 0;
@@ -58,31 +39,20 @@
       height: 100%;
       pointer-events: none;
       background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
-      z-index: 3;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
-  <!-- Контейнер для 3D сцены -->
   <div id="scene-container"></div>
   <div class="vignette"></div>
 
-  <!-- Музыка на фоне -->
+  <!-- Музыка -->
   <audio id="bg-music" autoplay loop>
     <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Скрипт сцены (door-scene.js) -->
+  <!-- Скрипт с 3D сценой -->
   <script type="module" src="js/door-scene.js"></script>
-
-  <script>
-    // Автовоспроизведение музыки (в некоторых браузерах требуется клик)
-    const music = document.getElementById('bg-music');
-    music.volume = 0.5;
-
-    document.body.addEventListener('click', () => {
-      music.play().catch(() => console.log('Нажмите, чтобы включить музыку'));
-    });
-  </script>
 </body>
 </html>
