@@ -1,105 +1,130 @@
-// === СЦЕНА ===
+// ========================
+// door-scene.js
+// ========================
+
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+// ========================
+// СЦЕНА И КАМЕРА
+// ========================
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+
 const camera = new THREE.PerspectiveCamera(
   60,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
-camera.position.set(0, 2, 6);
+camera.position.set(0, 1.5, 5);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("scene-container").appendChild(renderer.domElement);
+document.body.appendChild(renderer.domElement);
 
-// === СВЕТ ===
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5, 10, 7);
-scene.add(light);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-// === ЗАГРУЗКА ДВЕРИ ===
-const loader = new THREE.GLTFLoader();
-let door;
+// ========================
+// СВЕТ
+// ========================
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7);
+scene.add(directionalLight);
+
+// ========================
+// ЗАГРУЗКА ДВЕРИ
+// ========================
+const loader = new GLTFLoader();
 loader.load(
-  "../assets/models/Door.glb",
+  '../assets/models/Door (1).glb',
   (gltf) => {
-    door = gltf.scene;
-    door.scale.set(1.5, 1.5, 1.5);
+    const door = gltf.scene;
     door.position.set(0, 0, 0);
-    door.userData = { url: "chronicles.html" };
     scene.add(door);
   },
   undefined,
-  (error) => console.error("Ошибка загрузки двери:", error)
+  (error) => console.error(error)
 );
 
-// === ЛЕТЯЩИЕ РУНЫ ===
-const runeGeometry = new THREE.PlaneGeometry(0.4, 0.4);
-const runeTexture = new THREE.TextureLoader().load("../assets/images/Хроники Забвения.png");
-const runeMaterial = new THREE.MeshBasicMaterial({ map: runeTexture, transparent: true });
-const runes = [];
+// ========================
+// КАРТИНА NOSTAI
+// ========================
+const textureLoader = new THREE.TextureLoader();
+const nostaiTexture = textureLoader.load('../assets/images/Nostai.png');
 
-for (let i = 0; i < 12; i++) {
-  const rune = new THREE.Mesh(runeGeometry, runeMaterial);
-  rune.position.set(
-    (Math.random() - 0.5) * 8,
-    Math.random() * 4 + 1,
-    (Math.random() - 0.5) * 8
-  );
-  rune.rotation.z = Math.random() * Math.PI * 2;
+const nostaiGeometry = new THREE.PlaneGeometry(2, 2, 100, 100);
+const nostaiMaterial = new THREE.MeshStandardMaterial({
+  map: nostaiTexture,
+  displacementMap: nostaiTexture,
+  displacementScale: 0.15,
+  bumpMap: nostaiTexture,
+  bumpScale: 0.25,
+  transparent: true
+});
+
+const nostaiMesh = new THREE.Mesh(nostaiGeometry, nostaiMaterial);
+nostaiMesh.position.set(-3, 1.5, 0);
+scene.add(nostaiMesh);
+
+const nostaiLight = new THREE.PointLight(0xffffff, 1.5, 10);
+nostaiLight.position.set(-2, 3, 2);
+scene.add(nostaiLight);
+
+// ========================
+// ДЫМ (простая частица)
+// ========================
+const smokeTexture = textureLoader.load('../assets/images/smoke-fog.png');
+const smokeMaterial = new THREE.SpriteMaterial({ map: smokeTexture, transparent: true, opacity: 0.5 });
+for (let i = 0; i < 30; i++) {
+  const sprite = new THREE.Sprite(smokeMaterial);
+  sprite.position.set(Math.random() * 4 - 2, Math.random() * 2, Math.random() * -2);
+  sprite.scale.set(2, 2, 1);
+  scene.add(sprite);
+}
+
+// ========================
+// РУНЫ
+// ========================
+const runeTexture = textureLoader.load('../assets/images/rune.png');
+const runeMaterial = new THREE.SpriteMaterial({ map: runeTexture, transparent: true });
+const runes = [];
+for (let i = 0; i < 5; i++) {
+  const rune = new THREE.Sprite(runeMaterial);
+  rune.position.set(Math.random() * 4 - 2, Math.random() * 3, Math.random() * -1);
+  rune.scale.set(0.5, 0.5, 1);
   scene.add(rune);
   runes.push(rune);
 }
 
-// === ЗОНА заражения (легкая зеленая дымка у пола) ===
-const zoneGeometry = new THREE.PlaneGeometry(20, 20);
-const zoneTexture = new THREE.TextureLoader().load("../assets/images/smoke-fog.gif");
-const zoneMaterial = new THREE.MeshBasicMaterial({
-  map: zoneTexture,
-  transparent: true,
-  opacity: 0.15,
-});
-const zone = new THREE.Mesh(zoneGeometry, zoneMaterial);
-zone.rotation.x = -Math.PI / 2;
-zone.position.y = 0.01;
-scene.add(zone);
-
-// === РЕНДЕР ===
+// ========================
+// АНИМАЦИИ
+// ========================
 function animate() {
   requestAnimationFrame(animate);
 
-  // вращение рун
-  runes.forEach(r => {
-    r.position.y += 0.01;
-    r.rotation.z += 0.02;
-    if (r.position.y > 6) r.position.y = 1;
+  // Лёгкое покачивание картины
+  nostaiMesh.rotation.y = Math.sin(Date.now() * 0.001) * 0.15;
+
+  // Руна вращается
+  runes.forEach((rune, i) => {
+    rune.rotation.z += 0.01 + i * 0.001;
   });
 
+  controls.update();
   renderer.render(scene, camera);
 }
 animate();
 
-// === КЛИК ПО ДВЕРИ ===
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener("click", (event) => {
-  if (!door) return;
-
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObject(door, true);
-
-  if (intersects.length > 0) {
-    window.location.href = door.userData.url;
-  }
-});
-
-// === АДАПТИВ ===
-window.addEventListener("resize", () => {
+// ========================
+// ОБНОВЛЕНИЕ РАЗМЕРА
+// ========================
+window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
