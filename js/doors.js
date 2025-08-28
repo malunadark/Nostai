@@ -77,6 +77,24 @@ function animate() {
 }
 animate();
 
+// Анимация двери
+function spawnDoor() {
+    const door = document.createElement('div');
+    door.style.position = 'absolute';
+    door.style.width = '100px';
+    door.style.height = '200px';
+    door.style.background = 'rgba(200,180,100,0.8)';
+    door.style.top = Math.random()*window.innerHeight+'px';
+    door.style.left = Math.random()*window.innerWidth+'px';
+    door.style.transform = 'rotateY(0deg)';
+    document.body.appendChild(door);
+
+    setInterval(()=> {
+        door.style.transform = `rotateY(${(performance.now()/50)%360}deg)`;
+    },16);
+}
+spawnDoor();
+
 // Адаптивность
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
