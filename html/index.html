@@ -2,15 +2,23 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nostai-site</title>
-  <link rel="stylesheet" href="/Nostai-site/css/styles.css">
+
+  <!-- Встроенный CSS для фоновой картинки и базовых стилей -->
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: url('../assets/images/Nostai.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* Можно добавить базовые стили для кнопок, текста, меню и т.д. */
+  </style>
 </head>
 <body>
-  <!-- Canvas Three.js будет вставлен через door-scene.js -->
-
-  <script type="module" src="/Nostai-site/js/door-scene.js"></script>
+  <!-- Canvas для Three.js создаётся автоматически через door-scene.js -->
+  <script type="module" src="../js/door-scene.js"></script>
 </body>
 </html>
-
-
