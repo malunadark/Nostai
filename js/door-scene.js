@@ -6,7 +6,7 @@ import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/example
 
 // ====== Сцена и камера ======
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x111111);
+scene.background = new THREE.Color(0x111111); // фон сцены, если нужен
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 1.5, 5);
@@ -29,7 +29,7 @@ scene.add(directionalLight);
 // ====== Загрузка двери ======
 const loader = new GLTFLoader();
 loader.load(
-  '/Nostai-site/assets/models/Door (1).glb',
+  '../assets/models/Door (1).glb',
   (gltf) => {
     const door = gltf.scene;
     door.position.set(0, 0, 0);
@@ -41,7 +41,7 @@ loader.load(
 
 // ====== Картина Nostai ======
 const textureLoader = new THREE.TextureLoader();
-const nostaiTexture = textureLoader.load('/Nostai-site/assets/images/Nostai.png');
+const nostaiTexture = textureLoader.load('../assets/images/Nostai.png');
 
 const nostaiGeometry = new THREE.PlaneGeometry(2, 2, 100, 100);
 const nostaiMaterial = new THREE.MeshStandardMaterial({
@@ -54,7 +54,7 @@ const nostaiMaterial = new THREE.MeshStandardMaterial({
 });
 
 const nostaiMesh = new THREE.Mesh(nostaiGeometry, nostaiMaterial);
-nostaiMesh.position.set(-3, 1.5, 0);
+nostaiMesh.position.set(-3, 1.5, 0); // слева от двери
 scene.add(nostaiMesh);
 
 const nostaiLight = new THREE.PointLight(0xffffff, 1.5, 10);
@@ -63,7 +63,7 @@ scene.add(nostaiLight);
 
 // ====== 3D Руны ======
 const fontLoader = new FontLoader();
-fontLoader.load('/Nostai-site/assets/fonts/FutharkAoe.json', function (font) {
+fontLoader.load('../assets/fonts/FutharkAoe.json', function (font) {
   const runeMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc00, emissive: 0x442200 });
   const runes = [];
   const runeChars = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ']; // пример рун
