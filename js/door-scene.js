@@ -1,39 +1,26 @@
+// ==== Импорты Three.js ====
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/loaders/GLTFLoader.js';
+import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/geometries/TextGeometry.js';
 
+// ==== Сцена и камера ====
 const container = document.getElementById('scene-container');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 2, 8);
 
-const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+// ==== Рендерер ====
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
 
-// Простая геометрия вместо 3D модели
-const geometry = new THREE.BoxGeometry(2, 2, 0.2);
-const material = new THREE.MeshBasicMaterial({color: 0xffffff});
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.y += 0.005;
-    renderer.render(scene, camera);
-}
-animate();
-
-window.addEventListener('resize', ()=>{
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-document.body.appendChild(renderer.domElement);
-
+// ==== Контролы камеры ====
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-// ====== Свет ======
+// ==== Свет ====
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
@@ -41,22 +28,28 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 7);
 scene.add(directionalLight);
 
-// ====== Загрузка двери ======
+// ==== Куб для примера ====
+const geometry = new THREE.BoxGeometry(2, 2, 0.2);
+const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+// ==== Загрузка двери ====
 const loader = new GLTFLoader();
 loader.load(
-  '../assets/models/Door (1).glb',
+  'assets/models/Door.glb',
   (gltf) => {
     const door = gltf.scene;
     door.position.set(0, 0, 0);
     scene.add(door);
   },
   undefined,
-  (error) => console.error(error)
+  (error) => console.error('Ошибка загрузки двери:', error)
 );
 
-// ====== Картина Nostai ======
+// ==== Картина Nostai ====
 const textureLoader = new THREE.TextureLoader();
-const nostaiTexture = textureLoader.load('../assets/images/Nostai.png');
+const nostaiTexture = textureLoader.load('assets/images/Nostai.png');
 
 const nostaiGeometry = new THREE.PlaneGeometry(2, 2, 100, 100);
 const nostaiMaterial = new THREE.MeshStandardMaterial({
@@ -76,12 +69,12 @@ const nostaiLight = new THREE.PointLight(0xffffff, 1.5, 10);
 nostaiLight.position.set(-2, 3, 2);
 scene.add(nostaiLight);
 
-// ====== 3D Руны ======
+// ==== 3D Руны ====
+const runes = [];
 const fontLoader = new FontLoader();
-fontLoader.load('../assets/fonts/FutharkAoe.json', function (font) {
+fontLoader.load('assets/fonts/FutharkAoe.json', function (font) {
   const runeMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc00, emissive: 0x442200 });
-  const runes = [];
-  const runeChars = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ']; // пример рун
+  const runeChars = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ']; // примеры рун
 
   runeChars.forEach((char, i) => {
     const geometry = new TextGeometry(char, {
@@ -96,27 +89,29 @@ fontLoader.load('../assets/fonts/FutharkAoe.json', function (font) {
     scene.add(mesh);
     runes.push(mesh);
   });
-
-  // Анимация рун
-  function animateRunes() {
-    runes.forEach((rune, i) => {
-      rune.rotation.y += 0.01 + i * 0.001;
-    });
-    requestAnimationFrame(animateRunes);
-  }
-  animateRunes();
 });
 
-// ====== Анимация сцены ======
+// ==== Анимация ====
 function animate() {
   requestAnimationFrame(animate);
+
+  // Вращение куба
+  cube.rotation.y += 0.005;
+
+  // Вращение картины
   nostaiMesh.rotation.y = Math.sin(Date.now() * 0.001) * 0.15;
+
+  // Вращение рун
+  runes.forEach((rune, i) => {
+    rune.rotation.y += 0.01 + i * 0.001;
+  });
+
   controls.update();
   renderer.render(scene, camera);
 }
 animate();
 
-// ====== Обновление размера окна ======
+// ==== Обновление при изменении размера окна ====
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
