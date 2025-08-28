@@ -6,7 +6,6 @@
   <title>Nostai</title>
 
   <style>
-    /* Шрифты */
     @font-face {
       font-family: 'FutharkAoe';
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
@@ -20,6 +19,7 @@
       margin: 0;
       overflow: hidden;
       font-family: 'Deutsch Gothic', sans-serif;
+      background: black;
     }
 
     #scene-container {
@@ -38,7 +38,7 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%);
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
       z-index: 2;
     }
   </style>
@@ -52,7 +52,7 @@
     <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Подключение скрипта со сценой -->
-  <script type="module" src="door-scene.js"></script>
+  <!-- Главный скрипт -->
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
