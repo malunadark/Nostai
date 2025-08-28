@@ -2,17 +2,17 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>NOSTAI</title>
-  <link rel="stylesheet" href="/css/styles.css">
-
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
+  <title>Nostai</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden; /* canvas займёт весь экран */
+      background: url('../assets/images/Nostai.png') no-repeat center center fixed;
+      background-size: cover; /* растягиваем картинку на весь экран */
+    }
+  </style>
 </head>
 <body>
-  <div id="scene-container"></div>
-  <div class="vignette"></div> <!-- виньетка -->
-  <script src="../js/door-scene.js"></script>
+  <script type="module" src="door-scene.js"></script>
 </body>
 </html>
-
