@@ -1,6 +1,5 @@
-// turn.min.js можно подключить напрямую в HTML или тут, если хочешь.
 // ==========================================
-// Импорт библиотек и модулей проекта
+// Импорт библиотек
 // ==========================================
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js";
@@ -38,8 +37,7 @@ controls.enableDamping = true;
 // ==========================================
 // Свет
 // ==========================================
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 7);
@@ -47,26 +45,26 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 // ==========================================
-// Загрузка объектов сцены
+// Загрузка объектов
 // ==========================================
-loadDoors(scene);       // двери
-loadRunes(scene);       // руны
-setupParallax(container); // параллакс фонов
-setupMusic();           // музыка
+loadDoors(scene);           // двери
+loadRunes(scene);           // руны как текст
+setupParallax(container);   // фон / параллакс
+setupMusic();               // музыка
 
 // ==========================================
-// Анимация сцены
+// Анимация
 // ==========================================
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
-  animateRunes(); // если руны двигаются
+  animateRunes();            // анимация рун
   renderer.render(scene, camera);
 }
 animate();
 
 // ==========================================
-// Обработка ресайза окна
+// Ресайз окна
 // ==========================================
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
