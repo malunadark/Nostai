@@ -19,13 +19,16 @@
   }
 
   /* Фон */
-  #background {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: url('assets/images/Nostai.png') no-repeat center center;
-    background-size: cover;
-    z-index: -10;
-  }
+#background {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: 
+    url('assets/images/Nostai.png') no-repeat center center,
+    radial-gradient(circle at center, #0a0a0a, #000000);
+  background-size: cover;
+  z-index: -10;
+}
+
 
   /* Центральный заголовок */
   h1.title {
