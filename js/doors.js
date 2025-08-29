@@ -1,12 +1,20 @@
-export let doors = [];
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/loaders/GLTFLoader.js";
 
-export function addDoor(doorMesh) {
-  doors.push(doorMesh);
-}
-
-export function animateDoors() {
-  doors.forEach(door => {
-    // Пример плавного открытия/закрытия
-    door.rotation.y += Math.sin(Date.now() * 0.001) * 0.001;
-  });
+export function loadDoors(scene) {
+  const loader = new GLTFLoader();
+  loader.load(
+    "assets/models/Door.glb",
+    (gltf) => {
+      const door = gltf.scene;
+      door.traverse(node => {
+        if (node.isMesh) {
+          node.castShadow = true;
+          node.receiveShadow = true;
+        }
+      });
+      scene.add(door);
+    },
+    undefined,
+    (err) => console.error("Ошибка загрузки двери:", err)
+  );
 }
