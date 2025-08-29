@@ -1,8 +1,12 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js';
 import { scene } from './door-scene.js';
 
-const loader = new THREE.TextureLoader();
-const texture = loader.load('assets/images/Nostai.png');
+export function setupParallax(container) {
+  container.style.background = "url('assets/Nostai.png') no-repeat center center fixed";
+  container.style.backgroundSize = "cover";
+  // Можно добавить анимацию движения слоев через JS или CSS
+}
+
 
 const geometry = new THREE.PlaneGeometry(10, 6);
 const material = new THREE.MeshBasicMaterial({ map: texture });
