@@ -1,5 +1,5 @@
 // ==========================================
-// Импорт библиотек
+// Импорт библиотек с CDN
 // ==========================================
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js";
@@ -65,7 +65,7 @@ setupParallax(container);
 setupMusic();
 
 // ==========================================
-// Загрузка дверей и рун
+// Загрузка дверей, рун и дыма
 // ==========================================
 loadDoors(scene);
 loadRunes(scene);
@@ -96,6 +96,6 @@ window.addEventListener("resize", () => {
 });
 
 // ==========================================
-// Пример управления музыкой через кнопку
+// Кнопка управления музыкой
 // ==========================================
 document.getElementById("toggle-music")?.addEventListener("click", toggleMusic);
