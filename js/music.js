@@ -1,7 +1,7 @@
 let audio;
 
 export function setupMusic() {
-  audio = new Audio("assets/audio/Уходящая Судьба.mp3");
+  audio = new Audio("assets/audio/Уходящая%20Судьба.mp3");
   audio.loop = true;
   audio.volume = 0.5;
   audio.play().catch(() => console.log("Автовоспроизведение заблокировано"));
