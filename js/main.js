@@ -4,11 +4,15 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js";
 
-// Модули проекта
+// ==========================================
+// Импорт модулей проекта
+// ==========================================
 import { loadDoors } from './doors.js';
+import { addDoor, animateDoors } from './door-scene.js';
 import { loadRunes, animateRunes } from './runes.js';
 import { setupParallax } from './parallax.js';
-import { setupMusic } from './music.js';
+import { setupMusic, toggleMusic } from './music.js';
+import { createSmoke, animateSmoke } from './smoke.js';
 
 // ==========================================
 // Сцена и камера
@@ -16,7 +20,12 @@ import { setupMusic } from './music.js';
 const container = document.getElementById("scene-container");
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  60,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 camera.position.set(0, 2, 8);
 
 // ==========================================
@@ -33,6 +42,7 @@ container.appendChild(renderer.domElement);
 // ==========================================
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+controls.dampingFactor = 0.05;
 
 // ==========================================
 // Свет
@@ -45,29 +55,47 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 // ==========================================
-// Загрузка объектов
+// Параллакс фона
 // ==========================================
-loadDoors(scene);           // двери
-loadRunes(scene);           // руны как текст
-setupParallax(container);   // фон / параллакс
-setupMusic();               // музыка
+setupParallax(container);
 
 // ==========================================
-// Анимация
+// Музыка
+// ==========================================
+setupMusic();
+
+// ==========================================
+// Загрузка дверей и рун
+// ==========================================
+loadDoors(scene);
+loadRunes(scene);
+createSmoke(scene);
+
+// ==========================================
+// Основной цикл анимации
 // ==========================================
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
-  animateRunes();            // анимация рун
+
+  animateRunes();    // анимация рун
+  animateDoors();    // анимация дверей
+  animateSmoke();    // анимация дыма
+
   renderer.render(scene, camera);
 }
 animate();
 
 // ==========================================
-// Ресайз окна
+// Обработка ресайза окна
 // ==========================================
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// ==========================================
+// Пример управления музыкой через кнопку
+// ==========================================
+document.getElementById("toggle-music")?.addEventListener("click", toggleMusic);
