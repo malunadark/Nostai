@@ -1,5 +1,5 @@
 export function setupParallax(container) {
-  container.style.background = "url('assets/Nostai.png') no-repeat center center fixed";
+  container.style.background = "url('assets/images/Nostai.png') no-repeat center center fixed";
   container.style.backgroundSize = "cover";
   
   // Простейший JS параллакс по движению мыши
