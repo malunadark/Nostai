@@ -1,8 +1,75 @@
-import "./parallax.js";
-import "./runes.js";
-import "./door-scene.js";
-import "./doors.js";
-import "./script.js";
-import "./smoke.js";
-import "./music.js";
 // turn.min.js можно подключить напрямую в HTML или тут, если хочешь.
+// ==========================================
+// Импорт библиотек и модулей проекта
+// ==========================================
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/jsm/controls/OrbitControls.js";
+
+// Модули проекта
+import { loadDoors } from './doors.js';
+import { loadRunes, animateRunes } from './runes.js';
+import { setupParallax } from './parallax.js';
+import { setupMusic } from './music.js';
+
+// ==========================================
+// Сцена и камера
+// ==========================================
+const container = document.getElementById("scene-container");
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 2, 8);
+
+// ==========================================
+// Рендерер
+// ==========================================
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+// ==========================================
+// Контролы
+// ==========================================
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// ==========================================
+// Свет
+// ==========================================
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7);
+directionalLight.castShadow = true;
+scene.add(directionalLight);
+
+// ==========================================
+// Загрузка объектов сцены
+// ==========================================
+loadDoors(scene);       // двери
+loadRunes(scene);       // руны
+setupParallax(container); // параллакс фонов
+setupMusic();           // музыка
+
+// ==========================================
+// Анимация сцены
+// ==========================================
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  animateRunes(); // если руны двигаются
+  renderer.render(scene, camera);
+}
+animate();
+
+// ==========================================
+// Обработка ресайза окна
+// ==========================================
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
