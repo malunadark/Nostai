@@ -3,7 +3,7 @@ import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.156.1/examples/
 export function loadDoors(scene) {
   const loader = new GLTFLoader();
   loader.load(
-    "assets/models/Door.glb",
+    "assets/models/Door (1).glb",
     (gltf) => {
       const door = gltf.scene;
       door.traverse(node => {
