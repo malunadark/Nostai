@@ -1,0 +1,44 @@
+name: Deploy Nostai static site to GitHub Pages
+
+on:
+  # Запуск при пуше в main
+  push:
+    branches: ["main"]
+
+  # Можно запускать вручную из Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read       # читать репозиторий
+  pages: write         # публиковать Pages
+  id-token: write      # для аутентификации Pages
+
+concurrency:
+  group: "nostai-pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # Скачиваем репозиторий
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Настраиваем GitHub Pages
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # Загружаем весь репозиторий как артефакт для Pages
+      - name: Upload site content
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # весь репозиторий, включая assets, html, js
+
+      # Деплой на GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
