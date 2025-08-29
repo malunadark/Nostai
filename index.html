@@ -1,138 +1,109 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nostai – Зов Глубин</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nostai – Зов Глубин</title>
 
-<style>
-  /* Общие стили */
-  body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: 'Deutsch Gothic', sans-serif;
-    background: black;
-    color: #fff;
-  }
-
-  /* Фон */
-  #background {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: url('assets/images/Nostai.png') no-repeat center center;
-    background-size: cover;
-    z-index: -10;
-  }
-
-  /* Меню */
-  .menu-item {
-    position: absolute;
-    padding: 10px 20px;
-    background: rgba(20,20,20,0.7);
-    border: 1px solid #888;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    color: #fff;
-  }
-  .menu-item:hover { background: rgba(50,50,50,0.8); }
-
-  .menu-chronicles { top: 10%; left: 5%; }
-  .menu-mystery { top: 10%; right: 5%; }
-  .menu-shadow { bottom: 10%; left: 5%; }
-  .menu-gifts { bottom: 10%; right: 5%; }
-
-  /* Центральный заголовок */
-  h1.title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'destroycyr', sans-serif;
-    font-size: 5vw;
-    color: #ffcc00;
-    text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff6600;
-    pointer-events: none;
-  }
-
-  /* Кнопка музыки */
-  #toggle-music {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    background: rgba(30,30,30,0.7);
-    border: 1px solid #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 16px;
-  }
-</style>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      height: 100%;
+      width: 100%;
+    }
+    #bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* руны будут за контентом */
+    }
+    .content {
+      position: relative;
+      z-index: 10; /* чтобы меню и заголовок были сверху */
+      color: white;
+      text-align: center;
+      margin-top: 20%;
+    }
+  </style>
 </head>
 <body>
 
-<div id="background"></div>
+<!-- canvas для рун -->
+<canvas id="bg"></canvas>
 
-<!-- Заголовок -->
-<h1 class="title">NOSTAI</h1>
+<!-- Всё остальное: меню, заголовки -->
+<div class="content">
+  <h1>NOSTAI</h1>
+  <a href="#">Хроники забвения</a> |
+  <a href="#">Порог тайны</a> |
+  <a href="#">Голос тени</a> |
+  <a href="#">Дары провидцев</a>
+</div>
 
-<!-- Руны картинкой -->
-<img src="assets/images/руны.png" alt="Руны" style="
-  position:absolute; 
-  top:30%; 
-  left:25%; 
-  width:120px;
-  filter: drop-shadow(0 0 15px orange) drop-shadow(0 0 25px red);
-">
-
-<!-- Меню -->
-<a href="#" class="menu-item menu-chronicles">Хроники забвения</a>
-<a href="#" class="menu-item menu-mystery">Порог тайны</a>
-<a href="#" class="menu-item menu-shadow">Голос тени</a>
-<a href="#" class="menu-item menu-gifts">Дары провидцев</a>
-
-<!-- Кнопка музыки -->
-<button id="toggle-music">Музыка Вкл/Выкл</button>
-<audio id="bg-music" loop>
-  <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg" />
-  Ваш браузер не поддерживает аудио.
-</audio>
-
-<!-- Кнопка запуска игры (для Pixel Streaming UE5) -->
-<button id="start-game" style="position:absolute; top:80%; left:50%; transform:translateX(-50%); padding:15px 25px; font-size:18px; cursor:pointer;">Начать игру</button>
-
+<!-- Твой three.js скрипт -->
 <script type="module">
-  // Включение/выключение музыки
-  const music = document.getElementById('bg-music');
-  const toggleBtn = document.getElementById('toggle-music');
-  toggleBtn.addEventListener('click', () => {
-    if (music.paused) music.play();
-    else music.pause();
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.module.js";
+
+let scene, camera, renderer;
+let runes = [];
+
+function init() {
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("bg"), alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  loadRunes(scene);
+  animate();
+}
+
+function loadRunes(scene) {
+  const textureLoader = new THREE.TextureLoader();
+  const runeTexture = textureLoader.load("assets/images/руны.png");
+
+  const geometry = new THREE.PlaneGeometry(1, 1);
+  const material = new THREE.MeshBasicMaterial({
+    map: runeTexture,
+    transparent: true,
+    side: THREE.DoubleSide
   });
 
-  window.addEventListener('load', () => {
-    music.play().catch(()=>{console.log('Автовоспроизведение заблокировано');});
-  });
+  for (let i = 0; i < 7; i++) {
+    const rune = new THREE.Mesh(geometry, material.clone());
+    rune.position.set(Math.random() * 6 - 3, Math.random() * 3 + 1, Math.random() * -4);
+    scene.add(rune);
+    runes.push(rune);
+  }
+}
 
-  // Подготовка для Pixel Streaming (пример)
-  const startBtn = document.getElementById('start-game');
-  startBtn.addEventListener('click', () => {
-    alert('Здесь позже будет подключение к Pixel Streaming UE5');
-    // Здесь будет код подключения WebRTC к Unreal
+function animateRunes() {
+  runes.forEach(r => {
+    r.rotation.y += 0.01;
+    r.rotation.z += 0.005;
+    r.position.y += Math.sin(Date.now() * 0.001 + r.position.x) * 0.002;
   });
+}
 
-  // Простая анимация параллакса фона
-  const bg = document.getElementById('background');
-  window.addEventListener('mousemove', (e)=>{
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-    bg.style.backgroundPosition = `${50+x}% ${50+y}%`;
-  });
+function animate() {
+  requestAnimationFrame(animate);
+  animateRunes();
+  renderer.render(scene, camera);
+}
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+init();
 </script>
 
 </body>
