@@ -1,12 +1,11 @@
-export let doors = [];
+let open = false;
 
-export function addDoor(doorMesh) {
-  doors.push(doorMesh);
+export function toggleDoorAnimation() {
+  open = !open;
 }
 
-export function animateDoors() {
+export function animateDoorScene(doors) {
   doors.forEach(door => {
-    // Пример плавного открытия/закрытия
-    door.rotation.y += Math.sin(Date.now() * 0.001) * 0.001;
+    door.rotation.y += open ? 0.01 : -0.005;
   });
 }
