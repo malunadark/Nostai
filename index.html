@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nostai</title>
 
-  <!-- Предзагрузка шрифтов -->
-  <link rel="preload" href="assets/fonts/FutharkAoe.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-
+  <!-- Стили -->
   <style>
     body, html {
       margin: 0;
@@ -16,33 +14,50 @@
       width: 100%;
       height: 100%;
       background: black;
+      font-family: 'CinzelDecorative-Regular', serif;
     }
 
     #scene-container {
       width: 100%;
       height: 100%;
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     #toggle-music {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: 1px solid #fff;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      font-family: sans-serif;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    #toggle-music:hover {
+      background: rgba(255, 255, 255, 0.4);
     }
   </style>
+
+  <!-- ✅ Предзагрузка ассетов -->
+  <link rel="preload" href="assets/models/Door.glb" as="fetch" crossorigin="anonymous">
+  <link rel="preload" href="assets/images/smoke-fog.gif" as="image">
+  <link rel="preload" href="assets/images/руны.png" as="image">
+  <link rel="preload" href="assets/audio/Уходящая%20Судьба.mp3" as="audio">
+  <link rel="preload" href="assets/images/Nostai.png" as="image">
 </head>
 <body>
+  <!-- Контейнер для сцены -->
   <div id="scene-container"></div>
+
+  <!-- Кнопка музыки -->
   <button id="toggle-music">Музыка Вкл/Выкл</button>
 
-  <!-- Главный скрипт -->
+  <!-- Главный модуль -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
