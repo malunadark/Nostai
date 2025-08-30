@@ -1,189 +1,62 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nostai – Зов Глубин</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nostai</title>
 
-<style>
-  /* Общие стили */
-  body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: 'Deutsch Gothic', sans-serif;
-    background: black;
-    color: #fff;
-  }
-
-  /* Фон */
-#background {
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background: 
-    url('assets/images/Nostai.png') no-repeat center center,
-    radial-gradient(circle at center, #0a0a0a, #000000);
-  background-size: cover;
-  z-index: -10;
-}
-
-
-  /* Центральный заголовок */
-  h1.title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'destroycyr', sans-serif;
-    font-size: 5vw;
-    color: #ffcc00;
-    text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff6600;
-    pointer-events: none;
-    z-index: 5;
-  }
-
-  /* Меню */
-  .menu-item {
-    position: absolute;
-    padding: 10px 20px;
-    background: rgba(20,20,20,0.7);
-    border: 1px solid #888;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    color: #fff;
-    z-index: 10;
-  }
-  .menu-item:hover { background: rgba(50,50,50,0.8); }
-
-  .menu-chronicles { top: 10%; left: 5%; }
-  .menu-mystery { top: 10%; right: 5%; }
-  .menu-shadow { bottom: 10%; left: 5%; }
-  .menu-gifts { bottom: 10%; right: 5%; }
-
-  /* Руны */
-  .rune {
-    position: absolute;
-    width: 100px;
-    filter: drop-shadow(0 0 10px orange) drop-shadow(0 0 20px red);
-    animation: glow 3s infinite alternate;
-    z-index: 2;
-  }
-
-  @keyframes glow {
-    from {
-      filter: drop-shadow(0 0 10px orange) drop-shadow(0 0 20px red);
-      transform: scale(1);
+  <style>
+    /* Фон */
+    #background {
+      position: fixed;
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background: 
+        url('assets/images/Nostai.png') no-repeat center center,
+        radial-gradient(circle at center, #0a0a0a, #000000);
+      background-size: cover;
+      z-index: -10;
     }
-    to {
-      filter: drop-shadow(0 0 20px yellow) drop-shadow(0 0 40px orange);
-      transform: scale(1.1);
+
+    /* Контейнер для игры */
+    #game-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
     }
-  }
 
-  /* Кнопка музыки */
-  #toggle-music {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    background: rgba(30,30,30,0.7);
-    border: 1px solid #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 16px;
-    z-index: 10;
-  }
-
-  /* Кнопка запуска игры */
-  #start-game {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px 25px;
-    font-size: 18px;
-    cursor: pointer;
-    background: rgba(30,30,30,0.7);
-    border: 1px solid #fff;
-    border-radius: 5px;
-    color: #fff;
-    z-index: 10;
-  }
-</style>
+    /* Пример центрального заголовка */
+    h1.title {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: sans-serif;
+      z-index: 2;
+    }
+  </style>
 </head>
 <body>
 
-<div id="background"></div>
+  <!-- Фон -->
+  <div id="background"></div>
 
-<!-- Заголовок -->
-<h1 class="title">NOSTAI</h1>
+  <!-- Контент игры -->
+  <div id="game-container">
+    <h1 class="title">NOSTAI</h1>
+  </div>
 
-<!-- Руны -->
-<img class="rune" src="assets/images/руны.png" alt="Руна" style="top:30%; left:25%;">
-<img class="rune" src="assets/images/руны.png" alt="Руна" style="top:40%; left:70%;">
-<img class="rune" src="assets/images/руны.png" alt="Руна" style="top:65%; left:35%;">
-<img class="rune" src="assets/images/руны.png" alt="Руна" style="top:70%; left:60%;">
-
-<!-- Меню -->
-<a href="#" class="menu-item menu-chronicles">Хроники забвения</a>
-<a href="#" class="menu-item menu-mystery">Порог тайны</a>
-<a href="#" class="menu-item menu-shadow">Голос тени</a>
-<a href="#" class="menu-item menu-gifts">Дары провидцев</a>
-
-<!-- Кнопка музыки -->
-<button id="toggle-music">Музыка Вкл/Выкл</button>
-<audio id="bg-music" loop>
-  <source src="assets/audio/Уходящая Судьба.mp3" type="audio/mpeg" />
-  Ваш браузер не поддерживает аудио.
-</audio>
-
-<!-- Кнопка запуска игры -->
-<button id="start-game">Начать игру</button>
-
-<script type="module">
-  // 🎵 Музыка
-  const music = document.getElementById('bg-music');
-  const toggleBtn = document.getElementById('toggle-music');
-  toggleBtn.addEventListener('click', () => {
-    if (music.paused) music.play();
-    else music.pause();
-  });
-  window.addEventListener('load', () => {
-    music.play().catch(()=>{console.log('Автовоспроизведение заблокировано');});
-  });
-
-  // ⚡ Парящие руны
-  document.querySelectorAll('.rune').forEach(rune => {
-    function floatRune() {
-      const x = (Math.random() - 0.5) * 50; // смещение по X
-      const y = (Math.random() - 0.5) * 50; // смещение по Y
-      const rotate = (Math.random() - 0.5) * 20; // вращение
-      rune.style.transition = "transform 6s ease-in-out";
-      rune.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
-      setTimeout(floatRune, 6000);
-    }
-    floatRune();
-  });
-
-  // 🌌 Параллакс
-  const bg = document.getElementById('background');
-  window.addEventListener('mousemove', (e)=>{
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-    bg.style.backgroundPosition = `${50+x}% ${50+y}%`;
-  });
-
-  // 🎮 Заглушка для Pixel Streaming
-  const startBtn = document.getElementById('start-game');
-  startBtn.addEventListener('click', () => {
-    alert('Позже сюда подключим UE5 Pixel Streaming');
-  });
-</script>
+  <!-- Скрипты -->
+  <script type="module" src="assets/js/doors.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/parallax.js"></script>
+  <script type="module" src="assets/js/runes.js"></script>
+  <script type="module" src="assets/js/smoke.js"></script>
+  <script type="module" src="assets/js/music.js"></script>
 
 </body>
 </html>
