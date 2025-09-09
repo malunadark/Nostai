@@ -1,98 +1,67 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nostai</title>
 
-  <style>
-    /* Сброс */
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #000;
-      height: 100%;
-      width: 100%;
-    }
-
-    /* Фон */
-    #background {
-      position: fixed;
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%;
-      background: 
-        url('assets/images/Nostai.png') no-repeat center center,
-        radial-gradient(circle at center, #0a0a0a, #000000);
-      background-size: cover;
-      z-index: -10; /* самый нижний слой */
-    }
-
-    /* Контейнер для игры */
-    #game-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    /* 3D сцена */
-    #scene {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1; /* поверх фона */
-    }
-
-    /* Pixel Streaming контейнер */
-    #pixel-streaming {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2; /* поверх 3D сцены */
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Заголовок */
-    h1.title {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3; /* поверх всего */
-      color: #fff;
-      font-family: sans-serif;
-      text-shadow: 0 0 10px #fff;
-    }
-  </style>
+  <!-- Фавикон -->
+  <link rel="icon" href="assets/images/Nostai.png" type="image/png">
 </head>
-<body>
-  <!-- Фон -->
-  <div id="background"></div>
+<body style="margin:0; overflow:hidden; background:#000;">
 
-  <!-- 3D сцена -->
   <canvas id="scene"></canvas>
 
-  <!-- Контент -->
-  <div id="game-container">
-    <h1 class="title">NOSTAI</h1>
-  </div>
+  <!-- Скрипт с Three.js -->
+  <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
-  <!-- Pixel Streaming -->
-  <iframe id="pixel-streaming" src="http://localhost:80" allow="autoplay; fullscreen"></iframe>
+    // Сцена
+    const scene = new THREE.Scene();
 
-  <!-- Скрипты -->
-  <script type="module" src="./main.js"></script>
-  <script type="module" src="./doors.js"></script>
-  <script type="module" src="./parallax.js"></script>
-  <script type="module" src="./runes.js"></script>
-  <script type="module" src="./smoke.js"></script>
-  <script type="module" src="./music.js"></script>
+    // Камера
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 5;
+
+    // Рендер
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("scene") });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Контролы
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Тестовый куб
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    // Свет
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Анимация
+    function animate() {
+      requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Автообновление при ресайзе
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
 </html>
