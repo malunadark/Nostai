@@ -6,7 +6,7 @@
   <title>Nostai</title>
 
   <!-- Фавикон -->
-  <link rel="icon" href=" assets/images/Nostai.png" type="image/png">
+  <link rel="icon" href="assets/images/Nostai.png" type="image/png">
 
   <!-- Стили -->
   <style>
@@ -14,70 +14,30 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: url(" assets/images/Nostai.png") no-repeat center center fixed;
+      background: url("assets/images/Nostai.png") no-repeat center center fixed;
       background-size: cover;
       font-family: 'Deutsch Gothic', sans-serif;
     }
 
     /* Канвас с 3D-сценой */
     #scene {
+      display: block;
       position: absolute;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;
-      pointer-events: none; /* чтобы не блокировал клик по кнопкам */
-    }
-
-    /* Оверлей поверх */
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
-
-    /* Кнопка входа */
-    .enter-btn {
-      pointer-events: all;
-      font-family: 'Deutsch Gothic', sans-serif;
-      font-size: 36px;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #fff;
-      padding: 20px 40px;
-      border-radius: 12px;
-      cursor: pointer;
-      text-shadow: 0 0 10px #fff;
-      transition: all 0.3s ease;
-    }
-
-    .enter-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: #ff0000;
-      text-shadow: 0 0 20px #ff0000;
     }
   </style>
 </head>
+
 <body>
-
-  <!-- Канвас -->
   <canvas id="scene"></canvas>
-
-  <!-- Кнопка входа -->
-  <div class="overlay">
-    <div class="enter-btn" onclick="enterGame()">Вход в Бездну</div>
-  </div>
 
   <!-- Скрипт с Three.js -->
   <script type="module">
     import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
     // Сцена
     const scene = new THREE.Scene();
@@ -87,46 +47,39 @@
     camera.position.z = 5;
 
     // Рендер
-    const renderer = new THREE.WebGLRenderer({
-      canvas: document.getElementById("scene"),
-      alpha: true, // прозрачность
-      antialias: true
-    });
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("scene"), alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0); // прозрачный фон
+    renderer.setClearColor(0x000000, 0); // прозрачный фон, чтобы был виден задний фон
 
-    // Тестовый объект
-    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-    const material = new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0x220000, metalness: 0.5, roughness: 0.3 });
-    const torus = new THREE.Mesh(geometry, material);
-    scene.add(torus);
+    // Контролы
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Тестовый куб
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
     // Свет
-    const light = new THREE.PointLight(0xffffff, 2);
+    const light = new THREE.PointLight(0xffffff, 1);
     light.position.set(10, 10, 10);
     scene.add(light);
 
     // Анимация
     function animate() {
       requestAnimationFrame(animate);
-      torus.rotation.x += 0.01;
-      torus.rotation.y += 0.015;
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
       renderer.render(scene, camera);
     }
     animate();
 
-    // Адаптивность
+    // Адаптация под размер окна
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    // Переход в игру
-    window.enterGame = function() {
-      alert("🚪 Вход в игру Nostai...");
-      // здесь позже добавим переход к кат-сцене / выбору фракции
-    }
   </script>
 </body>
 </html>
