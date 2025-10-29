@@ -1,133 +1,209 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nostai</title>
-
-  <!-- Фавикон -->
-  <link rel="icon" href="assets/images/Nostai.png" type="image/png">
-
-  <!-- Стили -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOSTAI</title>
+  <link rel="icon" href="assets/images/rune.png" />
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: url("assets/images/Nostai.png") no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Deutsch Gothic', sans-serif;
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
-    #scene {
-      display: block;
-      width: 100vw;
-      height: 100vh;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      font-family: 'DestroyCyr', serif;
+    }
+
+    /* Параллакс фон */
+    .background {
+      position: fixed;
+      width: 110%;
+      height: 110%;
+      top: -5%;
+      left: -5%;
+      background: url('assets/images/Nostai.png') center/cover no-repeat;
+      transform: translateZ(0);
+      transition: transform 0.2s ease-out;
+      z-index: 1;
+    }
+
+    /* Видео руны */
+    .rune-video {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      mix-blend-mode: screen;
+      z-index: 2;
+    }
+
+    /* Дым */
+    .smoke {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      opacity: 0.2;
+      animation: smokeMove 20s linear infinite;
+      z-index: 3;
+    }
+
+    @keyframes smokeMove {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    /* Частицы */
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* Логотип NOSTAI */
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 7vw;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(120, 160, 255, 0.5);
+      opacity: 0;
+      animation: logoFade 5s ease-out forwards, logoPulse 6s infinite alternate;
+      z-index: 5;
+    }
+
+    @keyframes logoFade {
+      from { opacity: 0; filter: blur(20px); }
+      to { opacity: 1; filter: blur(0); }
+    }
+
+    @keyframes logoPulse {
+      0% { text-shadow: 0 0 10px rgba(255,255,255,0.7), 0 0 20px rgba(120,160,255,0.4); }
+      100% { text-shadow: 0 0 30px rgba(255,255,255,1), 0 0 80px rgba(120,160,255,0.8); }
+    }
+
+    /* Кнопка музыки */
+    .music-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 18px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+    .music-toggle:hover {
+      background: rgba(255,255,255,0.1);
     }
   </style>
 </head>
-
 <body>
-  <canvas id="scene"></canvas>
 
-  <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-    import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
-    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+  <div class="background"></div>
+  <video class="rune-video" autoplay loop muted playsinline src="assets/videos/rune2.mp4"></video>
+  <div class="smoke"></div>
+  <canvas id="particles"></canvas>
 
-    // Сцена
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.03); // лёгкий туман
+  <div class="logo">NOSTAI</div>
 
-    // Камера
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
-    camera.position.set(0, 2, 7);
+  <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
+  <div class="music-toggle" id="musicBtn">🎵</div>
 
-    // Рендер
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("scene"), alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Контролы (только для теста)
-    // const controls = new OrbitControls(camera, renderer.domElement);
-
-    // Освещение
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    const spotLight = new THREE.SpotLight(0xffaa88, 1);
-    spotLight.position.set(10, 15, 10);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
-
-    // Загрузка GLTF дверей
-    const loader = new GLTFLoader();
-    const doorsData = [
-      { name: "Хроники Забвения", path: "assets/3d/door1.glb", x: -4 },
-      { name: "Порог Тайны", path: "assets/3d/door2.glb", x: -1.3 },
-      { name: "Голос Тени", path: "assets/3d/door3.glb", x: 1.3 },
-      { name: "Дары Провидцев", path: "assets/3d/door4.glb", x: 4 }
-    ];
-
-    const doors = [];
-
-    doorsData.forEach(d => {
-      loader.load(d.path, gltf => {
-        const door = gltf.scene;
-        door.position.set(d.x, 0, 0);
-        door.name = d.name;
-        door.traverse(child => { if(child.isMesh) child.castShadow = true; });
-        scene.add(door);
-        doors.push(door);
-      });
+  <script>
+    // Параллакс эффект
+    const bg = document.querySelector('.background');
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 40;
+      const y = (window.innerHeight / 2 - e.pageY) / 40;
+      bg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
     });
 
-    // Raycaster для наведения мыши
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
+    // Музыка
+    const music = document.getElementById('bg-music');
+    const btn = document.getElementById('musicBtn');
+    let playing = false;
 
-    function onMouseMove(event) {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-    }
-    window.addEventListener("mousemove", onMouseMove, false);
-
-    // Клик по двери
-    window.addEventListener("click", () => {
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(doors, true);
-      if(intersects.length > 0){
-        alert("Вы выбрали: " + intersects[0].object.parent.name);
-        // Здесь будет переход на кат-сцену
+    btn.addEventListener('click', () => {
+      if (!playing) {
+        music.play();
+        playing = true;
+        btn.textContent = '🔇';
+      } else {
+        music.pause();
+        playing = false;
+        btn.textContent = '🎵';
       }
     });
 
-    // Анимация
-    function animate() {
-      requestAnimationFrame(animate);
+    // Частицы (пепел/искры)
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const numParticles = 120;
 
-      // Подсветка при наведении
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(doors, true);
-      doors.forEach(door => {
-        door.traverse(mesh => {
-          if(mesh.isMesh) mesh.material.emissive && (mesh.material.emissive.setHex(0x000000));
-        });
-      });
-      intersects.forEach(i => {
-        i.object.material.emissive && i.object.material.emissive.setHex(0x4444ff);
-      });
-
-      renderer.render(scene, camera);
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-    animate();
 
-    // Адаптация под окно
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
+    for (let i = 0; i < numParticles; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 0.5,
+        dx: Math.random() * 0.2 - 0.1,
+        dy: Math.random() * -0.5 - 0.2,
+        opacity: Math.random() * 0.5 + 0.3
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 200, 150, ${p.opacity})`;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.y < -10) {
+          p.y = canvas.height + 10;
+          p.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
   </script>
+
 </body>
 </html>
