@@ -1,14 +1,15 @@
-import * as THREE from './three.module.js';
-import { OrbitControls } from './controls/OrbitControls.js';
-import { createDoorScene } from './doorScene.js';
+// === ИМПОРТЫ ===
+import * as THREE from './js/three.module.js';
+import { OrbitControls } from './js/controls/OrbitControls.js';
+import { createDoorScene } from './js/doorScene.js';
 
 // === СЦЕНА ===
 const scene = new THREE.Scene();
 
-// === ДОПОЛНИТЕЛЬНЫЙ ФОН ===
+// === ФОН ===
 const loader = new THREE.TextureLoader();
 loader.load(
-  '../assets/images/Nostai.png',
+  './assets/images/Nostai.png',
   (texture) => {
     scene.background = texture;
   },
@@ -42,12 +43,13 @@ const doorGroup = createDoorScene();
 scene.add(doorGroup);
 
 // === ДЫМ ===
-const smokeTexture = loader.load('/assets/images/smoke-fog.gif');
+const smokeTexture = loader.load('./assets/images/smoke-fog.gif');
 const smokeMaterial = new THREE.SpriteMaterial({
   map: smokeTexture,
   transparent: true,
   opacity: 0.3,
 });
+
 for (let i = 0; i < 10; i++) {
   const smoke = new THREE.Sprite(smokeMaterial);
   smoke.position.set(
@@ -56,6 +58,7 @@ for (let i = 0; i < 10; i++) {
     (Math.random() - 0.5) * 4
   );
   smoke.scale.set(6, 3, 1);
+  smoke.rotation.z = Math.random() * Math.PI; // лёгкое вращение
   scene.add(smoke);
 }
 
@@ -63,12 +66,26 @@ for (let i = 0; i < 10; i++) {
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableZoom = false;
+controls.minDistance = 2;
+controls.maxDistance = 8;
 
 // === АНИМАЦИЯ ===
 function animate() {
   requestAnimationFrame(animate);
+
+  // вращение двери
   doorGroup.rotation.y += 0.002;
-  mainLight.intensity = 1.8 + Math.sin(Date.now() * 0.003) * 0.2; // мягкое пульсирующее свечение
+
+  // мягкое пульсирующее свечение
+  mainLight.intensity = 1.8 + Math.sin(Date.now() * 0.003) * 0.2;
+
+  // вращение дыма
+  scene.children.forEach((obj) => {
+    if (obj.material && obj.material.map === smokeTexture) {
+      obj.rotation.z += 0.001;
+    }
+  });
+
   controls.update();
   renderer.render(scene, camera);
 }
