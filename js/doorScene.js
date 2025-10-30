@@ -2,6 +2,7 @@ import * as THREE from './three.module.js';
 
 export function createDoorScene() {
   const doorGroup = new THREE.Group();
+  doorGroup.position.set(0, 0, 0);
 
   // === РАМА ДВЕРИ ===
   const frame = new THREE.Mesh(
@@ -30,7 +31,7 @@ export function createDoorScene() {
   glass.position.z = 0.055;
   doorGroup.add(glass);
 
-  // === НАДПИСЬ НА ДВЕРИ (через canvas) ===
+  // === НАДПИСЬ НА ДВЕРИ ===
   const canvas = document.createElement('canvas');
   canvas.width = 1024;
   canvas.height = 256;
