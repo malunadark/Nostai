@@ -1,102 +1,113 @@
 import * as THREE from './three.module.js';
 import { OrbitControls } from './controls/OrbitControls.js';
+import { FontLoader } from './loaders/FontLoader.js';
+import { TextGeometry } from './loaders/TextGeometry.js';
 
+// === Сцена ===
 const scene = new THREE.Scene();
 
-// Камера
-const camera = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.set(0, 1.5, 5);
+// === Фон ===
+const loader = new THREE.TextureLoader();
+loader.load('assets/images/Nostai.png', (texture) => {
+    scene.background = texture;
+});
 
-// Рендерер
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+// === Камера ===
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0,1.5,5);
+
+// === Рендер ===
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
-// Свет
-const light = new THREE.PointLight(0xffffff, 2);
-light.position.set(0, 3, 5);
-scene.add(light);
-
-const ambient = new THREE.AmbientLight(0x404040, 1.5);
+// === Свет ===
+const ambient = new THREE.AmbientLight(0xffffff,1.5);
 scene.add(ambient);
+const dirLight = new THREE.DirectionalLight(0xffffff,1);
+dirLight.position.set(3,5,5);
+scene.add(dirLight);
 
-// Туман
-scene.fog = new THREE.FogExp2(0x000000, 0.15);
-
-// Прозрачная дверь (рамка + стекло)
-const doorGroup = new THREE.Group();
-
-// Рамка двери
-const frameGeo = new THREE.BoxGeometry(2.2, 3.2, 0.1);
-const frameMat = new THREE.MeshStandardMaterial({
-  color: 0x222222,
-  metalness: 0.6,
-  roughness: 0.3,
-});
-const frame = new THREE.Mesh(frameGeo, frameMat);
-doorGroup.add(frame);
-
-// "Стекло"
-const glassGeo = new THREE.PlaneGeometry(1.8, 2.8);
-const glassMat = new THREE.MeshPhysicalMaterial({
-  color: 0x88aaff,
-  transparent: true,
-  opacity: 0.15,
-  transmission: 0.95,
-  reflectivity: 1,
-  roughness: 0.05,
-  clearcoat: 1,
-});
-const glass = new THREE.Mesh(glassGeo, glassMat);
-glass.position.z = 0.055;
-doorGroup.add(glass);
-
-scene.add(doorGroup);
-
-// Надпись "Хроники Забвения"
-const loader = new THREE.FontLoader();
-loader.load('assets/fonts/destroycyr.typeface.json', (font) => {
-  const textGeo = new THREE.TextGeometry('Хроники Забвения', {
-    font: font,
-    size: 0.3,
-    height: 0.05,
-    curveSegments: 8,
-    bevelEnabled: false,
-  });
-  const textMat = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    emissive: 0x8888ff,
-    emissiveIntensity: 0.8,
-  });
-  const textMesh = new THREE.Mesh(textGeo, textMat);
-  textMesh.position.set(-1.3, -2, 0.2);
-  doorGroup.add(textMesh);
-});
-
-// Орбит-контрол
+// === Контролы ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.05;
 
-// Анимация лёгкого парения двери
-function animate() {
-  requestAnimationFrame(animate);
-  doorGroup.rotation.y += 0.002;
-  controls.update();
-  renderer.render(scene, camera);
+// === Прозрачная 3D-дверь ===
+const doorGeometry = new THREE.BoxGeometry(1.5,2.5,0.05);
+const doorMaterial = new THREE.MeshStandardMaterial({
+    color: 0x111111,
+    transparent: true,
+    opacity: 0.6,
+    roughness: 0.5,
+    metalness: 0.1
+});
+const door = new THREE.Mesh(doorGeometry, doorMaterial);
+door.position.set(0,1.25,0);
+scene.add(door);
+
+// Добавим границу двери (BoxHelper)
+const doorBox = new THREE.BoxHelper(door, 0xffffff);
+scene.add(doorBox);
+
+// === Текст на двери ===
+const fontLoader = new FontLoader();
+fontLoader.load('assets/fonts/destroycyr.typeface.json', (font) => {
+    const textGeo = new TextGeometry('Хроники Забвения', {
+        font: font,
+        size: 0.25,
+        height: 0.02,
+        curveSegments: 8
+    });
+    const textMat = new THREE.MeshStandardMaterial({color:0xffddaa, emissive:0xffaa88, emissiveIntensity:0.5});
+    const textMesh = new THREE.Mesh(textGeo,textMat);
+    textGeo.center();
+    textMesh.position.set(0,2.0,0.03);
+    scene.add(textMesh);
+});
+
+// === Анимация двери (приближение + открытие) ===
+let doorOpen = false;
+function openDoorAnimation() {
+    if(doorOpen) return;
+    doorOpen = true;
+
+    const startZ = camera.position.z;
+    const targetZ = 2.5;
+
+    let startTime = performance.now();
+    const duration = 2000; // 2 сек
+
+    function animate(time){
+        const elapsed = time - startTime;
+        const t = Math.min(elapsed/duration,1);
+
+        // камера приближается
+        camera.position.z = startZ*(1-t) + targetZ*t;
+
+        // дверь слегка открывается
+        door.rotation.y = Math.PI/2 * t;
+
+        renderer.render(scene,camera);
+
+        if(t<1) requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
 }
 
-animate();
+// === Клик для анимации двери ===
+document.addEventListener('click', ()=>{ openDoorAnimation(); });
 
-// Адаптивность
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+// === Resize ===
+window.addEventListener('resize',()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// === Анимация сцены ===
+function animateScene(){
+    requestAnimationFrame(animateScene);
+    controls.update();
+    renderer.render(scene,camera);
+}
+animateScene();
