@@ -3,6 +3,7 @@ import { OrbitControls } from './controls/OrbitControls.js';
 
 // === СЦЕНА ===
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000000, 0.12);
 
 // === КАМЕРА ===
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -18,23 +19,18 @@ document.body.appendChild(renderer.domElement);
 const pointLight = new THREE.PointLight(0xffffff, 2);
 pointLight.position.set(0, 2, 5);
 scene.add(pointLight);
-
 scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-// === ПРОЗРАЧНАЯ ДВЕРЬ ===
+// === ПРОЗРАЧНАЯ 3D-ДВЕРЬ ===
 const doorGroup = new THREE.Group();
 
-// рама двери
+// Рама двери
 const frameGeometry = new THREE.BoxGeometry(2.2, 3.2, 0.1);
-const frameMaterial = new THREE.MeshStandardMaterial({
-  color: 0x222222,
-  metalness: 0.5,
-  roughness: 0.4,
-});
+const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.5, roughness: 0.4 });
 const frame = new THREE.Mesh(frameGeometry, frameMaterial);
 doorGroup.add(frame);
 
-// стекло
+// Стекло
 const glassGeometry = new THREE.PlaneGeometry(1.8, 2.8);
 const glassMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x88aaff,
@@ -49,16 +45,12 @@ const glass = new THREE.Mesh(glassGeometry, glassMaterial);
 glass.position.z = 0.055;
 doorGroup.add(glass);
 
-scene.add(doorGroup);
-
-// === НАДПИСЬ "ХРОНИКИ ЗАБВЕНИЯ" ===
-// создаём текстуру через canvas, чтобы использовать твой ttf
+// Надпись на двери через canvas
 const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
 canvas.width = 1024;
 canvas.height = 256;
-
-ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = 'rgba(0,0,0,0)';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.font = '80px DestroyCyr';
 ctx.fillStyle = 'white';
@@ -70,28 +62,48 @@ ctx.fillText('Хроники Забвения', canvas.width / 2, canvas.height 
 
 const texture = new THREE.CanvasTexture(canvas);
 const textMaterial = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
-const textGeometry = new THREE.PlaneGeometry(3, 0.8);
-const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.position.set(0, -2.2, 0.2);
+const textMesh = new THREE.Mesh(new THREE.PlaneGeometry(3, 0.8), textMaterial);
+textMesh.position.set(0, 1, 0.06); // надпись чуть выше центра двери
 doorGroup.add(textMesh);
 
-// === ТУМАН ===
-scene.fog = new THREE.FogExp2(0x000000, 0.15);
+// Добавляем дверь в сцену
+scene.add(doorGroup);
 
-// === КОНТРОЛ ===
+// === КОНТРОЛЬ КАМЕРЫ ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enableZoom = false;
 
+// === КЛИК ДЛЯ ОТКРЫТИЯ ДВЕРИ ===
+let doorOpened = false;
+document.addEventListener('click', () => {
+  if (doorOpened) return;
+  doorOpened = true;
+  const duration = 1.5;
+  const targetAngle = Math.PI / 2;
+  const startTime = performance.now();
+
+  function openDoor(time) {
+    const elapsed = (time - startTime) / 1000;
+    if (elapsed < duration) {
+      doorGroup.rotation.y = targetAngle * (elapsed / duration);
+      requestAnimationFrame(openDoor);
+    } else {
+      doorGroup.rotation.y = targetAngle;
+      // Здесь можно добавить переход на другую страницу
+      // window.location.href = 'nextPage.html';
+    }
+  }
+  requestAnimationFrame(openDoor);
+});
+
 // === АНИМАЦИЯ ===
 function animate() {
   requestAnimationFrame(animate);
-  doorGroup.rotation.y += 0.002;
   controls.update();
   renderer.render(scene, camera);
 }
-
 animate();
 
 // === АДАПТИВ ===
