@@ -2,20 +2,15 @@ import * as THREE from './three.module.js';
 
 export function createDoorScene() {
   const doorGroup = new THREE.Group();
-  doorGroup.position.set(0, 0, 0);
 
-  // === РАМА ДВЕРИ ===
+  // === Рама двери ===
   const frame = new THREE.Mesh(
     new THREE.BoxGeometry(2.2, 3.2, 0.1),
-    new THREE.MeshStandardMaterial({
-      color: 0x222222,
-      metalness: 0.6,
-      roughness: 0.4,
-    })
+    new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.6, roughness: 0.4 })
   );
   doorGroup.add(frame);
 
-  // === ПРОЗРАЧНОЕ СТЕКЛО ===
+  // === Прозрачное стекло ===
   const glass = new THREE.Mesh(
     new THREE.PlaneGeometry(1.8, 2.8),
     new THREE.MeshPhysicalMaterial({
@@ -31,7 +26,7 @@ export function createDoorScene() {
   glass.position.z = 0.055;
   doorGroup.add(glass);
 
-  // === НАДПИСЬ НА ДВЕРИ ===
+  // === Надпись на двери ===
   const canvas = document.createElement('canvas');
   canvas.width = 1024;
   canvas.height = 256;
@@ -52,7 +47,7 @@ export function createDoorScene() {
   textMesh.position.set(0, 1, 0.06);
   doorGroup.add(textMesh);
 
-  // === ЭФФЕКТ ОТКРЫТИЯ ДВЕРИ ===
+  // === Эффект открытия двери ===
   let opened = false;
   document.addEventListener('click', () => {
     if (opened) return;
