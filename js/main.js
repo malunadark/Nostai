@@ -5,10 +5,16 @@ import { createDoorScene } from './doorScene.js';
 // === СЦЕНА ===
 const scene = new THREE.Scene();
 
-// === ФОН ===
-new THREE.TextureLoader().load('../assets/images/Nostai.png', (texture) => {
-  scene.background = texture;
-});
+// === ДОПОЛНИТЕЛЬНЫЙ ФОН ===
+const loader = new THREE.TextureLoader();
+loader.load(
+  '../assets/images/Nostai.png',
+  (texture) => {
+    scene.background = texture;
+  },
+  undefined,
+  (err) => console.warn('⚠️ Не удалось загрузить фон — используется CSS фон')
+);
 
 // === КАМЕРА ===
 const camera = new THREE.PerspectiveCamera(
@@ -26,16 +32,34 @@ renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
 // === СВЕТ ===
-const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-dirLight.position.set(3, 5, 5);
-scene.add(dirLight);
-scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+const mainLight = new THREE.PointLight(0xffa500, 2, 10);
+mainLight.position.set(0, 2, 2);
+scene.add(mainLight);
+scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
-// === ДОБАВЛЯЕМ ПРОЗРАЧНУЮ ДВЕРЬ ===
+// === ПРОЗРАЧНАЯ ДВЕРЬ ===
 const doorGroup = createDoorScene();
 scene.add(doorGroup);
 
-// === КОНТРОЛЫ ===
+// === ДЫМ ===
+const smokeTexture = loader.load('../assets/images/smoke-fog.gif');
+const smokeMaterial = new THREE.SpriteMaterial({
+  map: smokeTexture,
+  transparent: true,
+  opacity: 0.3,
+});
+for (let i = 0; i < 10; i++) {
+  const smoke = new THREE.Sprite(smokeMaterial);
+  smoke.position.set(
+    (Math.random() - 0.5) * 6,
+    Math.random() * 3,
+    (Math.random() - 0.5) * 4
+  );
+  smoke.scale.set(6, 3, 1);
+  scene.add(smoke);
+}
+
+// === КОНТРОЛ ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableZoom = false;
@@ -43,7 +67,8 @@ controls.enableZoom = false;
 // === АНИМАЦИЯ ===
 function animate() {
   requestAnimationFrame(animate);
-  doorGroup.rotation.y += 0.002; // лёгкое движение
+  doorGroup.rotation.y += 0.002;
+  mainLight.intensity = 1.8 + Math.sin(Date.now() * 0.003) * 0.2; // мягкое пульсирующее свечение
   controls.update();
   renderer.render(scene, camera);
 }
