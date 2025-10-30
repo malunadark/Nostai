@@ -1,5 +1,6 @@
 import * as THREE from './three.module.js';
 import { OrbitControls } from './controls/OrbitControls.js';
+import { GLTFLoader } from './loaders/GLTFLoader.js';
 import { createDoorScene } from './doorScene.js';
 
 // === СЦЕНА, КАМЕРА, РЕНДЕРЕР ===
@@ -63,7 +64,7 @@ const door = createDoorScene();
 scene.add(door);
 
 // === АНИМАЦИЯ ===
-function animate(time) {
+function animate() {
   requestAnimationFrame(animate);
 
   // лёгкое движение дыма
