@@ -13,15 +13,7 @@ export function createDoorScene() {
   // === Прозрачное стекло ===
   const glass = new THREE.Mesh(
     new THREE.PlaneGeometry(1.8, 2.8),
-    new THREE.MeshPhysicalMaterial({
-      color: 0x88aaff,
-      transparent: true,
-      opacity: 0.2,
-      transmission: 0.95,
-      reflectivity: 1,
-      roughness: 0.05,
-      clearcoat: 1,
-    })
+    new THREE.MeshPhysicalMaterial({ color: 0x88aaff, transparent: true, opacity: 0.2, transmission: 0.95, reflectivity: 1, roughness: 0.05, clearcoat: 1 })
   );
   glass.position.z = 0.055;
   doorGroup.add(glass);
