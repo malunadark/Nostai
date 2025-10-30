@@ -4,6 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOSTAI — Хроники Забвения</title>
+  <style>
+    /* Подключение шрифта DestroyCyr */
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* высота окна браузера */
+        margin: 0;
+        font-family: 'DestroyCyr', sans-serif; /* используем свой шрифт */
+        background-color: #000; /* фон страницы */
+        color: #fff; /* цвет текста */
+        text-align: center;
+    }
+
+    p {
+        margin: 5px 0; /* пространство между строками */
+    }
+  </style>
+</head>
+<body>
+    <p>Тропою Придших, ступивший сюда</p>
+    <p>Узнай себя, не потеряв себя</p>
+</body>
+</html>
   <link rel="icon" href="./assets/images/favicon.png" />
 
   <style>
@@ -46,7 +76,8 @@
 <body>
   <div id="logo">NOSTAI</div>
 
-  <!-- === Main script === -->
+  <!-- Подключаем основной модуль -->
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>
+
