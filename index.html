@@ -107,7 +107,7 @@ scene.add(box);
 
 // ===== Настоящая модель двери =====
 const gltfLoader = new GLTFLoader();
-gltfLoader.load('assets/models/door_optimized.glb',
+gltfLoader.load('assets/models/door.glb',
     (gltf)=>{
         if(door) scene.remove(door); // убираем псевдо-дверь
         door = gltf.scene;
