@@ -5,8 +5,15 @@
 <title>NOSTAI — магическая сцена</title>
 <style>
 body { margin: 0; overflow: hidden; font-family: sans-serif; }
-#scene-container { width: 100vw; height: 100vh; display: block; position: relative; }
 
+#scene-container { 
+    width: 100vw; 
+    height: 100vh; 
+    display: block; 
+    position: relative; 
+}
+
+/* Логотип */
 #logo {
     position: absolute;
     top: 10%;
@@ -19,6 +26,7 @@ body { margin: 0; overflow: hidden; font-family: sans-serif; }
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
+/* Видео-руны */
 #runes {
     position: absolute;
     top:0; left:0;
@@ -27,12 +35,24 @@ body { margin: 0; overflow: hidden; font-family: sans-serif; }
     pointer-events:none;
     mix-blend-mode: screen;
 }
+
+/* Фон через абсолютный div */
+#bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/images/Nostai.png') no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+}
 </style>
 <link rel="icon" href="assets/images/favicon.png">
 </head>
 <body>
 
 <div id="scene-container"></div>
+<div id="bg"></div>
 <img id="logo" src="assets/images/Nostai.png" alt="NOSTAI">
 <video id="runes" autoplay muted loop playsinline>
     <source src="assets/video/rune2.webm" type="video/webm">
@@ -48,11 +68,6 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/exampl
 // ==============================
 const container = document.getElementById('scene-container');
 const scene = new THREE.Scene();
-
-// Фон
-const loaderTexture = new THREE.TextureLoader();
-const bgTexture = loaderTexture.load('assets/images/Nostai.png');
-scene.background = bgTexture;
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.set(0,1.6,5);
@@ -85,7 +100,7 @@ loader.load('assets/models/door_optimized.glb',
     (gltf)=>{
         door=gltf.scene;
         door.position.set(0,0,0);
-        door.scale.set(2,2,2); // увеличиваем
+        door.scale.set(2,2,2);
         scene.add(door);
     },
     xhr=>{console.log((xhr.loaded/xhr.total*100)+'% загружено');},
@@ -111,15 +126,30 @@ function openDoor(){
 document.addEventListener('click',()=>{openDoor();});
 
 // ==============================
-// 6️⃣ Частицы (дым и искры)
+// 6️⃣ Частицы (руны)
 // ==============================
 const particleCount = 150;
 const particlesGeometry = new THREE.BufferGeometry();
-const positions = [], colors = [];
+const positions = [];
+const velocities = []; // добавим для направления
+const colors = [];
+
 for(let i=0;i<particleCount;i++){
-    positions.push((Math.random()-0.5)*4, Math.random()*2, (Math.random()-0.5)*2);
+    positions.push(
+        (Math.random()-0.5)*6, // x
+        Math.random()*3,       // y
+        (Math.random()-0.5)*4  // z
+    );
+    // случайные скорости по осям для движения в разные стороны
+    velocities.push(
+        (Math.random()-0.5)*0.02,
+        Math.random()*0.02+0.005,
+        (Math.random()-0.5)*0.02
+    );
+
     colors.push(1,0.8,0.5);
 }
+
 particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
 particlesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
 
@@ -131,8 +161,17 @@ scene.add(particles);
 function animateParticles(){
     const pos = particles.geometry.attributes.position.array;
     for(let i=0;i<pos.length;i+=3){
-        pos[i+1]+=0.01+Math.random()*0.01;
+        pos[i]+=velocities[i];     // x
+        pos[i+1]+=velocities[i+1]; // y
+        pos[i+2]+=velocities[i+2]; // z
+
+        // Зацикливание по высоте
         if(pos[i+1]>3) pos[i+1]=0;
+        // Лимиты по x и z, чтобы не улетали слишком далеко
+        if(pos[i]>3) pos[i]=-3;
+        if(pos[i]<-3) pos[i]=3;
+        if(pos[i+2]>2) pos[i+2]=-2;
+        if(pos[i+2]<-2) pos[i+2]=2;
     }
     particles.geometry.attributes.position.needsUpdate=true;
 }
