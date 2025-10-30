@@ -78,20 +78,16 @@ const pointLight = new THREE.PointLight(0xffffff,0.8);
 pointLight.position.set(2,3,2);
 scene.add(pointLight);
 
-// ===== Фон full-screen через BoxGeometry =====
+// ===== Фон через scene.background =====
 const bgTexture = new THREE.TextureLoader().load('assets/images/Nostai.png');
-const bgGeometry = new THREE.BoxGeometry(20, 12, 0.1);
-const bgMaterial = new THREE.MeshBasicMaterial({map:bgTexture});
-const bgMesh = new THREE.Mesh(bgGeometry,bgMaterial);
-bgMesh.position.set(0,6,-10);
-scene.add(bgMesh);
+scene.background = bgTexture;
 
 // ===== Прозрачная 3D-дверь =====
 const doorGeometry = new THREE.PlaneGeometry(1.5,3);
 const doorMaterial = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.1, // прозрачная дверь
+    opacity: 0.1,
     side: THREE.DoubleSide
 });
 const door = new THREE.Mesh(doorGeometry, doorMaterial);
@@ -103,10 +99,10 @@ let opening = false;
 function openDoorAnimation(){
     if(opening) return;
     opening = true;
-    const duration = 1.5; // секунды
+    const duration = 1.5; 
     const startTime = performance.now();
     const startPosZ = camera.position.z;
-    const endPosZ = 1.2; // приближение к двери
+    const endPosZ = 1.2; 
     function animate(time){
         const t = (time - startTime)/1000;
         if(t<duration){
@@ -117,14 +113,11 @@ function openDoorAnimation(){
         } else {
             camera.position.z = endPosZ;
             door.rotation.y = Math.PI/2;
-            // Переход на другую страницу после анимации
             window.location.href = "nextpage.html";
         }
     }
     requestAnimationFrame(animate);
 }
-
-// По клику запускаем анимацию
 document.addEventListener('click',()=>{ openDoorAnimation(); });
 
 // ===== Частицы (руны) =====
