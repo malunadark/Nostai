@@ -42,7 +42,7 @@ const doorGroup = createDoorScene();
 scene.add(doorGroup);
 
 // === ДЫМ ===
-const smokeTexture = loader.load('../assets/images/smoke-fog.gif');
+const smokeTexture = loader.load('/assets/images/smoke-fog.gif');
 const smokeMaterial = new THREE.SpriteMaterial({
   map: smokeTexture,
   transparent: true,
