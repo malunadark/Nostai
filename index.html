@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOSTAI</title>
+  <title>NOSTAI — Хроники Забвения</title>
   <style>
     html, body {
       margin: 0;
@@ -11,21 +11,9 @@
       overflow: hidden;
       width: 100%;
       height: 100%;
-      background: black;
-    }
-
-    canvas {
-      display: block;
-    }
-
-    #overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: rgba(0, 0, 0, 0.2);
+      background: url('assets/images/Nostai.png') no-repeat center center;
+      background-size: cover;
+      background-color: black;
     }
 
     #logo {
@@ -38,6 +26,8 @@
       color: white;
       opacity: 0;
       animation: fadeIn 4s ease forwards;
+      z-index: 10;
+      text-shadow: 0 0 10px #fff, 0 0 30px #ff6600;
     }
 
     @keyframes fadeIn {
@@ -53,96 +43,7 @@
 </head>
 
 <body>
-  <div id="overlay"></div>
   <div id="logo">NOSTAI</div>
-
-  <script type="module">
-    import * as THREE from './js/three.module.js';
-    import { OrbitControls } from './js/controls/OrbitControls.js';
-    import { GLTFLoader } from './js/loaders/GLTFLoader.js';
-
-    // === СЦЕНА ===
-    const scene = new THREE.Scene();
-
-    // === ФОН ===
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load('assets/images/Nostai.png', (texture) => {
-      scene.background = texture;
-    });
-
-    // === КАМЕРА ===
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    camera.position.set(0, 1.5, 4);
-
-    // === РЕНДЕР ===
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    // === СВЕТ ===
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-    directionalLight.position.set(3, 5, 5);
-    scene.add(directionalLight);
-
-    // === КОНТРОЛЛЕР ===
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-
-    // === ЗАГРУЗКА ДВЕРИ ===
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load(
-      'assets/models/door_optimized.glb',
-      (gltf) => {
-        const door = gltf.scene;
-        door.position.set(0, 0, 0);
-        door.scale.set(1, 1, 1);
-        scene.add(door);
-
-        // Добавляем BoxHelper для проверки (временно)
-        const box = new THREE.BoxHelper(door, 0xff0000);
-        scene.add(box);
-
-        // === ТЕКСТ НАД ДВЕРЬЮ ===
-        const fontLoader = new THREE.FontLoader();
-        fontLoader.load('assets/fonts/destroycyr.ttf', (font) => {
-          const textGeometry = new THREE.TextGeometry('Хроники Забвения', {
-            font: font,
-            size: 0.25,
-            height: 0.03,
-          });
-          const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-          textMesh.position.set(-1.2, 2, 0);
-          scene.add(textMesh);
-        });
-      },
-      undefined,
-      (error) => {
-        console.error('Ошибка загрузки двери:', error);
-      }
-    );
-
-    // === АНИМАЦИЯ ===
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // === АДАПТИВ ===
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
