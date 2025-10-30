@@ -5,12 +5,7 @@ import { createDoorScene } from './doorScene.js';
 
 // === СЦЕНА, КАМЕРА, РЕНДЕРЕР ===
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 1.5, 6);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -28,12 +23,7 @@ controls.target.set(0, 1, 0);
 
 // === ФОН ===
 const loader = new THREE.TextureLoader();
-loader.load(
-  './assets/images/Nostai.png',
-  (texture) => { scene.background = texture; },
-  undefined,
-  () => console.warn('⚠️ Не удалось загрузить фон')
-);
+loader.load('./assets/images/Nostai.png', texture => scene.background = texture, undefined, () => console.warn('⚠️ Не удалось загрузить фон'));
 
 // === ДЫМ ===
 const smokeTexture = loader.load('./assets/images/smoke-fog.gif');
@@ -41,11 +31,7 @@ const smokeMaterial = new THREE.SpriteMaterial({ map: smokeTexture, transparent:
 const smokeGroup = new THREE.Group();
 for (let i = 0; i < 15; i++) {
   const sprite = new THREE.Sprite(smokeMaterial);
-  sprite.position.set(
-    (Math.random() - 0.5) * 6,
-    Math.random() * 3,
-    (Math.random() - 0.5) * 6
-  );
+  sprite.position.set((Math.random() - 0.5) * 6, Math.random() * 3, (Math.random() - 0.5) * 6);
   sprite.scale.set(3, 3, 1);
   smokeGroup.add(sprite);
 }
@@ -67,7 +53,6 @@ scene.add(door);
 function animate() {
   requestAnimationFrame(animate);
 
-  // лёгкое движение дыма
   smokeGroup.children.forEach((s, i) => {
     s.position.y += 0.002 + Math.random() * 0.001;
     if (s.position.y > 4) s.position.y = 0;
