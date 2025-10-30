@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>NOSTAI</title>
+<title>NOSTAI — магическая сцена</title>
 <style>
 @font-face {
     font-family: 'DestroyCyr';
@@ -62,13 +62,14 @@ body { margin: 0; overflow: hidden; font-family: sans-serif; }
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/controls/OrbitControls.js';
 
 // ===== Сцена, камера, рендер =====
 const container = document.getElementById('scene-container');
 const scene = new THREE.Scene();
 
-// Фон через Three.js (на всякий случай)
+// Фон через Three.js
 const loaderTexture = new THREE.TextureLoader();
 loaderTexture.load('assets/images/Nostai.png', (texture)=>{
     scene.background = texture;
@@ -94,6 +95,50 @@ scene.add(directionalLight);
 const pointLight = new THREE.PointLight(0xffffff,0.8);
 pointLight.position.set(2,3,2);
 scene.add(pointLight);
+
+// ===== Псевдо-дверь (BoxHelper) =====
+let door = new THREE.Object3D();
+door.position.set(0,0,0);
+door.scale.set(2,2,2);
+scene.add(door);
+
+const box = new THREE.BoxHelper(door, 0xff0000);
+scene.add(box);
+
+// ===== Настоящая модель двери =====
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('assets/models/door_optimized.glb',
+    (gltf)=>{
+        if(door) scene.remove(door); // убираем псевдо-дверь
+        door = gltf.scene;
+        door.position.set(0,0,0);
+        door.scale.set(2,2,2);
+        scene.add(door);
+
+        // BoxHelper для настоящей модели
+        const realBox = new THREE.BoxHelper(door, 0x00ff00);
+        scene.add(realBox);
+        console.log("Дверь загружена");
+    },
+    xhr => console.log((xhr.loaded / xhr.total * 100) + '% загружено'),
+    error => console.warn('Модель двери пока не найдена')
+);
+
+// ===== Анимация двери =====
+function openDoor(){
+    if(!door) return;
+    const openAngle=Math.PI/2, duration=1.5;
+    let startTime=performance.now();
+    function animateDoor(time){
+        const elapsed=(time-startTime)/1000;
+        if(elapsed<duration){
+            door.rotation.y=openAngle*(elapsed/duration);
+            requestAnimationFrame(animateDoor);
+        } else door.rotation.y=openAngle;
+    }
+    requestAnimationFrame(animateDoor);
+}
+document.addEventListener('click',()=>{openDoor();});
 
 // Частицы (руны)
 const particleCount = 150;
