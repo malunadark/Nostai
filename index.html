@@ -2,21 +2,29 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>NOSTAI — магическая сцена</title>
+<title>NOSTAI</title>
 <style>
+@font-face {
+    font-family: 'DestroyCyr';
+    src: url('assets/fonts/destroycyr.ttf') format('truetype');
+}
+
 body { margin: 0; overflow: hidden; font-family: sans-serif; }
 #scene-container { width: 100vw; height: 100vh; display: block; position: relative; z-index: 1; }
 
-/* Логотип */
+/* Логотип текстом */
 #logo {
     position: absolute;
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
-    width: 400px;
-    pointer-events: none;
+    font-family: 'DestroyCyr', sans-serif;
+    font-size: 80px;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
     opacity: 0;
     animation: fadeIn 2s forwards 1s;
+    pointer-events: none;
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
@@ -47,21 +55,20 @@ body { margin: 0; overflow: hidden; font-family: sans-serif; }
 
 <div id="scene-container"></div>
 <div id="bg"></div>
-<img id="logo" src="assets/images/Nostai.png" alt="NOSTAI">
+<div id="logo">NOSTAI</div>
 <video id="runes" autoplay muted loop playsinline>
     <source src="assets/video/rune2.webm" type="video/webm">
 </video>
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/controls/OrbitControls.js';
 
-// ===== 1️⃣ Сцена, камера, рендер =====
+// ===== Сцена, камера, рендер =====
 const container = document.getElementById('scene-container');
 const scene = new THREE.Scene();
 
-// Фон через сцену (на случай, если div не виден)
+// Фон через Three.js (на всякий случай)
 const loaderTexture = new THREE.TextureLoader();
 loaderTexture.load('assets/images/Nostai.png', (texture)=>{
     scene.background = texture;
@@ -74,12 +81,12 @@ const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
 
-// ===== 2️⃣ Контролы =====
+// Контролы
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0,1,0);
 controls.update();
 
-// ===== 3️⃣ Свет =====
+// Свет
 scene.add(new THREE.AmbientLight(0xffffff,0.6));
 const directionalLight = new THREE.DirectionalLight(0xffffff,1);
 directionalLight.position.set(5,10,5);
@@ -88,49 +95,7 @@ const pointLight = new THREE.PointLight(0xffffff,0.8);
 pointLight.position.set(2,3,2);
 scene.add(pointLight);
 
-// ===== 4️⃣ Дверь =====
-let door;
-const loader = new GLTFLoader();
-loader.load('assets/models/door_optimized.glb',
-    (gltf) => {
-        door = gltf.scene;
-        door.position.set(0,0,-1.5);
-        door.scale.set(3,3,3);
-
-        // Если есть прозрачность, делаем материал видимым
-        door.traverse((child)=>{
-            if(child.isMesh) child.material.transparent = false;
-        });
-
-        scene.add(door);
-
-        // 🔴 BoxHelper для отладки
-        const box = new THREE.BoxHelper(door, 0xff0000);
-        scene.add(box);
-
-        console.log("Дверь загружена");
-    },
-    xhr => console.log((xhr.loaded / xhr.total * 100) + '% загружено'),
-    error => console.error('Ошибка загрузки модели:', error)
-);
-
-// ===== 5️⃣ Анимация двери =====
-function openDoor(){
-    if(!door) return;
-    const openAngle=Math.PI/2, duration=1.5;
-    let startTime=performance.now();
-    function animateDoor(time){
-        const elapsed=(time-startTime)/1000;
-        if(elapsed<duration){
-            door.rotation.y=openAngle*(elapsed/duration);
-            requestAnimationFrame(animateDoor);
-        } else door.rotation.y=openAngle;
-    }
-    requestAnimationFrame(animateDoor);
-}
-document.addEventListener('click',()=>{openDoor();});
-
-// ===== 6️⃣ Частицы (руны) =====
+// Частицы (руны)
 const particleCount = 150;
 const geometry = new THREE.BufferGeometry();
 const positions = [];
@@ -174,7 +139,7 @@ function animateParticles(){
     particles.geometry.attributes.position.needsUpdate=true;
 }
 
-// ===== 7️⃣ Рендер =====
+// Рендер
 function animate(){
     requestAnimationFrame(animate);
     animateParticles();
@@ -182,7 +147,7 @@ function animate(){
 }
 animate();
 
-// ===== 8️⃣ Resize =====
+// Resize
 window.addEventListener('resize',()=>{
     camera.aspect=window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
