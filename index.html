@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOSTAI</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: url('assets/images/Nostai.png') no-repeat center center fixed;
-      background-size: cover;
-    }
-    #overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    canvas {
-      display: block;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOSTAI</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    font-family: sans-serif;
+}
+
+canvas { display: block; }
+
+#overlay {
+    position: absolute;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    background: rgba(0,0,0,0.2);
+}
+
+#logo {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DestroyCyr', sans-serif;
+    font-size: 64px;
+    color: white;
+    opacity: 0;
+    animation: fadeIn 4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; filter: blur(8px); }
+    to { opacity:1; filter: blur(0); }
+}
+
+/* Подключаем typeface.js шрифт для Three.js */
+</style>
+<link rel="icon" href="assets/images/favicon.png">
 </head>
 <body>
-  <div id="overlay"></div>
+<div id="overlay"></div>
+<div id="logo">NOSTAI</div>
 
-  <!-- Three.js и утилиты -->
-  <script src="js/three.module.js" type="module"></script>
-  <script src="js/controls/OrbitControls.js" type="module"></script>
-
-  <!-- Скрипт двери -->
-  <script type="module" src="js/main.js"></script>
+<script type="module" src="js/doorScene.js"></script>
 </body>
 </html>
