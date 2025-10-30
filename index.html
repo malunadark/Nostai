@@ -38,14 +38,12 @@ body { margin: 0; overflow: hidden; font-family: sans-serif; }
     mix-blend-mode: screen;
 }
 
-/* Фон на весь экран */
+/* Фон overlay */
 #bg {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background: url('assets/images/Nostai.png') no-repeat center center;
-    background-size: cover;
     z-index: -1;
 }
 </style>
@@ -80,6 +78,7 @@ camera.position.set(0,2,5);
 
 const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
 container.appendChild(renderer.domElement);
 
 // Контролы
@@ -104,12 +103,13 @@ scene.add(door);
 
 const box = new THREE.BoxHelper(door, 0xff0000);
 scene.add(box);
+box.update();
 
 // ===== Настоящая модель двери =====
 const gltfLoader = new GLTFLoader();
-gltfLoader.load('assets/models/door.glb',
+gltfLoader.load('assets/models/door_optimized.glb',
     (gltf)=>{
-        if(door) scene.remove(door); // убираем псевдо-дверь
+        if(door) scene.remove(door);
         door = gltf.scene;
         door.position.set(0,0,0);
         door.scale.set(2,2,2);
@@ -118,6 +118,8 @@ gltfLoader.load('assets/models/door.glb',
         // BoxHelper для настоящей модели
         const realBox = new THREE.BoxHelper(door, 0x00ff00);
         scene.add(realBox);
+        realBox.update();
+
         console.log("Дверь загружена");
     },
     xhr => console.log((xhr.loaded / xhr.total * 100) + '% загружено'),
@@ -140,7 +142,7 @@ function openDoor(){
 }
 document.addEventListener('click',()=>{openDoor();});
 
-// Частицы (руны)
+// ===== Частицы (руны) =====
 const particleCount = 150;
 const geometry = new THREE.BufferGeometry();
 const positions = [];
@@ -163,18 +165,23 @@ for(let i=0;i<particleCount;i++){
 geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
 geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
 
-const material = new THREE.PointsMaterial({size:0.07, vertexColors:true, transparent:true, opacity:0.7});
+const material = new THREE.PointsMaterial({
+    size:0.07,
+    vertexColors:true,
+    transparent:true,
+    opacity:0.8,
+    blending: THREE.AdditiveBlending
+});
 const particles = new THREE.Points(geometry, material);
 scene.add(particles);
 
 function animateParticles(){
     const pos = particles.geometry.attributes.position.array;
     for(let i=0;i<pos.length;i+=3){
-        pos[i]+=velocities[i];     // x
-        pos[i+1]+=velocities[i+1]; // y
-        pos[i+2]+=velocities[i+2]; // z
+        pos[i]+=velocities[i];
+        pos[i+1]+=velocities[i+1];
+        pos[i+2]+=velocities[i+2];
 
-        // Зацикливание
         if(pos[i+1]>4) pos[i+1]=0;
         if(pos[i]>4) pos[i]=-4;
         if(pos[i]<-4) pos[i]=4;
@@ -184,7 +191,7 @@ function animateParticles(){
     particles.geometry.attributes.position.needsUpdate=true;
 }
 
-// Рендер
+// ===== Рендер =====
 function animate(){
     requestAnimationFrame(animate);
     animateParticles();
@@ -192,7 +199,7 @@ function animate(){
 }
 animate();
 
-// Resize
+// ===== Resize =====
 window.addEventListener('resize',()=>{
     camera.aspect=window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
