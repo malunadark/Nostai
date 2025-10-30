@@ -3,7 +3,7 @@ import { OrbitControls } from './controls/OrbitControls.js';
 import { GLTFLoader } from './loaders/GLTFLoader.js';
 import { createDoorScene } from './doorScene.js';
 
-// === СЦЕНА, КАМЕРА, РЕНДЕРЕР ===
+// === Сцена, камера, рендерер ===
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 1.5, 6);
@@ -13,7 +13,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
-// === КОНТРОЛЫ ===
+// === Контролы ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enablePan = false;
@@ -21,11 +21,11 @@ controls.maxDistance = 10;
 controls.minDistance = 3;
 controls.target.set(0, 1, 0);
 
-// === ФОН ===
+// === Фон ===
 const loader = new THREE.TextureLoader();
 loader.load('./assets/images/Nostai.png', texture => scene.background = texture, undefined, () => console.warn('⚠️ Не удалось загрузить фон'));
 
-// === ДЫМ ===
+// === Дым ===
 const smokeTexture = loader.load('./assets/images/smoke-fog.gif');
 const smokeMaterial = new THREE.SpriteMaterial({ map: smokeTexture, transparent: true, opacity: 0.3 });
 const smokeGroup = new THREE.Group();
@@ -37,19 +37,17 @@ for (let i = 0; i < 15; i++) {
 }
 scene.add(smokeGroup);
 
-// === ОСВЕЩЕНИЕ ===
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambientLight);
-
+// === Освещение ===
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 const directionalLight = new THREE.DirectionalLight(0xffaa33, 1);
 directionalLight.position.set(5, 10, 7);
 scene.add(directionalLight);
 
-// === ДОБАВЛЕНИЕ ДВЕРИ ===
+// === Дверь ===
 const door = createDoorScene();
 scene.add(door);
 
-// === АНИМАЦИЯ ===
+// === Анимация ===
 function animate() {
   requestAnimationFrame(animate);
 
@@ -64,7 +62,7 @@ function animate() {
 }
 animate();
 
-// === РЕЗАЙЗ ОКНА ===
+// === Ресайз окна ===
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
