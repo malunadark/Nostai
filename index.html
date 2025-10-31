@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOSTAI</title>
+<title>NOSTAI — Хроники Забвения</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="assets/images/favicon.png">
 </head>
 <body>
+
   <!-- Дым -->
   <div class="smoke">
     <img src="assets/images/smoke-fog.gif" alt="Smoke">
@@ -15,20 +16,21 @@
 
   <!-- Руны -->
   <div class="runes">
-    <img src="assets/images/rune11.png" alt="Runes" class="floating-rune">
-    <img src="assets/images/rune5.png" alt="Runes" class="floating-rune">
-    <img src="assets/images/rune8.png" alt="Runes" class="floating-rune">
+    <img src="assets/images/rune11.png" class="floating-rune">
+    <img src="assets/images/rune5.png" class="floating-rune">
+    <img src="assets/images/rune8.png" class="floating-rune">
   </div>
 
-  <!-- Чат фракций -->
+  <!-- Чат -->
   <div id="faction-chat">
     <div id="messages"></div>
   </div>
 
-  <!-- Кнопка входа (для будущей двери/кат-сцены) -->
-  <button id="enter-btn">Хроники Забвения</button>
+  <!-- Кнопка входа -->
+  <button id="enter-btn">Войти в игру</button>
 
-<script src="js/main.js"></script>
-<script src="js/doorScene.js"></script>
+  <!-- Скрипты как модули -->
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/doorScene.js"></script>
 </body>
 </html>
