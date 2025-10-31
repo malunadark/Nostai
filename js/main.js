@@ -1,13 +1,20 @@
 import * as THREE from './three.module.js';
 import { OrbitControls } from './controls/OrbitControls.js';
-import { GLTFLoader } from './loaders/GLTFLoader.js';
 import { createDoorScene } from './doorScene.js';
 
-// === СЦЕНА, КАМЕРА, РЕНДЕРЕР ===
+// === СЦЕНА ===
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+
+// === КАМЕРА ===
+const camera = new THREE.PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100
+);
 camera.position.set(0, 1.5, 6);
 
+// === РЕНДЕРЕР ===
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -23,7 +30,9 @@ controls.target.set(0, 1, 0);
 
 // === ФОН ===
 const loader = new THREE.TextureLoader();
-loader.load('./assets/images/Nostai.png', texture => scene.background = texture);
+loader.load('./assets/images/Nostai.png', texture => {
+  scene.background = texture;
+});
 
 // === ДЫМ ===
 const smokeTexture = loader.load('./assets/images/smoke-fog.gif');
