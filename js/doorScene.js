@@ -1,4 +1,3 @@
-
 import * as THREE from './three.module.js';
 
 export function createDoorScene() {
@@ -48,22 +47,6 @@ export function createDoorScene() {
   textMesh.position.set(0, 1, 0.06);
   doorGroup.add(textMesh);
 
-  // === "ЛЮДИ" ЗА ДВЕРЬЮ ===
-  const peopleGroup = new THREE.Group();
-  for (let i = 0; i < 5; i++) {
-    const person = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.1, 0.1, 1.5, 8),
-      new THREE.MeshStandardMaterial({ color: 0x5555ff, transparent: true, opacity: 0.7 })
-    );
-    person.position.set(
-      (Math.random() - 0.5) * 1.5,
-      0.75,
-      -0.5 - Math.random() * 1
-    );
-    peopleGroup.add(person);
-  }
-  doorGroup.add(peopleGroup);
-
   // === АНИМАЦИЯ ОТКРЫТИЯ ДВЕРИ ===
   let opened = false;
   document.addEventListener('click', () => {
@@ -76,9 +59,6 @@ export function createDoorScene() {
       const t = (time - start) / 1000;
       if (t < duration) {
         doorGroup.rotation.y = (Math.PI / 2) * (t / duration);
-        peopleGroup.children.forEach(p => {
-          p.position.z -= 0.005; // люди слегка "шагают" при открытии
-        });
         requestAnimationFrame(rotate);
       } else {
         doorGroup.rotation.y = Math.PI / 2;
