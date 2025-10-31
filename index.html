@@ -6,30 +6,108 @@
 <title>NOSTAI — Хроники Забвения</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="assets/images/favicon.png">
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Deutsch Gothic', sans-serif;
+    background: url('assets/images/Nostai.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    color: #c0ffdf;
+  }
+
+  /* Дым */
+  .smoke {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  .smoke img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  /* Руны */
+  .runes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  .floating-rune {
+    position: absolute;
+    width: 80px;
+    animation: float 6s ease-in-out infinite;
+  }
+  .floating-rune:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+  .floating-rune:nth-child(2) { top: 50%; left: 60%; animation-delay: 2s; }
+  .floating-rune:nth-child(3) { top: 70%; left: 35%; animation-delay: 4s; }
+
+  @keyframes float {
+    0% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-15px); opacity: 1; }
+    100% { transform: translateY(0px); opacity: 0.8; }
+  }
+
+  /* Чат */
+  #faction-chat {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    height: 250px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #6cffea;
+    padding: 10px;
+    overflow-y: auto;
+    z-index: 3;
+    font-size: 14px;
+  }
+
+  .chat-line {
+    opacity: 0;
+    transition: opacity 1s;
+    margin-bottom: 4px;
+  }
+
+  /* Кнопка входа */
+  #enter-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    z-index: 3;
+  }
+</style>
 </head>
 <body>
 
-  <!-- Дым -->
-  <div class="smoke">
-    <img src="assets/images/smoke-fog.gif" alt="Smoke">
-  </div>
+  <div class="smoke"><img src="assets/images/smoke-fog.gif" alt="Smoke"></div>
 
-  <!-- Руны -->
   <div class="runes">
     <img src="assets/images/rune11.png" class="floating-rune">
     <img src="assets/images/rune5.png" class="floating-rune">
     <img src="assets/images/rune8.png" class="floating-rune">
   </div>
 
-  <!-- Чат -->
   <div id="faction-chat">
     <div id="messages"></div>
   </div>
 
-  <!-- Кнопка входа -->
   <button id="enter-btn">Войти в игру</button>
 
-  <!-- Скрипты как модули -->
+  <audio src="assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
+
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/doorScene.js"></script>
 </body>
