@@ -1,19 +1,117 @@
-broadcast.html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>📡 Вещательная — NOSTAI</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Deutsch Gothic', sans-serif;
+      background: url('../assets/images/broadcast-bg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #c0ffdf;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #6cffea;
+      margin: 20px;
+    }
+
+    p {
+      color: #888;
+      margin: 0 20px;
+    }
+
+    /* Дым поверх фона */
+    .smoke {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .smoke img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+
+    /* Руны */
+    .runes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+    .floating-rune {
+      position: absolute;
+      width: 60px;
+      animation: float 6s ease-in-out infinite;
+    }
+    .floating-rune:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+    .floating-rune:nth-child(2) { top: 40%; left: 60%; animation-delay: 2s; }
+    .floating-rune:nth-child(3) { top: 70%; left: 30%; animation-delay: 4s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px); opacity: 0.8; }
+      50% { transform: translateY(-15px); opacity: 1; }
+      100% { transform: translateY(0px); opacity: 0.8; }
+    }
+
+    /* Чат */
+    .radio-chat {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      height: 300px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid #6cffea;
+      padding: 10px;
+      overflow-y: auto;
+      z-index: 3;
+      font-size: 14px;
+    }
+
+    .chat-line {
+      opacity: 0;
+      transition: opacity 1s;
+      margin-bottom: 4px;
+    }
+  </style>
 </head>
-<body style="background-color: #111; color: #c0ffdf; font-family: 'Courier New', monospace; margin: 0; padding: 20px;">
+<body>
 
-  <h1 style="color:#6cffea;">📡 ЭФИР ВЕЩАНИЯ</h1>
-  <p style="color:#888;">Передача фоновая. Прослушивание открытого канала фракций. <br>Содержимое не поддаётся верификации.</p>
+  <h1>📡 ЭФИР ВЕЩАНИЯ</h1>
+  <p>Передача фоновая. Прослушивание открытого канала фракций.<br>Содержимое не поддаётся верификации.</p>
 
-  <div class="radio-chat" style="position: relative; width: 90%; max-width: 600px; height: 300px; margin-top: 20px;">
-    <div class="chat-window" id="chat-window"></div>
+  <!-- Дым -->
+  <div class="smoke">
+    <img src="../assets/images/smoke-fog.gif" alt="Smoke">
   </div>
+
+  <!-- Руны -->
+  <div class="runes">
+    <img src="../assets/images/руны.png" class="floating-rune">
+    <img src="../assets/images/руны.png" class="floating-rune">
+    <img src="../assets/images/руны.png" class="floating-rune">
+  </div>
+
+  <!-- Чат -->
+  <div class="radio-chat">
+    <div id="chat-window"></div>
+  </div>
+
+  <!-- Фоновая музыка -->
+  <audio src="../assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
 
   <script>
     const chatWindow = document.getElementById("chat-window");
@@ -42,9 +140,12 @@ broadcast.html
       line.className = "chat-line";
       line.innerHTML = `<span style="color: ${factions[msg.faction]}; font-weight: bold;">[${msg.faction}]</span> ${msg.text}`;
       chatWindow.appendChild(line);
+      // Плавное появление
+      setTimeout(() => { line.style.opacity = 1; }, 50);
       if (chatWindow.children.length > 12) {
         chatWindow.removeChild(chatWindow.firstChild);
       }
+      chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
     setInterval(addChatLine, 5000);
