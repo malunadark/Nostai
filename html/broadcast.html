@@ -1,99 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>📡 Вещательная — NOSTAI</title>
-<link rel="stylesheet" href="../css/style.css">
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Deutsch Gothic', sans-serif;
-    background: url('../assets/images/broadcast-bg.png') no-repeat center center fixed;
-    background-size: cover;
-    overflow: hidden;
-    color: #c0ffdf;
-  }
+  <meta charset="UTF-8">
+  <title>📡 Вещательная — NOSTAI</title>
+  <link rel="icon" href="../assets/images/favicon.png">
+  <style>
+    @font-face {
+      font-family: "Destroy";
+      src: url("../assets/fonts/destroycyr.ttf") format("truetype");
+    }
 
-  h1 {
-    color: #6cffea;
-    margin: 20px;
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("../assets/images/broadcast-bg.png") center/cover no-repeat fixed;
+      font-family: "Courier New", monospace;
+      color: #c0ffdf;
+      overflow: hidden;
+    }
 
-  p {
-    color: #888;
-    margin: 0 20px;
-  }
+    h1#logo {
+      font-family: "Destroy";
+      color: #6cffea;
+      text-align: center;
+      font-size: 60px;
+      letter-spacing: 4px;
+      margin-top: 20px;
+      text-shadow: 0 0 20px #2affff, 0 0 40px #0088aa;
+    }
 
-  .smoke {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-  }
-  .smoke img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+    .radio-chat {
+      width: 90%;
+      max-width: 700px;
+      height: 320px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid #3af2c8;
+      border-radius: 8px;
+      padding: 10px;
+      overflow-y: hidden;
+      box-shadow: 0 0 25px #00e6c0;
+    }
 
-  .runes {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-  }
-  .floating-rune {
-    position: absolute;
-    width: 60px;
-    animation: float 6s ease-in-out infinite;
-  }
-  .floating-rune:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
-  .floating-rune:nth-child(2) { top: 40%; left: 60%; animation-delay: 2s; }
-  .floating-rune:nth-child(3) { top: 70%; left: 30%; animation-delay: 4s; }
+    .chat-line {
+      margin: 4px 0;
+      font-size: 15px;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
 
-  @keyframes float {
-    0% { transform: translateY(0px); opacity: 0.8; }
-    50% { transform: translateY(-15px); opacity: 1; }
-    100% { transform: translateY(0px); opacity: 0.8; }
-  }
-
-  .radio-chat {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    height: 300px;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid #6cffea;
-    padding: 10px;
-    overflow-y: auto;
-    z-index: 3;
-    font-size: 14px;
-  }
-
-  .chat-line { opacity: 0; transition: opacity 1s; margin-bottom: 4px; }
-</style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-  <h1>📡 ЭФИР ВЕЩАНИЯ</h1>
-  <p>Передача фоновая. Прослушивание открытого канала фракций.<br>Содержимое не поддаётся верификации.</p>
 
-  <div class="smoke"><img src="../assets/images/smoke-fog.gif" alt="Smoke"></div>
-  <div class="runes">
-    <img src="../assets/images/руны.png" class="floating-rune">
-    <img src="../assets/images/руны.png" class="floating-rune">
-    <img src="../assets/images/руны.png" class="floating-rune">
-  </div>
+  <h1 id="logo">NOSTAI</h1>
 
   <div class="radio-chat">
     <div id="chat-window"></div>
   </div>
 
-  <audio src="../assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
-
-  <script type="module">
+  <script>
     const chatWindow = document.getElementById("chat-window");
 
     const factions = {
@@ -120,12 +90,14 @@
       line.className = "chat-line";
       line.innerHTML = `<span style="color: ${factions[msg.faction]}; font-weight: bold;">[${msg.faction}]</span> ${msg.text}`;
       chatWindow.appendChild(line);
-      setTimeout(() => { line.style.opacity = 1; }, 50);
-      if (chatWindow.children.length > 12) chatWindow.removeChild(chatWindow.firstChild);
+      if (chatWindow.children.length > 14) {
+        chatWindow.removeChild(chatWindow.firstChild);
+      }
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    setInterval(addChatLine, 5000);
+    setInterval(addChatLine, 4000);
   </script>
+
 </body>
 </html>
