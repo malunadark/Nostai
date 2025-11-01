@@ -1,103 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>📡 Вещательная — NOSTAI</title>
-  <link rel="icon" href="../assets/images/favicon.png">
-  <style>
-    @font-face {
-      font-family: "Destroy";
-      src: url("../assets/fonts/destroycyr.ttf") format("truetype");
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: url("../assets/images/broadcast-bg.png") center/cover no-repeat fixed;
-      font-family: "Courier New", monospace;
-      color: #c0ffdf;
-      overflow: hidden;
-    }
-
-    h1#logo {
-      font-family: "Destroy";
-      color: #6cffea;
-      text-align: center;
-      font-size: 60px;
-      letter-spacing: 4px;
-      margin-top: 20px;
-      text-shadow: 0 0 20px #2affff, 0 0 40px #0088aa;
-    }
-
-    .radio-chat {
-      width: 90%;
-      max-width: 700px;
-      height: 320px;
-      margin: 40px auto;
-      background: rgba(0, 0, 0, 0.55);
-      border: 1px solid #3af2c8;
-      border-radius: 8px;
-      padding: 10px;
-      overflow-y: hidden;
-      box-shadow: 0 0 25px #00e6c0;
-    }
-
-    .chat-line {
-      margin: 4px 0;
-      font-size: 15px;
-      opacity: 0;
-      animation: fadeIn 1s forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSTAI — Вещательная</title>
+<link rel="stylesheet" href="broadcast.css">
+<style>
+  body {
+    margin: 0;
+    background: url('assets/images/broadcast-bg.png') center/cover no-repeat;
+    font-family: 'FutharkAoe', sans-serif;
+    color: #FF8C00;
+    overflow: hidden;
+  }
+  #logo {
+    text-align: center;
+    font-size: 4rem;
+    text-shadow: 0 0 10px #FF4500,0 0 20px #FF8C00;
+    padding: 20px;
+  }
+  #chat {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    max-width: 300px;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
+  .msg {
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+    margin-bottom: 5px;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+</style>
 </head>
 <body>
-
-  <h1 id="logo">NOSTAI</h1>
-
-  <div class="radio-chat">
-    <div id="chat-window"></div>
-  </div>
-
-  <script>
-    const chatWindow = document.getElementById("chat-window");
-
-    const factions = {
-      "МЧС": "#ff4444",
-      "ВС РФ": "#8888ff",
-      "Красный Крест": "#ffffff",
-      "Волонтёры": "#88ff88"
-    };
-
-    const messages = [
-      { faction: "МЧС", text: "Северный сектор. Обнаружены очаги тления. Сохраняйте осторожность." },
-      { faction: "ВС РФ", text: "Колонна на подходе. Времени почти не осталось." },
-      { faction: "Красный Крест", text: "Пункт приёма пострадавших перенесён на точку D-3." },
-      { faction: "Волонтёры", text: "Видели странные огни у разрушенного туннеля. Кто подтвердит?" },
-      { faction: "МЧС", text: "Ожидается повторное задымление. Срочно укрепите периметр." },
-      { faction: "ВС РФ", text: "Эвакуация приостановлена. Причина: неизвестные сигналы." },
-      { faction: "Красный Крест", text: "В лагере нехватка медикаментов. Кто может доставить?" },
-      { faction: "Волонтёры", text: "Радиосигнал с юга… кто-нибудь ещё это слышал?" }
-    ];
-
-    function addChatLine() {
-      const msg = messages[Math.floor(Math.random() * messages.length)];
-      const line = document.createElement("div");
-      line.className = "chat-line";
-      line.innerHTML = `<span style="color: ${factions[msg.faction]}; font-weight: bold;">[${msg.faction}]</span> ${msg.text}`;
-      chatWindow.appendChild(line);
-      if (chatWindow.children.length > 14) {
-        chatWindow.removeChild(chatWindow.firstChild);
-      }
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-    setInterval(addChatLine, 4000);
-  </script>
-
+  <div id="logo">NOSTAI</div>
+  <div id="chat"></div>
+  <script src="broadcast.js"></script>
 </body>
 </html>
