@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>NOSTAI — Хроники Забвения</title>
+
   <style>
-    /* Подключаем шрифты */
     @font-face {
       font-family: 'FutharkAoe';
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
@@ -15,84 +15,132 @@
       src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     }
 
-    body {
-      margin: 0;
-      overflow: hidden;
-      height: 100vh;
-      position: relative;
-      background: url('assets/images/Nostai (2).png') center/cover no-repeat;
+    html,body { height:100%; margin:0; }
+    body{
       font-family: 'Deutsch Gothic', sans-serif;
+      background: url('assets/images/Nostai.png') center/cover no-repeat;
       color: #FF8C00;
+      overflow: hidden;
+      position: relative;
     }
 
     /* Логотип */
     #logo {
       position: absolute;
-      top: 20px;
+      top: 18px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 5rem;
-      text-shadow: 0 0 20px #FF4500, 0 0 40px #FF8C00;
-      z-index: 10;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { text-shadow:0 0 20px #FF4500,0 0 40px #FF8C00; }
-      50% { text-shadow:0 0 40px #FF4500,0 0 80px #FF8C00; }
+      z-index: 30;
+      font-size: 4.2rem;
+      letter-spacing: 6px;
+      text-shadow: 0 0 16px rgba(255,69,0,0.9), 0 0 36px rgba(255,140,0,0.6);
+      pointer-events: none;
     }
 
     /* Кнопка музыки */
     #muteBtn {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 2rem;
-      background: none;
+      top: 18px;
+      right: 18px;
+      z-index: 30;
       border: none;
+      background: rgba(0,0,0,0.25);
       color: #FF8C00;
+      padding: 8px 12px;
+      border-radius: 8px;
       cursor: pointer;
-      z-index: 10;
+      font-size: 1.1rem;
     }
 
-    /* Canvas для рун */
-    canvas { display: block; }
-
-    /* Эффект дыма */
-    #fog {
+    /* Canvas для рун занимает весь экран */
+    #runesCanvas {
+      display:block;
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* Радио-контейнер (левый верхний угол) */
+    #radioWrap{
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 200px;
+      height: 140px;
+      z-index: 35;
+      pointer-events: auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* canvas для 3D-радио */
+    #radioCanvas{
+      width: 200px;
+      height: 140px;
+      display:block;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.15);
+    }
+
+    /* Заглушка, если Three.js не найден */
+    #radioFallback{
+      width:200px;
+      height:140px;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      color:#FF8C00;
+      font-size:0.85rem;
+      background: rgba(0,0,0,0.35);
+      border-radius:10px;
+      padding:8px;
+      text-align:center;
+      cursor:pointer;
+    }
+
+    /* дым и тень из предыдущего варианта */
+    #fog{
+      position:absolute; inset:0; z-index:5;
       background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 5;
+      opacity:0.22; pointer-events:none;
+    }
+    #shadow{
+      position:absolute; inset:0; z-index:6;
+      background: url('assets/effects/shadow.jpg') center/cover no-repeat;
+      opacity:0.14; pointer-events:none;
     }
 
-    /* Эффект тени */
-    #shadow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('assets/effects/shadow.jpg') center/cover no-repeat;
-      opacity: 0.15;
-      pointer-events: none;
-      z-index: 6;
-    }
   </style>
 </head>
 <body>
   <div id="logo">NOSTAI</div>
   <button id="muteBtn">🔊</button>
-  <audio id="bgMusic" src="assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
 
+  <!-- Радио в левом верхнем углу -->
+  <div id="radioWrap" title="Вещательная — открыть">
+    <canvas id="radioCanvas"></canvas>
+    <div id="radioFallback">Открыть Вещательную</div>
+  </div>
+
+  <!-- декоративные слои -->
   <div id="fog"></div>
   <div id="shadow"></div>
+
+  <!-- Рунный canvas -->
   <canvas id="runesCanvas"></canvas>
 
+  <!-- Аудио -->
+  <audio id="bgMusic" src="assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
+
+  <!-- Скрипты -->
+  <!-- основной скрипт рун -->
   <script src="js/main.js"></script>
+
+  <!-- 3D радио: используем модуль; radioScene.js импортирует './three.module.js' -->
+  <script type="module" src="js/radioScene.js"></script>
+
 </body>
 </html>
