@@ -1,35 +1,25 @@
-// main.js
-import { startDoorScene } from './doorScene.js';
+// main.js — руническое дыхание NOSTAI
+console.log("main.js запущен");
 
-console.log("main.js модуль загружен");
+const runeContainer = document.getElementById("rune-container");
 
-const messagesDiv = document.getElementById('messages');
-const enterBtn = document.getElementById('enter-btn');
-
-const factions = ['Придшие', 'Падшие', 'Отверженные'];
-const sampleMessages = [
-    'Ваша миссия важна.',
-    'Берегитесь врагов!',
-    'Найдите союзников.',
-    'Тьма приближается...',
-    'Сила внутри вас!'
+const runes = [
+  "ᚠ","ᚢ","ᚦ","ᚨ","ᚱ","ᚲ","ᚷ","ᚹ","ᚺ","ᚾ",
+  "ᛁ","ᛃ","ᛇ","ᛈ","ᛉ","ᛋ","ᛏ","ᛒ","ᛖ","ᛗ",
+  "ᛚ","ᛜ","ᛞ","ᛟ"
 ];
 
-function addRandomMessage() {
-    const faction = factions[Math.floor(Math.random() * factions.length)];
-    const message = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
-    const div = document.createElement('div');
-    div.textContent = `[${faction}]: ${message}`;
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    if (messagesDiv.children.length > 12) {
-        messagesDiv.removeChild(messagesDiv.firstChild);
-    }
-}
+// Создание рун с разными анимациями
+runes.forEach((rune, i) => {
+  const el = document.createElement("div");
+  el.className = "rune rune-type" + ((i % 5) + 1);
+  el.textContent = rune;
 
-setInterval(addRandomMessage, 3000);
+  el.style.left = Math.random() * 90 + "%";
+  el.style.top = Math.random() * 90 + "%";
+  el.style.animationDelay = (Math.random() * 10) + "s";
+  el.style.fontSize = (40 + Math.random() * 30) + "px";
+  el.style.opacity = (0.6 + Math.random() * 0.4).toString();
 
-// Кнопка входа
-enterBtn.addEventListener('click', () => {
-    startDoorScene(); // вызов мини-модуля doorScene
+  runeContainer.appendChild(el);
 });
