@@ -11,164 +11,107 @@
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
     @font-face {
-      font-family: 'destroycyr.ttf';
+      font-family: 'destroycyr';
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
-    html,body { height:100%; margin:0; }
-    body{
-      font-family: 'destroycyr.ttf', sans-serif;
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'destroycyr', sans-serif;
       background: url('assets/images/Nostai.png') center/cover no-repeat;
       color: #837E7C;
       overflow: hidden;
       position: relative;
     }
 
- #logo {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  font-size: 4.2rem;
-  letter-spacing: 6px;
-  font-family: 'destroycyr', serif;
-  color: #cfcfcf;
-  background: linear-gradient(180deg, #3a3a3a 0%, #1c1c1c 40%, #3a3a3a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 0 12px rgba(255, 100, 0, 0.8),
-    0 0 30px rgba(255, 50, 0, 0.6),
-    0 0 60px rgba(255, 140, 0, 0.4),
-    2px 2px 8px rgba(0, 0, 0, 0.9);
-  animation: moltenGlow 3s infinite alternate ease-in-out;
-}
+    /* Логотип */
+    #logo {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      font-size: 4.2rem;
+      letter-spacing: 6px;
+      font-family: 'destroycyr', serif;
+      color: #cfcfcf;
+      background: linear-gradient(180deg, #3a3a3a 0%, #1c1c1c 40%, #3a3a3a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        0 0 12px rgba(255, 100, 0, 0.8),
+        0 0 30px rgba(255, 50, 0, 0.6),
+        0 0 60px rgba(255, 140, 0, 0.4),
+        2px 2px 8px rgba(0, 0, 0, 0.9);
+      animation: moltenGlow 3s infinite alternate ease-in-out;
+    }
 
-/* эффект "пульсирующего жара" */
-@keyframes moltenGlow {
-  0% {
-    text-shadow:
-      0 0 6px rgba(255, 60, 0, 0.5),
-      0 0 20px rgba(255, 120, 0, 0.6),
-      0 0 40px rgba(255, 180, 0, 0.4),
-      2px 2px 8px rgba(0, 0, 0, 0.9);
-    transform: translateX(-50%) scale(1);
-  }
-  100% {
-    text-shadow:
-      0 0 16px rgba(255, 80, 0, 1),
-      0 0 50px rgba(255, 120, 0, 0.8),
-      0 0 80px rgba(255, 200, 0, 0.6),
-      2px 2px 8px rgba(0, 0, 0, 0.9);
-    transform: translateX(-50%) scale(1.03);
-  }
-}
-
-
-
-   <!-- 🎵 Фоновая музыка -->
-<audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
-
-<!-- 🔘 Кнопка выключения -->
-<button id="music-toggle" title="Выключить музыку">🔊</button>
-
-<script>
-  const music = document.getElementById('bg-music');
-  const toggle = document.getElementById('music-toggle');
-
-  // Устанавливаем громкость
-  music.volume = 0.4;
-
-  // Пробуем запустить сразу
-  window.addEventListener('load', async () => {
-    try {
-      await music.play();
-      // Если автозапуск запрещён — попробуем "тихий старт"
-      if (music.paused) {
-        music.muted = true;
-        await music.play();
-        setTimeout(() => { 
-          music.muted = false; 
-        }, 1500); // через 1.5 сек включаем звук
+    @keyframes moltenGlow {
+      0% {
+        text-shadow:
+          0 0 6px rgba(255, 60, 0, 0.5),
+          0 0 20px rgba(255, 120, 0, 0.6),
+          0 0 40px rgba(255, 180, 0, 0.4),
+          2px 2px 8px rgba(0, 0, 0, 0.9);
+        transform: translateX(-50%) scale(1);
       }
-    } catch (err) {
-      console.warn('Браузер блокирует автозапуск музыки:', err);
+      100% {
+        text-shadow:
+          0 0 16px rgba(255, 80, 0, 1),
+          0 0 50px rgba(255, 120, 0, 0.8),
+          0 0 80px rgba(255, 200, 0, 0.6),
+          2px 2px 8px rgba(0, 0, 0, 0.9);
+        transform: translateX(-50%) scale(1.03);
+      }
     }
-  });
 
-  // Кнопка выключения/включения
-  toggle.addEventListener('click', () => {
-    if (music.paused) {
-      music.play();
-      toggle.textContent = '🔊';
-    } else {
-      music.pause();
-      toggle.textContent = '🔇';
-    }
-  });
-</script>
-
-<style>
-  #music-toggle {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    font-size: 1.6rem;
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 140, 0, 0.6);
-    color: #ffbb77;
-    border-radius: 12px;
-    cursor: pointer;
-    padding: 8px 12px;
-    box-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
-    transition: all 0.3s ease;
-    z-index: 100;
-    backdrop-filter: blur(4px);
-  }
-  #music-toggle:hover {
-    background: rgba(255, 140, 0, 0.2);
-    box-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
-    transform: scale(1.1);
-  }
-</style>
-
-
-    /* Canvas для рун занимает весь экран */
+    /* Canvas рун */
     #runesCanvas {
-      display:block;
+      display: block;
       position: absolute;
       inset: 0;
       z-index: 1;
     }
 
-    /* Радио-контейнер (левый верхний угол) */
-    #radioWrap{
+    /* Декоративные слои */
+    #fog {
+      position:absolute; inset:0; z-index:5;
+      background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+      opacity:0.22; pointer-events:none;
+    }
+    #shadow {
+      position:absolute; inset:0; z-index:6;
+      background: url('assets/effects/shadow.jpg') center/cover no-repeat;
+      opacity:0.14; pointer-events:none;
+    }
+
+    /* Радио левый верхний */
+    #radioWrap {
       position: absolute;
       top: 14px;
       left: 14px;
       width: 200px;
       height: 140px;
       z-index: 35;
-      pointer-events: auto;
       display:flex;
       align-items:center;
       justify-content:center;
+      pointer-events:auto;
+      cursor: pointer;
     }
-
-    /* canvas для 3D-радио */
-    #radioCanvas{
+    #radioCanvas {
       width: 200px;
       height: 140px;
       display:block;
-      cursor: pointer;
       border-radius: 10px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.6);
       background: rgba(0,0,0,0.15);
     }
-
-    /* Заглушка, если Three.js не найден */
-    #radioFallback{
+    #radioFallback {
       width:200px;
       height:140px;
       display:none;
@@ -180,34 +123,42 @@
       border-radius:10px;
       padding:8px;
       text-align:center;
-      cursor:pointer;
     }
 
-    /* дым и тень из предыдущего варианта */
-    #fog{
-      position:absolute; inset:0; z-index:5;
-      background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
-      opacity:0.22; pointer-events:none;
+    /* Кнопка включения/выключения музыки */
+    #music-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-size: 1.6rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(255, 140, 0, 0.6);
+      color: #ffbb77;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 8px 12px;
+      box-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
+      transition: all 0.3s ease;
+      z-index: 100;
+      backdrop-filter: blur(4px);
     }
-    #shadow{
-      position:absolute; inset:0; z-index:6;
-      background: url('assets/effects/shadow.jpg') center/cover no-repeat;
-      opacity:0.14; pointer-events:none;
+    #music-toggle:hover {
+      background: rgba(255, 140, 0, 0.2);
+      box-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
+      transform: scale(1.1);
     }
-
   </style>
 </head>
 <body>
   <div id="logo">NOSTAI</div>
-  <button id="muteBtn">🔊</button>
 
-  <!-- Радио в левом верхнем углу -->
+  <!-- Радиоприёмник левый верхний -->
   <div id="radioWrap" title="Вещательная — открыть">
     <canvas id="radioCanvas"></canvas>
     <div id="radioFallback">Открыть Вещательную</div>
   </div>
 
-  <!-- декоративные слои -->
+  <!-- Декоративные слои -->
   <div id="fog"></div>
   <div id="shadow"></div>
 
@@ -215,152 +166,48 @@
   <canvas id="runesCanvas"></canvas>
 
   <!-- Аудио -->
-  <audio id="bgMusic" src="assets/music/Уходящая Судьба.mp3" autoplay loop></audio>
+  <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
+  <button id="music-toggle" title="Выключить музыку">🔊</button>
 
   <!-- Скрипты -->
-  <!-- основной скрипт рун -->
   <script src="js/main.js"></script>
-
-  <!-- 3D радио: используем модуль; radioScene.js импортирует './three.module.js' -->
   <script type="module" src="js/radioScene.js"></script>
-<!-- === Радиоприёмник NOSTAI === -->
-<div id="radio-button">
-  <div id="radio-body">
-    <div id="radio-speaker"></div>
-    <div id="radio-dial"></div>
-    <div id="radio-indicator"></div>
-    <div id="radio-scratches"></div>
-  </div>
-</div>
 
-<style>
-/* === Кнопка радиоприёмника === */
-#radio-button {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 72px;
-  height: 52px;
-  cursor: pointer;
-  z-index: 2000;
-  transition: transform 0.3s ease, filter 0.5s ease;
-  filter: brightness(0.9) drop-shadow(0 0 8px rgba(100, 180, 255, 0.2));
-  animation: breathe 4s ease-in-out infinite;
-}
+  <script>
+    // === Музыка ===
+    const music = document.getElementById('bg-music');
+    music.volume = 0.4;
 
-#radio-button:hover {
-  transform: scale(1.1);
-  filter: brightness(1.1) drop-shadow(0 0 12px rgba(255, 200, 120, 0.4));
-}
+    async function playMusic() {
+      try {
+        await music.play();
+      } catch(err) {
+        console.warn('Автозапуск заблокирован, ждём клика пользователя', err);
+        const startOnClick = () => { music.play(); window.removeEventListener('click', startOnClick); };
+        window.addEventListener('click', startOnClick);
+      }
+    }
 
-/* === Эффект "дыхания" === */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); filter: brightness(0.9); }
-  50% { transform: scale(1.03); filter: brightness(1.05); }
-}
+    window.addEventListener('load', playMusic);
 
-/* === Корпус радио === */
-#radio-body {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: linear-gradient(145deg, #3a3a3a, #1d1d1d);
-  border: 2px solid #222;
-  border-radius: 8px;
-  box-shadow:
-    inset -3px -3px 6px rgba(0, 0, 0, 0.7),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.05),
-    0 0 10px rgba(255, 150, 50, 0.1);
-  overflow: hidden;
-}
+    const toggle = document.getElementById('music-toggle');
+    toggle.addEventListener('click', () => {
+      if(music.paused){ music.play(); toggle.textContent='🔊'; }
+      else { music.pause(); toggle.textContent='🔇'; }
+    });
 
-/* === Следы времени и пепел === */
-#radio-scratches {
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(130deg, rgba(255,255,255,0.05) 0px, transparent 3px),
-    radial-gradient(circle at 40% 80%, rgba(255,140,0,0.05), transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255,200,150,0.03), transparent 60%);
-  mix-blend-mode: overlay;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* === Динамик === */
-#radio-speaker {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 34px;
-  height: 34px;
-  background: repeating-radial-gradient(circle, #333 0 2px, #000 3px 4px);
-  border-radius: 6px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
-  filter: contrast(1.3) brightness(0.8);
-}
-
-/* === Ручка настройки === */
-#radio-dial {
-  position: absolute;
-  top: 14px;
-  right: 10px;
-  width: 12px;
-  height: 12px;
-  background: radial-gradient(circle at 30% 30%, #771, #331);
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255,180,80,0.3);
-  transform: rotate(10deg);
-}
-
-/* === Индикатор === */
-#radio-indicator {
-  position: absolute;
-  bottom: 6px;
-  right: 10px;
-  width: 9px;
-  height: 9px;
-  background: radial-gradient(circle, #ff2a00, #800);
-  border-radius: 50%;
-  box-shadow: 0 0 8px #ff2a00;
-  animation: blink 1.3s infinite;
-}
-
-#radio-button:hover #radio-indicator {
-  animation: blink-fast 0.3s infinite;
-}
-
-/* === Мерцание индикатора === */
-@keyframes blink {
-  0%, 100% { opacity: 0.8; box-shadow: 0 0 6px #ff2a00; }
-  50% { opacity: 0.3; box-shadow: 0 0 2px #800; }
-}
-
-@keyframes blink-fast {
-  0%, 100% { opacity: 1; box-shadow: 0 0 8px #ff2a00; }
-  50% { opacity: 0.1; box-shadow: 0 0 1px #800; }
-}
-</style>
-
-<script>
-const radioBtn = document.getElementById('radio-button');
-
-radioBtn.addEventListener('click', () => {
-  // Эффект плавного ухода страницы
-  document.body.style.transition = "opacity 1s ease";
-  document.body.style.opacity = 0;
-
-  // Переход на "вещательную"
-  setTimeout(() => {
-    window.location.href = "html/broadcast.html";
-  }, 1000);
-});
-
-radioBtn.addEventListener('mouseenter', () => {
-  const audio = new Audio('assets/music/book-page-turn-4_z1xaim4u.mp3');
-  audio.volume = 0.25;
-  audio.play();
-});
-</script>
+    // === Радио левый верхний клик ===
+    const radioWrap = document.getElementById('radioWrap');
+    radioWrap.addEventListener('click', () => {
+      document.body.style.transition = "opacity 1s ease";
+      document.body.style.opacity = 0;
+      setTimeout(() => { window.location.href="html/broadcast.html"; }, 1000);
+    });
+    radioWrap.addEventListener('mouseenter', () => {
+      const audio = new Audio('assets/music/book-page-turn-4_z1xaim4u.mp3');
+      audio.volume = 0.25;
+      audio.play();
+    });
+  </script>
 </body>
 </html>
