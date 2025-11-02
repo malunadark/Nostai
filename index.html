@@ -98,6 +98,37 @@
       }
     }
 
+    /* Контейнер под логотипом */
+#subtitle-container {
+  position: absolute;
+  top: 120px; /* чуть ниже логотипа */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* Стили для текста */
+#subtitle {
+  font-family: 'destroycyr', serif;
+  font-size: 1.6rem;
+  color: #ffbb77;
+  text-shadow:
+    0 0 5px rgba(255, 140, 0, 0.7),
+    0 0 10px rgba(255, 180, 0, 0.5),
+    0 0 15px rgba(255, 200, 0, 0.3);
+  animation: liveText 3s ease-in-out infinite;
+}
+
+/* Анимация “живого текста” */
+@keyframes liveText {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1.03); opacity: 0.85; }
+}
+
+
     /* Canvas рун */
     #runesCanvas {
       display: block;
@@ -183,6 +214,9 @@
   <div id="logo-container">
     <div id="logo">NOSTAI</div>
   </div>
+<div id="subtitle-container">
+  <span id="subtitle">Придшие не уходят, Придшие те кто здесь и там, в поисках себя</span>
+</div>
 
   <!-- Радиоприёмник -->
   <div id="radioWrap" title="Вещательная — открыть">
@@ -232,6 +266,14 @@ toggle.addEventListener('click', () => {
     toggle.textContent = '🔇';
   }
 });
-  </script>
+
+  <script>
+const subtitle = document.getElementById('subtitle');
+
+// Действие при клике на текст
+subtitle.addEventListener('click', () => {
+  alert('Ты кликнула по надписи! Здесь можно добавить любое действие.');
+});
+</script>
 </body>
 </html>
