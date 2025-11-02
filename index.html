@@ -3,10 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
- <div id="logo-container">
-  <div id="logo">NOSTAI</div>
-</div>
-
+  <title>NOSTAI</title>
 
   <style>
     @font-face {
@@ -31,77 +28,75 @@
       position: relative;
     }
 
-/* контейнер для центрирования логотипа */
-#logo-container {
-  position: absolute;
-  top: 18px;        /* отступ сверху */
-  left: 50%;        /* центр по горизонтали */
-  transform: translateX(-50%);
-  z-index: 30;
-  pointer-events: none;
-  user-select: none;
-}
+    /* контейнер для центрирования логотипа */
+    #logo-container {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      pointer-events: none;
+      user-select: none;
+    }
 
-/* сам логотип */
-#logo {
-  font-size: 4.8rem;
-  letter-spacing: 6px;
-  font-family: 'destroycyr', serif;
-  color: #cfcfcf;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    /* сам логотип */
+    #logo {
+      font-size: 4.8rem;
+      letter-spacing: 6px;
+      font-family: 'destroycyr', serif;
+      color: #cfcfcf;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
 
-  /* гранитный объём + огонь внутри */
-  text-shadow:
-    2px 2px 2px rgba(0,0,0,0.8),
-    -2px -2px 2px rgba(0,0,0,0.6),
-    0 2px 4px rgba(0,0,0,0.5),
-    0 0 8px rgba(255, 100, 0, 0.7),
-    0 0 20px rgba(255, 140, 0, 0.5),
-    0 0 35px rgba(255, 180, 0, 0.3),
-    0 -1px 1px rgba(255,255,255,0.2);
+      text-shadow:
+        2px 2px 2px rgba(0,0,0,0.8),
+        -2px -2px 2px rgba(0,0,0,0.6),
+        0 2px 4px rgba(0,0,0,0.5),
+        0 0 8px rgba(255, 100, 0, 0.7),
+        0 0 20px rgba(255, 140, 0, 0.5),
+        0 0 35px rgba(255, 180, 0, 0.3),
+        0 -1px 1px rgba(255,255,255,0.2);
 
-  filter: contrast(1.3) brightness(0.95);
-  animation: fireGranite 4s ease-in-out infinite;
-  position: relative;
-}
+      filter: contrast(1.3) brightness(0.95);
+      animation: fireGranite 4s ease-in-out infinite;
+      position: relative;
+    }
 
-/* шумовая текстура гранита */
-#logo::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('assets/images/granite-noise.png');
-  background-size: cover;
-  opacity: 0.18;
-  z-index: -1;
-}
+    /* шумовая текстура гранита */
+    #logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/images/granite-noise.png');
+      background-size: cover;
+      opacity: 0.18;
+      z-index: -1;
+    }
 
-/* анимация огня */
-@keyframes fireGranite {
-  0%, 100% {
-    text-shadow:
-      2px 2px 2px rgba(0,0,0,0.8),
-      -2px -2px 2px rgba(0,0,0,0.6),
-      0 2px 4px rgba(0,0,0,0.5),
-      0 0 8px rgba(255, 100, 0, 0.7),
-      0 0 20px rgba(255, 140, 0, 0.5),
-      0 0 35px rgba(255, 180, 0, 0.3),
-      0 -1px 1px rgba(255,255,255,0.2);
-    filter: brightness(0.95);
-  }
-  50% {
-    text-shadow:
-      2px 2px 4px rgba(0,0,0,0.9),
-      -2px -2px 3px rgba(0,0,0,0.7),
-      0 3px 6px rgba(0,0,0,0.6),
-      0 0 12px rgba(255, 120, 0, 0.9),
-      0 0 30px rgba(255, 160, 0, 0.6),
-      0 0 45px rgba(255, 200, 0, 0.4),
-      0 -1px 2px rgba(255,255,255,0.25);
-    filter: brightness(1.05);
-  }
-}
+    @keyframes fireGranite {
+      0%,100% {
+        text-shadow:
+          2px 2px 2px rgba(0,0,0,0.8),
+          -2px -2px 2px rgba(0,0,0,0.6),
+          0 2px 4px rgba(0,0,0,0.5),
+          0 0 8px rgba(255, 100, 0, 0.7),
+          0 0 20px rgba(255, 140, 0, 0.5),
+          0 0 35px rgba(255, 180, 0, 0.3),
+          0 -1px 1px rgba(255,255,255,0.2);
+        filter: brightness(0.95);
+      }
+      50% {
+        text-shadow:
+          2px 2px 4px rgba(0,0,0,0.9),
+          -2px -2px 3px rgba(0,0,0,0.7),
+          0 3px 6px rgba(0,0,0,0.6),
+          0 0 12px rgba(255, 120, 0, 0.9),
+          0 0 30px rgba(255, 160, 0, 0.6),
+          0 0 45px rgba(255, 200, 0, 0.4),
+          0 -1px 2px rgba(255,255,255,0.25);
+        filter: brightness(1.05);
+      }
+    }
 
     /* Canvas рун */
     #runesCanvas {
@@ -159,7 +154,7 @@
       text-align:center;
     }
 
-    /* Кнопка включения/выключения музыки */
+    /* Кнопка музыки */
     #music-toggle {
       position: fixed;
       bottom: 25px;
@@ -184,9 +179,12 @@
   </style>
 </head>
 <body>
-  <div id="logo">NOSTAI</div>
+  <!-- Центрированный логотип -->
+  <div id="logo-container">
+    <div id="logo">NOSTAI</div>
+  </div>
 
-  <!-- Радиоприёмник левый верхний -->
+  <!-- Радиоприёмник -->
   <div id="radioWrap" title="Вещательная — открыть">
     <canvas id="radioCanvas"></canvas>
     <div id="radioFallback">Открыть Вещательную</div>
@@ -196,7 +194,7 @@
   <div id="fog"></div>
   <div id="shadow"></div>
 
-  <!-- Рунный canvas -->
+  <!-- Canvas рун -->
   <canvas id="runesCanvas"></canvas>
 
   <!-- Аудио -->
@@ -210,10 +208,8 @@
   <script>
     // === Музыка ===
     const music = document.getElementById('bg-music');
-music.muted = true; // можно начать в приглушенном виде
-music.play().then(() => {
-  music.muted = false; // включаем звук
-});
+    music.muted = true;
+    music.play().then(() => { music.muted = false; });
 
     async function playMusic() {
       try {
@@ -224,7 +220,6 @@ music.play().then(() => {
         window.addEventListener('click', startOnClick);
       }
     }
-
     window.addEventListener('load', playMusic);
 
     const toggle = document.getElementById('music-toggle');
@@ -233,7 +228,7 @@ music.play().then(() => {
       else { music.pause(); toggle.textContent='🔇'; }
     });
 
-    // === Радио левый верхний клик ===
+    // Радио левый верхний клик
     const radioWrap = document.getElementById('radioWrap');
     radioWrap.addEventListener('click', () => {
       document.body.style.transition = "opacity 1s ease";
