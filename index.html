@@ -15,11 +15,7 @@
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-
+    html, body { height: 100%; margin: 0; }
     body {
       font-family: 'destroycyr', sans-serif;
       background: url('assets/images/Nostai.png') center/cover no-repeat;
@@ -28,7 +24,7 @@
       position: relative;
     }
 
-    /* Логотип */
+    /* ===== Логотип ===== */
     #logo-container {
       position: absolute;
       top: 18px;
@@ -91,7 +87,7 @@
       }
     }
 
-    /* Подзаголовок */
+    /* ===== Подзаголовок ===== */
     #subtitle-container {
       position: absolute;
       top: 120px;
@@ -143,61 +139,77 @@
       }
     }
 
-    /* Canvas руны и эффекты */
+    /* ===== Canvas руны и эффекты ===== */
     #runesCanvas { display: block; position: absolute; inset: 0; z-index: 1; }
     #fog { position:absolute; inset:0; z-index:5; background: url('assets/images/smoke-fog.gif') center/cover no-repeat; opacity:0.22; pointer-events:none; }
     #shadow { position:absolute; inset:0; z-index:6; background: url('assets/effects/shadow.jpg') center/cover no-repeat; opacity:0.14; pointer-events:none; }
 
-    /* Радиоприёмник */
+    /* ===== Радиоприёмник ===== */
     #radioWrap {
       position: absolute;
       top: 14px;
       left: 14px;
-      width: 200px;
-      height: 140px;
+      width: 180px;
+      height: 120px;
       z-index: 35;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       cursor: pointer;
       border-radius: 12px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.6);
       background: linear-gradient(145deg, #222 0%, #444 100%);
       border: 2px solid #FF8C00;
       overflow: hidden;
-    }
-    #radioScreen {
-      width: 160px;
-      height: 100px;
-      background: #111;
-      border-radius: 6px;
-      box-shadow: inset 0 0 10px rgba(255,140,0,0.3);
-      transition: box-shadow 0.3s ease;
-    }
-    #radioWrap:hover #radioScreen {
-      box-shadow: inset 0 0 15px rgba(255,180,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
 
-    /* Кнопка музыки */
+    #radioScreen {
+      width: 140px;
+      height: 80px;
+      border-radius: 6px;
+      background: #111;
+      box-shadow: inset 0 0 10px rgba(255,140,0,0.3);
+    }
+
+    /* Лампочки */
+    .lamp {
+      position: absolute;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #FF8C00;
+      box-shadow: 0 0 5px #FF8C00;
+      animation: lampBlink 1.2s infinite;
+    }
+    .lamp-left { left: 12px; animation-delay: 0s; }
+    .lamp-right { right: 12px; animation-delay: 0.6s; }
+    @keyframes lampBlink {
+      0%,50%,100% { opacity: 0.4; box-shadow: 0 0 5px #FF8C00; }
+      25%,75% { opacity: 1; box-shadow: 0 0 12px #FFB84D; }
+    }
+
+    /* ===== Кнопка музыки ===== */
     #music-toggle {
       position: fixed;
       bottom: 25px;
       right: 25px;
       font-size: 1.6rem;
-      background: rgba(0, 0, 0, 0.4);
-      border: 2px solid rgba(255, 140, 0, 0.6);
+      background: rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,140,0,0.6);
       color: #ffbb77;
       border-radius: 12px;
       cursor: pointer;
       padding: 8px 12px;
-      box-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
+      box-shadow: 0 0 10px rgba(255,120,0,0.4);
       transition: all 0.3s ease;
       z-index: 100;
       backdrop-filter: blur(4px);
     }
     #music-toggle:hover {
-      background: rgba(255, 140, 0, 0.2);
-      box-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
+      background: rgba(255,140,0,0.2);
+      box-shadow: 0 0 20px rgba(255,120,0,0.7);
       transform: scale(1.1);
     }
   </style>
@@ -214,7 +226,9 @@
 
   <!-- Радиоприёмник -->
   <div id="radioWrap" title="Вещательная">
-    <div id="radioScreen"></div>
+    <canvas id="radioScreen"></canvas>
+    <div class="lamp lamp-left"></div>
+    <div class="lamp lamp-right"></div>
   </div>
 
   <div id="fog"></div>
@@ -224,44 +238,53 @@
   <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
   <button id="music-toggle" title="Выключить музыку">🔊</button>
 
-  <script src="js/main.js"></script>
-  <script type="module" src="js/radioScene.js"></script>
-
   <script>
-    // === Радиоприёмник: переход на вещательную ===
+    // ===== Радиоприёмник: переход на вещательную =====
     const radioWrap = document.getElementById('radioWrap');
     radioWrap.addEventListener('click', () => {
       window.location.href = '/html/broadcast.html';
     });
 
-    // === Музыка ===
+    // ===== Музыка =====
     const music = document.getElementById('bg-music');
     const toggle = document.getElementById('music-toggle');
-
     function startMusic() {
-      if (music.paused) {
-        music.play().catch(() => {
-          console.warn('Автозапуск заблокирован, ждём клика пользователя');
-        });
-      }
+      if (music.paused) music.play().catch(() => console.warn('Автозапуск заблокирован'));
     }
-
-    window.addEventListener('load', startMusic);
-
+    window.addEventListener('click', startMusic, { once: true });
     toggle.addEventListener('click', () => {
-      if(music.paused){
-        music.play();
-        toggle.textContent = '🔊';
-      } else {
-        music.pause();
-        toggle.textContent = '🔇';
-      }
+      if(music.paused){ music.play(); toggle.textContent='🔊'; }
+      else { music.pause(); toggle.textContent='🔇'; }
     });
 
-    // === Клик по подзаголовку ===
+    // ===== Подзаголовок =====
     document.getElementById('subtitle').addEventListener('click', () => {
       alert('🔥 Придшие уже здесь...');
     });
+
+    // ===== Анимация радио-сигнала на экране =====
+    const canvas = document.getElementById('radioScreen');
+    canvas.width = 140;
+    canvas.height = 80;
+    const ctx = canvas.getContext('2d');
+
+    function drawSignal() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const barCount = 20;
+      const barWidth = canvas.width/barCount - 2;
+      for(let i=0;i<barCount;i++){
+        const height = Math.random()*canvas.height*0.8;
+        const x = i*(barWidth+2);
+        const gradient = ctx.createLinearGradient(0, canvas.height-height, 0, canvas.height);
+        gradient.addColorStop(0,'#FFB84D');
+        gradient.addColorStop(0.5,'#FFA500');
+        gradient.addColorStop(1,'#FF8C00');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, canvas.height-height, barWidth, height);
+      }
+      requestAnimationFrame(drawSignal);
+    }
+    drawSignal();
   </script>
 </body>
 </html>
