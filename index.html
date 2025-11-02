@@ -207,39 +207,31 @@
 
   <script>
     // === Музыка ===
-    const music = document.getElementById('bg-music');
-    music.muted = true;
-    music.play().then(() => { music.muted = false; });
+   const music = document.getElementById('bg-music');
+const toggle = document.getElementById('music-toggle');
 
-    async function playMusic() {
-      try {
-        await music.play();
-      } catch(err) {
-        console.warn('Автозапуск заблокирован, ждём клика пользователя', err);
-        const startOnClick = () => { music.play(); window.removeEventListener('click', startOnClick); };
-        window.addEventListener('click', startOnClick);
-      }
-    }
-    window.addEventListener('load', playMusic);
+// Функция запуска музыки
+function startMusic() {
+  if (music.paused) {
+    music.play().catch(() => {
+      console.warn('Автозапуск заблокирован, ждём клика пользователя');
+    });
+  }
+}
 
-    const toggle = document.getElementById('music-toggle');
-    toggle.addEventListener('click', () => {
-      if(music.paused){ music.play(); toggle.textContent='🔊'; }
-      else { music.pause(); toggle.textContent='🔇'; }
-    });
+// Автозапуск после первого клика
+window.addEventListener('click', startMusic, { once: true });
 
-    // Радио левый верхний клик
-    const radioWrap = document.getElementById('radioWrap');
-    radioWrap.addEventListener('click', () => {
-      document.body.style.transition = "opacity 1s ease";
-      document.body.style.opacity = 0;
-      setTimeout(() => { window.location.href="html/broadcast.html"; }, 1000);
-    });
-    radioWrap.addEventListener('mouseenter', () => {
-      const audio = new Audio('assets/music/book-page-turn-4_z1xaim4u.mp3');
-      audio.volume = 0.25;
-      audio.play();
-    });
+// Кнопка Вкл/Выкл
+toggle.addEventListener('click', () => {
+  if(music.paused){
+    music.play();
+    toggle.textContent = '🔊';
+  } else {
+    music.pause();
+    toggle.textContent = '🔇';
+  }
+});
   </script>
 </body>
 </html>
