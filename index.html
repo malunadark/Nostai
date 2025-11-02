@@ -69,7 +69,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: url('assets/images/granite-noise.png'); /* прозрачная текстура */
+  background: url('assets/images/granite‑noise.png'); /* прозрачная текстура */
   background-size: cover;
   opacity: 0.18; /* чуть сильнее, для рельефа */
   pointer-events: none;
@@ -212,7 +212,10 @@
   <script>
     // === Музыка ===
     const music = document.getElementById('bg-music');
-    music.volume = 0.4;
+music.muted = true; // можно начать в приглушенном виде
+music.play().then(() => {
+  music.muted = false; // включаем звук
+});
 
     async function playMusic() {
       try {
