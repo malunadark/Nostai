@@ -47,7 +47,6 @@
       color: #cfcfcf;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-
       text-shadow:
         2px 2px 2px rgba(0,0,0,0.8),
         -2px -2px 2px rgba(0,0,0,0.6),
@@ -56,7 +55,6 @@
         0 0 20px rgba(255, 140, 0, 0.5),
         0 0 35px rgba(255, 180, 0, 0.3),
         0 -1px 1px rgba(255,255,255,0.2);
-
       filter: contrast(1.3) brightness(0.95);
       animation: fireGranite 4s ease-in-out infinite;
       position: relative;
@@ -98,38 +96,63 @@
       }
     }
 
-    /* Контейнер под логотипом */
-#subtitle-container {
-  position: absolute;
-  top: 120px; /* чуть ниже логотипа */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  cursor: pointer;
-  pointer-events: auto;
-  user-select: none;
-}
+    /* === Контейнер под логотипом === */
+    #subtitle-container {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+    }
 
-/* Стили для текста */
-#subtitle {
-  font-family: 'destroycyr', serif;
-  font-size: 1.6rem;
-  color: #ffbb77;
-  text-shadow:
-    0 0 5px rgba(255, 140, 0, 0.7),
-    0 0 10px rgba(255, 180, 0, 0.5),
-    0 0 15px rgba(255, 200, 0, 0.3);
-  animation: liveText 3s ease-in-out infinite;
-}
+    /* === Надпись (в стиле логотипа) === */
+    #subtitle {
+      font-family: 'destroycyr', serif;
+      font-size: 1.6rem;
+      text-align: center;
+      cursor: pointer;
+      color: #ffcc80; /* чуть светлее логотипа */
+      letter-spacing: 1.2px;
+      text-shadow:
+        0 0 4px rgba(255, 120, 40, 0.6),
+        0 0 8px rgba(255, 160, 60, 0.4),
+        0 0 14px rgba(255, 190, 80, 0.3),
+        0 0 28px rgba(255, 200, 100, 0.2);
+      animation: subtitleGlow 6s ease-in-out infinite;
+      transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+    }
 
-/* Анимация “живого текста” */
-@keyframes liveText {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  50% { transform: translateX(-50%) scale(1.03); opacity: 0.85; }
-}
+    #subtitle:hover {
+      color: #ffd699;
+      transform: scale(1.05);
+      text-shadow:
+        0 0 8px rgba(255, 150, 50, 0.8),
+        0 0 18px rgba(255, 200, 80, 0.6),
+        0 0 38px rgba(255, 230, 120, 0.5);
+    }
 
+    #subtitle:active {
+      transform: scale(0.97);
+      color: #ffb366;
+    }
 
-    /* Canvas рун */
+    @keyframes subtitleGlow {
+      0%, 100% {
+        opacity: 0.9;
+        text-shadow:
+          0 0 4px rgba(255,120,40,0.5),
+          0 0 10px rgba(255,160,60,0.3),
+          0 0 22px rgba(255,180,70,0.2);
+      }
+      50% {
+        opacity: 1;
+        text-shadow:
+          0 0 8px rgba(255,140,50,0.7),
+          0 0 18px rgba(255,180,70,0.5),
+          0 0 32px rgba(255,210,90,0.4);
+      }
+    }
+
     #runesCanvas {
       display: block;
       position: absolute;
@@ -137,7 +160,6 @@
       z-index: 1;
     }
 
-    /* Декоративные слои */
     #fog {
       position:absolute; inset:0; z-index:5;
       background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
@@ -149,7 +171,6 @@
       opacity:0.14; pointer-events:none;
     }
 
-    /* Радио левый верхний */
     #radioWrap {
       position: absolute;
       top: 14px;
@@ -163,6 +184,7 @@
       pointer-events:auto;
       cursor: pointer;
     }
+
     #radioCanvas {
       width: 200px;
       height: 140px;
@@ -171,6 +193,7 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.6);
       background: rgba(0,0,0,0.15);
     }
+
     #radioFallback {
       width:200px;
       height:140px;
@@ -185,7 +208,6 @@
       text-align:center;
     }
 
-    /* Кнопка музыки */
     #music-toggle {
       position: fixed;
       bottom: 25px;
@@ -202,6 +224,7 @@
       z-index: 100;
       backdrop-filter: blur(4px);
     }
+
     #music-toggle:hover {
       background: rgba(255, 140, 0, 0.2);
       box-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
@@ -209,71 +232,60 @@
     }
   </style>
 </head>
+
 <body>
-  <!-- Центрированный логотип -->
   <div id="logo-container">
     <div id="logo">NOSTAI</div>
   </div>
-<div id="subtitle-container">
-  <span id="subtitle">Придшие не уходят, Придшие те кто здесь и там, в поисках себя</span>
-</div>
 
-  <!-- Радиоприёмник -->
+  <div id="subtitle-container">
+    <div id="subtitle">Придшие не уходят, Придшие те кто здесь и там, в поисках себя</div>
+  </div>
+
   <div id="radioWrap" title="Вещательная — открыть">
     <canvas id="radioCanvas"></canvas>
     <div id="radioFallback">Открыть Вещательную</div>
   </div>
 
-  <!-- Декоративные слои -->
   <div id="fog"></div>
   <div id="shadow"></div>
-
-  <!-- Canvas рун -->
   <canvas id="runesCanvas"></canvas>
 
-  <!-- Аудио -->
   <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
   <button id="music-toggle" title="Выключить музыку">🔊</button>
 
-  <!-- Скрипты -->
   <script src="js/main.js"></script>
   <script type="module" src="js/radioScene.js"></script>
 
   <script>
     // === Музыка ===
-   const music = document.getElementById('bg-music');
-const toggle = document.getElementById('music-toggle');
+    const music = document.getElementById('bg-music');
+    const toggle = document.getElementById('music-toggle');
 
-// Функция запуска музыки
-function startMusic() {
-  if (music.paused) {
-    music.play().catch(() => {
-      console.warn('Автозапуск заблокирован, ждём клика пользователя');
+    function startMusic() {
+      if (music.paused) {
+        music.play().catch(() => {
+          console.warn('Автозапуск заблокирован, ждём клика пользователя');
+        });
+      }
+    }
+
+    window.addEventListener('click', startMusic, { once: true });
+
+    toggle.addEventListener('click', () => {
+      if(music.paused){
+        music.play();
+        toggle.textContent = '🔊';
+      } else {
+        music.pause();
+        toggle.textContent = '🔇';
+      }
     });
-  }
-}
 
-// Автозапуск после первого клика
-window.addEventListener('click', startMusic, { once: true });
-
-// Кнопка Вкл/Выкл
-toggle.addEventListener('click', () => {
-  if(music.paused){
-    music.play();
-    toggle.textContent = '🔊';
-  } else {
-    music.pause();
-    toggle.textContent = '🔇';
-  }
-});
-
-  <script>
-const subtitle = document.getElementById('subtitle');
-
-// Действие при клике на текст
-subtitle.addEventListener('click', () => {
-  alert('Ты кликнула по надписи! Здесь можно добавить любое действие.');
-});
-</script>
+    // === Клик по тексту ===
+    document.getElementById('subtitle').addEventListener('click', () => {
+      alert('🔥 Придшие уже здесь...');
+    });
+  </script>
 </body>
 </html>
