@@ -28,7 +28,7 @@
       position: relative;
     }
 
-    /* контейнер для центрирования логотипа */
+    /* Логотип */
     #logo-container {
       position: absolute;
       top: 18px;
@@ -38,8 +38,6 @@
       pointer-events: none;
       user-select: none;
     }
-
-    /* сам логотип */
     #logo {
       font-size: 4.8rem;
       letter-spacing: 6px;
@@ -59,8 +57,6 @@
       animation: fireGranite 4s ease-in-out infinite;
       position: relative;
     }
-
-    /* шумовая текстура гранита */
     #logo::before {
       content: '';
       position: absolute;
@@ -70,7 +66,6 @@
       opacity: 0.18;
       z-index: -1;
     }
-
     @keyframes fireGranite {
       0%,100% {
         text-shadow:
@@ -96,7 +91,7 @@
       }
     }
 
-    /* === Контейнер под логотипом === */
+    /* Подзаголовок */
     #subtitle-container {
       position: absolute;
       top: 120px;
@@ -104,14 +99,12 @@
       transform: translateX(-50%);
       z-index: 25;
     }
-
-    /* === Надпись (в стиле логотипа) === */
     #subtitle {
       font-family: 'destroycyr', serif;
       font-size: 1.6rem;
       text-align: center;
       cursor: pointer;
-      color: #ffcc80; /* чуть светлее логотипа */
+      color: #ffcc80;
       letter-spacing: 1.2px;
       text-shadow:
         0 0 4px rgba(255, 120, 40, 0.6),
@@ -121,7 +114,6 @@
       animation: subtitleGlow 6s ease-in-out infinite;
       transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
     }
-
     #subtitle:hover {
       color: #ffd699;
       transform: scale(1.05);
@@ -130,12 +122,10 @@
         0 0 18px rgba(255, 200, 80, 0.6),
         0 0 38px rgba(255, 230, 120, 0.5);
     }
-
     #subtitle:active {
       transform: scale(0.97);
       color: #ffb366;
     }
-
     @keyframes subtitleGlow {
       0%, 100% {
         opacity: 0.9;
@@ -153,24 +143,12 @@
       }
     }
 
-    #runesCanvas {
-      display: block;
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
+    /* Canvas руны и эффекты */
+    #runesCanvas { display: block; position: absolute; inset: 0; z-index: 1; }
+    #fog { position:absolute; inset:0; z-index:5; background: url('assets/images/smoke-fog.gif') center/cover no-repeat; opacity:0.22; pointer-events:none; }
+    #shadow { position:absolute; inset:0; z-index:6; background: url('assets/effects/shadow.jpg') center/cover no-repeat; opacity:0.14; pointer-events:none; }
 
-    #fog {
-      position:absolute; inset:0; z-index:5;
-      background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
-      opacity:0.22; pointer-events:none;
-    }
-    #shadow {
-      position:absolute; inset:0; z-index:6;
-      background: url('assets/effects/shadow.jpg') center/cover no-repeat;
-      opacity:0.14; pointer-events:none;
-    }
-
+    /* Радиоприёмник */
     #radioWrap {
       position: absolute;
       top: 14px;
@@ -181,33 +159,29 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      pointer-events:auto;
       cursor: pointer;
     }
-
     #radioCanvas {
       width: 200px;
       height: 140px;
-      display:block;
       border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      background: rgba(0,0,0,0.15);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 0 8px rgba(255,140,0,0.2);
+      background: linear-gradient(145deg, #111 0%, #333 100%);
     }
-
     #radioFallback {
-      width:200px;
-      height:140px;
-      display:none;
+      width: 200px;
+      height: 140px;
+      display:flex;
       align-items:center;
       justify-content:center;
       color:#FF8C00;
       font-size:0.85rem;
       background: rgba(0,0,0,0.35);
       border-radius:10px;
-      padding:8px;
       text-align:center;
     }
 
+    /* Кнопка музыки */
     #music-toggle {
       position: fixed;
       bottom: 25px;
@@ -224,7 +198,6 @@
       z-index: 100;
       backdrop-filter: blur(4px);
     }
-
     #music-toggle:hover {
       background: rgba(255, 140, 0, 0.2);
       box-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
@@ -258,6 +231,12 @@
   <script type="module" src="js/radioScene.js"></script>
 
   <script>
+    // === Радиоприёмник: переход на вещательную ===
+    const radioWrap = document.getElementById('radioWrap');
+    radioWrap.addEventListener('click', () => {
+      window.location.href = 'broadcast.html';
+    });
+
     // === Музыка ===
     const music = document.getElementById('bg-music');
     const toggle = document.getElementById('music-toggle');
@@ -270,7 +249,7 @@
       }
     }
 
-    window.addEventListener('click', startMusic, { once: true });
+    window.addEventListener('load', startMusic);
 
     toggle.addEventListener('click', () => {
       if(music.paused){
@@ -282,17 +261,10 @@
       }
     });
 
-    // === Клик по тексту ===
+    // === Клик по подзаголовку ===
     document.getElementById('subtitle').addEventListener('click', () => {
       alert('🔥 Придшие уже здесь...');
     });
-    
-    <script>
-  document.getElementById('radioButton').addEventListener('click', () => {
-    window.location.href = 'broadcast.html';
-  });
-</script>
-
   </script>
 </body>
 </html>
