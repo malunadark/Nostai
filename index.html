@@ -160,25 +160,22 @@
       align-items:center;
       justify-content:center;
       cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      background: linear-gradient(145deg, #222 0%, #444 100%);
+      border: 2px solid #FF8C00;
+      overflow: hidden;
     }
-    #radioCanvas {
-      width: 200px;
-      height: 140px;
-      border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 0 8px rgba(255,140,0,0.2);
-      background: linear-gradient(145deg, #111 0%, #333 100%);
+    #radioScreen {
+      width: 160px;
+      height: 100px;
+      background: #111;
+      border-radius: 6px;
+      box-shadow: inset 0 0 10px rgba(255,140,0,0.3);
+      transition: box-shadow 0.3s ease;
     }
-    #radioFallback {
-      width: 200px;
-      height: 140px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#FF8C00;
-      font-size:0.85rem;
-      background: rgba(0,0,0,0.35);
-      border-radius:10px;
-      text-align:center;
+    #radioWrap:hover #radioScreen {
+      box-shadow: inset 0 0 15px rgba(255,180,0,0.5);
     }
 
     /* Кнопка музыки */
@@ -215,9 +212,9 @@
     <div id="subtitle">Придшие не уходят, Придшие те кто здесь и там, в поисках себя</div>
   </div>
 
-  <div id="radioWrap" title="Вещательная — открыть">
-    <canvas id="radioCanvas"></canvas>
-    <div id="radioFallback">Открыть Вещательную</div>
+  <!-- Радиоприёмник -->
+  <div id="radioWrap" title="Вещательная">
+    <div id="radioScreen"></div>
   </div>
 
   <div id="fog"></div>
