@@ -11,31 +11,63 @@
       src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
     }
     @font-face {
-      font-family: 'Deutsch Gothic';
-      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
+      font-family: 'destroycyr.ttf';
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
     html,body { height:100%; margin:0; }
     body{
-      font-family: 'Deutsch Gothic', sans-serif;
+      font-family: 'destroycyr.ttf', sans-serif;
       background: url('assets/images/Nostai.png') center/cover no-repeat;
-      color: #FF8C00;
+      color: #837E7C;
       overflow: hidden;
       position: relative;
     }
 
-    /* Логотип */
-    #logo {
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      font-size: 4.2rem;
-      letter-spacing: 6px;
-      text-shadow: 0 0 16px rgba(255,69,0,0.9), 0 0 36px rgba(255,140,0,0.6);
-      pointer-events: none;
-    }
+   #logo {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  font-size: 4.2rem;
+  letter-spacing: 6px;
+  font-family: 'destroycyr', serif;
+  color: #d6d6d6; /* светло-серый гранит */
+  background: linear-gradient(145deg, #9a9a9a 0%, #5c5c5c 40%, #3a3a3a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 2px 4px rgba(0,0,0,0.8),     /* глубокая тень */
+    0 0 8px rgba(80,80,80,0.6),    /* отражение света */
+    0 -1px 1px rgba(255,255,255,0.2), /* высеченные края */
+    0 0 25px rgba(255,140,0,0.15); /* лёгкое свечение от рун */
+  filter: contrast(1.2) brightness(0.95);
+  pointer-events: none;
+  user-select: none;
+  animation: stonePulse 6s ease-in-out infinite;
+}
+
+/* Эффект мягкого "дыхания" камня */
+@keyframes stonePulse {
+  0%, 100% {
+    text-shadow:
+      0 2px 4px rgba(0,0,0,0.8),
+      0 0 8px rgba(80,80,80,0.6),
+      0 -1px 1px rgba(255,255,255,0.2),
+      0 0 25px rgba(255,140,0,0.15);
+    filter: brightness(0.95);
+  }
+  50% {
+    text-shadow:
+      0 2px 4px rgba(0,0,0,0.9),
+      0 0 12px rgba(200,120,60,0.4),
+      0 -1px 1px rgba(255,255,255,0.3),
+      0 0 45px rgba(255,140,0,0.3);
+    filter: brightness(1.05);
+  }
+}
+
 
     /* Кнопка музыки */
     #muteBtn {
