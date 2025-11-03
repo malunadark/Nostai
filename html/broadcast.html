@@ -18,6 +18,7 @@
       background: #000;
       color: #e3e3e3;
       font-family: 'DestroyCyr', sans-serif;
+      position: relative;
     }
 
     /* Фон */
@@ -26,9 +27,8 @@
       position: absolute;
       inset: 0;
       background: url('assets/images/broadcast-bg.png') center/cover no-repeat;
-      opacity: 0.25;
+      opacity: 0.5; /* увеличил для видимости */
       z-index: -1;
-      transition: opacity 0.2s ease;
     }
 
     /* Контейнер сообщений */
@@ -38,14 +38,26 @@
       left: 40px;
       width: calc(100% - 80px);
       height: calc(100% - 100px);
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       gap: 6px;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.3;
+      overflow-y: auto;
     }
+
+    .msg {
+      font-size: 16px;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    /* Цвета фракций */
+    .volunteers { color: #ffb347; }  /* Волонтёры */
+    .army { color: #00aaff; }        /* ВС РФ */
+    .redcross { color: #ff6b6b; }    /* Красный Крест */
+    .emerg { color: #ffdd55; }       /* МЧС */
 
     /* Строка ввода */
     #inputContainer {
@@ -65,15 +77,9 @@
       outline: none;
       color: #fff;
       font-family: inherit;
-      font-size: 18px;
+      font-size: 16px;
       padding: 6px;
     }
-
-    /* Цвета фракций */
-    .volunteers { color: #ffb347; }  /* Волонтёры */
-    .army { color: #00aaff; }        /* ВС РФ */
-    .redcross { color: #ff6b6b; }    /* Красный Крест */
-    .emerg { color: #ffdd55; }       /* МЧС */
 
     /* Радио эффект */
     .radio-flash::before {
@@ -125,66 +131,84 @@
   </div>
 
   <audio id="radioNoise" src="assets/music/radio_noise.mp3" preload="auto"></audio>
-  <audio id="radioBeep" src="assets/music/beep-1 звук.mp3" preload="auto"></audio>
+  <audio id="radioBeep" src="assets/music/radio_beep.mp3" preload="auto"></audio>
 
-  <script>
-    const messagesContainer = document.getElementById('messages');
-    const radioNoise = document.getElementById('radioNoise');
-    const radioBeep = document.getElementById('radioBeep');
-    const body = document.body;
+<script>
+const panel = document.getElementById('messages');
 
-    const factions = [
-      { name: 'ВС РФ', class: 'army', messages: [
-        'Объект 7 потерян. Повторяю: потерян.',
-        'Наблюдаем странные огни на склоне.',
-        'Станция связи не отвечает уже 20 минут.'
-      ]},
-      { name: 'Красный Крест', class: 'redcross', messages: [
-        'Раненые в плохом состоянии. Запрашиваем эвакуацию.',
-        'Поступают случаи галлюцинаций среди выживших.',
-        'Медикаменты заканчиваются, остаётся минимум.'
-      ]},
-      { name: 'МЧС', class: 'emerg', messages: [
-        'Огонь движется к востоку, пламя выше деревьев.',
-        'Туман усиливается, видимость падает.',
-        'Люди уходят в лес, никто не возвращается.'
-      ]},
-      { name: 'Волонтёры', class: 'volunteers', messages: [
-        'Мы видели их... глаза как угли.',
-        'Кто-то шепчет имена из пепла.',
-        'Становится холодно. Даже рядом с костром.'
-      ]}
-    ];
+// Звуки
+const beep = new Audio('assets/music/radio_beep.mp3');
+const noise = new Audio('assets/music/radio_noise.mp3');
+beep.volume = 0.6;
+noise.volume = 0.2;
 
-    function playRadioEffects() {
-      // Включаем лёгкие звуки радио
-      radioBeep.currentTime = 0;
-      radioBeep.volume = 0.5;
-      radioBeep.play();
+// Фракции
+const factions = [
+  { name: 'ВС РФ', prefix: '[АЛЬФА]', color: '#00aaff', class:'army', messages: [
+    'Пятый сектор под контролем. Повторяю, сектор под контролем.',
+    'Обнаружено свечение в районе координат 54°... Проверяем.',
+    'Поступило распоряжение — никому не покидать периметр.',
+    'Радиосвязь с постом «Север» прервана, выясняем причину.'
+  ]},
+  { name: 'МЧС', prefix: '[СПАСЕНИЕ]', color: '#ffdd55', class:'emerg', messages: [
+    'Задымление в квадрате D7 усиливается.',
+    'Нужны добровольцы для эвакуации оставшихся.',
+    'Пламя переходит к старым шахтам. Берегитесь газа.',
+    'Приём, кто видит сигнальные ракеты на востоке?'
+  ]},
+  { name: 'Красный Крест', prefix: '[КРАСНЫЙ КРЕСТ]', color: '#ff6b6b', class:'redcross', messages: [
+    'Требуется помощь медиков, запас перевязок исчерпан.',
+    'Приняли раненых из отряда «Альфа». Состояние тяжёлое.',
+    'Точка приёма в лагере «Горный» восстановлена.',
+    'Нужен транспорт, повторяю, нужен транспорт!'
+  ]},
+  { name: 'Волонтёры', prefix: '[ВОЛОНТЁРЫ]', color: '#ffb347', class:'volunteers', messages: [
+    'Мы всё ещё в живых. Кто рядом — ответьте.',
+    'Нашли следы. Кажется, не человеческие.',
+    'Река светится... никто не верит, пока не видит сам.',
+    'Ветер говорит — уходите. Но мы остались.'
+  ]}
+];
 
-      radioNoise.currentTime = 0;
-      radioNoise.volume = 0.3;
-      radioNoise.play();
+// Генерация сообщений
+function generateRadioMessage() {
+  const faction = factions[Math.floor(Math.random() * factions.length)];
+  const message = faction.messages[Math.floor(Math.random() * faction.messages.length)];
 
-      // Визуальная вспышка
-      body.classList.add('radio-flash');
-      setTimeout(() => body.classList.remove('radio-flash'), 200);
-    }
+  // Звуки
+  beep.currentTime = 0;
+  noise.currentTime = 0;
+  beep.play().catch(()=>{});
+  noise.play().catch(()=>{});
 
-    function generateMessage() {
-      playRadioEffects();
+  const msg = document.createElement('div');
+  msg.className = `msg ${faction.class}`;
+  msg.textContent = `${faction.prefix} ${message}`;
 
-      const faction = factions[Math.floor(Math.random() * factions.length)];
-      const text = faction.messages[Math.floor(Math.random() * faction.messages.length)];
+  panel.appendChild(msg);
+  panel.scrollTop = panel.scrollHeight;
 
-      const div = document.createElement('div');
-      div.classList.add(faction.class);
-      div.textContent = `${faction.name}: ${text}`;
-      messagesContainer.appendChild(div);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+  // Ограничение количества сообщений
+  const msgs = panel.querySelectorAll('.msg');
+  if (msgs.length > 70) msgs[0].remove();
+}
 
-    setInterval(generateMessage, 4000);
-  </script>
+// Генерация каждые 4 секунды
+setInterval(generateRadioMessage, 4000);
+for (let i = 0; i < 5; i++) generateRadioMessage();
+
+// Отправка сообщения через Enter
+const input = document.getElementById('inputField');
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && input.value.trim() !== '') {
+    const msg = document.createElement('div');
+    msg.className = 'msg volunteers'; // можно присвоить Волонтёры
+    msg.textContent = `[ВЫ] ${input.value}`;
+    panel.appendChild(msg);
+    panel.scrollTop = panel.scrollHeight;
+    input.value = '';
+  }
+});
+</script>
 </body>
 </html>
