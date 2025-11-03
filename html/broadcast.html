@@ -11,11 +11,6 @@
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
-    @font-face {
-      font-family: 'Deutsch';
-      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
-    }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -59,25 +54,11 @@
       }
     }
 
-    /* Контейнер сообщений */
-    #messages {
-      font-family: 'Deutsch', serif;
+    /* Сообщения */
+    .message {
+      font-family: 'Destroy', serif;
       color: #d6d6d6;
       font-size: 18px; /* Уменьшение размера шрифта */
-      width: 80%;
-      max-width: 1000px;
-      height: 60%;
-      overflow-y: auto;
-      padding: 20px;
-      backdrop-filter: blur(4px);
-      background: rgba(10, 10, 10, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      box-shadow: inset 0 0 20px rgba(255, 80, 0, 0.2);
-      animation: fadeIn 2s ease forwards;
-    }
-
-    .message {
       margin: 6px 0;
       padding: 6px 14px;
       border-left: 2px solid rgba(255, 100, 0, 0.6);
@@ -118,7 +99,7 @@
       background: rgba(20, 20, 20, 0.7);
       border: 1px solid rgba(255, 140, 0, 0.4);
       border-radius: 10px;
-      font-family: 'Deutsch', serif;
+      font-family: 'Destroy', serif;
       outline: none;
       text-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
       transition: 0.3s;
@@ -132,7 +113,7 @@
 <body>
   <div id="logo">NOSTAI</div>
 
-  <div id="messages"></div>
+  <!-- Сообщения будут добавляться здесь -->
 
   <div id="inputContainer">
     <input id="userInput" type="text" placeholder="Говорите, эфир слушает...">
@@ -144,7 +125,6 @@
   <script>
     const radio = document.getElementById('radioNoise');
     const beep = document.getElementById('beep');
-    const messages = document.getElementById('messages');
     const input = document.getElementById('userInput');
 
     const data = [
@@ -162,8 +142,8 @@
       const msg = document.createElement('div');
       msg.classList.add('message');
       msg.innerHTML = `<span class="sender">${sender}:</span>${text}`;
-      messages.appendChild(msg);
-      messages.scrollTop = messages.scrollHeight;
+      document.body.appendChild(msg); // Добавляем сообщение в тело страницы
+      window.scrollTo(0, document.body.scrollHeight); // Прокручиваем страницу вниз
       beep.currentTime = 0;
       beep.play();
     }
