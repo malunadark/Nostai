@@ -2,219 +2,197 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NOSTAI — Вещательная</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <style>
     @font-face {
-      font-family: 'DestroyCyr';
+      font-family: 'Destroy';
       src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Deutsch';
+      src: url('assets/fonts/Deutsch Gothic.ttf') format('truetype');
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
       height: 100%;
-      background: #000;
       overflow: hidden;
-      color: #d9d9d9;
-      font-family: 'DestroyCyr', sans-serif;
-    }
-
-    /* Фон */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: url('assets/images/broadcast-bg.png') center/cover no-repeat;
-      filter: brightness(0.35) contrast(1.1);
-      opacity: 0.35;
-      z-index: -2;
-    }
-
-    /* Эффект помех */
-    .noise {
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.03),
-        rgba(255, 255, 255, 0.03) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      animation: noiseMove 1s infinite linear;
-      opacity: 0.04;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    @keyframes noiseMove {
-      from { background-position: 0 0; }
-      to { background-position: 0 100%; }
+      background: url('assets/images/broadcast-bg.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
     }
 
     /* Логотип */
     #logo {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      font-family: 'Destroy', serif;
       font-size: 84px;
-      letter-spacing: 6px;
-      color: #ff9933;
+      text-transform: uppercase;
+      margin-top: 40px;
+      color: #d4d4d4;
       text-shadow:
-        0 0 25px rgba(255, 120, 20, 0.8),
-        0 0 55px rgba(255, 80, 0, 0.6),
-        2px 2px 4px #000;
+        0 0 20px rgba(255, 140, 0, 0.7),
+        0 0 50px rgba(255, 60, 0, 0.5),
+        0 0 90px rgba(255, 30, 0, 0.4);
       background: url('assets/images/granite-noise.png') repeat;
       -webkit-background-clip: text;
-      background-clip: text;
-      animation: flicker 3s infinite;
+      -webkit-text-fill-color: transparent;
+      animation: fireGlow 3s ease-in-out infinite alternate;
     }
 
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
+    @keyframes fireGlow {
+      from {
+        text-shadow:
+          0 0 15px rgba(255, 80, 0, 0.7),
+          0 0 30px rgba(255, 0, 0, 0.4);
       }
-      20%, 24%, 55% {
-        opacity: 0.7;
+      to {
+        text-shadow:
+          0 0 30px rgba(255, 160, 0, 0.9),
+          0 0 80px rgba(255, 80, 0, 0.6);
       }
     }
 
     /* Контейнер сообщений */
     #messages {
-      position: absolute;
-      top: 160px;
-      left: 60px;
-      width: calc(100% - 100px);
-      height: calc(100% - 220px);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 4px;
-      font-size: 16px;
-      line-height: 1.25;
-      text-shadow:
-        0 0 4px rgba(255,140,40,0.4),
-        0 0 8px rgba(255,80,20,0.2);
+      font-family: 'Deutsch', serif;
+      color: #d6d6d6;
+      font-size: 22px;
+      width: 80%;
+      max-width: 1000px;
+      height: 60%;
       overflow-y: auto;
-      scroll-behavior: smooth;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+      background: rgba(10, 10, 10, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: inset 0 0 20px rgba(255, 80, 0, 0.2);
+      animation: fadeIn 2s ease forwards;
     }
 
-    .msg {
-      opacity: 0;
-      animation: appear 0.6s ease forwards;
+    .message {
+      margin: 6px 0;
+      padding: 6px 14px;
+      border-left: 2px solid rgba(255, 100, 0, 0.6);
+      color: #eee;
+      text-shadow:
+        0 0 10px rgba(255, 100, 0, 0.4),
+        0 0 20px rgba(255, 40, 0, 0.2);
+      background: rgba(40, 40, 40, 0.35);
+      border-radius: 8px;
+      animation: messageAppear 0.8s ease;
     }
 
-    @keyframes appear {
-      0% { opacity: 0; transform: translateY(8px); filter: blur(2px); }
-      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .sender {
+      color: #ffb05c;
+      font-weight: bold;
+      margin-right: 8px;
     }
 
-    /* Цвета фракций */
-    .army { color: #6cc3ff; }
-    .redcross { color: #ff6b6b; }
-    .emerg { color: #ffdd55; }
-    .volunteers { color: #ffb347; }
+    @keyframes messageAppear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    /* Поле ввода */
     #inputContainer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       width: 100%;
-      padding: 10px 20px;
-      background: rgba(0, 0, 0, 0.6);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      justify-content: center;
+      padding: 10px 0 30px;
+      background: rgba(0, 0, 0, 0.4);
     }
 
-    #inputField {
-      width: 100%;
-      background: none;
-      border: none;
+    #userInput {
+      width: 60%;
+      max-width: 700px;
+      padding: 10px 16px;
+      font-size: 20px;
+      color: #f0f0f0;
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(255, 140, 0, 0.4);
+      border-radius: 10px;
+      font-family: 'Deutsch', serif;
       outline: none;
-      color: #ccc;
-      font-family: inherit;
-      font-size: 16px;
-      padding: 6px;
-      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      text-shadow: 0 0 10px rgba(255, 80, 0, 0.3);
+      transition: 0.3s;
+    }
+
+    #userInput:focus {
+      box-shadow: 0 0 20px rgba(255, 80, 0, 0.4);
     }
   </style>
 </head>
 <body>
   <div id="logo">NOSTAI</div>
-  <div class="noise"></div>
+
   <div id="messages"></div>
 
   <div id="inputContainer">
-    <input id="inputField" type="text" placeholder="Введите сообщение..." />
+    <input id="userInput" type="text" placeholder="Говорите, эфир слушает...">
   </div>
 
-  <!-- Радиошум -->
   <audio id="radioNoise" src="assets/music/radio_noise.mp3" preload="auto" loop></audio>
-  <audio id="radioBeep" src="assets/music/beep-1 звук.mp3" preload="auto"></audio>
+  <audio id="beep" src="assets/music/beep-1 звук.mp3" preload="auto"></audio>
 
   <script>
-    const messagesContainer = document.getElementById('messages');
-    const radioNoise = document.getElementById('radioNoise');
-    const radioBeep = document.getElementById('radioBeep');
+    const radio = document.getElementById('radioNoise');
+    const beep = document.getElementById('beep');
+    const messages = document.getElementById('messages');
+    const input = document.getElementById('userInput');
 
-    // Фракции
-    const factions = [
-      { class: 'army', prefix: '[ВС РФ]', messages: [
-        'Пятый сектор под контролем. Повторяю, сектор под контролем.',
-        'Обнаружено свечение в районе координат 54°... Проверяем.',
-        'Поступило распоряжение — никому не покидать периметр.',
-        'Радиосвязь с постом «Север» прервана, выясняем причину.'
-      ]},
-      { class: 'emerg', prefix: '[МЧС]', messages: [
-        'Задымление в квадрате D7 усиливается.',
-        'Нужны добровольцы для эвакуации оставшихся.',
-        'Пламя переходит к старым шахтам. Берегитесь газа.',
-        'Приём, кто видит сигнальные ракеты на востоке?'
-      ]},
-      { class: 'redcross', prefix: '[КРАСНЫЙ КРЕСТ]', messages: [
-        'Требуется помощь медиков, запас перевязок исчерпан.',
-        'Приняли раненых из отряда. Состояние тяжёлое.',
-        'Точка приёма в лагере «Горный» восстановлена.',
-        'Нужен транспорт, повторяю, нужен транспорт!'
-      ]},
-      { class: 'volunteers', prefix: '[ВОЛОНТЁРЫ]', messages: [
-        'Мы всё ещё в живых. Кто рядом — ответьте.',
-        'Нашли следы. Кажется, не человеческие.',
-        'Река светится... никто не верит, пока не видит сам.',
-        'Ветер говорит — уходите. Но мы остались.'
-      ]}
+    const data = [
+      { sender: 'ВС РФ', text: 'Подразделения вошли в южный сектор. Видимость нулевая, требуется подтверждение сигнала.' },
+      { sender: 'Красный Крест', text: 'Запрашиваем координаты выживших, связь нестабильна, медпункты не отвечают.' },
+      { sender: 'МЧС', text: 'Очаги возгорания растут, приборы фиксируют вспышки радиации. Кто ещё на связи?' },
+      { sender: 'Волонтёры', text: 'Мы всё ещё здесь. Ветер несёт пепел и голоса. Не покидайте частоту.' },
+      { sender: 'МЧС', text: 'Видим следы неизвестного происхождения. Осторожно, повторяю, осторожно.' },
+      { sender: 'Красный Крест', text: 'Медики не могут выйти. Кровь на снегу не человеческая. Мы остаёмся.' },
+      { sender: 'ВС РФ', text: 'Шум усиливается... похоже, кто-то глушит канал. Переходим на резервную частоту.' },
+      { sender: 'Волонтёры', text: 'Если кто слышит — светитесь. Мы идём на север.' }
     ];
 
-    function playBeep() {
-      radioBeep.currentTime = 0;
-      radioBeep.play().catch(()=>{});
-    }
-
-    function generateRadioMessage() {
-      const faction = factions[Math.floor(Math.random() * factions.length)];
-      const message = faction.messages[Math.floor(Math.random() * faction.messages.length)];
-
+    function addMessage(sender, text) {
       const msg = document.createElement('div');
-      msg.className = `msg ${faction.class}`;
-      msg.textContent = `${faction.prefix} ${message}`;
-
-      messagesContainer.appendChild(msg);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-      playBeep();
+      msg.classList.add('message');
+      msg.innerHTML = `<span class="sender">${sender}:</span>${text}`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+      beep.currentTime = 0;
+      beep.play();
     }
 
-    // Запуск фонового шума
+    function startBroadcast() {
+      let i = 0;
+      function next() {
+        if (i < data.length) {
+          const { sender, text } = data[i];
+          addMessage(sender, text);
+          i++;
+          setTimeout(next, 6000 + Math.random() * 4000);
+        }
+      }
+      next();
+    }
+
     window.addEventListener('load', () => {
-      radioNoise.volume = 0.15;
-      radioNoise.play().catch(()=>{});
+      radio.volume = 0.6;
+      radio.play().catch(() => console.log('Автовоспроизведение заблокировано.'));
+      startBroadcast();
     });
 
-    // Генерация сообщений
-    setInterval(generateRadioMessage, 4000);
-    for (let i = 0; i < 3; i++) generateRadioMessage();
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        addMessage('Вы', input.value.trim());
+        input.value = '';
+      }
+    });
   </script>
 </body>
 </html>
