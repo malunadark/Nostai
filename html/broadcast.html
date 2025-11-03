@@ -8,12 +8,12 @@
   <style>
     @font-face {
       font-family: 'Destroy';
-      src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Destroy';
-      src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
     }
 
     html, body {
@@ -21,7 +21,7 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background: url('assets/images/broadcast-bg.png') no-repeat center center fixed;
+      background: url('..assets/images/broadcast-bg.png') no-repeat center center fixed;
       background-size: cover;
       display: flex;
       flex-direction: column;
@@ -40,7 +40,7 @@
         0 0 20px rgba(255, 140, 0, 0.7),
         0 0 50px rgba(255, 60, 0, 0.5),
         0 0 90px rgba(255, 30, 0, 0.4);
-      background: url('assets/images/granite-noise.png') repeat;
+      background: url('..assets/images/granite-noise.png') repeat;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       -ms-background-clip: text; /* IE/Edge support */
@@ -144,8 +144,8 @@
     <input id="userInput" type="text" placeholder="Говорите, эфир слушает...">
   </div>
 
-  <audio id="radioNoise" src="assets/music/radio_noise.mp3" preload="auto" loop></audio>
-  <audio id="beep" src="assets/music/beep.mp3" preload="auto"></audio>
+  <audio id="radioNoise" src="..assets/music/radio_noise.mp3" preload="auto" loop></audio>
+  <audio id="beep" src="..assets/music/beep.mp3" preload="auto"></audio>
 
   <script>
     const radio = document.getElementById('radioNoise');
@@ -203,4 +203,5 @@
   </script>
 </body>
 </html>
+
 
