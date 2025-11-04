@@ -202,72 +202,70 @@
       transform: scale(1.1);
     }
 
-    /* ===== Книга ===== */
-    #bookWrap {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 180px;
-      height: auto;
-      perspective: 1000px;
-      cursor: pointer;
-      z-index: 50;
-    }
-    #book {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      transition: transform 0.8s ease, box-shadow 0.5s ease;
-      transform-origin: bottom center;
-    }
-    #bookWrap:hover #book {
-      transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05);
-      box-shadow: 0 0 25px rgba(255,180,100,0.6);
-    }
-    .opening {
-      animation: bookOpen 1.2s ease forwards;
-    }
-    @keyframes bookOpen {
-      0% { transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05); opacity: 1; }
-      60% { transform: rotateY(-100deg) scale(1.1) translateY(-20px); opacity: 0.8; }
-      100% { transform: rotateY(-180deg) scale(1.2) translateY(-40px); opacity: 0; }
-    }
-    #bookGlow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,200,100,0.6) 0%, rgba(255,140,0,0) 70%);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 30;
-      transition: opacity 0.3s ease;
-    }
-    .glow-active { opacity: 1; }
-    #bookSmoke {
-      position: absolute;
-      bottom: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
-      background: radial-gradient(circle, rgba(200,200,200,0.6) 0%, rgba(200,200,200,0) 70%);
-      border-radius: 50%;
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: 20;
-    }
-    @keyframes smokeRise {
-      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.7; }
-      50% { transform: translateX(-50%) translateY(-30px) scale(0.7); opacity: 0.5; }
-      100% { transform: translateX(-50%) translateY(-80px) scale(1); opacity: 0; }
-    }
-  </style>
+<style>
+  /* ===== Книга перехода на Хроники ===== */
+  #bookWrap {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 40;
+    cursor: pointer;
+    width: 180px; /* Размер книги, можно регулировать */
+    height: auto;
+  }
+
+  #book {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    transition: transform 0.8s ease, box-shadow 0.5s ease, opacity 0.5s ease;
+    transform-origin: bottom center;
+    opacity: 0.85; /* Полупрозрачность */
+    position: relative;
+  }
+
+  /* Hover эффект: слегка парит и открывается */
+  #book:hover {
+    transform: translateY(-8px) rotateX(5deg);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  }
+
+  #book.opening {
+    transform: rotateY(25deg) rotateX(5deg) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+  }
+
+  /* ===== Всполох света ===== */
+  #bookGlow {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    box-shadow: 0 0 40px rgba(255,180,60,0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 45;
+  }
+
+  #bookGlow.glow-active {
+    opacity: 1;
+  }
+
+  /* ===== Дымок ===== */
+  #bookSmoke {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 42;
+  }
+
+  @keyframes smokeRise {
+    0% { transform: translateY(0); opacity: 0.3; }
+    100% { transform: translateY(-120px); opacity: 0; }
+  }
+</style>
 </head>
 
 <body>
