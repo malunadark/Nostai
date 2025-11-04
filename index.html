@@ -3,274 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/chronicles.css">
   <title>NOSTAI</title>
 
-  <style>
-    @font-face {
-      font-family: 'FutharkAoe';
-      src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'destroycyr';
-      src: url('assets/fonts/destroycyr.ttf') format('truetype');
-    }
-
-    html, body { height: 100%; margin: 0; }
-    body {
-      font-family: 'destroycyr', sans-serif;
-      background: url('assets/images/Nostai.png') center/cover no-repeat;
-      color: #837E7C;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* ===== Логотип ===== */
-    #logo-container {
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      pointer-events: none;
-      user-select: none;
-    }
-    #logo {
-      font-size: 4.8rem;
-      letter-spacing: 6px;
-      font-family: 'destroycyr', serif;
-      color: #cfcfcf;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow:
-        2px 2px 2px rgba(0,0,0,0.8),
-        -2px -2px 2px rgba(0,0,0,0.6),
-        0 2px 4px rgba(0,0,0,0.5),
-        0 0 8px rgba(255, 100, 0, 0.7),
-        0 0 20px rgba(255, 140, 0, 0.5),
-        0 0 35px rgba(255, 180, 0, 0.3),
-        0 -1px 1px rgba(255,255,255,0.2);
-      filter: contrast(1.3) brightness(0.95);
-      animation: fireGranite 4s ease-in-out infinite;
-      position: relative;
-    }
-    #logo::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('assets/images/granite-noise.png');
-      background-size: cover;
-      opacity: 0.18;
-      z-index: -1;
-    }
-    @keyframes fireGranite {
-      0%,100% {
-        text-shadow:
-          2px 2px 2px rgba(0,0,0,0.8),
-          -2px -2px 2px rgba(0,0,0,0.6),
-          0 2px 4px rgba(0,0,0,0.5),
-          0 0 8px rgba(255, 100, 0, 0.7),
-          0 0 20px rgba(255, 140, 0, 0.5),
-          0 0 35px rgba(255, 180, 0, 0.3),
-          0 -1px 1px rgba(255,255,255,0.2);
-        filter: brightness(0.95);
-      }
-      50% {
-        text-shadow:
-          2px 2px 4px rgba(0,0,0,0.9),
-          -2px -2px 3px rgba(0,0,0,0.7),
-          0 3px 6px rgba(0,0,0,0.6),
-          0 0 12px rgba(255, 120, 0, 0.9),
-          0 0 30px rgba(255, 160, 0, 0.6),
-          0 0 45px rgba(255, 200, 0, 0.4),
-          0 -1px 2px rgba(255,255,255,0.25);
-        filter: brightness(1.05);
-      }
-    }
-
-    /* ===== Подзаголовок ===== */
-    #subtitle-container {
-      position: absolute;
-      top: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 25;
-    }
-    #subtitle {
-      font-family: 'destroycyr', serif;
-      font-size: 1.6rem;
-      text-align: center;
-      cursor: pointer;
-      color: #ffcc80;
-      letter-spacing: 1.2px;
-      text-shadow:
-        0 0 4px rgba(255, 120, 40, 0.6),
-        0 0 8px rgba(255, 160, 60, 0.4),
-        0 0 14px rgba(255, 190, 80, 0.3),
-        0 0 28px rgba(255, 200, 100, 0.2);
-      animation: subtitleGlow 6s ease-in-out infinite;
-      transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
-    }
-    #subtitle:hover {
-      color: #ffd699;
-      transform: scale(1.05);
-      text-shadow:
-        0 0 8px rgba(255, 150, 50, 0.8),
-        0 0 18px rgba(255, 200, 80, 0.6),
-        0 0 38px rgba(255, 230, 120, 0.5);
-    }
-    #subtitle:active {
-      transform: scale(0.97);
-      color: #ffb366;
-    }
-    @keyframes subtitleGlow {
-      0%, 100% {
-        opacity: 0.9;
-        text-shadow:
-          0 0 4px rgba(255,120,40,0.5),
-          0 0 10px rgba(255,160,60,0.3),
-          0 0 22px rgba(255,180,70,0.2);
-      }
-      50% {
-        opacity: 1;
-        text-shadow:
-          0 0 8px rgba(255,140,50,0.7),
-          0 0 18px rgba(255,180,70,0.5),
-          0 0 32px rgba(255,210,90,0.4);
-      }
-    }
-
-    /* ===== Canvas руны и эффекты ===== */
-    #runesCanvas { display: block; position: absolute; inset: 0; z-index: 1; }
-    #fog { position:absolute; inset:0; z-index:5; background: url('assets/images/smoke-fog.gif') center/cover no-repeat; opacity:0.22; pointer-events:none; }
-    #shadow { position:absolute; inset:0; z-index:6; background: url('assets/effects/shadow.jpg') center/cover no-repeat; opacity:0.14; pointer-events:none; }
-
-    /* ===== Радиоприёмник ===== */
-    #radioWrap {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      width: 180px;
-      height: 120px;
-      z-index: 35;
-      cursor: pointer;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      background: linear-gradient(145deg, #222 0%, #444 100%);
-      border: 2px solid #FF8C00;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    #radioScreen {
-      width: 140px;
-      height: 80px;
-      border-radius: 6px;
-      background: #111;
-      box-shadow: inset 0 0 10px rgba(255,140,0,0.3);
-    }
-
-    .lamp { position: absolute; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: #FF8C00; box-shadow: 0 0 5px #FF8C00; animation: lampBlink 1.2s infinite; }
-    .lamp-left { left: 12px; animation-delay: 0s; }
-    .lamp-right { right: 12px; animation-delay: 0.6s; }
-    @keyframes lampBlink { 0%,50%,100% { opacity: 0.4; box-shadow: 0 0 5px #FF8C00; } 25%,75% { opacity: 1; box-shadow: 0 0 12px #FFB84D; } }
-
-    /* ===== Кнопка музыки ===== */
-    #music-toggle {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      font-size: 1.6rem;
-      background: rgba(0,0,0,0.4);
-      border: 2px solid rgba(255,140,0,0.6);
-      color: #ffbb77;
-      border-radius: 12px;
-      cursor: pointer;
-      padding: 8px 12px;
-      box-shadow: 0 0 10px rgba(255,120,0,0.4);
-      transition: all 0.3s ease;
-      z-index: 100;
-      backdrop-filter: blur(4px);
-    }
-    #music-toggle:hover {
-      background: rgba(255,140,0,0.2);
-      box-shadow: 0 0 20px rgba(255,120,0,0.7);
-      transform: scale(1.1);
-    }
-
-    /* ===== Книга ===== */
-    #bookWrap {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 180px;
-      height: auto;
-      perspective: 1000px;
-      cursor: pointer;
-      z-index: 50;
-    }
-    #book {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      transition: transform 0.8s ease, box-shadow 0.5s ease;
-      transform-origin: bottom center;
-    }
-    #bookWrap:hover #book {
-      transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05);
-      box-shadow: 0 0 25px rgba(255,180,100,0.6);
-    }
-    .opening {
-      animation: bookOpen 1.2s ease forwards;
-    }
-    @keyframes bookOpen {
-      0% { transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05); opacity: 1; }
-      60% { transform: rotateY(-100deg) scale(1.1) translateY(-20px); opacity: 0.8; }
-      100% { transform: rotateY(-180deg) scale(1.2) translateY(-40px); opacity: 0; }
-    }
-    #bookGlow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,200,100,0.6) 0%, rgba(255,140,0,0) 70%);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 30;
-      transition: opacity 0.3s ease;
-    }
-    .glow-active { opacity: 1; }
-    #bookSmoke {
-      position: absolute;
-      bottom: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
-      background: radial-gradient(circle, rgba(200,200,200,0.6) 0%, rgba(200,200,200,0) 70%);
-      border-radius: 50%;
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: 20;
-    }
-    @keyframes smokeRise {
-      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.7; }
-      50% { transform: translateX(-50%) translateY(-30px) scale(0.7); opacity: 0.5; }
-      100% { transform: translateX(-50%) translateY(-80px) scale(1); opacity: 0; }
-    }
-  </style>
+  <!-- Основные стили -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Стили для книги и хроник -->
+  <link rel="stylesheet" href="assets/css/chronicles.css">
 </head>
 
 <body>
+  <!-- Логотип -->
   <div id="logo-container"><div id="logo">NOSTAI</div></div>
   <div id="subtitle-container"><div id="subtitle">Придшие не уходят, Придшие те кто здесь и там, в поисках себя</div></div>
 
@@ -298,51 +40,52 @@
   <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
   <button id="music-toggle" title="Выключить музыку">🔊</button>
 
-<script>
-  // ===== Радиоприёмник =====
-  document.getElementById('radioWrap').addEventListener('click', ()=>{ window.location.href='/html/broadcast.html'; });
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // ===== Радиоприёмник =====
+    document.getElementById('radioWrap').addEventListener('click', ()=>{ window.location.href='/html/broadcast.html'; });
 
-  // ===== Музыка =====
-  const music = document.getElementById('bg-music');
-  const toggle = document.getElementById('music-toggle');
-  function startMusic() { if(music.paused) music.play().catch(()=>console.warn('Автозапуск заблокирован')); }
-  window.addEventListener('click', startMusic, { once: true });
-  toggle.addEventListener('click', ()=>{ if(music.paused){ music.play(); toggle.textContent='🔊'; } else { music.pause(); toggle.textContent='🔇'; } });
+    // ===== Музыка =====
+    const music = document.getElementById('bg-music');
+    const toggle = document.getElementById('music-toggle');
+    function startMusic() { if(music.paused) music.play().catch(()=>console.warn('Автозапуск заблокирован')); }
+    window.addEventListener('click', startMusic, { once: true });
+    toggle.addEventListener('click', ()=>{ if(music.paused){ music.play(); toggle.textContent='🔊'; } else { music.pause(); toggle.textContent='🔇'; } });
 
-  // ===== Подзаголовок =====
-  document.getElementById('subtitle').addEventListener('click',()=>{ alert('🔥 Придшие уже здесь...'); });
+    // ===== Подзаголовок =====
+    document.getElementById('subtitle').addEventListener('click',()=>{ alert('🔥 Придшие уже здесь...'); });
 
-  // ===== Радио-сигнал =====
-  const canvas = document.getElementById('radioScreen');
-  canvas.width=140; canvas.height=80;
-  const ctx=canvas.getContext('2d');
-  function drawSignal(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    const barCount=20, barWidth=canvas.width/barCount-2;
-    for(let i=0;i<barCount;i++){
-      const height=Math.random()*canvas.height*0.8;
-      const x=i*(barWidth+2);
-      const gradient=ctx.createLinearGradient(0,canvas.height-height,0,canvas.height);
-      gradient.addColorStop(0,'#FFB84D'); gradient.addColorStop(0.5,'#FFA500'); gradient.addColorStop(1,'#FF8C00');
-      ctx.fillStyle=gradient; ctx.fillRect(x,canvas.height-height,barWidth,height);
+    // ===== Радио-сигнал =====
+    const canvas = document.getElementById('radioScreen');
+    canvas.width=140; canvas.height=80;
+    const ctx=canvas.getContext('2d');
+    function drawSignal(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const barCount=20, barWidth=canvas.width/barCount-2;
+      for(let i=0;i<barCount;i++){
+        const height=Math.random()*canvas.height*0.8;
+        const x=i*(barWidth+2);
+        const gradient=ctx.createLinearGradient(0,canvas.height-height,0,canvas.height);
+        gradient.addColorStop(0,'#FFB84D'); gradient.addColorStop(0.5,'#FFA500'); gradient.addColorStop(1,'#FF8C00');
+        ctx.fillStyle=gradient; ctx.fillRect(x,canvas.height-height,barWidth,height);
+      }
+      requestAnimationFrame(drawSignal);
     }
-    requestAnimationFrame(drawSignal);
-  }
-  drawSignal();
+    drawSignal();
 
-  // ===== Книга =====
-  const book=document.getElementById('book');
-  const sound=document.getElementById('bookSound');
-  const glow=document.getElementById('bookGlow');
-  const smoke=document.getElementById('bookSmoke');
-  book.addEventListener('click',()=>{
-    sound.currentTime=0; sound.play();
-    glow.classList.add('glow-active');
-    setTimeout(()=>glow.classList.remove('glow-active'),600);
-    smoke.style.animation='smokeRise 1.2s ease forwards';
-    book.classList.add('opening');
-    setTimeout(()=>{ window.location.href='chronicles.html'; },1200);
-  });
-</script>
+    // ===== Книга =====
+    const book=document.getElementById('book');
+    const sound=document.getElementById('bookSound');
+    const glow=document.getElementById('bookGlow');
+    const smoke=document.getElementById('bookSmoke');
+    book.addEventListener('click',()=>{
+      sound.currentTime=0; sound.play();
+      glow.classList.add('glow-active');
+      setTimeout(()=>glow.classList.remove('glow-active'),600);
+      smoke.style.animation='smokeRise 1.2s ease forwards';
+      book.classList.add('opening');
+      setTimeout(()=>{ window.location.href='chronicles.html'; },1200);
+    });
+  </script>
 </body>
 </html>
