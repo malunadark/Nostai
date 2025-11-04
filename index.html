@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Основной CSS сайта -->
+<link rel="stylesheet" href="assets/css/style.css">
+
+<!-- CSS для страницы хроник (не обязательно, но можно для стилей при переходе) -->
+<link rel="stylesheet" href="assets/css/chronicles.css">
+
   <title>NOSTAI</title>
 
   <style>
@@ -235,6 +241,21 @@
   <div id="shadow"></div>
   <canvas id="runesCanvas"></canvas>
 
+<!-- Книга перехода на Хроники Забвения -->
+<div id="bookWrap">
+  <img id="book" src="assets/images/old-notebook.png" alt="Хроники Забвения" title="Хроники Забвения">
+
+  <!-- Всполох света -->
+  <div id="bookGlow"></div>
+
+  <!-- Дым -->
+  <div id="bookSmoke"></div>
+</div>
+
+<!-- Звук открытия книги -->
+<audio id="bookSound" src="assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+
+
   <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop></audio>
   <button id="music-toggle" title="Выключить музыку">🔊</button>
 
@@ -284,7 +305,33 @@
       }
       requestAnimationFrame(drawSignal);
     }
-    drawSignal();
-  </script>
+    drawSignal() ;
+    <script>
+  const book = document.getElementById('book');
+  const sound = document.getElementById('bookSound');
+  const glow = document.getElementById('bookGlow');
+  const smoke = document.getElementById('bookSmoke');
+
+  book.addEventListener('click', () => {
+    // проиграть звук
+    sound.currentTime = 0;
+    sound.play();
+
+    // вспышка света
+    glow.classList.add('glow-active');
+    setTimeout(() => glow.classList.remove('glow-active'), 600);
+
+    // дымок
+    smoke.style.animation = 'smokeRise 1.2s ease forwards';
+
+    // анимация книги
+    book.classList.add('opening');
+
+    // переход на страницу хроник после окончания анимации
+    setTimeout(() => {
+      window.location.href = 'chronicles.html';
+    }, 1200);
+  });
+</script> 
 </body>
 </html>
