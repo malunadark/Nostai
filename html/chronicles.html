@@ -4,166 +4,162 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Хроники Забвения</title>
-
   <style>
     @font-face {
-  font-family: 'DestroyCyr';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-}
+      font-family: 'DestroyCyr';
+      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden; /* убираем скролл */
-  font-family: 'DestroyCyr', sans-serif;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'DestroyCyr', sans-serif;
+    }
 
-/* Контейнер книги */
-#book-container {
-  width: 800px;
-  height: 500px;
-  perspective: 2000px;
-  position: relative;
-}
+    #book-container {
+      width: 800px;
+      height: 500px;
+      perspective: 2000px;
+      position: relative;
+    }
 
-.book-page {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: url('../assets/images/book.png') no-repeat center/cover;
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
-  border-radius: 6px;
-  padding: 50px 40px;
-  box-sizing: border-box;
-  color: #f5e4c0;
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  text-align: justify;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: transform 0.7s ease, opacity 0.7s ease;
-  writing-mode: vertical-rl; /* Добавляем вертикальное направление текста */
-  text-align: center; /* Выравниваем текст по центру */
-}
+    .book-page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: url('../assets/images/book.png') no-repeat center/cover;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      border-radius: 6px;
+      padding: 50px 40px;
+      box-sizing: border-box;
+      color: #f5e4c0;
+      font-size: 1.2rem;
+      line-height: 1.6rem;
+      text-align: justify;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: transform 0.7s ease, opacity 0.7s ease;
+    }
 
-.book-page p {
-  text-align: left; /* Выравниваем абзацы по левому краю */
-}
+    .book-page.active {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 5;
+    }
 
-.book-page.active {
-  transform: translateX(0);
-  opacity: 1;
-  z-index: 5;
-}
+    .book-page.prev {
+      transform: translateX(-100%);
+      opacity: 0;
+      z-index: 1;
+    }
 
-.book-page.prev {
-  transform: translateX(-100%);
-  opacity: 0;
-  z-index: 1;
-}
+    .book-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #ffcc80;
+      text-shadow:
+        0 0 4px rgba(255,120,40,0.6),
+        0 0 8px rgba(255,160,60,0.4),
+        0 0 14px rgba(255,190,80,0.3);
+    }
 
-.page-number {
-  text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: #ffb84d;
-  text-shadow: 0 0 5px rgba(255,140,0,0.7);
-}
+    .page-number {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #ffb84d;
+      text-shadow: 0 0 5px rgba(255,140,0,0.7);
+    }
 
-/* Заголовки крупно и по центру */
-.book-title {
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #ffcc80;
-  text-shadow:
-    0 0 4px rgba(255,120,40,0.6),
-    0 0 8px rgba(255,160,60,0.4),
-    0 0 14px rgba(255,190,80,0.3);
-}/* Вставьте обновленный CSS здесь */
+    center {
+      font-size: 1.4rem;
+      color: #ffb84d;
+      text-shadow: 0 0 6px rgba(255,140,0,0.5);
+    }
   </style>
 </head>
+
 <body>
-
-<div id="book-container">
-  <div class="book-page active">
-    <div>
-      <div class="book-title">История Фракции Придшие</div>
-      <center>Волонтеры</center>
-      <p>Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.</p>
+  <div id="book-container">
+    <div class="book-page active">
+      <div>
+        <div class="book-title">История Фракции Придшие</div>
+        <center>Волонтеры</center>
+        <p>Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.</p>
+      </div>
+      <div class="page-number">1</div>
     </div>
-    <div class="page-number">1</div>
+
+    <div class="book-page">
+      <p>Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.</p>
+      <div class="page-number">2</div>
+    </div>
+
+    <div class="book-page">
+      <p>Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.</p>
+      <p>Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.</p>
+      <div class="page-number">3</div>
+    </div>
+
+    <div class="book-page">
+      <div class="book-title">ВС РФ</div>
+      <p>Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле. Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость.</p>
+      <div class="page-number">4</div>
+    </div>
+
+    <div class="book-page">
+      <p>ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.</p>
+      <p>Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…</p>
+      <div class="page-number">5</div>
+    </div>
   </div>
 
-  <div class="book-page">
-    <p>Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.</p>
-    <div class="page-number">2</div>
-  </div>
+  <audio id="flip-sound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
-  <div class="book-page">
-    <p>Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.</p>
-    <p>Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.</p>
-    <div class="page-number">3</div>
-  </div>
+  <script>
+    const pages = document.querySelectorAll('.book-page');
+    const flipSound = document.getElementById('flip-sound');
+    let current = 0;
 
-  <div class="book-page">
-    <div class="book-title">ВС РФ</div>
-    <p>Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле. Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость.</p>
-    <div class="page-number">4</div>
-  </div>
-
-  <div class="book-page">
-    <p>ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.</p>
-    <p>Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…</p>
-    <div class="page-number">5</div>
-  </div>
-</div>
-
-<audio id="flip-sound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-
-<script>
-  const pages = document.querySelectorAll('.book-page');
-  const flipSound = document.getElementById('flip-sound');
-  let current = 0;
-
-  function showPage(index) {
-    pages.forEach((p, i) => {
-      p.classList.remove('active', 'prev');
-      if(i === index) p.classList.add('active');
-      else if(i < index) p.classList.add('prev');
-    });
-  }
-
-  document.addEventListener('click', (e) => {
-    if(e.clientX > window.innerWidth/2){ // клик по правой половине - вперед
-      if(current < pages.length-1){
-        current++;
-        showPage(current);
-        flipSound.currentTime = 0;
-        flipSound.play();
-      }
-    } else { // клик по левой половине - назад
-      if(current > 0){
-        current--;
-        showPage(current);
-        flipSound.currentTime = 0;
-        flipSound.play();
-      }
+    function showPage(index) {
+      pages.forEach((p, i) => {
+        p.classList.remove('active', 'prev');
+        if(i === index) p.classList.add('active');
+        else if(i < index) p.classList.add('prev');
+      });
     }
-  });
-</script>
 
+    document.addEventListener('click', (e) => {
+      if(e.clientX > window.innerWidth/2){ 
+        if(current < pages.length-1){
+          current++;
+          showPage(current);
+          flipSound.currentTime = 0;
+          flipSound.play();
+        }
+      } else { 
+        if(current > 0){
+          current--;
+          showPage(current);
+          flipSound.currentTime = 0;
+          flipSound.play();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
