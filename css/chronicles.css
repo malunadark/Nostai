@@ -41,7 +41,7 @@ body {
 
 /* Страницы книги */
 .page {
-  background: url('assets/images/book.png') center/cover no-repeat;
+  background: url('..assets/images/book.png') center/cover no-repeat;
   padding: 50px;
   box-sizing: border-box;
   font-size: 18px;
