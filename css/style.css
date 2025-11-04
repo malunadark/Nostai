@@ -1,42 +1,53 @@
 /* Контейнер книги по центру */
 #bookWrap {
   position: absolute;
-  top: 50%;
+  bottom: 10%; /* немного над “землёй” */
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: auto;
-  height: 50vh; /* половина экрана по высоте */
+  transform: translateX(-50%);
+  width: 180px;      /* размер книги */
+  height: auto;
   perspective: 1000px;
   cursor: pointer;
-  text-align: center;
   z-index: 50;
 }
 
 /* Книга */
 #book {
-  max-height: 100%;
-  max-width: 90%;
-  border-radius: 8px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
   transition: transform 0.8s ease, box-shadow 0.5s ease;
+  transform-origin: bottom center;
 }
 
-/* Наведение */
+/* Hover — книга “открывается” немного и парит */
 #bookWrap:hover #book {
-  transform: scale(1.05) rotateY(-10deg);
-  box-shadow: 0 0 40px rgba(255,180,100,0.6);
+  transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05);
+  box-shadow: 0 0 25px rgba(255,180,100,0.6);
+}
+
+/* Анимация открытия при клике */
+.opening {
+  animation: bookOpen 1.2s ease forwards;
+}
+
+@keyframes bookOpen {
+  0% { transform: translateY(-8px) rotateX(10deg) rotateY(-8deg) scale(1.05); opacity: 1; }
+  60% { transform: rotateY(-100deg) scale(1.1) translateY(-20px); opacity: 0.8; }
+  100% { transform: rotateY(-180deg) scale(1.2) translateY(-40px); opacity: 0; }
 }
 
 /* Надпись на книге */
 #bookTitle {
   position: absolute;
-  bottom: 15%;
+  bottom: 10%;
   width: 100%;
   text-align: center;
-  font-family: 'DestroyCyr', sans-serif;
-  font-size: 2.5em;
+  font-family: 'destroycyr', sans-serif;
+  font-size: 1.2rem;
   color: #ffd88a;
-  text-shadow: 0 0 8px rgba(255,180,100,0.8), 0 0 16px rgba(255,80,0,0.6);
+  text-shadow: 0 0 6px rgba(255,180,100,0.8), 0 0 14px rgba(255,140,0,0.6);
   pointer-events: none;
 }
 
@@ -60,14 +71,14 @@
   opacity: 1;
 }
 
-/* Дымок */
+/* Дым */
 #bookSmoke {
   position: absolute;
-  bottom: 20%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: radial-gradient(circle, rgba(200,200,200,0.6) 0%, rgba(200,200,200,0) 70%);
   border-radius: 50%;
   opacity: 0.7;
@@ -77,6 +88,6 @@
 
 @keyframes smokeRise {
   0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.7; }
-  50% { transform: translateX(-50%) translateY(-50px) scale(0.7); opacity: 0.5; }
-  100% { transform: translateX(-50%) translateY(-120px) scale(1); opacity: 0; }
+  50% { transform: translateX(-50%) translateY(-30px) scale(0.7); opacity: 0.5; }
+  100% { transform: translateX(-50%) translateY(-80px) scale(1); opacity: 0; }
 }
