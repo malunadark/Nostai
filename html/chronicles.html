@@ -3,106 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Хроники Забвения</title>
+  <title>Хроники Забвения — История Придших</title>
   <style>
     @font-face {
       font-family: 'DestroyCyr';
-      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
     }
 
     body {
       margin: 0;
+      padding: 0;
       overflow: hidden;
-      background: url('../assets/images/ash-pass-bg.png') center/cover no-repeat;
+      background: url('assets/images/ash-pass-bg.png') center/cover no-repeat;
       font-family: 'DestroyCyr', serif;
-      color: #d9d9d9;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e0d9c9;
     }
 
-    /* Плотный движущийся туман */
+    /* Книга */
+    #book {
+      position: relative;
+      width: 800px;
+      height: 500px;
+      background: url('../assets/images/book.png') center/contain no-repeat;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      opacity: 0.92;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    /* Общая стилизация страниц */
+    .page {
+      position: absolute;
+      width: 72%;
+      height: 74%;
+      top: 13%;
+      left: 14%;
+      padding: 25px 40px;
+      box-sizing: border-box;
+      background: transparent;
+      color: #f2e9d0;
+      font-size: 18px;
+      line-height: 1.45;
+      text-align: justify;
+      text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
+      border-radius: 6px;
+      backface-visibility: hidden;
+      transition: transform 1s ease;
+    }
+
+    /* Первая страница */
+    #page1 {
+      transform-origin: left;
+      background: transparent;
+    }
+
+    /* Вторая страница (спрятана) */
+    #page2 {
+      transform-origin: right;
+      transform: rotateY(180deg);
+      background: transparent;
+    }
+
+    /* Перелистывание */
+    #book.flipped #page1 {
+      transform: rotateY(-180deg);
+    }
+    #book.flipped #page2 {
+      transform: rotateY(0deg);
+    }
+
+    /* Кнопки */
+    .controls {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      z-index: 4;
+    }
+    button {
+      background: rgba(40, 30, 20, 0.7);
+      color: #f5e4c0;
+      border: 1px solid rgba(255, 150, 70, 0.5);
+      padding: 10px 20px;
+      font-family: 'DestroyCyr';
+      cursor: pointer;
+      margin: 0 15px;
+      border-radius: 4px;
+      font-size: 18px;
+      text-shadow: 0 0 6px rgba(255, 140, 0, 0.6);
+      transition: 0.3s;
+    }
+    button:hover {
+      background: rgba(255, 120, 40, 0.3);
+    }
+
+    /* Номер страниц */
+    .page-number {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #ffb84d;
+      text-shadow: 0 0 4px rgba(255,140,0,0.8);
+    }
+
+    /* Туман и пепел */
     .fog {
       position: absolute;
-      top: 0; left: 0;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 30%, rgba(200,200,200,0.2), rgba(0,0,0,0.6));
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at 40% 40%, rgba(200,200,200,0.15), rgba(0,0,0,0.7));
       filter: blur(80px);
-      animation: fogMove 60s linear infinite alternate;
+      animation: fogMove 80s linear infinite alternate;
       z-index: 1;
     }
     @keyframes fogMove {
-      from { transform: translate(-10%, -10%); }
-      to { transform: translate(10%, 10%); }
+      from { transform: translate(-3%, -3%); }
+      to { transform: translate(3%, 3%); }
     }
-
-    /* Падающий пепел */
     .ash {
       position: absolute;
       top: -10px;
       width: 2px;
       height: 2px;
-      background: rgba(255,255,255,0.7);
-      opacity: 0.6;
+      background: rgba(255,255,255,0.8);
+      opacity: 0.5;
       border-radius: 50%;
       animation: fall linear infinite;
       z-index: 2;
     }
     @keyframes fall {
-      from { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      from { transform: translateY(0) rotate(0deg); opacity: 0.6; }
       to { transform: translateY(110vh) rotate(360deg); opacity: 0.1; }
     }
 
-    /* Книга */
-    #book {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 420px;
-      height: 300px;
-      background: url('../assets/images/book.png') center/contain no-repeat;
-      opacity: 0.85;
-      z-index: 3;
-      box-shadow: 0 0 25px rgba(255,140,0,0.3);
-      transition: transform 0.5s ease;
-    }
-
-    #book:hover {
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    /* Заголовок */
-    h1 {
-      position: absolute;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 42px;
-      text-shadow: 0 0 20px rgba(255,120,50,0.8);
-      letter-spacing: 2px;
-      z-index: 4;
-    }
   </style>
 </head>
 <body>
 
   <div class="fog"></div>
 
-  <h1>Хроники Забвения</h1>
-  <div id="book"></div>
+  <div id="book">
+    <div id="page1" class="page">
+      <h2 style="text-align:center;color:#ffcc80;margin-bottom:10px;">История Фракции Придшие</h2>
+      <h3 style="color:#ffb84d;margin-top:0;">Волонтёры</h3>
+      Они явились туда не первыми, но их миссия была самой важной — спасти от пожара людей.
+      В Алтайских лесах начались сильнейшие пожары. ВС РФ, МЧС, Красный Крест и местные жители справлялись, но с трудом — нужна была помощь ещё извне.
+      <br><br>
+      Местные новости пустили в эфир срочную просьбу: нужны люди. И люди пришли.
+      Волонтёры были разными — кто-то посвятил жизнь спасению других, кто-то не смог остаться в стороне.
+      <br><br>
+      Их сила — не в оружии, а в человеческой смелости и способности действовать в экстремальных условиях.
+      Некоторые приходили по зову сердца, другие — с подготовкой: пожарные, медики, инженеры.
+      <div class="page-number">1</div>
+    </div>
+
+    <div id="page2" class="page">
+      Со временем они стали символом силы человеческого духа, напоминая, что пришедшие способны изменить ход событий, даже если они не были первыми.
+      Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.
+      <br><br>
+      <h3 style="color:#ffb84d;">ВС РФ</h3>
+      Сила, мощь, дух военный — всё это заключено в слове ВС РФ.
+      Самые стойкие и выносливые люди на земле.
+      Они столкнулись с небывалыми пожарами. Техника справлялась, но огонь не щадил никого.
+      <br><br>
+      ВС РФ пришли не просто выполнить долг — они пришли показать, что границы возможного простираются ровно настолько, насколько тянется воля человека.
+      <br><br>
+      Несмотря на дисциплину и строгость, за каждым их шагом скрывается нечто большее — то, что нельзя объяснить словами.
+      <div class="page-number">2</div>
+    </div>
+
+    <div class="controls">
+      <button id="prev">Назад</button>
+      <button id="next">Вперёд</button>
+    </div>
+  </div>
+
+  <audio id="flip-sound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
   <script>
+    const book = document.getElementById('book');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+    const flipSound = document.getElementById('flip-sound');
+    let flipped = false;
+
+    next.addEventListener('click', () => {
+      if (!flipped) {
+        book.classList.add('flipped');
+        flipSound.play();
+        flipped = true;
+      }
+    });
+    prev.addEventListener('click', () => {
+      if (flipped) {
+        book.classList.remove('flipped');
+        flipSound.play();
+        flipped = false;
+      }
+    });
+
     // Генерация пепла
     const numAsh = 100;
     for (let i = 0; i < numAsh; i++) {
       const ash = document.createElement('div');
       ash.classList.add('ash');
       ash.style.left = Math.random() * 100 + 'vw';
-      ash.style.animationDuration = 5 + Math.random() * 10 + 's';
+      ash.style.animationDuration = 6 + Math.random() * 12 + 's';
       ash.style.animationDelay = Math.random() * 10 + 's';
       ash.style.opacity = 0.3 + Math.random() * 0.7;
-      ash.style.transform = `scale(${0.5 + Math.random()})`;
+      ash.style.transform = `scale(${0.5 + Math.random() * 1.3})`;
       document.body.appendChild(ash);
     }
   </script>
+
 </body>
 </html>
