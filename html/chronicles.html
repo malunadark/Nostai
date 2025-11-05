@@ -39,38 +39,38 @@
       z-index: 3;
     }
 
-    /* Общая стилизация страниц */
-    .page {
-      position: absolute;
-      width: 72%;
-      height: 74%;
-      top: 13%;
-      left: 14%;
-      padding: 25px 40px;
-      box-sizing: border-box;
-      background: transparent;
-      color: #f2e9d0;
-      font-size: 18px;
-      line-height: 1.45;
-      text-align: justify;
-      text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
-      border-radius: 6px;
-      backface-visibility: hidden;
-      transition: transform 1s ease;
-    }
+   /* Общая стилизация страниц — для всех страниц */
+.page {
+  position: absolute;
+  width: 72%;
+  height: 74%;        /* немного меньше, чтобы текст не вылезал */
+  top: 13%;           /* чуть выше */
+  left: 14%;
+  padding: 20px 30px; /* уменьшенный паддинг */
+  box-sizing: border-box;
+  background: transparent;
+  color: #f2e9d0;
+  font-size: 17px;    /* чуть меньше шрифт */
+  line-height: 1.35;  /* плотнее строки */
+  text-align: justify;
+  text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
+  border-radius: 6px;
+  backface-visibility: hidden;
+  transition: transform 1s ease;
+}
 
-    /* Первая страница */
-    #page1 {
-      transform-origin: left;
-      background: transparent;
-    }
+/* Первая страница */
+#page1 {
+  transform-origin: left;
+  background: transparent;
+}
 
-    /* Вторая страница (спрятана) */
-    #page2 {
-      transform-origin: right;
-      transform: rotateY(180deg);
-      background: transparent;
-    }
+/* Вторая страница (спрятана) */
+#page2 {
+  transform-origin: right;
+  transform: rotateY(180deg);
+  background: transparent;
+}
 
     /* Перелистывание */
     #book.flipped #page1 {
