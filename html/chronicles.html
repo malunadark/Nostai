@@ -43,21 +43,23 @@
 .page {
   position: absolute;
   width: 72%;
-  height: 74%;        /* немного меньше, чтобы текст не вылезал */
-  top: 13%;           /* чуть выше */
+  height: 70%;        /* уменьшили для полного контроля */
+  top: 15%;           /* чуть выше, чтобы текст влезал */
   left: 14%;
-  padding: 20px 30px; /* уменьшенный паддинг */
+  padding: 15px 25px; /* меньше паддинга */
   box-sizing: border-box;
   background: transparent;
   color: #f2e9d0;
-  font-size: 17px;    /* чуть меньше шрифт */
+  font-size: 16px;    /* чуть меньше шрифт */
   line-height: 1.35;  /* плотнее строки */
   text-align: justify;
   text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
   border-radius: 6px;
   backface-visibility: hidden;
+  overflow: hidden;   /* главное: скрываем лишнее */
   transition: transform 1s ease;
 }
+
 
 /* Первая страница */
 #page1 {
