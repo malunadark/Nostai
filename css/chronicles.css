@@ -1,7 +1,6 @@
-/* --- Шрифт --- */
 @font-face {
   font-family: 'DestroyCyr';
-  src: url('..assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
 }
 
 body {
@@ -16,158 +15,168 @@ body {
   font-family: 'DestroyCyr', sans-serif;
 }
 
-/* --- Логотип гранитно-огненный --- */
-#logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 30;
-  font-size: 6rem;
-  letter-spacing: 6px;
-  font-family: 'DestroyCyr', serif;
-  color: #d6d6d6;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 4px 6px rgba(0,0,0,0.85),
-    0 0 12px rgba(255, 80, 0, 0.6),
-    0 0 30px rgba(255, 140, 0, 0.4),
-    0 -1px 2px rgba(255,255,255,0.15),
-    0 0 50px rgba(255, 60, 0, 0.2);
-  filter: contrast(1.3) brightness(1);
-  pointer-events: none;
-  user-select: none;
-  animation: fireGranite 4s ease-in-out infinite;
-  position: relative;
-}
-
-#logo::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('..assets/images/granite-noise.png') center/cover no-repeat;
-  opacity: 0.18;
-  pointer-events: none;
-  z-index: -1;
-}
-
-@keyframes fireGranite {
-  0%, 100% {
-    text-shadow:
-      0 4px 6px rgba(0,0,0,0.85),
-      0 0 12px rgba(255, 70, 0, 0.6),
-      0 0 25px rgba(255, 120, 0, 0.4),
-      0 -1px 2px rgba(255,255,255,0.15),
-      0 0 50px rgba(255, 60, 0, 0.2);
-    transform: translate(-50%, -50%) scale(1);
-    filter: brightness(0.95);
-  }
-  50% {
-    text-shadow:
-      0 4px 8px rgba(0,0,0,0.9),
-      0 0 18px rgba(255, 100, 0, 0.8),
-      0 0 40px rgba(255, 160, 0, 0.5),
-      0 -1px 2px rgba(255,255,255,0.25),
-      0 0 70px rgba(255, 140, 0, 0.3);
-    transform: translate(-50%, -50%) scale(1.05);
-    filter: brightness(1.05);
-  }
-}
-
-/* --- Контейнер книги --- */
+/* Контейнер */
 .book-container {
-  width: 850px;
-  height: 550px;
   position: relative;
-  perspective: 2000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 0 20px rgba(255,150,60,0.2));
 }
 
-/* --- Страницы книги --- */
-.book-page {
-  width: 100%;
-  height: 100%;
-  background: url('..assets/images/book.png') no-repeat center/cover;
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
-  border-radius: 6px;
-  padding: 50px 40px;
+/* Заголовок */
+.book-container::before {
+  content: "ХРОНИКИ ЗАБВЕНИЯ";
+  position: absolute;
+  top: -80px;
+  font-size: 2.5rem;
+  color: #ffb84d;
+  text-shadow:
+    0 0 10px rgba(255,120,40,0.8),
+    0 0 20px rgba(255,160,60,0.5),
+    0 0 30px rgba(255,180,80,0.3);
+  letter-spacing: 4px;
+  font-weight: bold;
+  animation: titleGlow 5s infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 10px rgba(255,150,50,0.6); }
+  100% { text-shadow: 0 0 20px rgba(255,200,100,0.9); }
+}
+
+/* Книга */
+.book {
+  width: 800px;
+  height: 500px;
+  perspective: 2000px;
+  position: relative;
+  background: url('../assets/images/book.png') no-repeat center/cover;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+  border-radius: 8px;
+  padding: 60px 40px;
   box-sizing: border-box;
-  color: #ffd880; /* гранитно-золотой */
-  font-size: 1.2rem;
-  line-height: 1.6rem;
+  color: #f5e4c0;
+  font-size: 1rem;
+  line-height: 1.4rem;
   text-align: justify;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.8s ease;
-  transform-origin: left center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-size: cover;
+  overflow: hidden;
+  opacity: 0.95;
+  position: relative;
 }
 
-/* дым поверх текста */
-.book-page::after {
+/* Магическое свечение */
+.book::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('..assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.15;
+  background: radial-gradient(circle at center, rgba(255,200,100,0.1), transparent 80%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  animation: pulse 6s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Дым */
+.book::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: radial-gradient(circle at 50% 100%, rgba(255,220,150,0.12), transparent 70%);
+  filter: blur(20px);
+  animation: smokeFlow 8s infinite ease-in-out;
   pointer-events: none;
-  z-index: 10;
 }
 
-.book-title {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #ffd880;
-  text-shadow:
-    0 0 4px rgba(180,120,40,0.6),
-    0 0 8px rgba(220,160,60,0.4),
-    0 0 14px rgba(255,190,80,0.3);
+@keyframes smokeFlow {
+  0% { transform: translateY(0) scale(1); opacity: 0.4; }
+  50% { transform: translateY(-25px) scale(1.1); opacity: 0.7; }
+  100% { transform: translateY(0) scale(1); opacity: 0.4; }
 }
 
-.book-subtitle {
+/* Страницы */
+.page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-origin: left;
+  transition: transform 1s ease-in-out;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.page.flipped {
+  transform: rotateY(-180deg);
+}
+
+.page-inner {
+  width: 48%;
+  height: 100%;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.page-inner.left {
+  border-right: 1px solid rgba(0,0,0,0.3);
+}
+
+/* Текст */
+h1 {
   font-size: 1.4rem;
-  font-weight: bold;
   margin-bottom: 10px;
-  color: #ffd880;
+  color: #ffcc80;
+  text-shadow: 0 0 6px rgba(255,160,80,0.4);
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #ffb84d;
 }
 
 .page-number {
-  text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.9rem;
-  color: #ffd880;
-  text-shadow: 0 0 5px rgba(255,200,100,0.7);
+  color: #ffb84d;
+  text-shadow: 0 0 4px rgba(255,150,50,0.5);
 }
 
-/* --- Кнопки навигации --- */
-.nav-buttons {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
+/* Кнопки */
+.controls {
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
-  pointer-events: none;
+  width: 300px;
 }
 
-button.page-btn {
-  background: rgba(30, 20, 10, 0.8);
-  border: 1px solid rgba(255,150,50,0.4);
-  color: #ffd880;
-  font-family: 'DestroyCyr';
+.controls button {
+  background: rgba(50, 25, 10, 0.85);
+  color: #ffcc80;
+  border: 1px solid #ffb84d;
+  padding: 8px 20px;
   font-size: 1rem;
-  padding: 8px 18px;
-  border-radius: 4px;
-  pointer-events: auto;
   cursor: pointer;
-  transition: background 0.3s ease;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(255,180,60,0.3);
+  transition: all 0.3s;
 }
 
-button.page-btn:hover {
-  background: rgba(255,150,50,0.2);
+.controls button:hover {
+  background: rgba(100, 50, 20, 1);
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,180,80,0.8);
 }
