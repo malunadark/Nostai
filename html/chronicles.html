@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Хроники Забвения — История Придших</title>
+  <title>Хроники Забвения — Придшие</title>
   <style>
     @font-face {
       font-family: 'DestroyCyr';
       src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Futhark';
+      src: url('../assets/fonts/FutharkAoe.ttf') format('truetype');
     }
 
     body {
@@ -16,12 +20,26 @@
       overflow: hidden;
       background: url('../assets/images/ash-pass-bg.png') center/cover no-repeat;
       font-family: 'DestroyCyr', serif;
+      color: #e0d9c9;
       height: 100vh;
       width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #e0d9c9;
+      position: relative;
+    }
+
+    /* Фон — дым */
+    .smoke {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('../assets/images/smoke-fog.gif') center/cover no-repeat;
+      opacity: 0.18;
+      z-index: 1;
+      mix-blend-mode: lighten;
     }
 
     /* Книга */
@@ -29,66 +47,66 @@
       position: relative;
       width: 800px;
       height: 500px;
-      background: url('../assets/images/book.png') center/contain no-repeat;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      background: url('../assets/images/old-notebook.png') center/contain no-repeat;
+      box-shadow: 0 0 45px rgba(255, 180, 70, 0.25);
       border-radius: 8px;
-      opacity: 0.92;
+      opacity: 0.88; /* полупрозрачность */
+      z-index: 3;
+      perspective: 1500px;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 3;
     }
 
-   /* Общая стилизация страниц — для всех страниц */
-.page {
-  position: absolute;
-  width: 72%;
-  height: 70%;        /* уменьшили для полного контроля */
-  top: 15%;           /* чуть выше, чтобы текст влезал */
-  left: 14%;
-  padding: 15px 25px; /* меньше паддинга */
-  box-sizing: border-box;
-  background: transparent;
-  color: #f2e9d0;
-  font-size: 16px;    /* чуть меньше шрифт */
-  line-height: 1.35;  /* плотнее строки */
-  text-align: justify;
-  text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
-  border-radius: 6px;
-  backface-visibility: hidden;
-  overflow: hidden;   /* главное: скрываем лишнее */
-  transition: transform 1s ease;
-}
+    /* Общие стили страниц */
+    .page {
+      position: absolute;
+      width: 72%;
+      height: 70%;
+      top: 15%;
+      left: 14%;
+      padding: 15px 25px;
+      box-sizing: border-box;
+      color: #f2e9d0;
+      font-size: 16px;
+      line-height: 1.35;
+      text-align: justify;
+      text-shadow: 0 0 5px rgba(255, 200, 150, 0.4);
+      border-radius: 6px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      transition: transform 1s ease;
+      background: transparent;
+    }
 
-
-/* Первая страница */
-#page1 {
-  transform-origin: left;
-  background: transparent;
-}
-
-/* Вторая страница (спрятана) */
-#page2 {
-  transform-origin: right;
-  transform: rotateY(180deg);
-  background: transparent;
-}
-
-    /* Перелистывание */
-    #book.flipped #page1 {
+    /* Страницы */
+    #page1 {
+      transform-origin: left;
+    }
+    #page2, #page3 {
+      transform-origin: right;
+      transform: rotateY(180deg);
+    }
+    #book.flipped1 #page1 {
       transform: rotateY(-180deg);
     }
-    #book.flipped #page2 {
+    #book.flipped1 #page2 {
+      transform: rotateY(0deg);
+    }
+    #book.flipped2 #page2 {
+      transform: rotateY(-180deg);
+    }
+    #book.flipped2 #page3 {
       transform: rotateY(0deg);
     }
 
-    /* Кнопки */
+    /* Контролы */
     .controls {
       position: absolute;
       bottom: 30px;
       width: 100%;
       text-align: center;
-      z-index: 4;
+      z-index: 5;
     }
     button {
       background: rgba(40, 30, 20, 0.7);
@@ -107,6 +125,22 @@
       background: rgba(255, 120, 40, 0.3);
     }
 
+    /* Руны */
+    .rune {
+      position: absolute;
+      font-family: 'Futhark';
+      font-size: 32px;
+      color: rgba(255, 210, 120, 0.6);
+      text-shadow: 0 0 10px rgba(255, 180, 80, 0.8);
+      opacity: 0.8;
+      animation: runeGlow 6s ease-in-out infinite alternate;
+      z-index: 4;
+    }
+    @keyframes runeGlow {
+      from { text-shadow: 0 0 8px rgba(255, 180, 80, 0.4); opacity: 0.6; }
+      to { text-shadow: 0 0 18px rgba(255, 230, 160, 1); opacity: 1; }
+    }
+
     /* Номер страниц */
     .page-number {
       position: absolute;
@@ -118,43 +152,11 @@
       text-shadow: 0 0 4px rgba(255,140,0,0.8);
     }
 
-    /* Туман и пепел */
-    .fog {
-      position: absolute;
-      top: -20%;
-      left: -20%;
-      width: 140%;
-      height: 140%;
-      background: radial-gradient(circle at 40% 40%, rgba(200,200,200,0.15), rgba(0,0,0,0.7));
-      filter: blur(80px);
-      animation: fogMove 80s linear infinite alternate;
-      z-index: 1;
-    }
-    @keyframes fogMove {
-      from { transform: translate(-3%, -3%); }
-      to { transform: translate(3%, 3%); }
-    }
-    .ash {
-      position: absolute;
-      top: -10px;
-      width: 2px;
-      height: 2px;
-      background: rgba(255,255,255,0.8);
-      opacity: 0.5;
-      border-radius: 50%;
-      animation: fall linear infinite;
-      z-index: 2;
-    }
-    @keyframes fall {
-      from { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-      to { transform: translateY(110vh) rotate(360deg); opacity: 0.1; }
-    }
-
   </style>
 </head>
 <body>
 
-  <div class="fog"></div>
+  <div class="smoke"></div>
 
   <div id="book">
     <div id="page1" class="page">
@@ -165,26 +167,35 @@
       <br><br>
       Местные новости пустили в эфир срочную просьбу: нужны люди. И люди пришли.
       Волонтёры были разными — кто-то посвятил жизнь спасению других, кто-то не смог остаться в стороне.
-      <br><br>
       Их сила — не в оружии, а в человеческой смелости и способности действовать в экстремальных условиях.
-      Некоторые приходили по зову сердца, другие — с подготовкой: пожарные, медики, инженеры.
       <div class="page-number">1</div>
     </div>
 
     <div id="page2" class="page">
-      Со временем они стали символом силы человеческого духа, напоминая, что пришедшие способны изменить ход событий, даже если они не были первыми.
+      Некоторые приходили по зову сердца, другие — с подготовкой: пожарные, медики, инженеры.
+      Со временем они стали символом силы человеческого духа, напоминая, что пришедшие способны изменить ход событий.
       Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.
       <br><br>
       <h3 style="color:#ffb84d;">ВС РФ</h3>
       Сила, мощь, дух военный — всё это заключено в слове ВС РФ.
-      Самые стойкие и выносливые люди на земле.
-      Они столкнулись с небывалыми пожарами. Техника справлялась, но огонь не щадил никого.
-      <br><br>
-      ВС РФ пришли не просто выполнить долг — они пришли показать, что границы возможного простираются ровно настолько, насколько тянется воля человека.
-      <br><br>
-      Несмотря на дисциплину и строгость, за каждым их шагом скрывается нечто большее — то, что нельзя объяснить словами.
+      Самые стойкие и выносливые люди на земле. Они столкнулись с небывалыми пожарами.
+      Техника справлялась, но огонь не щадил никого.
       <div class="page-number">2</div>
     </div>
+
+    <div id="page3" class="page">
+      ВС РФ пришли не просто выполнить долг — они пришли показать, что границы возможного простираются ровно настолько, насколько тянется воля человека.
+      Несмотря на дисциплину и строгость, за каждым их шагом скрывается нечто большее — то, что нельзя объяснить словами.
+      <br><br>
+      Так рождаются легенды. Так начинается <span style="color:#ffcc99;">NOSTAI</span>.
+      <div class="page-number">3</div>
+    </div>
+
+    <!-- Руны вокруг книги -->
+    <div class="rune" style="top:5%;left:6%;">ᚨ</div>
+    <div class="rune" style="top:5%;right:6%;">ᚾ</div>
+    <div class="rune" style="bottom:5%;left:8%;">ᛉ</div>
+    <div class="rune" style="bottom:5%;right:8%;">ᛟ</div>
 
     <div class="controls">
       <button id="prev">Назад</button>
@@ -199,35 +210,25 @@
     const next = document.getElementById('next');
     const prev = document.getElementById('prev');
     const flipSound = document.getElementById('flip-sound');
-    let flipped = false;
+    let page = 0;
 
     next.addEventListener('click', () => {
-      if (!flipped) {
-        book.classList.add('flipped');
+      if (page < 2) {
+        page++;
         flipSound.play();
-        flipped = true;
-      }
-    });
-    prev.addEventListener('click', () => {
-      if (flipped) {
-        book.classList.remove('flipped');
-        flipSound.play();
-        flipped = false;
+        book.className = '';
+        book.classList.add('flipped' + page);
       }
     });
 
-    // Генерация пепла
-    const numAsh = 100;
-    for (let i = 0; i < numAsh; i++) {
-      const ash = document.createElement('div');
-      ash.classList.add('ash');
-      ash.style.left = Math.random() * 100 + 'vw';
-      ash.style.animationDuration = 6 + Math.random() * 12 + 's';
-      ash.style.animationDelay = Math.random() * 10 + 's';
-      ash.style.opacity = 0.3 + Math.random() * 0.7;
-      ash.style.transform = `scale(${0.5 + Math.random() * 1.3})`;
-      document.body.appendChild(ash);
-    }
+    prev.addEventListener('click', () => {
+      if (page > 0) {
+        page--;
+        flipSound.play();
+        book.className = '';
+        if (page > 0) book.classList.add('flipped' + page);
+      }
+    });
   </script>
 
 </body>
