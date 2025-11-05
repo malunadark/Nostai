@@ -1,118 +1,108 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хроники Забвения</title>
-<link rel="stylesheet" href="../css/chronicles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Хроники Забвения</title>
+  <style>
+    @font-face {
+      font-family: 'DestroyCyr';
+      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: url('../assets/images/ash-pass-bg.png') center/cover no-repeat;
+      font-family: 'DestroyCyr', serif;
+      color: #d9d9d9;
+    }
+
+    /* Плотный движущийся туман */
+    .fog {
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(200,200,200,0.2), rgba(0,0,0,0.6));
+      filter: blur(80px);
+      animation: fogMove 60s linear infinite alternate;
+      z-index: 1;
+    }
+    @keyframes fogMove {
+      from { transform: translate(-10%, -10%); }
+      to { transform: translate(10%, 10%); }
+    }
+
+    /* Падающий пепел */
+    .ash {
+      position: absolute;
+      top: -10px;
+      width: 2px;
+      height: 2px;
+      background: rgba(255,255,255,0.7);
+      opacity: 0.6;
+      border-radius: 50%;
+      animation: fall linear infinite;
+      z-index: 2;
+    }
+    @keyframes fall {
+      from { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      to { transform: translateY(110vh) rotate(360deg); opacity: 0.1; }
+    }
+
+    /* Книга */
+    #book {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px;
+      height: 300px;
+      background: url('../assets/images/book.png') center/contain no-repeat;
+      opacity: 0.85;
+      z-index: 3;
+      box-shadow: 0 0 25px rgba(255,140,0,0.3);
+      transition: transform 0.5s ease;
+    }
+
+    #book:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    /* Заголовок */
+    h1 {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 42px;
+      text-shadow: 0 0 20px rgba(255,120,50,0.8);
+      letter-spacing: 2px;
+      z-index: 4;
+    }
+  </style>
 </head>
 <body>
 
-<div id="logo">Хроники Забвения</div>
+  <div class="fog"></div>
 
-<div class="book-container">
-  <div class="book" id="book">
+  <h1>Хроники Забвения</h1>
+  <div id="book"></div>
 
-    <!-- Страница 1 -->
-    <div class="page" data-page="1">
-      <div class="page-inner left">
-        <h1>История Фракции Придшие</h1>
-        <h2>Волонтёры</h2>
-        <p>
-          Они явились туда не первыми, но их миссия была самой важной — спасти от пожара людей. В алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители справлялись, но с трудом. Нужна была помощь ещё извне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.
-        </p>
-      </div>
-      <div class="page-inner right">
-        <p>
-          Волонтёры действовали слаженно, помогали эвакуировать жителей, доставляли воду, тушили очаги. Их лагерь стал временным домом для сотен спасённых. Но чем дольше они оставались, тем больше ощущали странность происходящего — лес будто наблюдал, время шло иначе, огонь дышал живым разумом. Так началась история Придших.
-        </p>
-      </div>
-      <div class="page-number">1</div>
-    </div>
-
-    <!-- Страница 2 -->
-    <div class="page" data-page="2">
-      <div class="page-inner left">
-        <p>
-          Когда пламя стихло, на месте пожарищ остались странные руны, выжженные в земле. Волонтёры видели сны о свете и тенях, слышали зов. Те, кто откликнулся, уже не были прежними — они стали Придшими.
-        </p>
-        <p>
-          Их души будто вплелись в саму ткань этого мира, между светом и пламенем. И теперь их путь — не просто помощь, а осознание того, зачем их позвали. Так родился первый круг Придших.
-        </p>
-      </div>
-      <div class="page-inner right">
-        <h2>ВС РФ</h2>
-        <p>
-          Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.
-        </p>
-        <p>
-          Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.
-        </p>
-      </div>
-      <div class="page-number">2</div>
-    </div>
-
-    <!-- Страница 3 -->
-    <div class="page" data-page="3">
-      <div class="page-inner left">
-        <p>
-          Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца.
-        </p>
-      </div>
-      <div class="page-inner right">
-        <p>
-          Но несмотря на дисциплину и строгость, за каждым их шагом скрывается нечто большее — дух, который невозможно объяснить словами. Возможно, именно поэтому их путь переплёлся с другими фракциями. Так началась глава, где железо и огонь соединились с волей.
-        </p>
-      </div>
-      <div class="page-number">3</div>
-    </div>
-
-  </div>
-
-  <!-- Кнопки -->
-  <div class="controls">
-    <button id="prev">← Назад</button>
-    <button id="next">Вперёд →</button>
-  </div>
-</div>
-
-<audio id="flip-sound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-
-<script>
-  const pages = document.querySelectorAll('.page');
-  const prevBtn = document.getElementById('prev');
-  const nextBtn = document.getElementById('next');
-  const flipSound = document.getElementById('flip-sound');
-  let currentPage = 0;
-
-  function updatePages() {
-    pages.forEach((page, index) => {
-      page.style.zIndex = pages.length - index;
-      if(index < currentPage) page.classList.add('flipped');
-      else page.classList.remove('flipped');
-    });
-  }
-
-  nextBtn.addEventListener('click', () => {
-    if(currentPage < pages.length) {
-      currentPage++;
-      flipSound.currentTime = 0;
-      flipSound.play();
-      updatePages();
+  <script>
+    // Генерация пепла
+    const numAsh = 100;
+    for (let i = 0; i < numAsh; i++) {
+      const ash = document.createElement('div');
+      ash.classList.add('ash');
+      ash.style.left = Math.random() * 100 + 'vw';
+      ash.style.animationDuration = 5 + Math.random() * 10 + 's';
+      ash.style.animationDelay = Math.random() * 10 + 's';
+      ash.style.opacity = 0.3 + Math.random() * 0.7;
+      ash.style.transform = `scale(${0.5 + Math.random()})`;
+      document.body.appendChild(ash);
     }
-  });
-
-  prevBtn.addEventListener('click', () => {
-    if(currentPage > 0) {
-      currentPage--;
-      flipSound.currentTime = 0;
-      flipSound.play();
-      updatePages();
-    }
-  });
-
-  updatePages();
-</script>
-
+  </script>
 </body>
 </html>
