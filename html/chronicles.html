@@ -7,7 +7,7 @@
 <style>
 @font-face {
   font-family: 'destroycyr';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
 }
 
 body {
@@ -23,7 +23,7 @@ body {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: url('assets/images/ash-pass-bg.png') repeat;
+  background: url('../assets/images/ash-pass-bg.png') repeat;
   animation: ashMove 30s linear infinite;
   opacity: 0.1;
   z-index: 1;
@@ -37,7 +37,7 @@ body {
 #smoke {
   position: fixed;
   inset: 0;
-  background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+  background: url('../assets/images/smoke-fog.gif') center/cover no-repeat;
   opacity: 0.25;
   pointer-events: none;
   z-index: 2;
@@ -50,7 +50,7 @@ body {
   transform: translate(-50%, -50%);
   width: 900px;
   height: 600px;
-  background: url('assets/images/book.png') center/contain no-repeat;
+  background: url('../assets/images/book.png') center/contain no-repeat;
   background-size: contain;
   z-index: 3;
 }
@@ -138,7 +138,7 @@ body {
 
 <button id="nextPage">Следующая страница</button>
 
-<audio id="pageSound" src="assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+<audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
 <script>
 const pages = [
@@ -149,7 +149,7 @@ const pages = [
 Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях. 
 Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры. 
 Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.`,
-    bg: 'assets/images/bg-volunteers.png'
+    bg: '../assets/images/bg-volunteers.png'
   },
   {
     title: 'История Фракции Придшие',
@@ -157,19 +157,19 @@ const pages = [
     text: `Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.
 Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.
 Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…`,
-    bg: 'assets/images/bg-military-base.png'
+    bg: '..assets/images/bg-military-base.png'
   },
   {
     title: 'История Фракции Придшие',
     subtitle: 'МЧС',
     text: `Сотрудники МЧС действовали быстро и решительно, эвакуируя людей из опасных зон и создавая пожарные кордоны.`,
-    bg: 'assets/images/bg-rescue-base.png'
+    bg: '../assets/images/bg-rescue-base.png'
   },
   {
     title: 'История Фракции Придшие',
     subtitle: 'Красный Крест',
     text: `Красный Крест организовал пункты помощи и медицинскую поддержку для пострадавших.`,
-    bg: 'assets/images/bg-redcross-camp.png'
+    bg: '../assets/images/bg-redcross-camp.png'
   }
 ];
 
