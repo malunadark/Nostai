@@ -6,42 +6,31 @@
   <title>NOSTAI</title>
 
   <style>
-    /* === ШРИФТ destroycyr === */
+    /* === Шрифты === */
     @font-face {
       font-family: 'destroycyr';
-      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+      src: url('assets/fonts/destroycyr.ttf') format('truetype');
       font-display: swap;
     }
 
-    /* === БАЗОВЫЙ СТИЛЬ === */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background: #000;
-    }
-
-    body {
+      background: url('assets/images/Nostai.png') center/cover no-repeat fixed;
       font-family: 'destroycyr', sans-serif;
-      background: url('../assets/images/Nostai.png') center/cover no-repeat fixed;
       color: #d0d0d0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       position: relative;
     }
 
-    /* === ЛОГОТИП === */
-    #logo-container {
-      margin-top: 20px;
-      text-align: center;
-      z-index: 10;
-    }
-
+    /* === Логотип === */
     #logo {
-      font-size: clamp(2rem, 6vw, 5rem);
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(3rem, 8vw, 6rem);
       letter-spacing: 6px;
       color: #cfcfcf;
       text-shadow:
@@ -66,58 +55,40 @@
       }
     }
 
-    /* === ПОДЗАГОЛОВОК === */
-    #subtitle-container {
-      text-align: center;
-      margin-top: 10px;
-      padding: 0 15px;
-    }
-
-    #subtitle {
-      font-size: clamp(1rem, 3vw, 1.8rem);
-      color: #ffcc80;
-      text-shadow: 0 0 10px rgba(255,150,50,0.6);
-      animation: subtitleGlow 6s ease-in-out infinite;
-      cursor: pointer;
-    }
-
-    @keyframes subtitleGlow {
-      0%, 100% { opacity: 0.85; }
-      50% { opacity: 1; }
-    }
-
-    /* === КНИГА === */
+    /* === Книга === */
     #bookWrap {
       position: absolute;
-      bottom: 30px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
+      width: 50%;
+      max-width: 400px;
     }
 
     #book {
-      width: clamp(200px, 40vw, 280px);
+      width: 100%;
       height: auto;
+      opacity: 0.7;
       border-radius: 8px;
-      opacity: 0.8;
       cursor: pointer;
-      box-shadow: 0 0 25px rgba(0,0,0,0.6);
-      transition: transform 0.8s ease, opacity 0.6s ease;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5);
+      transition: transform 0.6s ease, opacity 0.5s ease;
     }
 
     #book:hover {
-      transform: translateY(-10px) scale(1.05) rotateX(4deg);
+      transform: translateY(-10px) scale(1.05);
       opacity: 1;
     }
 
-    /* === СВЕТ ПОД КНИГОЙ === */
+    /* === Свет под книгой === */
     #bookGlow {
       position: absolute;
       bottom: -30px;
       left: 50%;
       transform: translateX(-50%);
       width: 300px;
-      height: 150px;
+      height: 120px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255,200,50,0.6) 0%, rgba(255,100,0,0) 70%);
       pointer-events: none;
@@ -127,15 +98,16 @@
 
     .glow-active { opacity: 1; }
 
-    /* === ДЫМ === */
+    /* === Дым === */
     #bookSmoke {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 260px;
-      height: 120px;
-      background: url('../assets/images/smoke-fog.gif') center/contain no-repeat;
+      width: 100%;
+      max-width: 400px;
+      height: 150px;
+      background: url('assets/images/smoke-fog.gif') center/contain no-repeat;
       opacity: 0.5;
       pointer-events: none;
     }
@@ -145,7 +117,7 @@
       100% { transform: translateX(-50%) translateY(-60px) scale(1.1); opacity: 0; }
     }
 
-    /* === МУЗЫКА === */
+    /* === Музыка === */
     #music-toggle {
       position: fixed;
       top: 10px;
@@ -166,7 +138,7 @@
       transform: scale(1.1);
     }
 
-    /* === РАДИО === */
+    /* === Радио === */
     #radioWrap {
       position: fixed;
       left: 15px;
@@ -180,22 +152,21 @@
       border-radius: 6px;
     }
 
-    /* === КРОССБРАУЗЕРНОСТЬ === */
-    @supports not (backdrop-filter: blur(10px)) {
-      body { background-attachment: scroll; }
+    /* === Пепел === */
+    canvas#ashCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      pointer-events: none;
     }
 
   </style>
 </head>
 
 <body>
-  <div id="logo-container">
-    <div id="logo">NOSTAI</div>
-  </div>
-
-  <div id="subtitle-container">
-    <div id="subtitle">Придшие не уходят, Придшие — те, кто здесь и там, в поисках себя</div>
-  </div>
+  <!-- Логотип -->
+  <div id="logo">NOSTAI</div>
 
   <!-- Радиоприёмник -->
   <div id="radioWrap" title="Узел Связи">
@@ -204,20 +175,23 @@
 
   <!-- Книга -->
   <div id="bookWrap">
-    <img id="book" src="../assets/images/old-notebook.png" alt="Хроники Забвения" title="Хроники Забвения">
+    <img id="book" src="assets/images/old-notebook.png" alt="Хроники Забвения" title="Хроники Забвения">
     <div id="bookGlow"></div>
     <div id="bookSmoke"></div>
   </div>
 
-  <!-- Звуки -->
-  <audio id="bookSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-  <audio id="bg-music" src="../assets/music/Уходящая Судьба.mp3" loop></audio>
+  <!-- Звуки и музыка -->
+  <audio id="bookSound" src="assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+  <audio id="bg-music" src="/assets/music/Уходящая Судьба.mp3" loop></audio>
 
   <!-- Кнопка музыки -->
   <button id="music-toggle" title="Музыка">🔊</button>
 
+  <!-- Пепел -->
+  <canvas id="ashCanvas"></canvas>
+
   <script>
-    // === Радио ===
+    // ===== Радио =====
     const radioWrap = document.getElementById('radioWrap');
     const canvas = document.getElementById('radioScreen');
     const ctx = canvas.getContext('2d');
@@ -244,7 +218,7 @@
     }
     drawSignal();
 
-    // === Музыка ===
+    // ===== Музыка =====
     const music = document.getElementById('bg-music');
     const toggle = document.getElementById('music-toggle');
 
@@ -253,7 +227,6 @@
         music.play().catch(() => console.warn('Автозапуск заблокирован браузером.'));
       }
     }
-
     window.addEventListener('click', startMusic, { once: true });
 
     toggle.addEventListener('click', () => {
@@ -266,7 +239,7 @@
       }
     });
 
-    // === Книга ===
+    // ===== Книга =====
     const book = document.getElementById('book');
     const sound = document.getElementById('bookSound');
     const glow = document.getElementById('bookGlow');
@@ -281,9 +254,36 @@
       setTimeout(() => window.location.href = 'html/chronicles.html', 1200);
     });
 
-    // === Подзаголовок ===
-    document.getElementById('subtitle').addEventListener('click', () => {
-      alert('🔥 Придшие уже здесь...');
+    // ===== Пепел =====
+    const ashCanvas = document.getElementById('ashCanvas');
+    const ashCtx = ashCanvas.getContext('2d');
+    let w = ashCanvas.width = window.innerWidth;
+    let h = ashCanvas.height = window.innerHeight;
+    const particles = [];
+    const particleCount = 120;
+
+    function random(min,max){return Math.random()*(max-min)+min;}
+    for(let i=0;i<particleCount;i++){
+      particles.push({x:random(0,w),y:random(0,h),r:random(1,3),alpha:random(0.1,0.3),dx:random(-0.2,0.2),dy:random(0.2,0.8)});
+    }
+
+    function animateAsh(){
+      ashCtx.clearRect(0,0,w,h);
+      for(let p of particles){
+        p.x += p.dx; p.y += p.dy;
+        if(p.y>h){p.y=-p.r; p.x=random(0,w);}
+        ashCtx.beginPath();
+        ashCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ashCtx.fillStyle=`rgba(200,200,200,${p.alpha})`;
+        ashCtx.fill();
+      }
+      requestAnimationFrame(animateAsh);
+    }
+    animateAsh();
+
+    window.addEventListener('resize',()=>{
+      w=ashCanvas.width=window.innerWidth;
+      h=ashCanvas.height=window.innerHeight;
     });
   </script>
 </body>
