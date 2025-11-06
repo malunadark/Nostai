@@ -144,14 +144,11 @@
 
   <!-- Аудио -->
   <audio id="radioNoise" src="../assets/music/radio_noise.mp3" preload="auto" loop></audio>
-  <audio id="beep" src="../assets/music/beep.mp3" preload="auto"></audio>
-
+ 
   <script>
     const radio = document.getElementById('radioNoise');
-    const beep = document.getElementById('beep');
     const input = document.getElementById('userInput');
     const playBtn = document.getElementById('playMusic');
-
     const data = [
       { sender: 'ВС РФ', text: 'Подразделения вошли в южный сектор. Видимость нулевая, требуется подтверждение сигнала.' },
       { sender: 'Красный Крест', text: 'Запрашиваем координаты выживших, связь нестабильна, медпункты не отвечают.' },
@@ -173,34 +170,41 @@
       beep.play().catch(() => console.log('Звуковой эффект заблокирован.'));
     }
 
-    function startBroadcast() {
-      let i = 0;
-      function next() {
-        if (i < data.length) {
-          const { sender, text } = data[i];
-          addMessage(sender, text);
-          i++;
-          setTimeout(next, 6000 + Math.random() * 4000);
-        }
+   <script>
+  const radio = document.getElementById('radioNoise');
+  const input = document.getElementById('userInput');
+  const playBtn = document.getElementById('playMusic');
+
+  function startBroadcast() {
+    let i = 0;
+    function next() {
+      if (i < data.length) {
+        const { sender, text } = data[i];
+        addMessage(sender, text);
+        i++;
+        setTimeout(next, 6000 + Math.random() * 4000);
       }
-      next();
     }
+    next();
+  }
 
-    playBtn.addEventListener('click', () => {
-      radio.play().catch(() => console.log('Не удалось включить радио.'));
-      playBtn.style.display = 'none';
-    });
+  playBtn.addEventListener('click', () => {
+    radio.play().catch(() => console.log('Не удалось включить радио.'));
+    playBtn.style.display = 'none';
+  });
 
-    window.addEventListener('load', () => {
-      startBroadcast();
-    });
+  window.addEventListener('load', () => {
+    startBroadcast();
+  });
 
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && input.value.trim() !== '') {
-        addMessage('Вы', input.value.trim());
-        input.value = '';
-      }
-    });
-  </script>
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && input.value.trim() !== '') {
+      addMessage('Вы', input.value.trim());
+      input.value = '';
+    }
+  });
+</script>
 </body>
 </html>
+
+
