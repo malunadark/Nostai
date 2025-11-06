@@ -1,117 +1,169 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Хроники Забвения — Придшие: Волонтёры</title>
-  <style>
-    @font-face {
-      font-family: 'destroycyr';
-      src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хроники Забвения</title>
+<style>
+  @font-face {
+    font-family: 'destroycyr';
+    src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('../assets/images/ash-pass-bg.png') center/cover no-repeat;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'destroycyr', sans-serif;
+  }
 
-    .book {
-      position: relative;
-      width: 461px;
-      height: 321px;
-      background: url('../assets/images/book.png') center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 20px 25px;
-      box-shadow: 0 0 25px rgba(255, 150, 60, 0.3);
-      border-radius: 6px;
-      opacity: 0.95;
-    }
+  /* Фон страницы */
+  #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../assets/images/bg-volunteers.png') center center / cover no-repeat;
+    filter: brightness(0.7);
+    transition: background 1s ease-in-out;
+    z-index: -2;
+  }
 
-    .flame-text {
-      font-family: 'destroycyr', serif;
-      background: linear-gradient(90deg, #a89c8a 0%, #d2c5aa 20%, #ffb86c 45%, #ff6600 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow:
-        0 0 6px rgba(255, 140, 50, 0.6),
-        0 0 15px rgba(255, 80, 0, 0.4),
-        0 2px 2px rgba(40, 20, 0, 0.9);
-    }
+  /* Книга по центру */
+  #book {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: auto;
+    z-index: 1;
+  }
 
-    .title {
-      font-size: 14px;
-      text-align: center;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-      opacity: 0.9;
-    }
+  /* Заголовок над книгой */
+  #title {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #ff6600;
+    text-shadow:
+      0 0 3px #fff,
+      0 0 5px #ff3300,
+      0 0 8px #ff0000;
+    font-weight: bold;
+    z-index: 2;
+  }
 
-    .subtitle {
-      font-size: 12px;
-      text-align: center;
-      margin-bottom: 8px;
-      opacity: 0.9;
-    }
+  /* Подзаголовок на книге */
+  #subtitle {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 25%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #fff;
+    z-index: 2;
+    text-align: left;
+  }
 
-    .text {
-      font-size: 8px;
-      line-height: 1.3;
-      text-align: justify;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      color: transparent;
-      -webkit-background-clip: text;
-      background: linear-gradient(90deg, #b7aa97 0%, #e3d6bb 20%, #ffb86c 60%, #ff6600 100%);
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 3px rgba(255, 150, 80, 0.3);
-    }
+  /* Текст на странице книги */
+  #text {
+    position: absolute;
+    top: 55%;
+    left: 25%;
+    width: 50%;
+    font-size: 8px;
+    color: #ff6600;
+    z-index: 2;
+    line-height: 1.4;
+    text-align: left;
+    text-shadow:
+      0 0 2px #fff,
+      0 0 3px #ff3300;
+    animation: heatWave 2s infinite alternate;
+  }
 
-    /* лёгкий эффект свечения страницы */
-    .book::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 6px;
-      box-shadow: inset 0 0 35px rgba(255, 170, 80, 0.15);
-      pointer-events: none;
-    }
-  </style>
+  /* Анимация тепловых искажений */
+  @keyframes heatWave {
+    0% { transform: translateY(0) skewX(0deg); }
+    50% { transform: translateY(-1px) skewX(0.3deg); }
+    100% { transform: translateY(1px) skewX(-0.3deg); }
+  }
+
+  /* Кнопка перелистывания */
+  #nextPage {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: rgba(255, 102, 0, 0.8);
+    border: none;
+    color: #fff;
+    font-family: 'destroycyr';
+    cursor: pointer;
+    z-index: 3;
+    text-shadow: 0 0 2px #000;
+    border-radius: 5px;
+  }
+</style>
 </head>
 <body>
 
-  <div class="book">
-    <div class="title flame-text">История Фракции Придшие</div>
-    <div class="subtitle flame-text">Волонтёры</div>
+<div id="background"></div>
 
-    <div class="text">
-      Они явились туда не первыми, но их миссия была самой важной — спасти от пожара людей.  
-      В Алтайских лесах начались сильнейшие пожары: ВС РФ, МЧС, Красный Крест и местные жители справлялись, но с трудом.  
-      Нужна была помощь ещё извне. Местные новости пустили в эфир срочную просьбу — нужны люди. И люди пришли.  
+<img id="book" src="../assets/images/book.png" alt="Книга">
 
-      Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других,  
-      а кто-то просто не мог остаться в стороне, видя страдание.  
-      Они действовали быстро и слаженно, объединяя усилия с местными службами,  
-      но часто рискуя собой. Их главная сила была не в оружии или технике,  
-      а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.  
+<div id="title">История Фракции Придшие</div>
+<div id="subtitle">Волонтёры</div>
+<div id="text">
+Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли. 
+Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях. 
+Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры. 
+Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.
+</div>
 
-      Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой:  
-      пожарные, медики, психологи, инженеры.  
+<button id="nextPage">Следующая страница</button>
 
-      Со временем они стали символом силы человеческого духа, напоминанием о том,  
-      что приходящие могут изменить ход событий, даже если они не были первыми  
-      на месте катастрофы. Каждый их поступок оставлял след  
-      в сердцах спасённых — и в истории Алтайских лесов.
-    </div>
-  </div>
+<script>
+  const backgrounds = [
+    '../assets/images/bg-volunteers.png',
+    '../assets/images/bg-military-base.png'
+  ];
 
+  const pages = [
+    {
+      subtitle: 'Волонтёры',
+      text: `Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли. 
+Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях. 
+Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры. 
+Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.`
+    },
+    {
+      subtitle: 'ВС РФ',
+      text: `Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.
+Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.
+Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…`
+    }
+  ];
+
+  let currentPage = 0;
+
+  const bg = document.getElementById('background');
+  const subtitle = document.getElementById('subtitle');
+  const text = document.getElementById('text');
+  const nextButton = document.getElementById('nextPage');
+
+  nextButton.addEventListener('click', () => {
+    currentPage = (currentPage + 1) % pages.length;
+    subtitle.textContent = pages[currentPage].subtitle;
+    text.textContent = pages[currentPage].text;
+    bg.style.backgroundImage = `url('${backgrounds[currentPage]}')`;
+  });
+</script>
 </body>
 </html>
