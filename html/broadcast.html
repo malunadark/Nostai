@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOSTAI — Вещательная</title>
+  <title>Узел Связи</title>
   <link rel="icon" type="image/png" href="../assets/images/favicon.png">
   <style>
-    /* Шрифты */
     @font-face {
       font-family: 'Destroy';
       src: url('../assets/fonts/destroycyr.ttf') format('truetype');
@@ -22,41 +21,37 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      align-items: flex-start;
       font-family: 'Destroy', serif;
     }
 
-    /* Логотип */
     #logo {
       font-size: 84px;
       text-transform: uppercase;
-      margin-top: 40px;
+      margin: 40px 0 0 20px;
       color: #d4d4d4;
       text-shadow:
         0 0 20px rgba(255, 140, 0, 0.7),
         0 0 50px rgba(255, 60, 0, 0.5),
         0 0 90px rgba(255, 30, 0, 0.4);
-      background: url('../assets/images/granite‑noise.png') repeat;
+      background: url('../assets/images/granite-noise.png') repeat;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: fireGlow 3s ease-in-out infinite alternate;
-      padding-left: 20px;
     }
 
     @keyframes fireGlow {
-      from {
-        text-shadow:
-          0 0 15px rgba(255, 80, 0, 0.7),
-          0 0 30px rgba(255, 0, 0, 0.4);
-      }
-      to {
-        text-shadow:
-          0 0 30px rgba(255, 160, 0, 0.9),
-          0 0 80px rgba(255, 80, 0, 0.6);
-      }
+      from { text-shadow: 0 0 15px rgba(255, 80, 0, 0.7), 0 0 30px rgba(255, 0, 0, 0.4); }
+      to { text-shadow: 0 0 30px rgba(255, 160, 0, 0.9), 0 0 80px rgba(255, 80, 0, 0.6); }
     }
 
-    /* Сообщения */
+    #messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-left: 20px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 100, 0, 0.3) transparent;
+    }
+
     .message {
       font-size: 18px;
       margin: 6px 0;
@@ -69,7 +64,6 @@
       background: rgba(40, 40, 40, 0.35);
       border-radius: 8px;
       animation: messageAppear 0.8s ease;
-      margin-left: 20px;
       max-width: 80%;
     }
 
@@ -84,7 +78,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Поле ввода */
     #inputContainer {
       width: 100%;
       display: flex;
@@ -112,7 +105,6 @@
       box-shadow: 0 0 20px rgba(255, 80, 0, 0.4);
     }
 
-    /* Кнопка включения звука */
     #playMusic {
       position: absolute;
       top: 10px;
@@ -134,7 +126,7 @@
 <body>
   <div id="logo">NOSTAI</div>
 
-  <!-- Сообщения будут добавляться здесь -->
+  <div id="messages"></div>
 
   <div id="inputContainer">
     <input id="userInput" type="text" placeholder="Говорите, эфир слушает...">
@@ -142,13 +134,14 @@
 
   <button id="playMusic">Включить звук</button>
 
-  <!-- Аудио -->
   <audio id="radioNoise" src="../assets/music/radio_noise.mp3" preload="auto" loop></audio>
- 
+
   <script>
     const radio = document.getElementById('radioNoise');
     const input = document.getElementById('userInput');
     const playBtn = document.getElementById('playMusic');
+    const messages = document.getElementById('messages');
+
     const data = [
       { sender: 'ВС РФ', text: 'Подразделения вошли в южный сектор. Видимость нулевая, требуется подтверждение сигнала.' },
       { sender: 'Красный Крест', text: 'Запрашиваем координаты выживших, связь нестабильна, медпункты не отвечают.' },
@@ -164,47 +157,36 @@
       const msg = document.createElement('div');
       msg.classList.add('message');
       msg.innerHTML = `<span class="sender">${sender}:</span>${text}`;
-      document.body.appendChild(msg);
-      window.scrollTo(0, document.body.scrollHeight);
-      beep.currentTime = 0;
-      beep.play().catch(() => console.log('Звуковой эффект заблокирован.'));
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
     }
 
-   <script>
-  const radio = document.getElementById('radioNoise');
-  const input = document.getElementById('userInput');
-  const playBtn = document.getElementById('playMusic');
-
-  function startBroadcast() {
-    let i = 0;
-    function next() {
-      if (i < data.length) {
-        const { sender, text } = data[i];
-        addMessage(sender, text);
-        i++;
-        setTimeout(next, 6000 + Math.random() * 4000);
+    function startBroadcast() {
+      let i = 0;
+      function next() {
+        if (i < data.length) {
+          const { sender, text } = data[i];
+          addMessage(sender, text);
+          i++;
+          setTimeout(next, 6000 + Math.random() * 4000);
+        }
       }
+      next();
     }
-    next();
-  }
 
-  playBtn.addEventListener('click', () => {
-    radio.play().catch(() => console.log('Не удалось включить радио.'));
-    playBtn.style.display = 'none';
-  });
+    playBtn.addEventListener('click', () => {
+      radio.play().catch(() => console.log('Не удалось включить радио.'));
+      playBtn.style.display = 'none';
+    });
 
-  window.addEventListener('load', () => {
-    startBroadcast();
-  });
+    window.addEventListener('load', startBroadcast);
 
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && input.value.trim() !== '') {
-      addMessage('Вы', input.value.trim());
-      input.value = '';
-    }
-  });
-</script>
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        addMessage('Вы', input.value.trim());
+        input.value = '';
+      }
+    });
+  </script>
 </body>
 </html>
-
-
