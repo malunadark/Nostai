@@ -9,27 +9,55 @@
 @font-face {
   font-family: 'destroycyr';
   src: url('assets/fonts/destroycyr.ttf') format('truetype');
-  font-display: swap;
+}
+@font-face {
+  font-family: 'futhark';
+  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
 }
 
 /* ---- Основные стили ---- */
 body {
   margin: 0;
   height: 100vh;
-  background: url('assets/images/granite-noise.png') center/cover no-repeat, black;
+  width: 100vw;
+  background: url('assets/images/Nostai.png') center/cover no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  color: #f5e4c3;
   font-family: 'destroycyr', serif;
+  color: #f5e4c3;
+  position: relative;
+}
+
+/* ---- Дым ---- */
+#smoke {
+  position: absolute;
+  inset: 0;
+  background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+/* ---- Книга ---- */
+#book {
+  position: absolute;
+  width: 750px;
+  max-width: 90%;
+  opacity: 0.6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 /* ---- Контейнер логотипа ---- */
 .logo-container {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  z-index: 3;
 }
 
 /* ---- Логотип ---- */
@@ -44,14 +72,13 @@ body {
   animation: fireGlow 4s ease-in-out infinite;
 }
 
-/* ---- Контейнер подзаголовка ---- */
+/* ---- Подзаголовок ---- */
 .subtitle-container {
   text-align: center;
+  z-index: 3;
 }
-
-/* ---- Подзаголовок ---- */
 #subtitle {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #ffe9d0;
   letter-spacing: 2px;
   text-shadow: 0 0 15px #ff6b00;
@@ -87,7 +114,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   position: absolute;
-  bottom: 80px;
+  bottom: 60px;
+  z-index: 5;
 }
 .radio-button:hover {
   transform: scale(1.05);
@@ -114,6 +142,7 @@ body {
   top: 10%;
   opacity: 0;
   transition: opacity 1s ease;
+  z-index: 4;
 }
 .radio-screen.active {
   opacity: 1;
@@ -122,26 +151,30 @@ body {
 </head>
 <body>
 
-  <!-- Контейнер логотипа -->
-  <div class="logo-container">
-    <div id="logo">NOSTAI</div>
-  </div>
+<!-- Фон дымки -->
+<div id="smoke"></div>
 
-  <!-- Контейнер подзаголовка -->
-  <div class="subtitle-container">
-    <div id="subtitle">Придшие не уходят они те кто здесь и там в поисках себя </div>
-  </div>
+<!-- Книга -->
+<img id="book" src="assets/images/old-notebook.png" alt="Книга">
 
-  <!-- Радиоэкран -->
-  <div class="radio-screen" id="radioScreen">📻 Вещание началось...</div>
+<!-- Логотип и подзаголовок -->
+<div class="logo-container">
+  <div id="logo">NOSTAI</div>
+</div>
+<div class="subtitle-container">
+  <div id="subtitle">Придшие не уходят — они те, кто здесь и там, в поисках себя</div>
+</div>
 
-  <!-- Радио кнопка -->
-  <div class="radio-button" id="radioButton"></div>
+<!-- Радиоэкран -->
+<div class="radio-screen" id="radioScreen">📻 Вещание началось...</div>
+
+<!-- Радио кнопка -->
+<div class="radio-button" id="radioButton"></div>
 
 <script>
 const radioButton = document.getElementById('radioButton');
 const radioScreen = document.getElementById('radioScreen');
-const audio = new Audio('assets/music/uhodyashaya-sudba.mp3');
+const audio = new Audio('assets/music/Уходящая Судьба.mp3');
 audio.loop = true;
 audio.preload = 'auto';
 
