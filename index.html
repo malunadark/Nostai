@@ -54,6 +54,8 @@ body {
   margin-top:1rem;
   animation: fadeIn 3s ease-in;
 }
+
+/* ---- Анимации ---- */
 @keyframes fireGlow {
   0%,100% { text-shadow:0 0 30px #ff6b00,0 0 60px #ff3c00,0 0 100px #ff0000; }
   50% { text-shadow:0 0 60px #ffaa00,0 0 100px #ff5e00,0 0 120px #ff3c00; }
@@ -63,15 +65,21 @@ body {
   to { opacity:1; transform:translateY(0); }
 }
 
-/* ---- Книга ---- */
-.book-container {
+/* ---- Книга с дымом ---- */
+.book-wrapper {
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
+  z-index:8;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.book-container {
+  position:relative;
   width:400px;
   cursor:pointer;
-  z-index:8;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -79,9 +87,8 @@ body {
 .book-container img {
   width:100%;
   height:auto;
-  opacity:0.8;
+  opacity:0.85;
   display:block;
-  pointer-events:none;
   filter: drop-shadow(0 0 20px rgba(255,120,0,0.3));
 }
 .book-title {
@@ -93,14 +100,13 @@ body {
   text-shadow:0 0 10px #000,0 0 30px #ff5e00;
   letter-spacing:3px;
   pointer-events:none;
+  text-align:center;
 }
-
-/* ---- Дым под книгой ---- */
 .book-smoke {
   position:absolute;
   width:250px;
   height:150px;
-  bottom:10%;
+  bottom:0;
   left:50%;
   transform:translateX(-50%);
   background: url('assets/images/smoke-fog.gif') center/contain no-repeat;
@@ -156,17 +162,19 @@ body {
 <!-- Логотип -->
 <div class="logo-container">
   <div id="logo">NOSTAI</div>
-  <div id="subtitle">Придшие не уходят - Они те кто, кто здесь и там, в поисках себя</div>
+  <div id="subtitle">Придшие не уходят — те, кто здесь и там</div>
 </div>
 
-<!-- Книга -->
-<div class="book-container" onclick="location.href='html/chronicles.html'">
-  <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
-  <div class="book-title">Хроники&nbsp;Забвения</div>
+<!-- Книга с дымом -->
+<div class="book-wrapper">
+  <div class="book-smoke"></div>
+  <div class="book-container" onclick="location.href='html/chronicles.html'">
+    <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
+    <div class="book-title">Хроники&nbsp;Забвения</div>
+  </div>
 </div>
-<div class="book-smoke"></div>
 
-<!-- Радио (SVG) -->
+<!-- Радиоприёмник -->
 <div id="radioButton" title="Узел связи">
 <svg viewBox="0 0 64 32">
   <rect x="0" y="8" width="64" height="16" fill="#222" stroke="#555" stroke-width="2"/>
@@ -189,13 +197,12 @@ body {
 <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop preload="auto"></audio>
 
 <script>
-// ----------------- Радио клик -----------------
-const radioButton = document.getElementById('radioButton');
-radioButton.addEventListener('click', ()=>{ window.location.href='html/broadcast.html'; });
+// ----------------- Переход по клику на радио -----------------
+document.getElementById('radioButton').addEventListener('click', ()=>{
+  window.location.href='html/broadcast.html';
+});
 
-// ----------------- Руны можно менять динамически -----------------
-
-// ----------------- Музыка -----------------
+// ----------------- Автовоспроизведение музыки -----------------
 const audio = document.getElementById('bg-music');
 audio.volume = 0.6;
 window.addEventListener('pointerdown',()=>{ audio.play().catch(()=>{}); }, {once:true});
@@ -240,7 +247,6 @@ function drawAsh(){
 }
 drawAsh();
 window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
-
 </script>
 </body>
 </html>
