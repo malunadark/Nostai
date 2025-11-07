@@ -1,252 +1,179 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NOSTAI</title>
 <style>
-@font-face {
-  font-family: 'destroycyr';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'futhark';
-  src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
-  font-display: swap;
+/* ---- Общие стили ---- */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  background: url('assets/images/Nostai.png') no-repeat center center/cover;
 }
 
-body {
-  margin:0; padding:0;
-  height:100vh;
-  width:100vw;
-  overflow:hidden;
-  background: url('assets/images/Nostai.png') center/cover no-repeat;
-  font-family:'destroycyr', serif;
-  color:#f5e4c3;
-  position:relative;
-}
-
-/* ---- Логотип и подзаголовок ---- */
-.logo-container {
-  position:absolute;
-  top:6%;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  z-index:10;
-}
+/* ---- Логотип ---- */
 #logo {
-  font-size:7rem;
-  letter-spacing:6px;
-  background: linear-gradient(90deg, #ff9d00, #ff3c00, #ff0000);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight:bold;
-  text-shadow:0 0 40px #ff6b00,0 0 80px #ff3c00,0 0 100px #ff0000;
-  animation: fireGlow 4s ease-in-out infinite;
-}
-#subtitle {
-  font-size:1.6rem;
-  color:#ffe9d0;
-  letter-spacing:2px;
-  text-shadow:0 0 15px #ff6b00;
-  margin-top:1rem;
-  animation: fadeIn 3s ease-in;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'destroycyr', serif;
+  font-size: 90px;
+  color: #3a2a1f;
+  text-shadow:
+    0 0 15px #ff4500,
+    0 0 30px rgba(255, 100, 0, 0.3);
+  letter-spacing: 5px;
+  animation: floatFire 6s ease-in-out infinite;
 }
 
-/* ---- Анимации ---- */
-@keyframes fireGlow {
-  0%,100% { text-shadow:0 0 30px #ff6b00,0 0 60px #ff3c00,0 0 100px #ff0000; }
-  50% { text-shadow:0 0 60px #ffaa00,0 0 100px #ff5e00,0 0 120px #ff3c00; }
-}
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(15px); }
-  to { opacity:1; transform:translateY(0); }
+@keyframes floatFire {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    text-shadow:
+      0 0 15px #ff4500,
+      0 0 30px rgba(255, 100, 0, 0.3);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    text-shadow:
+      0 0 25px #ff6510,
+      0 0 45px rgba(255, 120, 40, 0.4);
+  }
 }
 
-/* ---- Книга с дымом ---- */
-.book-wrapper {
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  z-index:8;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+/* ---- Книга ---- */
 .book-container {
-  position:relative;
-  width:400px;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.book-container:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
 .book-container img {
-  width:100%;
-  height:auto;
-  opacity:0.85;
-  display:block;
-  filter: drop-shadow(0 0 20px rgba(255,120,0,0.3));
+  width: 100%;
+  height: auto;
+  display: block;
 }
+
 .book-title {
-  position:absolute;
-  bottom:15%;
-  font-family:'destroycyr', serif;
-  font-size:2rem;
-  color:#dcdcdc;
-  text-shadow:0 0 10px #000,0 0 30px #ff5e00;
-  letter-spacing:3px;
-  pointer-events:none;
-  text-align:center;
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Deutsch Gothic', serif;
+  font-size: 28px;
+  color: #e4d2a1;
+  text-shadow: 0 0 10px #000, 0 0 20px #ffb347;
 }
+
+/* ---- Дым ---- */
 .book-smoke {
-  position:absolute;
-  width:250px;
-  height:150px;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  background: url('assets/images/smoke-fog.gif') center/contain no-repeat;
-  opacity:0.25;
-  z-index:7;
-  pointer-events:none;
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(80,80,80,0.4) 0%, rgba(30,30,30,0) 80%);
+  filter: blur(25px);
+  opacity: 0.5;
+  animation: smokeMove 10s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
-/* ---- Радиоприёмник (SVG) ---- */
-#radioButton {
-  position:absolute;
-  bottom:50px;
-  left:20px;
-  width:100px;
-  height:60px;
-  cursor:pointer;
-  z-index:9;
-}
-#radioButton svg { width:100%; height:100%; }
-
-/* ---- Руны ---- */
-.rune {
-  position:absolute;
-  font-family:'futhark', serif;
-  font-size:clamp(20px,3vw,48px);
-  color:rgba(255,190,140,0.92);
-  text-shadow:0 0 8px rgba(255,140,0,0.45),0 0 18px rgba(255,100,0,0.25);
-  mix-blend-mode:screen;
-  z-index:6;
-  opacity:0.95;
-  pointer-events:none;
-  animation: runeFlicker 3s ease-in-out infinite;
-}
-@keyframes runeFlicker {
-  0%{ transform:scale(1) rotate(0deg); opacity:0.92; }
-  45%{ transform:scale(1.06) rotate(-1deg); opacity:1; }
-  100%{ transform:scale(1) rotate(0deg); opacity:0.92; }
+@keyframes smokeMove {
+  0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0.5; }
+  100% { transform: translateX(-50%) translateY(-50px) scale(1.2); opacity: 0.3; }
 }
 
-/* ---- Пепел через canvas ---- */
+/* ---- Пепел ---- */
 #ashCanvas {
-  position:fixed;
-  inset:0;
-  z-index:5;
-  pointer-events:none;
-  width:100%;
-  height:100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
 }
 </style>
 </head>
 <body>
 
 <!-- Логотип -->
-<div class="logo-container">
-  <div id="logo">NOSTAI</div>
-  <div id="subtitle">Придшие не уходят — те, кто здесь и там</div>
+<div id="logo">NOSTAI</div>
+
+<!-- Книга -->
+<div class="book-container" onclick="location.href='html/chronicles.html'">
+  <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
+  <div class="book-title">Хроники&nbsp;Забвения</div>
 </div>
 
-<!-- Книга с дымом -->
-<div class="book-wrapper">
-  <div class="book-smoke"></div>
-  <div class="book-container" onclick="location.href='html/chronicles.html'">
-    <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
-    <div class="book-title">Хроники&nbsp;Забвения</div>
-  </div>
-</div>
+<!-- Дым -->
+<div class="book-smoke"></div>
 
-<!-- Радиоприёмник -->
-<div id="radioButton" title="Узел связи">
-<svg viewBox="0 0 64 32">
-  <rect x="0" y="8" width="64" height="16" fill="#222" stroke="#555" stroke-width="2"/>
-  <circle cx="8" cy="16" r="4" fill="#ff8c00"/>
-  <rect x="16" y="12" width="32" height="8" fill="#333"/>
-</svg>
-</div>
-
-<!-- Руны -->
-<div class="rune" style="left:6%; top:20%;">ᚠ</div>
-<div class="rune" style="left:12%; top:32%; font-size:42px;">ᚢ</div>
-<div class="rune" style="left:18%; top:18%;">ᚦ</div>
-<div class="rune" style="left:82%; top:22%;">ᚱ</div>
-<div class="rune" style="left:76%; top:34%;">ᚲ</div>
-
-<!-- Canvas для пепла -->
+<!-- Пепел (Canvas) -->
 <canvas id="ashCanvas"></canvas>
 
-<!-- Музыка -->
-<audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop preload="auto"></audio>
-
 <script>
-// ----------------- Переход по клику на радио -----------------
-document.getElementById('radioButton').addEventListener('click', ()=>{
-  window.location.href='html/broadcast.html';
-});
-
-// ----------------- Автовоспроизведение музыки -----------------
-const audio = document.getElementById('bg-music');
-audio.volume = 0.6;
-window.addEventListener('pointerdown',()=>{ audio.play().catch(()=>{}); }, {once:true});
-
-// ----------------- Пепел -----------------
+// ---- Пепел ----
 const canvas = document.getElementById('ashCanvas');
 const ctx = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
-const count = Math.round((W*H)/12000);
-const parts = [];
-function rand(min,max){ return Math.random()*(max-min)+min; }
-for(let i=0;i<count;i++){
-  parts.push({
-    x:rand(0,W),
-    y:rand(0,H),
-    r:rand(0.6,3.2),
-    a:rand(0.08,0.35),
-    dx:rand(-0.25,0.25),
-    dy:rand(0.15,0.9),
-    rot:rand(0,Math.PI*2),
-    drift:rand(-0.02,0.02)
+let width, height;
+let particles = [];
+
+function resizeCanvas() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createParticle() {
+  return {
+    x: Math.random() * width,
+    y: height + 5,
+    size: Math.random() * 2 + 1,
+    speedY: Math.random() * -1.5 - 0.5,
+    speedX: (Math.random() - 0.5) * 0.3,
+    opacity: Math.random() * 0.8 + 0.2
+  };
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, width, height);
+  particles.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(200,200,200,${p.opacity})`;
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+    p.x += p.speedX;
+    p.y += p.speedY;
+    p.opacity -= 0.002;
+    if (p.y < -10 || p.opacity <= 0) particles[i] = createParticle();
   });
 }
-function drawAsh(){
-  ctx.clearRect(0,0,W,H);
-  for(let p of parts){
-    p.x += p.dx; p.y += p.dy; p.rot += p.drift;
-    if(p.y>H+10){ p.y=-10; p.x=rand(0,W); }
-    if(p.x<-10) p.x=W+10; if(p.x>W+10) p.x=-10;
-    ctx.save();
-    ctx.translate(p.x,p.y);
-    ctx.rotate(p.rot);
-    ctx.globalAlpha=p.a;
-    ctx.fillStyle='#cfcfcf';
-    ctx.beginPath();
-    ctx.ellipse(0,0,p.r,p.r*0.6,0,0,Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  }
-  requestAnimationFrame(drawAsh);
+
+for (let i = 0; i < 150; i++) {
+  particles.push(createParticle());
 }
-drawAsh();
-window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+
+function animate() {
+  drawParticles();
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 </body>
 </html>
