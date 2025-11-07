@@ -4,241 +4,214 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>NOSTAI</title>
+
+<!-- ===== СТИЛИ ===== -->
 <style>
 /* ---- Шрифты ---- */
 @font-face {
   font-family: 'destroycyr';
   src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  font-display: swap;
 }
 @font-face {
-  font-family: 'futhark';
+  font-family: 'FutharkAoe';
   src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+  font-display: swap;
 }
 
-/* ---- Основные стили ---- */
+/* ---- Общий фон ---- */
 body {
   margin: 0;
   height: 100vh;
-  width: 100vw;
-  background: url('assets/images/Nostai.png') center/cover no-repeat;
+  background: url('assets/images/Nostai.png') center/cover no-repeat, #000;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   color: #f5e4c3;
   font-family: 'destroycyr', serif;
-  position: relative;
-}
-
-/* ---- Слои ---- */
-#smoke, #ashes, #runes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
 }
 
 /* ---- Дым ---- */
 #smoke {
-  background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('assets/images/smoke-fog.gif') center/cover repeat;
   opacity: 0.35;
-  mix-blend-mode: screen;
   z-index: 1;
+  pointer-events: none;
 }
 
-/* ---- Пепел ---- */
+/* ---- Пепел (canvas) ---- */
 #ashes {
-  background: url('assets/images/ashes.gif') center/cover repeat;
-  opacity: 0.25;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
-  animation: ashMove 25s linear infinite;
-}
-
-/* ---- Анимация пепла ---- */
-@keyframes ashMove {
-  from { background-position: 0 0; }
-  to { background-position: -300px 300px; }
-}
-
-/* ---- РУНЫ ---- */
-#runes {
-  font-family: 'futhark';
-  font-size: 3rem;
-  color: #ffb85c;
-  text-shadow: 0 0 20px #ff6600, 0 0 50px #ff3300;
-  opacity: 0.8;
-  z-index: 3;
-}
-.rune {
-  position: absolute;
-  animation: floatRune 10s ease-in-out infinite alternate;
-}
-@keyframes floatRune {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-  100% { transform: translateY(-40px) rotate(20deg); opacity: 1; }
-}
-
-/* ---- Книга ---- */
-#book {
-  position: absolute;
-  width: 750px;
-  max-width: 90%;
-  opacity: 0.7;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
+  pointer-events: none;
 }
 
 /* ---- Логотип ---- */
 #logo {
-  position: absolute;
-  top: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 6rem;
-  letter-spacing: 6px;
-  background: linear-gradient(90deg, #ff9d00, #ff3c00, #ff0000);
+  font-size: 5rem;
+  letter-spacing: 8px;
+  font-family: 'destroycyr';
+  text-align: center;
+  margin-top: 2rem;
+  background: linear-gradient(90deg, #ffb400, #ff5500, #ff0000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  text-shadow: 0 0 40px #ff6b00, 0 0 80px #ff3c00, 0 0 100px #ff0000;
-  animation: fireGlow 4s ease-in-out infinite;
-  z-index: 6;
+  text-shadow: 0 0 30px #ff4500, 0 0 60px #ff2200;
+  animation: firePulse 5s ease-in-out infinite;
+  z-index: 3;
 }
 
 /* ---- Подзаголовок ---- */
 #subtitle {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.5rem;
-  color: #ffe9d0;
   text-align: center;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px #ff6b00;
-  animation: fadeIn 3s ease-in;
-  z-index: 6;
+  font-size: 1.3rem;
+  color: #ffe8d0;
+  margin-top: 0.5rem;
+  z-index: 3;
+  text-shadow: 0 0 20px #ff8c00;
 }
 
-/* ---- Кнопки переходов ---- */
-.nav-buttons {
+/* ---- Книга ---- */
+.book-container {
+  position: relative;
+  width: 400px;
+  height: auto;
+  z-index: 3;
+  margin-top: 5rem;
+}
+.book-container img {
+  width: 100%;
+  height: auto;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 20px rgba(255, 120, 0, 0.3));
+}
+.book-title {
   position: absolute;
-  bottom: 150px;
-  display: flex;
-  gap: 40px;
-  z-index: 6;
+  top: 48%;
   left: 50%;
-  transform: translateX(-50%);
-}
-.nav-button {
+  transform: translate(-50%, -50%);
   font-family: 'destroycyr';
-  font-size: 1.6rem;
-  color: #ffe9d0;
-  padding: 12px 25px;
-  border: 2px solid #ff6600;
-  border-radius: 10px;
-  background: rgba(30, 10, 0, 0.5);
-  text-shadow: 0 0 15px #ff6b00;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-.nav-button:hover {
-  background: rgba(255, 100, 0, 0.2);
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #ff6b00;
+  font-size: 2rem;
+  color: #dcdcdc;
+  text-shadow: 0 0 10px #000, 0 0 30px #ff5e00;
+  letter-spacing: 3px;
+  background: linear-gradient(to bottom, #aaa, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* ---- Радио кнопка ---- */
-.radio-button {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ff9800, #b33900 90%);
-  box-shadow: inset -5px -5px 20px rgba(255, 140, 0, 0.5),
-              inset 5px 5px 25px rgba(0, 0, 0, 0.7),
-              0 0 20px rgba(255, 100, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+/* ---- Радиоприёмник ---- */
+#radio {
   position: absolute;
   bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all 0.3s ease;
-  z-index: 7;
+  width: 120px;
+  height: 120px;
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
-.radio-button:hover {
-  transform: translateX(-50%) scale(1.05);
-  box-shadow: inset -3px -3px 15px rgba(255, 150, 0, 0.5),
-              0 0 30px rgba(255, 120, 0, 0.8);
-}
-.radio-button:active {
-  transform: translateX(-50%) scale(0.98);
+#radio:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 15px #ff8c00);
 }
 
-/* ---- Анимации ---- */
-@keyframes fireGlow {
-  0%, 100% {
-    text-shadow: 0 0 30px #ff6b00, 0 0 60px #ff3c00, 0 0 100px #ff0000;
-  }
-  50% {
-    text-shadow: 0 0 60px #ffaa00, 0 0 100px #ff5e00, 0 0 120px #ff3c00;
-  }
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ---- Анимация логотипа ---- */
+@keyframes firePulse {
+  0%, 100% { text-shadow: 0 0 40px #ff6b00, 0 0 80px #ff3c00; }
+  50% { text-shadow: 0 0 80px #ffaa00, 0 0 100px #ff5500; }
 }
 </style>
 </head>
+
 <body>
+  <!-- Фоновые эффекты -->
+  <div id="smoke"></div>
+  <canvas id="ashes"></canvas>
 
-<!-- Эффекты -->
-<div id="smoke"></div>
-<div id="ashes"></div>
-<div id="runes">
-  <div class="rune" style="top:20%;left:15%;">ᚱ</div>
-  <div class="rune" style="top:40%;right:10%;animation-delay:2s;">ᚨ</div>
-  <div class="rune" style="bottom:30%;left:25%;animation-delay:4s;">ᚾ</div>
-  <div class="rune" style="bottom:15%;right:20%;animation-delay:1s;">ᚢ</div>
-  <div class="rune" style="top:10%;right:40%;animation-delay:3s;">ᛉ</div>
-</div>
+  <!-- Логотип -->
+  <div id="logo">NOSTAI</div>
 
-<!-- Книга -->
-<img id="book" src="assets/images/old-notebook.png" alt="Книга">
+  <!-- Подзаголовок -->
+  <div id="subtitle">Придшие не уходят — те, кто здесь и там...</div>
 
-<!-- Логотип и подзаголовок -->
-<div id="logo">NOSTAI</div>
-<div id="subtitle">Придшие не уходят — они те, кто здесь и там, в поисках себя</div>
+  <!-- Книга с переходом -->
+  <div class="book-container" onclick="location.href='html/chronicles.html'">
+    <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
+    <div class="book-title">Хроники&nbsp;Забвения</div>
+  </div>
 
-<!-- Кнопки перехода -->
-<div class="nav-buttons">
-  <a class="nav-button" href="html/broadcast.html">Узел Связи</a>
-  <a class="nav-button" href="html/chronicles.html">Хроники Забвения</a>
-</div>
+  <!-- Радиоприёмник -->
+  <svg id="radio" viewBox="0 0 200 200" onclick="location.href='html/broadcast.html'">
+    <defs>
+      <radialGradient id="radioGrad" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#ffb84d"/>
+        <stop offset="100%" stop-color="#8b3d00"/>
+      </radialGradient>
+    </defs>
+    <circle cx="100" cy="100" r="95" fill="url(#radioGrad)" stroke="#442200" stroke-width="3"/>
+    <rect x="40" y="60" width="120" height="60" rx="8" ry="8" fill="#222" stroke="#884400" stroke-width="2"/>
+    <circle cx="80" cy="90" r="8" fill="#ffcc66"/>
+    <circle cx="100" cy="90" r="8" fill="#ffcc66"/>
+    <circle cx="120" cy="90" r="8" fill="#ffcc66"/>
+    <rect x="70" y="130" width="60" height="20" rx="4" fill="#333"/>
+  </svg>
 
-<!-- Радио кнопка -->
-<div class="radio-button" id="radioButton">📻</div>
-
+<!-- ===== JS для пепла ===== -->
 <script>
-const radioButton = document.getElementById('radioButton');
-const audio = new Audio('assets/music/Уходящая Судьба.mp3');
-audio.loop = true;
-audio.preload = 'auto';
+const canvas = document.getElementById("ashes");
+const ctx = canvas.getContext("2d");
 
-let playing = false;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
-radioButton.addEventListener('click', () => {
-  if (!playing) {
-    audio.play();
-    radioButton.style.boxShadow = "0 0 30px #ff9900, 0 0 60px #ff3300";
-    playing = true;
-  } else {
-    audio.pause();
-    radioButton.style.boxShadow = "";
-    playing = false;
+const particles = [];
+const maxParticles = 120;
+
+for (let i = 0; i < maxParticles; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2 + 0.5,
+    speedY: Math.random() * 0.6 + 0.2,
+    drift: (Math.random() - 0.5) * 0.3,
+    opacity: Math.random() * 0.6 + 0.2,
+  });
+}
+
+function drawAsh() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(255, 240, 200, 0.5)";
+  for (let p of particles) {
+    ctx.globalAlpha = p.opacity;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    p.y += p.speedY;
+    p.x += p.drift;
+    if (p.y > canvas.height) {
+      p.y = -5;
+      p.x = Math.random() * canvas.width;
+    }
   }
-});
+  requestAnimationFrame(drawAsh);
+}
+drawAsh();
 </script>
 
 </body>
