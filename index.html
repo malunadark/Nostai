@@ -21,24 +21,57 @@ body {
   height: 100vh;
   width: 100vw;
   background: url('assets/images/Nostai.png') center/cover no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
-  font-family: 'destroycyr', serif;
   color: #f5e4c3;
+  font-family: 'destroycyr', serif;
   position: relative;
+}
+
+/* ---- Слои ---- */
+#smoke, #ashes, #runes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 /* ---- Дым ---- */
 #smoke {
-  position: absolute;
-  inset: 0;
   background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
   opacity: 0.35;
   mix-blend-mode: screen;
   z-index: 1;
+}
+
+/* ---- Пепел ---- */
+#ashes {
+  background: url('assets/images/ashes.gif') center/cover repeat;
+  opacity: 0.25;
+  z-index: 2;
+  animation: ashMove 25s linear infinite;
+}
+
+/* ---- Анимация пепла ---- */
+@keyframes ashMove {
+  from { background-position: 0 0; }
+  to { background-position: -300px 300px; }
+}
+
+/* ---- РУНЫ ---- */
+#runes {
+  font-family: 'futhark';
+  font-size: 3rem;
+  color: #ffb85c;
+  text-shadow: 0 0 20px #ff6600, 0 0 50px #ff3300;
+  opacity: 0.8;
+  z-index: 3;
+}
+.rune {
+  position: absolute;
+  animation: floatRune 10s ease-in-out infinite alternate;
+}
+@keyframes floatRune {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(-40px) rotate(20deg); opacity: 1; }
 }
 
 /* ---- Книга ---- */
@@ -46,23 +79,20 @@ body {
   position: absolute;
   width: 750px;
   max-width: 90%;
-  opacity: 0.6;
+  opacity: 0.7;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
-}
-
-/* ---- Контейнер логотипа ---- */
-.logo-container {
-  text-align: center;
-  margin-bottom: 1rem;
-  z-index: 3;
+  z-index: 4;
 }
 
 /* ---- Логотип ---- */
 #logo {
-  font-size: 7rem;
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6rem;
   letter-spacing: 6px;
   background: linear-gradient(90deg, #ff9d00, #ff3c00, #ff0000);
   -webkit-background-clip: text;
@@ -70,19 +100,80 @@ body {
   font-weight: bold;
   text-shadow: 0 0 40px #ff6b00, 0 0 80px #ff3c00, 0 0 100px #ff0000;
   animation: fireGlow 4s ease-in-out infinite;
+  z-index: 6;
 }
 
 /* ---- Подзаголовок ---- */
-.subtitle-container {
-  text-align: center;
-  z-index: 3;
-}
 #subtitle {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.5rem;
   color: #ffe9d0;
+  text-align: center;
   letter-spacing: 2px;
   text-shadow: 0 0 15px #ff6b00;
   animation: fadeIn 3s ease-in;
+  z-index: 6;
+}
+
+/* ---- Кнопки переходов ---- */
+.nav-buttons {
+  position: absolute;
+  bottom: 150px;
+  display: flex;
+  gap: 40px;
+  z-index: 6;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-button {
+  font-family: 'destroycyr';
+  font-size: 1.6rem;
+  color: #ffe9d0;
+  padding: 12px 25px;
+  border: 2px solid #ff6600;
+  border-radius: 10px;
+  background: rgba(30, 10, 0, 0.5);
+  text-shadow: 0 0 15px #ff6b00;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.nav-button:hover {
+  background: rgba(255, 100, 0, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #ff6b00;
+}
+
+/* ---- Радио кнопка ---- */
+.radio-button {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff9800, #b33900 90%);
+  box-shadow: inset -5px -5px 20px rgba(255, 140, 0, 0.5),
+              inset 5px 5px 25px rgba(0, 0, 0, 0.7),
+              0 0 20px rgba(255, 100, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.3s ease;
+  z-index: 7;
+}
+.radio-button:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: inset -3px -3px 15px rgba(255, 150, 0, 0.5),
+              0 0 30px rgba(255, 120, 0, 0.8);
+}
+.radio-button:active {
+  transform: translateX(-50%) scale(0.98);
 }
 
 /* ---- Анимации ---- */
@@ -98,82 +189,39 @@ body {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* ---- Радио кнопка ---- */
-.radio-button {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ff9800, #b33900 90%);
-  box-shadow: inset -5px -5px 20px rgba(255, 140, 0, 0.5),
-              inset 5px 5px 25px rgba(0, 0, 0, 0.7),
-              0 0 20px rgba(255, 100, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: absolute;
-  bottom: 60px;
-  z-index: 5;
-}
-.radio-button:hover {
-  transform: scale(1.05);
-  box-shadow: inset -3px -3px 15px rgba(255, 150, 0, 0.5),
-              0 0 30px rgba(255, 120, 0, 0.8);
-}
-.radio-button:active {
-  transform: scale(0.98);
-}
-
-/* ---- Экран радио ---- */
-.radio-screen {
-  width: 80%;
-  height: 60%;
-  border-radius: 25px;
-  background: radial-gradient(circle at center, #222, #000);
-  box-shadow: 0 0 50px rgba(255, 80, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffe9d0;
-  font-size: 2rem;
-  position: absolute;
-  top: 10%;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 4;
-}
-.radio-screen.active {
-  opacity: 1;
-}
 </style>
 </head>
 <body>
 
-<!-- Фон дымки -->
+<!-- Эффекты -->
 <div id="smoke"></div>
+<div id="ashes"></div>
+<div id="runes">
+  <div class="rune" style="top:20%;left:15%;">ᚱ</div>
+  <div class="rune" style="top:40%;right:10%;animation-delay:2s;">ᚨ</div>
+  <div class="rune" style="bottom:30%;left:25%;animation-delay:4s;">ᚾ</div>
+  <div class="rune" style="bottom:15%;right:20%;animation-delay:1s;">ᚢ</div>
+  <div class="rune" style="top:10%;right:40%;animation-delay:3s;">ᛉ</div>
+</div>
 
 <!-- Книга -->
 <img id="book" src="assets/images/old-notebook.png" alt="Книга">
 
 <!-- Логотип и подзаголовок -->
-<div class="logo-container">
-  <div id="logo">NOSTAI</div>
-</div>
-<div class="subtitle-container">
-  <div id="subtitle">Придшие не уходят — они те, кто здесь и там, в поисках себя</div>
-</div>
+<div id="logo">NOSTAI</div>
+<div id="subtitle">Придшие не уходят — они те, кто здесь и там, в поисках себя</div>
 
-<!-- Радиоэкран -->
-<div class="radio-screen" id="radioScreen">📻 Вещание началось...</div>
+<!-- Кнопки перехода -->
+<div class="nav-buttons">
+  <a class="nav-button" href="html/broadcast.html">Узел Связи</a>
+  <a class="nav-button" href="html/chronicles.html">Хроники Забвения</a>
+</div>
 
 <!-- Радио кнопка -->
-<div class="radio-button" id="radioButton"></div>
+<div class="radio-button" id="radioButton">📻</div>
 
 <script>
 const radioButton = document.getElementById('radioButton');
-const radioScreen = document.getElementById('radioScreen');
 const audio = new Audio('assets/music/Уходящая Судьба.mp3');
 audio.loop = true;
 audio.preload = 'auto';
@@ -183,11 +231,11 @@ let playing = false;
 radioButton.addEventListener('click', () => {
   if (!playing) {
     audio.play();
-    radioScreen.classList.add('active');
+    radioButton.style.boxShadow = "0 0 30px #ff9900, 0 0 60px #ff3300";
     playing = true;
   } else {
     audio.pause();
-    radioScreen.classList.remove('active');
+    radioButton.style.boxShadow = "";
     playing = false;
   }
 });
