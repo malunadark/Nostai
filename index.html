@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOSTAI</title>
+<title>NOSTAI — Хроники Забвения</title>
 <style>
 /* ---- Общие стили ---- */
 html, body {
@@ -22,26 +22,22 @@ html, body {
   transform: translateX(-50%);
   font-family: 'destroycyr', serif;
   font-size: 90px;
-  color: #3a2a1f;
+  color: #2e221a;
   text-shadow:
-    0 0 15px #ff4500,
-    0 0 30px rgba(255, 100, 0, 0.3);
-  letter-spacing: 5px;
+    0 0 10px #ff4500,
+    0 0 25px rgba(255, 80, 0, 0.4);
   animation: floatFire 6s ease-in-out infinite;
+  z-index: 10;
 }
 
 @keyframes floatFire {
   0%, 100% {
     transform: translateX(-50%) translateY(0);
-    text-shadow:
-      0 0 15px #ff4500,
-      0 0 30px rgba(255, 100, 0, 0.3);
+    text-shadow: 0 0 15px #ff4500, 0 0 25px rgba(255, 80, 0, 0.4);
   }
   50% {
     transform: translateX(-50%) translateY(8px);
-    text-shadow:
-      0 0 25px #ff6510,
-      0 0 45px rgba(255, 120, 40, 0.4);
+    text-shadow: 0 0 25px #ff6510, 0 0 40px rgba(255, 120, 40, 0.6);
   }
 }
 
@@ -54,6 +50,7 @@ html, body {
   width: 400px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  z-index: 2;
 }
 
 .book-container:hover {
@@ -68,10 +65,10 @@ html, body {
 
 .book-title {
   position: absolute;
-  bottom: 15%;
+  bottom: 14%;
   left: 50%;
   transform: translateX(-50%);
-  font-family: 'destroycyr', serif;
+  font-family: 'Deutsch Gothic', serif;
   font-size: 28px;
   color: #e4d2a1;
   text-shadow: 0 0 10px #000, 0 0 20px #ffb347;
@@ -97,6 +94,32 @@ html, body {
   100% { transform: translateX(-50%) translateY(-50px) scale(1.2); opacity: 0.3; }
 }
 
+/* ---- Радиоприёмник ---- */
+.radio {
+  position: absolute;
+  bottom: 3%;
+  right: 3%;
+  width: 160px;
+  height: 120px;
+  background: radial-gradient(circle at top left, #444 0%, #111 100%);
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px #000, 0 0 25px rgba(255,120,50,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.radio::before {
+  content: "";
+  width: 80%;
+  height: 70%;
+  background: radial-gradient(circle at 40% 40%, #666 0%, #222 80%);
+  border-radius: 10px;
+  box-shadow: inset 0 0 8px #000;
+}
+
 /* ---- Пепел ---- */
 #ashCanvas {
   position: absolute;
@@ -105,7 +128,7 @@ html, body {
   pointer-events: none;
   width: 100%;
   height: 100%;
-  z-index: 5;
+  z-index: 4;
 }
 </style>
 </head>
@@ -116,18 +139,35 @@ html, body {
 
 <!-- Книга -->
 <div class="book-container" onclick="location.href='html/chronicles.html'">
-  <img src=".assets/images/old-notebook.png" alt="Хроники Забвения">
+  <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
   <div class="book-title">Хроники&nbsp;Забвения</div>
 </div>
 
 <!-- Дым -->
 <div class="book-smoke"></div>
 
-<!-- Пепел (Canvas) -->
+<!-- Радиоприёмник -->
+<div class="radio" onclick="toggleRadio()"></div>
+
+<!-- Пепел -->
 <canvas id="ashCanvas"></canvas>
 
 <script>
-// ---- Пепел ----
+/* ---- Радио ---- */
+let playing = false;
+const audio = new Audio('assets/music/radio_noise.mp3');
+audio.loop = true;
+
+function toggleRadio() {
+  if (playing) {
+    audio.pause();
+  } else {
+    audio.play();
+  }
+  playing = !playing;
+}
+
+/* ---- Пепел ---- */
 const canvas = document.getElementById('ashCanvas');
 const ctx = canvas.getContext('2d');
 let width, height;
@@ -143,11 +183,12 @@ resizeCanvas();
 function createParticle() {
   return {
     x: Math.random() * width,
-    y: height + 5,
+    y: -10,
     size: Math.random() * 2 + 1,
-    speedY: Math.random() * -1.5 - 0.5,
+    speedY: Math.random() * 1.5 + 0.5,
     speedX: (Math.random() - 0.5) * 0.3,
-    opacity: Math.random() * 0.8 + 0.2
+    life: 1,
+    color: `rgba(255, ${Math.floor(Math.random()*150+100)}, 0,`
   };
 }
 
@@ -155,17 +196,17 @@ function drawParticles() {
   ctx.clearRect(0, 0, width, height);
   particles.forEach((p, i) => {
     ctx.beginPath();
-    ctx.fillStyle = `rgba(200,200,200,${p.opacity})`;
+    ctx.fillStyle = p.color + p.life + ')';
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
     p.x += p.speedX;
     p.y += p.speedY;
-    p.opacity -= 0.002;
-    if (p.y < -10 || p.opacity <= 0) particles[i] = createParticle();
+    p.life -= 0.004;
+    if (p.y > height + 10 || p.life <= 0) particles[i] = createParticle();
   });
 }
 
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < 180; i++) {
   particles.push(createParticle());
 }
 
