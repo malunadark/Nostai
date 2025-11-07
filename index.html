@@ -4,9 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>NOSTAI</title>
-
 <style>
-/* ---- Шрифты ---- */
 @font-face {
   font-family: 'destroycyr';
   src: url('assets/fonts/destroycyr.ttf') format('truetype');
@@ -18,87 +16,51 @@
   font-display: swap;
 }
 
-/* ---- Базовые стили ---- */
 body {
   margin:0; padding:0;
   height:100vh;
   width:100vw;
   overflow:hidden;
-  background: url('assets/images/Nostai.png') center/cover no-repeat fixed black;
+  background: url('assets/images/Nostai.png') center/cover no-repeat;
   font-family:'destroycyr', serif;
-  color:#dcdcdc;
+  color:#f5e4c3;
   position:relative;
 }
 
-/* ---- Логотип ---- */
+/* ---- Логотип и подзаголовок ---- */
 .logo-container {
   position:absolute;
-  top:5%;
-  width:100%;
+  top:6%;
+  left:50%;
+  transform:translateX(-50%);
   text-align:center;
   z-index:10;
 }
 #logo {
-  font-size:6rem;
+  font-size:7rem;
   letter-spacing:6px;
+  background: linear-gradient(90deg, #ff9d00, #ff3c00, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight:bold;
-  background: linear-gradient(90deg,#ff9d00,#ff3c00,#ff0000);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
   text-shadow:0 0 40px #ff6b00,0 0 80px #ff3c00,0 0 100px #ff0000;
   animation: fireGlow 4s ease-in-out infinite;
-}
-@keyframes fireGlow{
-  0%,100% { text-shadow:0 0 30px #ff6b00,0 0 60px #ff3c00,0 0 100px #ff0000; }
-  50% { text-shadow:0 0 60px #ffaa00,0 0 100px #ff5e00,0 0 120px #ff3c00; }
-}
-
-/* ---- Подзаголовок ---- */
-.subtitle-container {
-  position:absolute;
-  top:18%;
-  width:100%;
-  text-align:center;
-  z-index:10;
 }
 #subtitle {
   font-size:1.6rem;
   color:#ffe9d0;
   letter-spacing:2px;
   text-shadow:0 0 15px #ff6b00;
+  margin-top:1rem;
   animation: fadeIn 3s ease-in;
 }
-@keyframes fadeIn{
-  from{ opacity:0; transform:translateY(15px);}
-  to{ opacity:1; transform:translateY(0);}
+@keyframes fireGlow {
+  0%,100% { text-shadow:0 0 30px #ff6b00,0 0 60px #ff3c00,0 0 100px #ff0000; }
+  50% { text-shadow:0 0 60px #ffaa00,0 0 100px #ff5e00,0 0 120px #ff3c00; }
 }
-
-/* ---- Руны ---- */
-.rune {
-  position:absolute;
-  font-family:'futhark', serif;
-  font-size:clamp(20px,3vw,48px);
-  color: rgba(255,190,140,0.92);
-  text-shadow: 0 0 8px rgba(255,140,0,0.45),0 0 18px rgba(255,100,0,0.25);
-  mix-blend-mode:screen;
-  opacity:0.95;
-  pointer-events:none;
-  animation:runeFlicker 3s ease-in-out infinite;
-}
-@keyframes runeFlicker{
-  0% { transform:scale(1) rotate(0deg); opacity:0.92; }
-  45% { transform:scale(1.06) rotate(-1deg); opacity:1; }
-  100% { transform:scale(1) rotate(0deg); opacity:0.92; }
-}
-
-/* ---- Дым ---- */
-#smoke {
-  position:fixed;
-  inset:0;
-  background:url('assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity:0.12;
-  pointer-events:none;
-  z-index:5;
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(15px); }
+  to { opacity:1; transform:translateY(0); }
 }
 
 /* ---- Книга ---- */
@@ -106,72 +68,112 @@ body {
   position:absolute;
   top:50%;
   left:50%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%, -50%);
   width:400px;
-  height:280px;
-  z-index:8;
-  background: url('assets/images/old-notebook.png') center/contain no-repeat;
-  opacity:0.8;
-  filter:drop-shadow(0 0 20px rgba(255,120,0,0.3));
   cursor:pointer;
-  transition: transform 0.6s ease, filter 0.6s ease;
+  z-index:8;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
-.book-container:hover {
-  transform:translate(-50%,-50%) scale(1.03);
-  filter:drop-shadow(0 0 40px rgba(255,160,0,0.6));
+.book-container img {
+  width:100%;
+  height:auto;
+  opacity:0.8;
+  display:block;
+  pointer-events:none;
+  filter: drop-shadow(0 0 20px rgba(255,120,0,0.3));
 }
 .book-title {
   position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-family:'destroycyr';
+  bottom:15%;
+  font-family:'destroycyr', serif;
   font-size:2rem;
-  letter-spacing:3px;
-  background: linear-gradient(to bottom,#aaa,#666);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-align:center;
+  color:#dcdcdc;
   text-shadow:0 0 10px #000,0 0 30px #ff5e00;
+  letter-spacing:3px;
+  pointer-events:none;
 }
 
-/* ---- Радио (маленький SVG-переход) ---- */
-#radioWrap {
+/* ---- Дым под книгой ---- */
+.book-smoke {
   position:absolute;
-  bottom:20px;
-  left:20px;
-  width:80px;
-  height:50px;
-  cursor:pointer;
-  z-index:10;
-}
-#radioWrap svg {
-  width:100%;
-  height:100%;
-  filter: drop-shadow(0 0 6px #ff6b00);
-  transition: transform 0.3s ease;
-}
-#radioWrap:hover svg {
-  transform: scale(1.05);
-}
-
-/* ---- Canvas пепел ---- */
-#ashCanvas{
-  position:fixed;
-  inset:0;
+  width:250px;
+  height:150px;
+  bottom:10%;
+  left:50%;
+  transform:translateX(-50%);
+  background: url('assets/images/smoke-fog.gif') center/contain no-repeat;
+  opacity:0.25;
   z-index:7;
   pointer-events:none;
+}
+
+/* ---- Радиоприёмник (SVG) ---- */
+#radioButton {
+  position:absolute;
+  bottom:50px;
+  left:20px;
+  width:100px;
+  height:60px;
+  cursor:pointer;
+  z-index:9;
+}
+#radioButton svg { width:100%; height:100%; }
+
+/* ---- Руны ---- */
+.rune {
+  position:absolute;
+  font-family:'futhark', serif;
+  font-size:clamp(20px,3vw,48px);
+  color:rgba(255,190,140,0.92);
+  text-shadow:0 0 8px rgba(255,140,0,0.45),0 0 18px rgba(255,100,0,0.25);
+  mix-blend-mode:screen;
+  z-index:6;
+  opacity:0.95;
+  pointer-events:none;
+  animation: runeFlicker 3s ease-in-out infinite;
+}
+@keyframes runeFlicker {
+  0%{ transform:scale(1) rotate(0deg); opacity:0.92; }
+  45%{ transform:scale(1.06) rotate(-1deg); opacity:1; }
+  100%{ transform:scale(1) rotate(0deg); opacity:0.92; }
+}
+
+/* ---- Пепел через canvas ---- */
+#ashCanvas {
+  position:fixed;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
+  width:100%;
+  height:100%;
 }
 </style>
 </head>
 <body>
 
-<!-- Дым на фоне -->
-<div id="smoke"></div>
+<!-- Логотип -->
+<div class="logo-container">
+  <div id="logo">NOSTAI</div>
+  <div id="subtitle">Придшие не уходят - Они те кто, кто здесь и там, в поисках себя</div>
+</div>
 
-<!-- Логотип и подзаголовок -->
-<div class="logo-container"><div id="logo">NOSTAI</div></div>
-<div class="subtitle-container"><div id="subtitle">Придшие не уходят — они те, кто здесь и там, в поисках себя</div></div>
+<!-- Книга -->
+<div class="book-container" onclick="location.href='html/chronicles.html'">
+  <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
+  <div class="book-title">Хроники&nbsp;Забвения</div>
+</div>
+<div class="book-smoke"></div>
+
+<!-- Радио (SVG) -->
+<div id="radioButton" title="Узел связи">
+<svg viewBox="0 0 64 32">
+  <rect x="0" y="8" width="64" height="16" fill="#222" stroke="#555" stroke-width="2"/>
+  <circle cx="8" cy="16" r="4" fill="#ff8c00"/>
+  <rect x="16" y="12" width="32" height="8" fill="#333"/>
+</svg>
+</div>
 
 <!-- Руны -->
 <div class="rune" style="left:6%; top:20%;">ᚠ</div>
@@ -180,39 +182,31 @@ body {
 <div class="rune" style="left:82%; top:22%;">ᚱ</div>
 <div class="rune" style="left:76%; top:34%;">ᚲ</div>
 
-<!-- Книга -->
-<div class="book-container" onclick="location.href='html/chronicles.html'">
-  <div class="book-title">Хроники&nbsp;Забвения</div>
-</div>
-
-<!-- Радиоприёмник -->
-<div id="radioWrap" onclick="location.href='html/broadcast.html'">
-<svg viewBox="0 0 100 60">
-  <rect x="5" y="15" width="90" height="30" rx="6" ry="6" fill="#222" stroke="#ff9800" stroke-width="3"/>
-  <circle cx="80" cy="30" r="5" fill="#ff6b00"/>
-  <line x1="10" y1="20" x2="90" y2="20" stroke="#ff6b00" stroke-width="2"/>
-</svg>
-</div>
-
-<!-- Canvas пепел -->
+<!-- Canvas для пепла -->
 <canvas id="ashCanvas"></canvas>
 
-<!-- Аудио -->
+<!-- Музыка -->
 <audio id="bg-music" src="assets/music/Уходящая Судьба.mp3" loop preload="auto"></audio>
 
 <script>
-// ------------------ Музыка ------------------
-const music = document.getElementById('bg-music');
-music.volume = 0.65;
-window.addEventListener('pointerdown', ()=>music.play().catch(()=>{}), {once:true});
+// ----------------- Радио клик -----------------
+const radioButton = document.getElementById('radioButton');
+radioButton.addEventListener('click', ()=>{ window.location.href='html/broadcast.html'; });
 
-// ------------------ Пепел ------------------
+// ----------------- Руны можно менять динамически -----------------
+
+// ----------------- Музыка -----------------
+const audio = document.getElementById('bg-music');
+audio.volume = 0.6;
+window.addEventListener('pointerdown',()=>{ audio.play().catch(()=>{}); }, {once:true});
+
+// ----------------- Пепел -----------------
 const canvas = document.getElementById('ashCanvas');
 const ctx = canvas.getContext('2d');
-let W=canvas.width=window.innerWidth;
-let H=canvas.height=window.innerHeight;
+let W = canvas.width = window.innerWidth;
+let H = canvas.height = window.innerHeight;
 const count = Math.round((W*H)/12000);
-const parts=[];
+const parts = [];
 function rand(min,max){ return Math.random()*(max-min)+min; }
 for(let i=0;i<count;i++){
   parts.push({
@@ -226,28 +220,27 @@ for(let i=0;i<count;i++){
     drift:rand(-0.02,0.02)
   });
 }
-function draw(){
+function drawAsh(){
   ctx.clearRect(0,0,W,H);
   for(let p of parts){
-    p.x+=p.dx; p.y+=p.dy; p.rot+=p.drift;
+    p.x += p.dx; p.y += p.dy; p.rot += p.drift;
     if(p.y>H+10){ p.y=-10; p.x=rand(0,W); }
     if(p.x<-10) p.x=W+10; if(p.x>W+10) p.x=-10;
     ctx.save();
     ctx.translate(p.x,p.y);
     ctx.rotate(p.rot);
-    ctx.globalAlpha = p.a;
-    ctx.fillStyle = '#cfcfcf';
+    ctx.globalAlpha=p.a;
+    ctx.fillStyle='#cfcfcf';
     ctx.beginPath();
     ctx.ellipse(0,0,p.r,p.r*0.6,0,0,Math.PI*2);
     ctx.fill();
     ctx.restore();
   }
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawAsh);
 }
-draw();
-window.addEventListener('resize', ()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+drawAsh();
+window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
 
-// ------------------ Руны можно менять через JS ------------------
 </script>
 </body>
 </html>
