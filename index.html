@@ -28,9 +28,9 @@ body {
   position: fixed;
   inset: 0;
   background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.25; /* прозрачность тумана */
+  opacity: 0.18;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* ---- Падающий пепел ---- */
@@ -46,7 +46,7 @@ body {
 }
 @keyframes fall {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translateY(-10px) scale(1);
     opacity: 1;
   }
   100% {
@@ -71,13 +71,12 @@ body {
     0 0 30px rgba(255, 140, 0, 0.4),
     0 -1px 2px rgba(255,255,255,0.15),
     0 0 50px rgba(255, 60, 0, 0.2);
+  filter: contrast(1.3) brightness(1);
   pointer-events: none;
   user-select: none;
-  filter: contrast(1.3) brightness(1);
   animation: fireFloat 4s ease-in-out infinite;
-  z-index: 20;
+  z-index: 10;
 }
-
 #logo::before {
   content: '';
   position: absolute;
@@ -87,15 +86,14 @@ body {
   pointer-events: none;
   z-index: -1;
 }
-
 @keyframes fireFloat {
   0%, 100% {
     transform: translateX(-50%) translateY(0);
-    filter: brightness(0.95);
+    filter: brightness(0.9);
   }
   50% {
-    transform: translateX(-50%) translateY(5px);
-    filter: brightness(1.05);
+    transform: translateX(-50%) translateY(8px);
+    filter: brightness(1.1);
   }
 }
 
@@ -106,23 +104,25 @@ body {
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
-  z-index: 10;
+  z-index: 15;
   text-align: center;
 }
-
-.book-container img {
-  width: 380px;
+.book-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('assets/images/old-notebook.png') center/contain no-repeat;
+  opacity: 0.85;
   transition: transform 0.3s ease;
 }
-
-.book-container:hover img {
+.book-container:hover::before {
   transform: scale(1.05);
 }
-
 .book-title {
+  position: relative;
   font-family: 'destroycyr', serif;
   font-size: 1.8rem;
-  margin-top: 10px;
+  margin-top: 260px; /* Смещение вниз от центра книги */
   color: #f0e0d0;
   text-shadow: 0 0 8px rgba(255, 160, 100, 0.6);
 }
@@ -131,32 +131,32 @@ body {
 .radio {
   position: absolute;
   right: 5%;
-  bottom: 10%;
+  bottom: 8%;
   cursor: pointer;
-  z-index: 15;
+  z-index: 20;
   transition: transform 0.3s ease;
 }
 .radio:hover {
   transform: scale(1.1);
 }
 .radio img {
-  width: 150px;
-  filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.5));
+  width: 160px;
+  filter: drop-shadow(0 0 10px rgba(255, 120, 0, 0.6));
 }
 </style>
 </head>
 
 <body>
-<!-- Прозрачный дым -->
+<!-- Дым -->
 <div class="smoke-bg"></div>
 
 <!-- Пепел -->
 <script>
-for (let i = 0; i < 80; i++) {
+for (let i = 0; i < 120; i++) {
   const ash = document.createElement('div');
   ash.classList.add('ash');
   ash.style.left = Math.random() * 100 + 'vw';
-  ash.style.animationDuration = 4 + Math.random() * 6 + 's';
+  ash.style.animationDuration = 3 + Math.random() * 7 + 's';
   ash.style.animationDelay = Math.random() * 5 + 's';
   document.body.appendChild(ash);
 }
@@ -167,13 +167,12 @@ for (let i = 0; i < 80; i++) {
 
 <!-- Книга -->
 <div class="book-container" onclick="location.href='html/chronicles.html'">
-  <img src="assets/images/old-notebook.png" alt="Хроники Забвения">
   <div class="book-title">Хроники&nbsp;Забвения</div>
 </div>
 
 <!-- Радиоприёмник -->
 <div class="radio" onclick="location.href='html/broadcast.html'">
-  <img src="assets/images/radio.svg" alt="Узел Связи">
+  <img src="assets/images/radio.svg.png" alt="Узел Связи">
 </div>
 
 </body>
