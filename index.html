@@ -92,17 +92,20 @@ body {
 /* книга */
 .book {
   position: absolute;
-  top: 55%;
+  top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 15;
-  width: 550px;
+  width: 400px;          /* уменьшено */
   height: auto;
+  opacity: 0.85;         /* прозрачная */
   pointer-events: auto;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.4)); /* мягкая тень */
 }
 .book:hover {
   transform: translate(-50%, -50%) scale(1.05);
+  opacity: 0.95;
 }
 
 /* радио */
