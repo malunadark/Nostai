@@ -1,252 +1,254 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Хроники Забвения — Волонтёры</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Хроники Забвения — Придшие</title>
+
 <style>
-  /* ---------- FONTS ---------- */
-  @font-face {
-    font-family: 'destroycyr';
-    src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'futhark';
-    src: url('../assets/fonts/FutharkAoe.ttf') format('truetype');
-    font-display: swap;
-  }
+/* ---- ШРИФТ ---- */
+@font-face {
+  font-family: 'destroycyr';
+  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+}
 
-  /* ---------- RESET & LAYOUT ---------- */
-  :root{
-    --page-w: 461px;
-    --page-h: 321px;
-  }
-  html,body{height:100%;margin:0;font-family:destroycyr, serif;-webkit-font-smoothing:antialiased;}
-  body{
-    margin:0;
-    padding:0;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background-size:cover;
-    background-position:center;
-    transition: background-image 900ms ease-in-out, background-color 900ms ease-in-out;
-  }
+/* ---- ОСНОВНОЙ СТИЛЬ ---- */
+body {
+  margin: 0;
+  padding: 0;
+  background: url('../assets/images/bg-volunteers.png') center/cover no-repeat fixed;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: background-image 1.5s ease-in-out;
+}
 
-  /* ---------- PRELOAD / LOADER ---------- */
-  .loader {
-    position: fixed;
-    top:12px; right:12px;
-    padding:8px 12px;
-    background: rgba(0,0,0,0.6);
-    color: #ffdcb0;
-    border-radius:6px;
-    z-index:1000;
-    font-size:14px;
-    box-shadow:0 4px 16px rgba(0,0,0,0.6);
-    display:flex;
-    gap:8px;
-    align-items:center;
-  }
-  .loader .dot { width:8px; height:8px; background:#ff8a00; border-radius:50%; animation:blink 1s infinite; }
-  .loader .dot:nth-child(2){ animation-delay: .15s }
-  .loader .dot:nth-child(3){ animation-delay: .3s }
-  @keyframes blink { 0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2} }
+/* ---- ПАДАЮЩИЙ ПЕПЕЛ ---- */
+.ash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 6;
+}
+.ash span {
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: rgba(255, 245, 230, 0.4);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(100vh) rotate(180deg); opacity: 0; }
+}
 
-  /* ---------- SMOKE & ASH ---------- */
-  .smoke {
-    position:fixed; inset:0; pointer-events:none; z-index:5;
-    background: url('../assets/images/smoke-fog.gif') center/cover no-repeat;
-    opacity:0.34; mix-blend-mode: lighten;
-    transition: opacity .6s ease;
-  }
+/* ---- ДЫМ ---- */
+.smoke {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/images/smoke-fog.gif') center/cover no-repeat;
+  opacity: 0.3;
+  mix-blend-mode: lighten;
+  z-index: 5;
+}
 
-  .ash-layer { pointer-events:none; position:fixed; inset:0; z-index:8; overflow:hidden; }
-  .ash {
-    position:absolute;
-    width:2px; height:2px;
-    background: rgba(255,255,255,0.85);
-    border-radius:50%;
-    filter: blur(.6px);
-    will-change: transform, opacity;
-    animation-name: ashFall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-  @keyframes ashFall {
-    from { transform: translateY(-8vh) rotate(0deg); opacity:0.9; }
-    to   { transform: translateY(110vh) rotate(360deg); opacity:0.06; }
-  }
+/* ---- КНИГА ---- */
+.book {
+  position: relative;
+  width: 461px;
+  height: 321px;
+  background: url('../assets/images/book.png') center/cover no-repeat;
+  z-index: 10;
+  box-shadow: 0 0 40px rgba(255, 180, 100, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-  /* ---------- BOOK ---------- */
-  .book-wrap {
-    position:relative;
-    width: calc(var(--page-w) * 1.8);
-    height: calc(var(--page-h) * 1.8);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:10;
-    perspective:1600px;
-  }
+/* ---- ЛОГОТИП ---- */
+.logo {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'destroycyr';
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #a89c8a 0%, #d2c5aa 25%, #ffb86c 55%, #ff6600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(255, 160, 80, 0.6),
+               0 0 25px rgba(255, 100, 40, 0.4),
+               0 2px 2px rgba(50, 30, 0, 0.9);
+  animation: flamePulse 3s ease-in-out infinite alternate;
+}
 
-  .book {
-    position:relative;
-    width: var(--page-w);
-    height: var(--page-h);
-    background: url('../assets/images/book.png') center/contain no-repeat;
-    background-size: contain;
-    box-shadow: 0 18px 60px rgba(0,0,0,0.7), inset 0 0 18px rgba(0,0,0,0.55);
-    border-radius:6px;
-    transform-origin: center;
-    z-index:12;
-    transition: transform 700ms cubic-bezier(.2,.8,.2,1), box-shadow 400ms;
-  }
+/* ---- НАЗВАНИЕ ФРАКЦИИ ---- */
+.subtitle {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'destroycyr';
+  font-size: 12px;
+  color: transparent;
+  background: linear-gradient(90deg, #a89c8a 0%, #d2c5aa 25%, #ffb86c 55%, #ff6600 100%);
+  -webkit-background-clip: text;
+  text-shadow: 0 0 6px rgba(255, 140, 40, 0.4);
+  animation: flamePulse 3s ease-in-out infinite alternate;
+}
 
-  .book.flipping { transform: rotateY(-6deg) translateY(-6px) scale(1.01); box-shadow:0 30px 80px rgba(0,0,0,0.8); }
+/* ---- ТЕКСТ ---- */
+.text {
+  position: absolute;
+  top: 28%;
+  left: 12%;
+  right: 12%;
+  bottom: 10%;
+  font-family: 'destroycyr';
+  font-size: 8px;
+  line-height: 1.3;
+  color: transparent;
+  background: linear-gradient(90deg, #c4b8a4 0%, #e3d5b8 40%, #ffb86c 70%, #ff6600 100%);
+  -webkit-background-clip: text;
+  text-align: justify;
+  text-shadow: 0 0 5px rgba(255, 100, 40, 0.2);
+  animation: wave 8s ease-in-out infinite alternate;
+  overflow-y: auto;
+}
 
-  /* ---------- LOGO ---------- */
-  .logo {
-    position: absolute;
-    top: calc(50% - var(--page-h) - 36px);
-    left: 50%;
-    transform: translateX(-50%);
-    z-index:20;
-    font-family: 'destroycyr';
-    font-size: 14px;
-    letter-spacing:1px;
-    text-align:center;
-    pointer-events:none;
-    opacity:0.95;
-    display:inline-block;
-    padding:4px 12px;
-  }
+/* ---- АНИМАЦИИ ---- */
+@keyframes flamePulse {
+  0% { text-shadow: 0 0 10px #ff5500, 0 0 25px #ffbb66; }
+  100% { text-shadow: 0 0 20px #ffaa33, 0 0 35px #ff6600; }
+}
 
-  .flame-text {
-    background: linear-gradient(90deg, #bdb6a7 0%, #d8c9ad 22%, #ffb86c 48%, #ff5d00 80%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    text-shadow: 0 0 6px rgba(255,150,60,0.6), 0 4px 8px rgba(0,0,0,0.6);
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
-    mix-blend-mode: screen;
-  }
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+  100% { transform: translateY(0); }
+}
 
-  .left-page {
-    position:absolute;
-    left: calc(50% - var(--page-w) / 2);
-    top: calc(50% - var(--page-h) / 2);
-    width: calc(var(--page-w));
-    height: calc(var(--page-h));
-    z-index: 15;
-  }
+/* ---- КНОПКИ ---- */
+.controls {
+  position: absolute;
+  bottom: 4%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  z-index: 20;
+}
 
-  .page-content {
-    position: absolute;
-    left: 12px;
-    top: 10px;
-    width: calc(var(--page-w) * 0.48);
-    height: calc(var(--page-h) * 0.92);
-    box-sizing: border-box;
-    padding: 8px 10px;
-    overflow: hidden;
-    text-align: justify;
-  }
-
-  .subtitle {
-    font-family:'destroycyr';
-    font-size: 12px;
-    margin:0 0 6px 0;
-    line-height:1;
-    color: transparent;
-    -webkit-background-clip: text;
-    background: linear-gradient(90deg,#e9d8c1 0%, #ffb86c 60%, #ff6b1a 100%);
-    text-shadow: 0 0 6px rgba(255,140,50,0.45);
-    opacity:0.98;
-  }
-
-  .body-text {
-    font-family:'destroycyr';
-    font-size: 8px;
-    line-height: 1.28;
-    color: transparent;
-    -webkit-background-clip: text;
-    background: linear-gradient(90deg,#d9cdb7 0%, #f3ead0 40%, #ffb86c 100%);
-    text-shadow: 0 0 2px rgba(255,130,60,0.22);
-    white-space: pre-wrap;
-    overflow: hidden;
-  }
-
-  .wave-filtered { filter: url('#heat'); }
-
-  .controls {
-    position: absolute;
-    bottom: 26px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index:30;
-    display:flex;
-    gap:14px;
-  }
-
-  .btn {
-    background: rgba(28,20,8,0.7);
-    color: #ffdcb0;
-    border: 1px solid rgba(255,140,40,0.25);
-    padding: 10px 14px;
-    font-family:'destroycyr';
-    cursor:pointer;
-    border-radius:6px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.6);
-  }
+button {
+  font-family: 'destroycyr';
+  font-size: 10px;
+  padding: 4px 12px;
+  background: rgba(40, 20, 0, 0.6);
+  color: #ffcc99;
+  border: 1px solid rgba(255, 180, 100, 0.4);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: rgba(80, 30, 0, 0.8);
+  box-shadow: 0 0 10px rgba(255, 120, 60, 0.6);
+}
 </style>
-<svg style="position:absolute;width:0;height:0">
-  <filter id="heat">
-    <feTurbulence id="turb" baseFrequency="0.002 0.02" numOctaves="1" seed="2" result="turb"/>
-    <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G"/>
-    <animate xlink:href="#turb" attributeName="baseFrequency" values="0.002 0.02;0.003 0.025;0.002 0.02" dur="4s" repeatCount="indefinite" />
-  </filter>
-</svg>
 </head>
-<body class="volunteers">
-  <div id="loader" class="loader">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div style="margin-left:8px;font-size:13px">Загрузка фонов…</div>
-  </div>
 
-  <div class="smoke"></div>
-  <div class="ash-layer" id="ashLayer"></div>
+<body>
+<div class="smoke"></div>
+<div class="ash"></div>
 
-  <div class="book-wrap">
-    <div id="book" class="book">
-      <div class="logo flame-text" id="logoText">История Фракции Придшие</div>
-      <div class="left-page">
-        <div class="page-content">
-          <div class="subtitle flame-text" id="subtitleText">Волонтёры</div>
-          <div id="bodyText" class="body-text wave-filtered"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="book">
+  <div class="logo">История Фракции Придшие</div>
+  <div class="subtitle">Волонтёры</div>
+  <div class="text" id="storyText"></div>
 
   <div class="controls">
-    <button id="prevBtn" class="btn">← Назад</button>
-    <button id="nextBtn" class="btn">Вперёд →</button>
+    <button onclick="prevPage()">◀ Назад</button>
+    <button onclick="nextPage()">Следующая ▶</button>
   </div>
+</div>
 
-  <audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+<audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
 <script>
-const PAGES = [
-  { id:'volunteers', bg:'../assets/images/bg-volunteers.png', title:'История Фракции Придшие', subtitle:'Волонтёры', text:
-`Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей...
-...в истории Алтайских лесов.` },
-  { id:'military', bg:'../assets/images/bg-military-base.png', title:'История Фракции Придшие', subtitle:'ВС РФ', text:'...' },
-  { id:'emergency', bg:'../assets/images/bg-rescue-base.png', title:'История Фракции Придшие', subtitle:'МЧС', text:'...' },
-  { id:'redcross', bg:'../assets/images/bg-redcross-camp.png', title:'История Фракции Придшие', subtitle:'Красный Крест', text:'...' }
+/* ---- ПАДАЮЩИЙ ПЕПЕЛ ---- */
+const ash = document.querySelector('.ash');
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('span');
+  s.style.left = Math.random() * 100 + '%';
+  s.style.animationDuration = 6 + Math.random() * 3 + 's';
+  s.style.animationDelay = Math.random() * 5 + 's';
+  ash.appendChild(s);
+}
+
+/* ---- СТРАНИЦЫ ---- */
+const pages = [
+  {
+    bg: '../assets/images/bg-volunteers.png',
+    subtitle: 'Волонтёры',
+    text: `Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. ...`
+  },
+  {
+    bg: '../assets/images/bg-military-base.png',
+    subtitle: 'ВС РФ',
+    text: `Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? ...`
+  },
+  {
+    bg: '../assets/images/bg-rescue-base.png',
+    subtitle: 'МЧС',
+    text: `Сильные рыцари, доблестные, покорители огня. Служители людей, помощники в бедствиях...`
+  },
+  {
+    bg: '../assets/images/bg-redcross-camp.png',
+    subtitle: 'Красный Крест',
+    text: `Полевые госпитали, палатки, помощь пострадавшим, доброта и сострадание — основа их служения.`
+  }
 ];
+
+let currentPage = 0;
+const storyText = document.getElementById('storyText');
+const subtitle = document.querySelector('.subtitle');
+const sound = document.getElementById('pageSound');
+
+function showPage(index) {
+  document.body.style.backgroundImage = `url('${pages[index].bg}')`;
+  subtitle.textContent = pages[index].subtitle;
+  storyText.textContent = pages[index].text;
+}
+
+function nextPage() {
+  currentPage = (currentPage + 1) % pages.length;
+  playSound();
+  showPage(currentPage);
+}
+
+function prevPage() {
+  currentPage = (currentPage - 1 + pages.length) % pages.length;
+  playSound();
+  showPage(currentPage);
+}
+
+function playSound() {
+  sound.currentTime = 0;
+  sound.play();
+}
+
+showPage(0);
 </script>
 </body>
 </html>
