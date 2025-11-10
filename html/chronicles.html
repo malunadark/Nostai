@@ -1,198 +1,427 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Хроники Забвения</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Хроники Забвения — Волонтёры</title>
 <style>
-@font-face {
-  font-family: 'destroycyr';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-}
+  /* ---------- FONTS ---------- */
+  @font-face {
+    font-family: 'destroycyr';
+    src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'futhark';
+    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    font-display: swap;
+  }
 
-body {
-  margin: 0;
-  overflow: hidden;
-  font-family: 'destroycyr', serif;
-  transition: background-image 2s ease-in-out;
-  background-size: cover;
-  background-position: center;
-}
+  /* ---------- RESET & LAYOUT ---------- */
+  :root{
+    --page-w: 461px;    /* исходный размер книги (страница) */
+    --page-h: 321px;
+  }
+  html,body{height:100%;margin:0;font-family:destroycyr, serif; -webkit-font-smoothing:antialiased;}
+  body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-size:cover;
+    background-position:center;
+    transition: background-image 900ms ease-in-out, background-color 900ms ease-in-out;
+  }
 
-#ash {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: url('../assets/images/ash-pass-bg.png') repeat;
-  animation: ashMove 30s linear infinite;
-  opacity: 0.1;
-  z-index: 1;
-}
+  /* ---------- PRELOAD / LOADER ---------- */
+  .loader {
+    position: fixed;
+    top:12px; right:12px;
+    padding:8px 12px;
+    background: rgba(0,0,0,0.6);
+    color: #ffdcb0;
+    border-radius:6px;
+    z-index:1000;
+    font-size:14px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.6);
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .loader .dot { width:8px; height:8px; background:#ff8a00; border-radius:50%; animation:blink 1s infinite; }
+  .loader .dot:nth-child(2){ animation-delay: .15s }
+  .loader .dot:nth-child(3){ animation-delay: .3s }
+  @keyframes blink { 0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2} }
 
-@keyframes ashMove {
-  from { background-position: 0 0; }
-  to { background-position: 0 100%; }
-}
+  /* ---------- SMOKE & ASH ---------- */
+  .smoke {
+    position:fixed; inset:0; pointer-events:none; z-index:5;
+    background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+    opacity:0.34; mix-blend-mode: lighten;
+    transition: opacity .6s ease;
+  }
+  .ash-layer {
+    pointer-events:none;
+    position:fixed; inset:0; z-index:8; overflow:hidden;
+  }
+  .ash {
+    position:absolute;
+    width:2px; height:2px;
+    background: rgba(255,255,255,0.85);
+    border-radius:50%;
+    filter: blur(.6px);
+    will-change: transform, opacity;
+    animation-name: ashFall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes ashFall {
+    from { transform: translateY(-8vh) rotate(0deg); opacity:0.9; }
+    to   { transform: translateY(110vh) rotate(360deg); opacity:0.06; }
+  }
 
-#smoke {
-  position: fixed;
-  inset: 0;
-  background: url('../assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.25;
-  pointer-events: none;
-  z-index: 2;
-}
+  /* ---------- BOOK (center) ---------- */
+  .book-wrap {
+    position:relative;
+    width: calc(var(--page-w) * 1.8); /* book display slightly larger */
+    height: calc(var(--page-h) * 1.8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+    perspective:1600px;
+  }
 
-#book-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 900px;
-  height: 600px;
-  background: url('../assets/images/book.png') center/contain no-repeat;
-  background-size: contain;
-  z-index: 3;
-}
+  .book {
+    position:relative;
+    width: var(--page-w);
+    height: var(--page-h);
+    background: url('assets/images/book.png') center/contain no-repeat;
+    background-size: contain;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.7), inset 0 0 18px rgba(0,0,0,0.55);
+    border-radius:6px;
+    transform-origin: center;
+    z-index:12;
+    transition: transform 700ms cubic-bezier(.2,.8,.2,1), box-shadow 400ms;
+  }
 
-#title {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 32px;
-  text-align: center;
-  background: linear-gradient(90deg, #ff4d00, #a0a0a0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(255,100,0,0.6);
-  z-index: 4;
-}
+  /* small flip animation class */
+  .book.flipping { transform: rotateY(-6deg) translateY(-6px) scale(1.01); box-shadow:0 30px 80px rgba(0,0,0,0.8); }
 
-#subtitle {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 24px;
-  text-align: center;
-  background: linear-gradient(90deg, #ff4d00, #a0a0a0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 15px rgba(255,80,0,0.5);
-  z-index: 4;
-}
+  /* ---------- TOP LOGO: "История Фракции Придшие" ---------- */
+  .logo {
+    position: absolute;
+    top: calc(50% - var(--page-h) - 36px); /* sits above book and slightly touches */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index:20;
+    font-family: 'destroycyr';
+    font-size: 14px; /* по требованию */
+    letter-spacing:1px;
+    text-align:center;
+    pointer-events:none;
+    opacity:0.95;
+    display:inline-block;
+    padding:4px 12px;
+  }
 
-#text {
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  font-size: 14px;
-  color: #ff6600;
-  line-height: 1.4;
-  text-align: justify;
-  text-shadow: 0 0 2px #fff, 0 0 3px #ff3300;
-  animation: heatWave 2s infinite alternate;
-  z-index: 4;
-}
+  /* granite-fire text effect for logo + headings */
+  .flame-text {
+    background: linear-gradient(90deg, #bdb6a7 0%, #d8c9ad 22%, #ffb86c 48%, #ff5d00 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow:
+      0 0 6px rgba(255,150,60,0.6),
+      0 4px 8px rgba(0,0,0,0.6);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55));
+    mix-blend-mode: screen;
+  }
 
-@keyframes heatWave {
-  0% { transform: translateX(-50%) translateY(0) skewX(0deg); }
-  50% { transform: translateX(-50%) translateY(-1px) skewX(0.3deg); }
-  100% { transform: translateX(-50%) translateY(1px) skewX(-0.3deg); }
-}
+  /* ---------- LEFT PAGE TEXT AREA (keeps content inside strict bounds) ---------- */
+  .left-page {
+    position:absolute;
+    left: calc(50% - var(--page-w) / 2); /* book left edge on screen (centered book) */
+    top: calc(50% - var(--page-h) / 2);
+    width: calc(var(--page-w) / 1 ); /* full width of book image (we display single page image) */
+    height: calc(var(--page-h) );
+    transform: translate(-0px, -0px); /* aligned to book */
+    pointer-events:auto;
+    z-index: 15;
+  }
 
-#nextPage {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  background: rgba(255, 102, 0, 0.8);
-  border: none;
-  color: #fff;
-  font-family: 'destroycyr';
-  cursor: pointer;
-  border-radius: 5px;
-  text-shadow: 0 0 2px #000;
-  z-index: 5;
-}
+  /* We place an inner content box with padding that matches where text should be on the left page */
+  .page-content {
+    position: absolute;
+    left: 12px; /* small offset inside page graphic */
+    top: 10px;
+    width: calc(var(--page-w) * 0.48); /* roughly left half of page image */
+    height: calc(var(--page-h) * 0.92);
+    box-sizing: border-box;
+    padding: 8px 10px;
+    overflow: hidden;
+    text-align: justify;
+  }
+
+  .subtitle {
+    font-family:'destroycyr';
+    font-size: 12px; /* по требованию */
+    margin:0 0 6px 0;
+    line-height:1;
+    color: transparent;
+    -webkit-background-clip: text;
+    background: linear-gradient(90deg,#e9d8c1 0%, #ffb86c 60%, #ff6b1a 100%);
+    text-shadow: 0 0 6px rgba(255,140,50,0.45);
+    opacity:0.98;
+  }
+
+  .body-text {
+    font-family:'destroycyr';
+    font-size: 8px; /* по требованию */
+    line-height: 1.28;
+    color: transparent;
+    -webkit-background-clip: text;
+    background: linear-gradient(90deg,#d9cdb7 0%, #f3ead0 40%, #ffb86c 100%);
+    text-shadow: 0 0 2px rgba(255,130,60,0.22);
+    white-space: pre-wrap;
+    overflow: hidden;
+  }
+
+  /* Apply SVG filter for heat/wave effect */
+  .wave-filtered { filter: url('#heat') ; }
+
+  /* ---------- Controls (prev / next) ---------- */
+  .controls {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index:30;
+    display:flex;
+    gap:14px;
+  }
+  .btn {
+    background: rgba(28,20,8,0.7);
+    color: #ffdcb0;
+    border: 1px solid rgba(255,140,40,0.25);
+    padding: 10px 14px;
+    font-family:'destroycyr';
+    cursor:pointer;
+    border-radius:6px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:active{ transform: translateY(2px); }
+  .btn[disabled]{ opacity:0.45; cursor:default; transform:none; }
+
+  /* ---------- small responsive tweaks ---------- */
+  @media (max-width:980px){
+    :root{ --page-w: 360px; --page-h: 250px; }
+    .book-wrap{ width: calc(var(--page-w)*1.8); height: calc(var(--page-h)*1.8); }
+    .logo{ font-size:12px; top: calc(50% - var(--page-h) - 28px); }
+  }
 </style>
+<!-- SVG filter used for subtle heat/wave effect -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <filter id="heat">
+    <feTurbulence id="turb" baseFrequency="0.002 0.02" numOctaves="1" seed="2" result="turb"/>
+    <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    <!-- animate the turbulence baseFrequency for slow movement -->
+    <animate xlink:href="#turb" attributeName="baseFrequency" values="0.002 0.02;0.003 0.025;0.002 0.02" dur="4s" repeatCount="indefinite" />
+  </filter>
+</svg>
 </head>
-<body class="volunteers">
+<body class="volunteers" >
 
-<div id="ash"></div>
-<div id="smoke"></div>
+  <!-- Loader while preloading backgrounds -->
+  <div id="loader" class="loader" style="display:flex;">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div style="margin-left:8px;font-size:13px">Загрузка фонов…</div>
+  </div>
 
-<div id="book-container"></div>
-<div id="title">История Фракции Придшие</div>
-<div id="subtitle">Волонтёры</div>
-<div id="text">
-Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли. 
-Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях. 
-Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры. 
-Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.
-</div>
+  <!-- Smoke + ash -->
+  <div class="smoke" aria-hidden="true"></div>
+  <div class="ash-layer" id="ashLayer" aria-hidden="true"></div>
 
-<button id="nextPage">Следующая страница</button>
+  <!-- Center book -->
+  <div class="book-wrap">
+    <div id="book" class="book" role="img" aria-label="Книга — хроники">
+      <!-- top logo -->
+      <div class="logo flame-text" id="logoText">История Фракции Придшие</div>
+      <!-- left page area (text container anchored carefully) -->
+      <div class="left-page" aria-hidden="false">
+        <div class="page-content">
+          <div class="subtitle flame-text" id="subtitleText">Волонтёры</div>
+          <div id="bodyText" class="body-text wave-filtered">
+            <!-- текст вставляется скриптом -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+  <!-- controls -->
+  <div class="controls" aria-hidden="false">
+    <button id="prevBtn" class="btn">← Назад</button>
+    <button id="nextBtn" class="btn">Вперёд →</button>
+  </div>
+
+  <!-- audio -->
+  <audio id="pageSound" src="assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
 <script>
-const pages = [
-  {
-    title: 'История Фракции Придшие',
-    subtitle: 'Волонтёры',
-    text: `Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли. 
-Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях. 
-Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры. 
-Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.`,
-    bg: '../assets/images/bg-volunteers.png'
-  },
-  {
-    title: 'История Фракции Придшие',
-    subtitle: 'ВС РФ',
-    text: `Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.
-Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.
-Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…`,
-    bg: '..assets/images/bg-military-base.png'
-  },
-  {
-    title: 'История Фракции Придшие',
-    subtitle: 'МЧС',
-    text: `Сотрудники МЧС действовали быстро и решительно, эвакуируя людей из опасных зон и создавая пожарные кордоны.`,
-    bg: '../assets/images/bg-rescue-base.png'
-  },
-  {
-    title: 'История Фракции Придшие',
-    subtitle: 'Красный Крест',
-    text: `Красный Крест организовал пункты помощи и медицинскую поддержку для пострадавших.`,
-    bg: '../assets/images/bg-redcross-camp.png'
-  }
+/* ============================
+   PAGES / BACKGROUNDS / TEXT
+   ============================ */
+const PAGES = [
+  { id:'volunteers', bg:'assets/images/bg-volunteers.png', title:'История Фракции Придшие', subtitle:'Волонтёры', text:
+`Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще извне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.
+
+Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.
+
+Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.
+
+Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.` },
+  { id:'military', bg:'assets/images/bg-vsrf.png', title:'История Фракции Придшие', subtitle:'ВС РФ', text:
+`ВС РФ — сила, порядок, дисциплина. Здесь будет краткое описание фракции ВС РФ: локация — современная военная база на окраине зоны, техника, казармы и строгая организация.` },
+  { id:'emergency', bg:'assets/images/bg-mchs.png', title:'История Фракции Придшие', subtitle:'МЧС', text:
+`МЧС — мобильные штабы, техника и спасатели. Здесь текст описания МЧС: повседневная работа в зонах пожаров и чрезвычайных ситуаций.` },
+  { id:'redcross', bg:'assets/images/bg-redcross.png', title:'История Фракции Придшие', subtitle:'Красный Крест', text:
+`Красный Крест — полевые госпитали, палаты и медики. Описание и атмосфера: сострадание, лечащие руки и борьба за жизнь.` }
 ];
 
-let currentPage = 0;
-
-const titleEl = document.getElementById('title');
-const subtitleEl = document.getElementById('subtitle');
-const textEl = document.getElementById('text');
-const nextBtn = document.getElementById('nextPage');
+/* ---------- DOM elements ---------- */
 const body = document.body;
+const loader = document.getElementById('loader');
+const logoText = document.getElementById('logoText');
+const subtitleText = document.getElementById('subtitleText');
+const bodyText = document.getElementById('bodyText');
+const bookEl = document.getElementById('book');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 const pageSound = document.getElementById('pageSound');
+const ashLayer = document.getElementById('ashLayer');
 
-nextBtn.addEventListener('click', () => {
-  currentPage = (currentPage + 1) % pages.length;
-  const page = pages[currentPage];
-  titleEl.textContent = page.title;
-  subtitleEl.textContent = page.subtitle;
-  textEl.textContent = page.text;
-  body.style.backgroundImage = `url('${page.bg}')`;
-  pageSound.currentTime = 0;
-  pageSound.play();
+/* ---------- preload backgrounds ---------- */
+let loadedCount = 0;
+function preloadImages(list, cb){
+  const imgs = [];
+  let toLoad = list.length;
+  list.forEach(src=>{
+    const img = new Image();
+    img.src = src;
+    img.onload = () => { toLoad--; if(--loadedCount >= 0){}; if(toLoad===0) cb(); };
+    img.onerror = () => { console.warn('Не удалось загрузить', src); toLoad--; if(toLoad===0) cb(); };
+    imgs.push(img);
+  });
+}
+
+/* gather background paths */
+const bgList = PAGES.map(p=>p.bg);
+
+/* ---------- create ash particles (CSS-based) ---------- */
+function createAsh(num=80){
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  for(let i=0;i<num;i++){
+    const el = document.createElement('div');
+    el.className='ash';
+    // horizontal start pos (allow slightly offscreen)
+    el.style.left = (Math.random()*110 - 5) + 'vw';
+    // random size
+    const scale = 0.6 + Math.random()*1.8;
+    el.style.width = Math.max(1, Math.round(1.2*scale)) + 'px';
+    el.style.height = Math.max(1, Math.round(1.2*scale)) + 'px';
+    // animation duration
+    const dur = 6 + Math.random()*12;
+    el.style.animationDuration = dur + 's';
+    // negative delay so particles are already mid-fall
+    el.style.animationDelay = -Math.random()*dur + 's';
+    // opacity variation
+    el.style.opacity = (0.12 + Math.random()*0.7).toString();
+    ashLayer.appendChild(el);
+  }
+}
+
+/* ---------- initial state ---------- */
+let current = 0;
+function setPage(index, instant=false){
+  current = Math.max(0, Math.min(PAGES.length-1, index));
+  const p = PAGES[current];
+
+  // update texts
+  logoText.textContent = p.title;
+  subtitleText.textContent = p.subtitle;
+  bodyText.textContent = p.text;
+
+  // set background on body
+  // use inline style to ensure immediate repaint
+  body.style.backgroundImage = `url('${p.bg}')`;
+
+  // tiny flip animation
+  bookEl.classList.remove('flipping');
+  // force reflow to restart
+  void bookEl.offsetWidth;
+  bookEl.classList.add('flipping');
+  setTimeout(()=> bookEl.classList.remove('flipping'), 700);
+
+  // play flip sound (only if allowed / user interacted)
+  try {
+    pageSound.currentTime = 0;
+    pageSound.play().catch(()=>{ /* autoplay blocked until user interacts */ });
+  } catch(e){}
+
+  // update controls disabled state
+  prevBtn.disabled = (current === 0);
+  nextBtn.disabled = (current === PAGES.length-1) ? false : false; // keep enabled (wrap or not)
+}
+
+/* ---------- attach control handlers ---------- */
+prevBtn.addEventListener('click', ()=> { setPage(current-1); });
+nextBtn.addEventListener('click', ()=> { setPage((current+1) % PAGES.length); });
+
+/* ---------- preload + startup ---------- */
+(function init(){
+  // start ash
+  createAsh(80);
+
+  // preload images (backgrounds + book + smoke maybe)
+  const toPreload = [...bgList, 'assets/images/book.png', 'assets/images/smoke-fog.gif'];
+  let remaining = toPreload.length;
+  toPreload.forEach(src=>{
+    const img = new Image();
+    img.onload = () => { remaining--; if(remaining===0) onAllLoaded(); };
+    img.onerror = () => { console.warn('img err', src); remaining--; if(remaining===0) onAllLoaded(); };
+    img.src = src;
+  });
+
+  // also unlock pageSound on first user click if browser blocks autoplay
+  document.addEventListener('click', function unlockSound(){
+    pageSound.play().then(()=>pageSound.pause()).catch(()=>{});
+    document.removeEventListener('click', unlockSound);
+  }, { once:true });
+
+  // Set initial page immediately (will set background to first path — may still load)
+  setPage(0);
+
+  // fallback: in case images are cached, hide loader quickly
+  function onAllLoaded(){
+    // hide loader
+    loader.style.display = 'none';
+    // ensure background already applied
+    body.style.backgroundImage = `url('${PAGES[current].bg}')`;
+  }
+
+  // safety timeout: hide loader after 6s regardless
+  setTimeout(()=>{ if(loader) loader.style.display='none'; }, 6000);
+})();
+
+/* Accessibility: allow keyboard navigation */
+window.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight') nextBtn.click();
+  if(e.key === 'ArrowLeft') prevBtn.click();
 });
 </script>
-
 </body>
 </html>
