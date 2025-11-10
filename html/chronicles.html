@@ -1,259 +1,186 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Хроники Забвения — Придшие</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>История Фракции Придшие</title>
 
 <style>
+/* ---- Шрифты ---- */
 @font-face {
   font-family: 'destroycyr';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
 }
 
-/* ---- ОСНОВА ---- */
-body {
+/* ---- Общие стили ---- */
+html, body {
   margin: 0;
   padding: 0;
-  background: url('../assets/images/bg-volunteers.png') center/cover no-repeat fixed;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  transition: background-image 1.5s ease-in-out;
+  background: black;
+  height: 100%;
+  width: 100%;
 }
 
-/* ---- ЛОГОТИП НАД КНИГОЙ ---- */
-.logo {
-  margin-top: 2vh;
-  font-family: 'destroycyr';
-  font-size: 26px;
-  letter-spacing: 3px;
-  background: linear-gradient(90deg, #3c2f25 0%, #6b5845 30%, #ffb86c 70%, #ff6600 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 0 20px rgba(255, 80, 0, 0.3),
-    0 0 35px rgba(255, 160, 80, 0.3),
-    0 2px 3px rgba(0, 0, 0, 0.8);
-  animation: flamePulse 4s ease-in-out infinite alternate;
+/* ---- Пепел ---- */
+#ash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ---- КНИГА ---- */
-.book {
-  position: relative;
-  width: 520px;
-  height: 360px;
-  background: url('../assets/images/book.png') center/cover no-repeat;
-  margin-top: 3vh;
-  border-radius: 8px;
-  box-shadow: 0 0 50px rgba(255, 160, 80, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ---- НАЗВАНИЕ ФРАКЦИИ ---- */
-.subtitle {
+/* ---- Логотип ---- */
+#logo {
   position: absolute;
-  top: 8%;
+  top: 6%;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'destroycyr';
-  font-size: 16px;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #33261a 0%, #7c6040 35%, #ffb86c 65%, #ff6600 100%);
+  font-size: 5em;
+  letter-spacing: 6px;
+  background: linear-gradient(180deg, #bcbcbc 20%, #3a3a3a 60%, #ff4400 95%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow:
-    0 0 12px rgba(255, 120, 40, 0.4),
-    0 2px 2px rgba(0, 0, 0, 0.7);
-  animation: flamePulse 3s ease-in-out infinite alternate;
+    0 0 10px rgba(255, 120, 60, 0.5),
+    0 0 25px rgba(255, 60, 0, 0.4),
+    0 0 40px rgba(80, 40, 20, 0.3);
+  text-align: center;
+  z-index: 2;
 }
 
-/* ---- ТЕКСТ ---- */
-.text {
+/* ---- Книга ---- */
+#book {
   position: absolute;
-  top: 22%;
-  left: 11%;
-  right: 11%;
-  bottom: 14%;
-  font-family: 'destroycyr';
-  font-size: 10px;
-  line-height: 1.45;
-  color: transparent;
-  background: linear-gradient(90deg, #2b1c12 0%, #6c5139 25%, #e8c197 55%, #ffb86c 80%, #442510 100%);
-  -webkit-background-clip: text;
-  text-align: justify;
-  text-shadow:
-    0 0 4px rgba(255, 120, 60, 0.15),
-    0 1px 1px rgba(0, 0, 0, 0.5);
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1100px;
+  height: auto;
+  z-index: 2;
 }
 
-/* ---- КНОПКИ ---- */
-.controls {
-  position: absolute;
-  bottom: 5%;
+#book img {
+  display: block;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 25px;
+  height: auto;
 }
 
-button {
-  font-family: 'destroycyr';
-  font-size: 10px;
-  padding: 4px 14px;
-  background: rgba(25, 10, 0, 0.6);
-  color: #ffcc99;
-  border: 1px solid rgba(255, 160, 80, 0.4);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-button:hover {
-  background: rgba(60, 25, 0, 0.8);
-  box-shadow: 0 0 10px rgba(255, 100, 40, 0.6);
-}
-
-/* ---- АНИМАЦИИ ---- */
-@keyframes flamePulse {
-  0% { text-shadow: 0 0 10px #ff5500, 0 0 25px #ffbb66; }
-  100% { text-shadow: 0 0 20px #ffaa33, 0 0 35px #ff6600; }
-}
-
-/* ---- ПЕПЕЛ ---- */
-.ash span {
+/* ---- Текст на страницах ---- */
+#pages {
   position: absolute;
-  top: -10vh;
-  animation-name: fall, drift;
-  animation-timing-function: linear, ease-in-out;
-  animation-iteration-count: infinite;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 860px;
+  height: 540px;
+  display: flex;
+  justify-content: space-between;
+  font-family: serif;
+  color: #1c1c1c;
+  font-size: 1.05em;
+  line-height: 1.55em;
+  z-index: 3;
 }
 
-@keyframes fall {
-  to { transform: translateY(110vh) rotate(360deg); }
+.page {
+  width: 48%;
+  text-align: justify;
+  padding: 20px 30px;
 }
-@keyframes drift {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(1vw); }
-  100% { transform: translateX(-1vw); }
+
+.page h2 {
+  text-align: center;
+  font-family: 'destroycyr';
+  font-size: 2em;
+  margin-top: 0;
+  color: #2a2a2a;
 }
 </style>
 </head>
 
 <body>
-<div class="ash"></div>
+<canvas id="ash"></canvas>
 
-<div class="logo">История Фракции Придшие</div>
+<div id="logo">История Фракции Придшие</div>
 
-<div class="book">
-  <div class="subtitle" id="subtitle"></div>
-  <div class="text" id="storyText"></div>
+<div id="book">
+  <img src="assets/images/old-notebook.png" alt="Книга" />
+</div>
 
-  <div class="controls">
-    <button onclick="prevPage()">◀ Назад</button>
-    <button onclick="nextPage()">Следующая ▶</button>
+<div id="pages">
+  <div class="page">
+    <h2>Волонтёры</h2>
+    <p>Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.</p>
+    <p>Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.</p>
+    <p>Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.</p>
+    <p>Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.</p>
+  </div>
+
+  <div class="page">
+    <h2>ВС РФ</h2>
+    <p>Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.</p>
+    <p>Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.</p>
+    <p>Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…</p>
+    <h2>МЧС</h2>
+    <p>Сильные рыцари, доблестные, покорители огня. Служители людей, помощники в бедствиях, в трудные минуты, они рядом, помогут, спасут, защитят. Когда начался пожар в лесах Алтая, они вместе с бойцами доблестной армии ВС РФ были рядом с жителями Алтая, помогая им избежать трагедии. Они как щит, прикрывали женщин, стариков и детей от страшной стихии, и спасали, но огонь был настолько велик, что нужны были люди ещё.</p>
   </div>
 </div>
 
-<audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-
 <script>
-/* ---- ПЕПЕЛ ---- */
-const ashContainer = document.querySelector('.ash');
-for (let i = 0; i < 70; i++) {
-  const p = document.createElement('span');
-  const w = 2 + Math.random() * 4;
-  const h = 6 + Math.random() * 10;
-  p.style.width = `${w}px`;
-  p.style.height = `${h}px`;
-  p.style.left = (Math.random() * 100) + 'vw';
-  const shade = 160 + Math.random() * 70;
-  const opa = 0.15 + Math.random() * 0.3;
-  p.style.background = `rgba(${shade}, ${shade}, ${shade}, ${opa})`;
-  p.style.borderRadius = `${20 + Math.random() * 60}%`;
-  const dur = 8 + Math.random() * 12;
-  const delay = -Math.random() * dur;
-  p.style.animationDuration = `${dur}s`;
-  p.style.animationDelay = `${delay}s`;
-  ashContainer.appendChild(p);
+// ---- Пепел ----
+const canvas = document.getElementById('ash');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+window.addEventListener('resize', resize);
+resize();
 
-/* ---- СТРАНИЦЫ ---- */
-const pages = [
-  {
-    bg: '../assets/images/bg-volunteers.png',
-    subtitle: 'Волонтёры',
-    text: `Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители справлялись, но с трудом, нужна была помощь ещё из вне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.
-
-Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.`
-  },
-  {
-    bg: '../assets/images/bg-volunteers.png',
-    subtitle: 'Волонтёры',
-    text: `Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.
-
-Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.`
-  },
-  {
-    bg: '../assets/images/bg-military-base.png',
-    subtitle: 'ВС РФ',
-    text: `Сила, мощь, дух военный — всё это заключено в слове ВС РФ. Что может быть лучше них? Наверное, только спецназ. Самые лучшие, самые стойкие и выносливые люди на земле.
-
-Они столкнулись с сильнейшими пожарами в Алтае. Техника справляется, но огонь не щадит никого, и нужны были ещё руки, ещё решимость, ещё смелость. ВС РФ пришли туда не просто выполнять долг — они пришли, чтобы показать, что границы возможного простираются только так далеко, насколько тянется воля человека.`
-  },
-  {
-    bg: '../assets/images/bg-military-base.png',
-    subtitle: 'ВС РФ',
-    text: `Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца.`
-  },
-  {
-    bg: '../assets/images/bg-rescue-base.png',
-    subtitle: 'МЧС',
-    text: `Сильные рыцари, доблестные, покорители огня. Служители людей, помощники в бедствиях, в трудные минуты, они рядом, помогут, спасут, защитят. Когда начался пожар в лесах Алтая, они вместе с бойцами доблестной армии ВС РФ были рядом с жителями Алтая, помогая им избежать трагедии.
-
-Они как щит прикрывали женщин, стариков и детей от страшной стихии и спасали, но огонь был настолько велик, что нужны были люди ещё...`
-  },
-  {
-    bg: '../assets/images/bg-redcross-camp.png',
-    subtitle: 'Красный Крест',
-    text: `Полевые госпитали, палатки, помощь пострадавшим, доброта и сострадание — основа их служения. Их руки лечили ожоги, их слова возвращали надежду, а их сердца не знали усталости.`
+class AshParticle {
+  constructor() {
+    this.reset();
   }
-];
-
-let currentPage = 0;
-const storyText = document.getElementById('storyText');
-const subtitle = document.getElementById('subtitle');
-const sound = document.getElementById('pageSound');
-
-function showPage(i) {
-  const p = pages[i];
-  document.body.style.backgroundImage = `url('${p.bg}')`;
-  subtitle.textContent = p.subtitle;
-  storyText.textContent = p.text;
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * -canvas.height;
+    this.size = 2 + Math.random() * 3;
+    this.speed = 0.3 + Math.random() * 0.7;
+    this.opacity = 0.3 + Math.random() * 0.4;
+    this.gray = Math.floor(100 + Math.random() * 100);
+  }
+  update() {
+    this.y += this.speed;
+    if (this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(${this.gray},${this.gray},${this.gray},${this.opacity})`;
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
-function nextPage() {
-  currentPage = (currentPage + 1) % pages.length;
-  playSound();
-  showPage(currentPage);
+for (let i = 0; i < 140; i++) {
+  particles.push(new AshParticle());
 }
 
-function prevPage() {
-  currentPage = (currentPage - 1 + pages.length) % pages.length;
-  playSound();
-  showPage(currentPage);
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
 }
-
-function playSound() {
-  sound.currentTime = 0;
-  sound.play();
-}
-
-showPage(0);
+animate();
 </script>
 </body>
 </html>
