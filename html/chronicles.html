@@ -8,12 +8,12 @@
   /* ---------- FONTS ---------- */
   @font-face {
     font-family: 'destroycyr';
-    src: url('assets/fonts/destroycyr.ttf') format('truetype');
+    src: url('.assets/fonts/destroycyr.ttf') format('truetype');
     font-display: swap;
   }
   @font-face {
     font-family: 'futhark';
-    src: url('assets/fonts/FutharkAoe.ttf') format('truetype');
+    src: url('.assets/fonts/FutharkAoe.ttf') format('truetype');
     font-display: swap;
   }
 
@@ -98,7 +98,7 @@
     position:relative;
     width: var(--page-w);
     height: var(--page-h);
-    background: url('assets/images/book.png') center/contain no-repeat;
+    background: url('.assets/images/book.png') center/contain no-repeat;
     background-size: contain;
     box-shadow: 0 18px 60px rgba(0,0,0,0.7), inset 0 0 18px rgba(0,0,0,0.55);
     border-radius:6px;
@@ -269,14 +269,14 @@
   </div>
 
   <!-- audio -->
-  <audio id="pageSound" src="assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+  <audio id="pageSound" src=".assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 
 <script>
 /* ============================
    PAGES / BACKGROUNDS / TEXT
    ============================ */
 const PAGES = [
-  { id:'volunteers', bg:'assets/images/bg-volunteers.png', title:'История Фракции Придшие', subtitle:'Волонтёры', text:
+  { id:'volunteers', bg:'.assets/images/bg-volunteers.png', title:'История Фракции Придшие', subtitle:'Волонтёры', text:
 `Они явились туда не первыми, но их миссия была самой важной. Спасти от пожара людей. В Алтайских лесах начались сильнейшие пожары, ВС РФ, МЧС, Красный Крест и местные жители, справлялись, но с трудом, нужна была помощь еще извне. Местные новости пустили в эфир просьбу срочную, что нужны люди. И люди пришли.
 
 Волонтёры были людьми с разными судьбами: кто-то всю жизнь посвятил спасению других, а кто-то просто не мог остаться в стороне, видя страдание. Они действовали быстро и слаженно, объединяя усилия с местными службами, но часто рискуя собой. Их главная сила была не в оружии или технике, а в человеческой смелости, терпении и способности работать в самых экстремальных условиях.
@@ -284,11 +284,11 @@ const PAGES = [
 Некоторые приходили по зову сердца, другие — с конкретной профессиональной подготовкой: пожарные, медики, психологи, инженеры.
 
 Со временем они стали символом силы человеческого духа, напоминанием о том, что приходящие могут изменить ход событий, даже если они не были первыми на месте катастрофы. Каждый их поступок оставлял след в сердцах спасённых — и в истории Алтайских лесов.` },
-  { id:'military', bg:'assets/images/bg-vsrf.png', title:'История Фракции Придшие', subtitle:'ВС РФ', text:
+  { id:'military', bg:'.assets/images/bg-military-base.png', title:'История Фракции Придшие', subtitle:'ВС РФ', text:
 `ВС РФ — сила, порядок, дисциплина. Здесь будет краткое описание фракции ВС РФ: локация — современная военная база на окраине зоны, техника, казармы и строгая организация.` },
-  { id:'emergency', bg:'assets/images/bg-mchs.png', title:'История Фракции Придшие', subtitle:'МЧС', text:
+  { id:'emergency', bg:'.assets/images/bg-rescue-base.png', title:'История Фракции Придшие', subtitle:'МЧС', text:
 `МЧС — мобильные штабы, техника и спасатели. Здесь текст описания МЧС: повседневная работа в зонах пожаров и чрезвычайных ситуаций.` },
-  { id:'redcross', bg:'assets/images/bg-redcross.png', title:'История Фракции Придшие', subtitle:'Красный Крест', text:
+  { id:'redcross', bg:'..assets/images/bg-redcross.png', title:'История Фракции Придшие', subtitle:'Красный Крест', text:
 `Красный Крест — полевые госпитали, палаты и медики. Описание и атмосфера: сострадание, лечащие руки и борьба за жизнь.` }
 ];
 
