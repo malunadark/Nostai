@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>История Фракции Придшие</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хроники Забвения — Придшие</title>
 
 <style>
 /* ---- Шрифты ---- */
@@ -17,13 +17,13 @@
 body {
   margin: 0;
   padding: 0;
-  background: url('../assets/images/bg-volunteers.png') center/cover no-repeat fixed;
+  background: url('..assets/images/bg-volunteers.png') center/cover no-repeat fixed;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'destroycyr', serif;
   height: 100vh;
-  transition: background-image 1.5s ease-in-out;
 }
 
 /* ---- Пепел ---- */
@@ -39,17 +39,10 @@ body {
 
 /* ---- Логотип ---- */
 #logo {
-  font-family: 'destroycyr', serif;
   font-size: 64px;
-  color: #e0c9a6;
   text-align: center;
-  text-shadow:
-    0 0 10px #ff8c00,
-    0 0 20px #ff4500,
-    0 0 40px #ff0000,
-    0 0 80px rgba(255, 100, 0, 0.5);
   letter-spacing: 3px;
-  margin-bottom: 40px;
+  margin: 20px 0;
   z-index: 2;
   position: relative;
   background: linear-gradient(145deg, #2e2e2e 20%, #5c5c5c 40%, #a39b8f 60%, #ffb36b 80%);
@@ -61,6 +54,7 @@ body {
 /* ---- Книга ---- */
 #book {
   width: 800px;
+  max-width: 95%;
   height: 550px;
   background: url('..assets/images/book.png') no-repeat center center;
   background-size: contain;
@@ -69,25 +63,49 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(40px);
-
+  flex-direction: column;
+  padding: 40px;
+  box-sizing: border-box;
+}
 
 #book-content {
-  font-family: 'destroycyr', serif;
-  color: #2b1b0f;
   font-size: 18px;
-  width: 70%;
+  color: #2b1b0f;
   line-height: 1.5;
   text-align: justify;
   column-count: 2;
   column-gap: 60px;
+  width: 100%;
+}
+
+/* ---- Кнопки переходов ---- */
+#ash-buttons {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 30px;
+  z-index: 3;
+}
+
+.ash-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(180, 180, 180, 0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.ash-button:hover {
+  transform: scale(1.4);
+  box-shadow: 0 0 15px rgba(255, 200, 150, 0.8);
 }
 </style>
 </head>
 
 <body>
 <canvas id="ashCanvas"></canvas>
-<div id="logo">История Фракции Придшие</div>
+
+<div id="logo">Хроники Забвения — Придшие</div>
 
 <div id="book">
   <div id="book-content">
@@ -102,7 +120,14 @@ body {
     <p>Каждое их действие внушает уверенность: там, где они идут, хаос отступает, а надежда становится осязаемой. Их присутствие меняет всё вокруг, оставляя ощущение силы, порядка и того, что даже стихия подчиняется тем, кто готов бороться до конца. Но несмотря на дисциплину и строгость, за каждым их шагом скрывается что-то большее, что невозможно объяснить словами…</p>
 
     <h2 style="text-align:center;">МЧС</h2>
-    <p>Сильные рыцари, доблестные, покорители огня. Служители людей, помощники в бедствиях, в трудные минуты они рядом — помогут, спасут, защитят. Когда начался пожар в лесах Алтая, они вместе с бойцами доблестной армии ВС РФ были рядом с жителями Алтая, помогая им избежать трагедии. Они как щит прикрывали женщин, стариков и детей от страшной стихии, спасали, но огонь был настолько велик, что нужны были люди ещё.</p>
+    <p>Сильные рыцари, доблестные, покорители огня. Служители людей, помощники в бедствиях, в трудные минуты, они рядом — помогут, спасут, защитят. Когда начался пожар в лесах Алтая, они вместе с бойцами доблестной армии ВС РФ были рядом с жителями Алтая помогая им избежать трагедии. Они как щит прикрывали женщин, стариков и детей от страшной стихии, и спасали, но огонь был настолько велик, что нужны были люди еще.</p>
+  </div>
+
+  <div id="ash-buttons">
+    <div class="ash-button" onclick="location.href='volunteers.html'" title="Волонтёры"></div>
+    <div class="ash-button" onclick="location.href='vsrf.html'" title="ВС РФ"></div>
+    <div class="ash-button" onclick="location.href='mchs.html'" title="МЧС"></div>
+    <div class="ash-button" onclick="location.href='redcross.html'" title="Красный Крест"></div>
   </div>
 </div>
 
@@ -111,8 +136,6 @@ body {
 const canvas = document.getElementById('ashCanvas');
 const ctx = canvas.getContext('2d');
 let width, height;
-let ashes = [];
-
 function resize() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
@@ -129,7 +152,7 @@ class Ash {
     this.y = Math.random() * -height;
     this.size = 1 + Math.random() * 3;
     this.speed = 0.3 + Math.random() * 0.5;
-    this.opacity = 0.1 + Math.random() * 0.3;
+    this.opacity = 0.1 + Math.random() * 0.4;
     this.gray = 120 + Math.random() * 80;
   }
   update() {
@@ -145,14 +168,12 @@ class Ash {
   }
 }
 
-for (let i = 0; i < 150; i++) ashes.push(new Ash());
+let ashes = [];
+for(let i=0;i<150;i++) ashes.push(new Ash());
 
 function animate() {
   ctx.clearRect(0, 0, width, height);
-  ashes.forEach(a => {
-    a.update();
-    a.draw();
-  });
+  ashes.forEach(a=>{a.update(); a.draw();});
   requestAnimationFrame(animate);
 }
 animate();
