@@ -25,30 +25,26 @@ body {
   transition: background-image 1.5s ease-in-out;
 }
 
-/* ---- ПАДАЮЩИЙ ПЕПЕЛ ---- */
-.ash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 6;
-}
 .ash span {
   position: absolute;
-  width: 2px;
-  height: 8px;
-  background: rgba(255, 245, 230, 0.4);
-  border-radius: 50%;
-  filter: blur(1px);
-  animation: fall linear infinite;
+  top: -10vh;
+  animation-name: fall, drift;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite;
 }
+
 @keyframes fall {
-  0% { transform: translateY(-10px) rotate(0deg); opacity: 0.7; }
-  100% { transform: translateY(100vh) rotate(180deg); opacity: 0; }
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
 }
+
+@keyframes drift {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(2vw); }
+  100% { transform: translateX(0); }
+}
+
 
 /* ---- ДЫМ ---- */
 .smoke {
@@ -187,13 +183,42 @@ button:hover {
 
 <script>
 /* ---- ПАДАЮЩИЙ ПЕПЕЛ ---- */
-const ash = document.querySelector('.ash');
-for (let i = 0; i < 60; i++) {
-  const s = document.createElement('span');
-  s.style.left = Math.random() * 100 + '%';
-  s.style.animationDuration = 6 + Math.random() * 3 + 's';
-  s.style.animationDelay = Math.random() * 5 + 's';
-  ash.appendChild(s);
+/* ---- ПАДАЮЩИЙ ПЕПЕЛ — реалистичный серый, без огненных оттенков ---- */
+const ashContainer = document.querySelector('.ash');
+const ASH_COUNT = 80; // количество частиц (можно регулировать)
+
+for (let i = 0; i < ASH_COUNT; i++) {
+  const p = document.createElement('span');
+
+  // размеры частиц (похожие на пепел)
+  const w = 2 + Math.random() * 5;   // ширина 2–7px
+  const h = 6 + Math.random() * 14;  // высота 6–20px
+  p.style.width = `${w}px`;
+  p.style.height = `${h}px`;
+
+  // позиция по горизонтали (в пределах экрана)
+  p.style.left = (Math.random() * 100) + 'vw';
+
+  // цвет — только холодные серые тона
+  const shade = 180 + Math.random() * 60; // от светло-серого до почти белого
+  const opa = 0.15 + Math.random() * 0.4; // прозрачность
+  p.style.background = `rgba(${shade}, ${shade}, ${shade}, ${opa})`;
+  p.style.borderRadius = `${20 + Math.random() * 60}%`; // слегка округлые формы
+  p.style.filter = 'blur(0.6px)';
+  p.style.opacity = opa;
+
+  // скорость и движение
+  const dur = 6 + Math.random() * 12; // длительность падения 6–18s
+  const delay = -Math.random() * dur; // старт сразу из разных позиций
+  p.style.animationDuration = `${dur}s`;
+  p.style.animationDelay = `${delay}s`;
+
+  // лёгкий поворот (эффект плавного парения)
+  const rot = Math.random() * 360;
+  p.style.transform = `rotate(${rot}deg) translateZ(0)`;
+
+  // добавляем элемент в контейнер
+  ashContainer.appendChild(p);
 }
 
 /* ---- СТРАНИЦЫ ---- */
