@@ -19,8 +19,6 @@ body {
   font-family: 'destroycyr', serif;
   color: #f5f5f5;
   background: black;
-  background-size: cover;
-  background-position: center;
   transition: background 1s ease-in-out;
 }
 
@@ -35,6 +33,8 @@ body {
   text-shadow: 0 0 20px #ff6600, 0 0 40px #b33, inset 2px 2px 4px #000;
   letter-spacing: 3px;
   font-weight: 700;
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* --- Книга --- */
@@ -45,13 +45,14 @@ body {
   transform: translateX(-50%);
   width: 900px;
   max-width: 90%;
-  background: url('..assets/images/book.png') center/contain no-repeat;
   height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 60px 120px;
   box-sizing: border-box;
+  background: url('..assets/images/book.png') center/contain no-repeat;
+  z-index: 1;
 }
 
 #text {
@@ -62,6 +63,7 @@ body {
   max-height: 100%;
   overflow: hidden;
   user-select: none;
+  z-index: 2;
 }
 
 /* --- Пепел --- */
@@ -72,10 +74,10 @@ body {
   pointer-events: none;
   width: 100%;
   height: 100%;
-  z-index: 999;
+  z-index: 10;
 }
 
-/* --- Переход пепла --- */
+/* --- Переход пеплом --- */
 .fade {
   animation: fadeInOut 3.5s ease-in-out forwards;
 }
@@ -97,6 +99,7 @@ body {
 </div>
 
 <audio id="pageSound" src="..assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+<audio id="ashSound" src="..assets/music/ash-sound.mp3" preload="auto" loop></audio>
 
 <script>
 // --- Главы ---
@@ -148,6 +151,7 @@ const chapters = [
 let current = 0;
 const textEl = document.getElementById('text');
 const pageSound = document.getElementById('pageSound');
+const ashSound = document.getElementById('ashSound');
 const ashCanvas = document.getElementById('ashCanvas');
 const ctx = ashCanvas.getContext('2d');
 let ashes = [];
@@ -159,32 +163,48 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// --- Пепел частицы ---
-function createAshes() {
-  ashes = [];
-  for (let i = 0; i < 80; i++) {
-    ashes.push({
-      x: Math.random() * ashCanvas.width,
-      y: Math.random() * ashCanvas.height,
-      size: 2 + Math.random() * 4,
-      speed: 0.5 + Math.random() * 1.2,
-      opacity: 0.3 + Math.random() * 0.3,
-    });
+// --- Пепел с ветром ---
+class AshParticle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * ashCanvas.width;
+    this.y = Math.random() * ashCanvas.height;
+    this.size = Math.random() * 3 + 2;
+    this.speedY = Math.random() * 0.5 + 0.2;
+    this.speedX = Math.random() * 0.2 - 0.1;
+    this.opacity = Math.random() * 0.5 + 0.3;
+  }
+  update(windX) {
+    this.y -= this.speedY;
+    this.x += this.speedX + windX * 0.1;
+    if (this.y < 0) this.y = ashCanvas.height;
+    if (this.x < 0) this.x = ashCanvas.width;
+    if (this.x > ashCanvas.width) this.x = 0;
+  }
+  draw() {
+    ctx.fillStyle = `rgba(200,200,200,${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    ctx.fill();
   }
 }
+
+for (let i = 0; i < 80; i++) ashes.push(new AshParticle());
+
+let mouseX = ashCanvas.width/2;
+window.addEventListener('mousemove', e => { mouseX = e.clientX; });
+
 function drawAshes() {
   ctx.clearRect(0, 0, ashCanvas.width, ashCanvas.height);
-  ctx.fillStyle = 'rgba(180,180,180,0.5)';
-  ashes.forEach(a => {
-    ctx.beginPath();
-    ctx.arc(a.x, a.y, a.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(150,150,150,${a.opacity})`;
-    ctx.fill();
-    a.y += a.speed;
-    if (a.y > ashCanvas.height) a.y = -10;
-  });
+  let windX = (mouseX - ashCanvas.width/2)/ashCanvas.width*5;
+  ashes.forEach(a => { a.update(windX); a.draw(); });
   requestAnimationFrame(drawAshes);
 }
+drawAshes();
+ashSound.volume = 0.15;
+ashSound.play();
 
 // --- Загрузка главы ---
 function loadChapter(index) {
@@ -214,7 +234,6 @@ function ashTransition(next) {
     if (next < chapters.length) {
       loadChapter(next);
     } else {
-      // Последняя — чёрный экран с дымом
       document.body.style.backgroundImage = "url('..assets/images/smoke-fog.gif')";
       textEl.innerHTML = '';
       document.getElementById('logo').textContent = '...';
@@ -222,17 +241,13 @@ function ashTransition(next) {
   }, 3000);
 }
 
-// --- Управление кликом ---
+// --- Клик для перелистывания ---
 document.addEventListener('click', () => {
   current++;
-  if (current <= chapters.length) {
-    ashTransition(current);
-  }
+  if (current <= chapters.length) ashTransition(current);
 });
 
 // --- Инициализация ---
-createAshes();
-drawAshes();
 loadChapter(0);
 </script>
 </body>
