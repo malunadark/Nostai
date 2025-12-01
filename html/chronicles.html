@@ -8,7 +8,7 @@
 <style>
 @font-face {
   font-family: 'destroycyr';
-  src: url('..assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -18,52 +18,59 @@ body {
   height: 100vh;
   font-family: 'destroycyr', serif;
   color: #f5f5f5;
-  background: black;
+  background: black center/cover no-repeat;
   transition: background 1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* --- Логотип --- */
 #logo {
   position: absolute;
-  top: 8%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 3.8vw;
+  font-size: 3vw;
   color: #ffcf7a;
   text-shadow: 0 0 20px #ff6600, 0 0 40px #b33, inset 2px 2px 4px #000;
   letter-spacing: 3px;
   font-weight: 700;
   pointer-events: none;
   z-index: 5;
+  text-align: center;
 }
 
 /* --- Книга --- */
 #book {
-  position: absolute;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  max-width: 90%;
-  height: 500px;
+  position: relative;
+  width: 70vw;
+  max-width: 1800px;
+  height: 75vh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding: 60px 120px;
-  box-sizing: border-box;
-  background: url('..assets/images/book.png') center/contain no-repeat;
+  align-items: center;
+  padding: 5vh 8vw;
+  background: url('../assets/images/book.png') center/contain no-repeat;
   z-index: 1;
+  box-sizing: border-box;
 }
 
+/* --- Текст на книге --- */
 #text {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.5rem;
+  line-height: 1.8;
   color: #e8e8e8;
   text-align: justify;
+  column-count: 2;
+  column-gap: 6vw;
+  width: 100%;
   max-height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   user-select: none;
   z-index: 2;
+  padding: 2vh 2vw;
 }
 
 /* --- Пепел --- */
@@ -98,14 +105,14 @@ body {
   <div id="text"></div>
 </div>
 
-<audio id="pageSound" src="..assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
-<audio id="ashSound" src="..assets/music/ash-sound.mp3" preload="auto" loop></audio>
+<audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
+<audio id="ashSound" src="../assets/music/ash-sound.mp3" preload="auto" loop></audio>
 
 <script>
 // --- Главы ---
 const chapters = [
   {
-    bg: '..assets/images/bg-volunteers.png',
+    bg: '../assets/images/bg-volunteers.png',
     title: 'Волонтёры',
     text: `Они явились туда не первыми, но их миссия была самой важной — спасти от пожара людей.
 В Алтайских лесах начались сильнейшие пожары, и даже силы ВС РФ, МЧС и Красного Креста едва справлялись.
@@ -116,7 +123,7 @@ const chapters = [
 и человечности. Каждый их поступок оставлял след в сердцах спасённых и в истории Алтайских лесов.`
   },
   {
-    bg: '..assets/images/bg-military-base.png',
+    bg: '../assets/images/bg-military-base.png',
     title: 'ВС РФ',
     text: `Сила, мощь, дух — всё это заключено в слове ВС РФ.
 Они пришли туда не просто выполнять долг, а чтобы показать границы возможного.
@@ -127,7 +134,7 @@ const chapters = [
 кто не сдаётся даже перед лицом гибели.`
   },
   {
-    bg: '..assets/images/bg-rescue-base.png',
+    bg: '../assets/images/bg-rescue-base.png',
     title: 'МЧС',
     text: `Сильные, доблестные — покорители огня.
 Они рядом, когда рушится привычный мир. Они — щит, спасающий женщин, стариков и детей.
@@ -137,7 +144,7 @@ const chapters = [
 Им чужды страх и сомнение — лишь долг и сострадание.`
   },
   {
-    bg: '..assets/images/bg-redcross-camp.png',
+    bg: '../assets/images/bg-redcross-camp.png',
     title: 'Красный Крест',
     text: `Они несли свет милосердия среди пепла.
 Медики Красного Креста прибывали туда, где уже не было сил даже у спасателей.
@@ -165,15 +172,13 @@ resizeCanvas();
 
 // --- Пепел с ветром ---
 class AshParticle {
-  constructor() {
-    this.reset();
-  }
+  constructor() { this.reset(); }
   reset() {
     this.x = Math.random() * ashCanvas.width;
     this.y = Math.random() * ashCanvas.height;
-    this.size = Math.random() * 3 + 2;
-    this.speedY = Math.random() * 0.5 + 0.2;
-    this.speedX = Math.random() * 0.2 - 0.1;
+    this.size = Math.random() * 4 + 3; // крупнее для 1440p
+    this.speedY = Math.random() * 0.6 + 0.2;
+    this.speedX = Math.random() * 0.3 - 0.15;
     this.opacity = Math.random() * 0.5 + 0.3;
   }
   update(windX) {
@@ -191,7 +196,7 @@ class AshParticle {
   }
 }
 
-for (let i = 0; i < 80; i++) ashes.push(new AshParticle());
+for (let i = 0; i < 120; i++) ashes.push(new AshParticle()); // больше частиц для QHD
 
 let mouseX = ashCanvas.width/2;
 window.addEventListener('mousemove', e => { mouseX = e.clientX; });
@@ -234,7 +239,7 @@ function ashTransition(next) {
     if (next < chapters.length) {
       loadChapter(next);
     } else {
-      document.body.style.backgroundImage = "url('..assets/images/smoke-fog.gif')";
+      document.body.style.backgroundImage = "url('../assets/images/smoke-fog.gif')";
       textEl.innerHTML = '';
       document.getElementById('logo').textContent = '...';
     }
