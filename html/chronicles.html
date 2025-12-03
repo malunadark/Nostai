@@ -1,258 +1,78 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Хроники Забвения</title>
-
 <style>
-@font-face {
-  font-family: 'destroycyr';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
-  font-display: swap;
-}
+@font-face { font-family: 'destroycyr'; src: url('../assets/fonts/destroycyr.ttf') format('truetype'); }
 
-body {
-  margin: 0;
-  overflow: hidden;
-  height: 100vh;
-  font-family: 'destroycyr', serif;
-  color: #f5f5f5;
-  background: black center/cover no-repeat;
-  transition: background 1s ease-in-out;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* --- Логотип --- */
-#logo {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 3vw;
-  color: #ffcf7a;
-  text-shadow: 0 0 20px #ff6600, 0 0 40px #b33, inset 2px 2px 4px #000;
-  letter-spacing: 3px;
-  font-weight: 700;
-  pointer-events: none;
-  z-index: 5;
-  text-align: center;
-}
-
-/* --- Книга --- */
-#book {
-  position: relative;
-  width: 70vw;
-  max-width: 1800px;
-  height: 75vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5vh 8vw;
-  background: url('../assets/images/book.png') center/contain no-repeat;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-/* --- Текст на книге --- */
-#text {
-  font-size: 1.5rem;
-  line-height: 1.8;
-  color: #e8e8e8;
-  text-align: justify;
-  column-count: 2;
-  column-gap: 6vw;
-  width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  user-select: none;
-  z-index: 2;
-  padding: 2vh 2vw;
-}
-
-/* --- Пепел --- */
-#ashCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
-
-/* --- Переход пеплом --- */
-.fade {
-  animation: fadeInOut 3.5s ease-in-out forwards;
-}
-@keyframes fadeInOut {
-  0% { opacity: 0; }
-  25% { opacity: 1; }
-  75% { opacity: 1; }
-  100% { opacity: 0; }
-}
+body { margin:0; overflow:hidden; height:100vh; font-family:'destroycyr', serif; color:#f5f5f5; background:black; display:flex; justify-content:center; align-items:center; }
+#logo { position:absolute; top:5%; left:50%; transform:translateX(-50%); font-size:3vw; color:#ffcf7a; text-shadow:0 0 20px #ff6600,0 0 40px #b33, inset 2px 2px 4px #000; letter-spacing:3px; font-weight:700; text-align:center; z-index:5; pointer-events:none; }
+#book { position:relative; width:70vw; max-width:1800px; height:75vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:5vh 8vw; background:url('../assets/images/book.png') center/contain no-repeat; z-index:1; box-sizing:border-box; }
+#text { font-size:1.5rem; line-height:1.8; color:#e8e8e8; text-align:justify; column-count:2; column-gap:6vw; width:100%; max-height:100%; overflow-y:auto; user-select:none; z-index:2; padding:2vh 2vw; }
+#ashCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
+.fade { animation:fadeInOut 3.5s ease-in-out forwards; }
+@keyframes fadeInOut {0%{opacity:0;}25%{opacity:1;}75%{opacity:1;}100%{opacity:0;}}
 </style>
 </head>
 <body>
-
 <div id="logo">История Фракции Придшие</div>
 <canvas id="ashCanvas"></canvas>
-
-<div id="book">
-  <div id="text"></div>
-</div>
+<div id="book"><div id="text"></div></div>
 
 <audio id="pageSound" src="../assets/music/book-page-turn-4_z1xaim4u.mp3" preload="auto"></audio>
 <audio id="ashSound" src="../assets/music/ash-sound.mp3" preload="auto" loop></audio>
 
 <script>
-// --- Главы ---
-const chapters = [
-  {
-    bg: '../assets/images/bg-volunteers.png',
-    title: 'Волонтёры',
-    text: `Они явились туда не первыми, но их миссия была самой важной — спасти от пожара людей.
-В Алтайских лесах начались сильнейшие пожары, и даже силы ВС РФ, МЧС и Красного Креста едва справлялись.
-Местные новости пустили срочный эфир — нужны люди. И люди пришли.
-
-Волонтёры были разными: кто-то всю жизнь спасал других, кто-то просто не мог стоять в стороне.
-Они действовали быстро, слаженно, рискуя собой. Их сила была не в оружии, а в смелости, терпении
-и человечности. Каждый их поступок оставлял след в сердцах спасённых и в истории Алтайских лесов.`
-  },
-  {
-    bg: '../assets/images/bg-military-base.png',
-    title: 'ВС РФ',
-    text: `Сила, мощь, дух — всё это заключено в слове ВС РФ.
-Они пришли туда не просто выполнять долг, а чтобы показать границы возможного.
-Где они идут — хаос отступает, а надежда становится осязаемой.
-
-Они боролись с огнём, который не щадил никого.
-Каждое их действие внушало уверенность: стихия подвластна тем,
-кто не сдаётся даже перед лицом гибели.`
-  },
-  {
-    bg: '../assets/images/bg-rescue-base.png',
-    title: 'МЧС',
-    text: `Сильные, доблестные — покорители огня.
-Они рядом, когда рушится привычный мир. Они — щит, спасающий женщин, стариков и детей.
-Когда в Алтайских лесах разгорелся пожар, МЧС сражались плечом к плечу с бойцами ВС РФ
-и волонтёрами, помогая людям избежать трагедии.
-
-Им чужды страх и сомнение — лишь долг и сострадание.`
-  },
-  {
-    bg: '../assets/images/bg-redcross-camp.png',
-    title: 'Красный Крест',
-    text: `Они несли свет милосердия среди пепла.
-Медики Красного Креста прибывали туда, где уже не было сил даже у спасателей.
-Они перевязывали раны, выносили из огня пострадавших, возвращали к жизни тех,
-в ком едва теплилось дыхание.
-
-Они — сердце этой борьбы. Их символ — не просто крест, а клятва помогать до последнего вздоха.`
-  }
+// Главы
+const chapters=[
+  { bg:'../assets/images/bg-volunteers.png', title:'Волонтёры', text:`Они явились туда не первыми...`},
+  { bg:'../assets/images/bg-military-base.png', title:'ВС РФ', text:`Сила, мощь, дух...`},
+  { bg:'../assets/images/bg-rescue-base.png', title:'МЧС', text:`Сильные, доблестные...`},
+  { bg:'../assets/images/bg-redcross-camp.png', title:'Красный Крест', text:`Они несли свет милосердия...`}
 ];
 
-let current = 0;
-const textEl = document.getElementById('text');
-const pageSound = document.getElementById('pageSound');
-const ashSound = document.getElementById('ashSound');
-const ashCanvas = document.getElementById('ashCanvas');
-const ctx = ashCanvas.getContext('2d');
-let ashes = [];
+let current=0;
+const textEl=document.getElementById('text');
+const pageSound=document.getElementById('pageSound');
+const ashSound=document.getElementById('ashSound');
+const ashCanvas=document.getElementById('ashCanvas');
+const ctx=ashCanvas.getContext('2d');
+let ashes=[];
 
-function resizeCanvas() {
-  ashCanvas.width = window.innerWidth;
-  ashCanvas.height = window.innerHeight;
+function resizeCanvas(){ashCanvas.width=window.innerWidth; ashCanvas.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
+
+// Пепел
+class AshParticle{
+  constructor(){this.reset();}
+  reset(){ this.x=Math.random()*ashCanvas.width; this.y=Math.random()*ashCanvas.height; this.size=Math.random()*4+3; this.speedY=Math.random()*0.6+0.2; this.speedX=Math.random()*0.3-0.15; this.opacity=Math.random()*0.5+0.3; }
+  update(windX){ this.y-=this.speedY; this.x+=this.speedX+windX*0.1; if(this.y<0)this.y=ashCanvas.height; if(this.x<0)this.x=ashCanvas.width; if(this.x>ashCanvas.width)this.x=0;}
+  draw(){ ctx.fillStyle=`rgba(200,200,200,${this.opacity})`; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill();}
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+for(let i=0;i<120;i++) ashes.push(new AshParticle());
 
-// --- Пепел с ветром ---
-class AshParticle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * ashCanvas.width;
-    this.y = Math.random() * ashCanvas.height;
-    this.size = Math.random() * 4 + 3; // крупнее для 1440p
-    this.speedY = Math.random() * 0.6 + 0.2;
-    this.speedX = Math.random() * 0.3 - 0.15;
-    this.opacity = Math.random() * 0.5 + 0.3;
-  }
-  update(windX) {
-    this.y -= this.speedY;
-    this.x += this.speedX + windX * 0.1;
-    if (this.y < 0) this.y = ashCanvas.height;
-    if (this.x < 0) this.x = ashCanvas.width;
-    if (this.x > ashCanvas.width) this.x = 0;
-  }
-  draw() {
-    ctx.fillStyle = `rgba(200,200,200,${this.opacity})`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-    ctx.fill();
-  }
+let mouseX=ashCanvas.width/2;
+window.addEventListener('mousemove',e=>{mouseX=e.clientX;});
+function drawAshes(){ ctx.clearRect(0,0,ashCanvas.width,ashCanvas.height); let windX=(mouseX-ashCanvas.width/2)/ashCanvas.width*5; ashes.forEach(a=>{a.update(windX);a.draw();}); requestAnimationFrame(drawAshes);}
+drawAshes(); ashSound.volume=0.15; ashSound.play();
+
+// Загрузка главы
+function loadChapter(index){ const chapter=chapters[index]; const img=new Image(); img.src=chapter.bg; img.onload=()=>{ document.body.style.backgroundImage=`url(${chapter.bg})`; textEl.innerHTML=`<h2 style="text-align:center">${chapter.title}</h2><p>${chapter.text.replace(/\n/g,'<br>')}</p>`; }}
+
+// Переход пеплом
+function ashTransition(next){
+  const fadeDiv=document.createElement('div'); fadeDiv.className='fade'; fadeDiv.style.position='fixed'; fadeDiv.style.top=0; fadeDiv.style.left=0;
+  fadeDiv.style.width='100%'; fadeDiv.style.height='100%'; fadeDiv.style.background='rgba(60,60,60,0.8)'; fadeDiv.style.zIndex=1000; document.body.appendChild(fadeDiv);
+  pageSound.currentTime=0; pageSound.play();
+  setTimeout(()=>{ fadeDiv.remove(); if(next<chapters.length) loadChapter(next); else { document.body.style.backgroundImage="url('../assets/images/smoke-fog.gif')"; textEl.innerHTML=''; document.getElementById('logo').textContent='...'; }},3000);
 }
 
-for (let i = 0; i < 120; i++) ashes.push(new AshParticle()); // больше частиц для QHD
+// Клик для перелистывания
+document.addEventListener('click',()=>{ current++; if(current<=chapters.length) ashTransition(current); });
 
-let mouseX = ashCanvas.width/2;
-window.addEventListener('mousemove', e => { mouseX = e.clientX; });
-
-function drawAshes() {
-  ctx.clearRect(0, 0, ashCanvas.width, ashCanvas.height);
-  let windX = (mouseX - ashCanvas.width/2)/ashCanvas.width*5;
-  ashes.forEach(a => { a.update(windX); a.draw(); });
-  requestAnimationFrame(drawAshes);
-}
-drawAshes();
-ashSound.volume = 0.15;
-ashSound.play();
-
-// --- Загрузка главы ---
-function loadChapter(index) {
-  const chapter = chapters[index];
-  document.body.style.backgroundImage = `url(${chapter.bg})`;
-  textEl.innerHTML = `<h2 style="text-align:center">${chapter.title}</h2><p>${chapter.text.replace(/\n/g, '<br>')}</p>`;
-}
-
-// --- Переход пеплом ---
-function ashTransition(next) {
-  const fadeDiv = document.createElement('div');
-  fadeDiv.className = 'fade';
-  fadeDiv.style.position = 'fixed';
-  fadeDiv.style.top = 0;
-  fadeDiv.style.left = 0;
-  fadeDiv.style.width = '100%';
-  fadeDiv.style.height = '100%';
-  fadeDiv.style.background = 'rgba(60,60,60,0.8)';
-  fadeDiv.style.zIndex = 1000;
-  document.body.appendChild(fadeDiv);
-
-  pageSound.currentTime = 0;
-  pageSound.play();
-
-  setTimeout(() => {
-    fadeDiv.remove();
-    if (next < chapters.length) {
-      loadChapter(next);
-    } else {
-      document.body.style.backgroundImage = "url('../assets/images/smoke-fog.gif')";
-      textEl.innerHTML = '';
-      document.getElementById('logo').textContent = '...';
-    }
-  }, 3000);
-}
-
-// --- Клик для перелистывания ---
-document.addEventListener('click', () => {
-  current++;
-  if (current <= chapters.length) ashTransition(current);
-});
-
-// --- Инициализация ---
+// Инициализация
 loadChapter(0);
 </script>
 </body>
