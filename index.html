@@ -1,121 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NOSTAI</title>
+<link rel="preload" href="assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 @font-face {
-  font-family: 'destroycyr';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
+font-family: 'destroycyr';
+src: url('assets/fonts/destroycyr.ttf') format('truetype');
+font-display: swap;
 }
 
-/* Общие стили */
-body, html {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: 'destroycyr', serif;
-  height: 100vh;
-  background: url('assets/images/Nostai.png') no-repeat center/cover;
+
+body {
+margin: 0;
+padding: 0;
+overflow: hidden;
+background: url('assets/images/Nostai.png') no-repeat center center/cover;
+height: 100vh;
 }
 
-/* Дым */
+
 #fog {
-  position: fixed;
-  inset: 0;
-  background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity: 0.25;
-  pointer-events: none;
-  z-index: 5;
+position: fixed;
+inset: 0;
+background: url('assets/images/smoke-fog.gif') center/cover no-repeat;
+opacity: 0.25;
+pointer-events: none;
+z-index: 5;
 }
 
-/* Логотип */
+
 #logo {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  font-size: 7rem;
-  letter-spacing: 8px;
-  font-family: 'destroycyr', serif;
-  color: #d6d6d6;
-  text-align: center;
-  text-shadow:0 4px 6px rgba(0,0,0,0.85),0 0 14px rgba(255,80,0,0.6),0 0 35px rgba(255,140,0,0.5),0 -1px 2px rgba(255,255,255,0.2),0 0 60px rgba(255,60,0,0.3);
-  filter: contrast(1.3) brightness(1);
-  animation: fireGranite 4s ease-in-out infinite, floatLogo 8s ease-in-out infinite;
-  user-select: none;
-  pointer-events: none;
+position: absolute;
+top: 10%;
+left: 50%;
+transform: translateX(-50%);
+font-size: 11vw;
+max-font-size: 7rem;
+font-family: 'destroycyr';
+color: #d6d6d6;
+text-align: center;
+text-shadow:
+0 4px 6px rgba(0,0,0,0.85),
+0 0 14px rgba(255, 80, 0, 0.6),
+0 0 35px rgba(255, 140, 0, 0.5);
+animation: floatLogo 8s ease-in-out infinite;
+pointer-events: none;
+z-index: 30;
 }
-@keyframes fireGranite {
-  0%,100% { filter: brightness(0.95);}
-  50% { filter: brightness(1.05);}
-}
-@keyframes floatLogo { 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,8px);} }
 
-/* Книга */
+
+@keyframes floatLogo {
+0%, 100% { transform: translate(-50%, 0); }
+50% { transform: translate(-50%, 8px); }
+}
+
+
 .book {
-  position: absolute;
-  top: 58%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 15;
-  width: 400px;
-  height: auto;
-  opacity: 0.85;
-  cursor: pointer;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  filter: drop-shadow(0 0 25px rgba(0,0,0,0.4));
+position: absolute;
+top: 58%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: clamp(180px, 30vw, 350px);
+opacity: 0.85;
+transition: .4s;
+filter: drop-shadow(0 0 25px rgba(0,0,0,0.4));
 }
-.book:hover {
-  transform: translate(-50%, -50%) scale(1.05);
-  opacity: 0.95;
-}
+.book:hover { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
 
-/* Радио */
+
 .radio {
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-  width: 180px;
-  height: auto;
-  z-index: 20;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+position: absolute;
+bottom: 5%;
+right: 5%;
+width: clamp(90px, 18vw, 180px);
+transition: .3s;
 }
 .radio:hover { transform: scale(1.08); }
 
-/* Пепел */
-@keyframes fallingAsh {0%{transform:translateY(-10vh) scale(0.6);opacity:0.8;}100%{transform:translateY(110vh) scale(1.2);opacity:0;}}
-.ash { position:absolute;width:3px;height:3px;background:rgba(255,255,255,0.8);border-radius:50%;animation:fallingAsh linear infinite; z-index:8; }
-
-@media (max-width:768px) {
-  #logo { font-size:5rem; }
-  .book { width: 60vw; }
-  .radio { width: 140px; }
+@keyframes fallingAsh {
+0% { transform: translateY(-10vh) scale(.6); opacity:.8; }
+100% { transform: translateY(110vh) scale(1.2); opacity:0; }
 }
+.ash {
+position: absolute;
+width: 3px;
+height: 3px;
+background: rgba(255,255,255,0.8);
+border-radius: 50%;
+animation: fallingAsh linear infinite;
+z-index: 8;
+  }
 </style>
 </head>
 <body>
-
 <div id="fog"></div>
 <div id="logo">NOSTAI</div>
 
-<a href="html/chronicles.html"><img src="assets/images/old-notebook.png" alt="Хроники Забвения" class="book"></a>
-<a href="html/broadcast.html"><img src="assets/images/radio.svg.png" alt="Узел Связи" class="radio"></a>
-
+  <a href="html/chronicles.html"><img src="assets/images/old-notebook.png" class="book" alt="Хроники"></a>
+<a href="html/broadcast.html"><img src="assets/images/radio.svg.png" class="radio" alt="Узел связи"></a>
+  
 <script>
-// Пепел
-for(let i=0;i<60;i++){
-  const ash=document.createElement('div');
-  ash.className='ash';
-  document.body.appendChild(ash);
-  ash.style.left=Math.random()*100+'vw';
-  ash.style.animationDuration=6+Math.random()*6+'s';
-  ash.style.animationDelay=Math.random()*5+'s';
+for (let i = 0; i < 70; i++) {
+const ash = document.createElement('div');
+ash.classList.add('ash');
+document.body.appendChild(ash);
+ash.style.left = Math.random()*100 + 'vw';
+ash.style.animationDuration = 6 + Math.random()*6 + 's';
+ash.style.animationDelay = Math.random()*5 + 's';
 }
 </script>
-
 </body>
 </html>
