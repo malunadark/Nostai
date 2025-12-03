@@ -1,90 +1,147 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Узел связи NOSTAI</title>
 <style>
-@font-face { font-family: 'destroycyr'; src: url('../assets/fonts/destroycyr.ttf') format('truetype'); }
+@font-face {
+font-family: 'destroycyr';
+src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+font-display: swap;
+}
+
 
 body {
-  margin:0; overflow:hidden; height:100vh;
-  font-family: 'destroycyr', serif;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  background:black center/cover no-repeat;
-  color:#f5f5f5;
+margin: 0;
+overflow: hidden;
+height: 100vh;
+font-family: 'destroycyr';
+background: black;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
-/* Логотип и кнопки */
-#logo { font-size:4vw; color:#ffcf7a; text-shadow:0 0 20px #ff6600,0 0 40px #b33, inset 2px 2px 4px #000; text-align:center; margin-bottom:2vh; }
-#buttons { display:flex; gap:2vw; margin-top:2vh; }
-button { font-family:'destroycyr', serif; font-size:1.2rem; padding:.8rem 1.5rem; border:none; border-radius:10px; background:#ffcf7a; color:#000; cursor:pointer; box-shadow:0 0 15px #ff6600; transition:.2s; }
-button:hover { transform:scale(1.1); background:#ffb347; }
 
-/* Узел связи */
+#logo {
+font-size: clamp(24px, 6vw, 80px);
+margin-top: 2vh;
+color: #ffcf7a;
+text-shadow: 0 0 20px #ff6600;
+}
+
+
+#buttons {
+margin: 2vh;
+display: flex;
+gap: 2vw;
+}
+button {
+font-family: 'destroycyr';
+padding: .8rem 1.5rem;
+font-size: clamp(14px, 1.4vw, 22px);
+border-radius: 10px;
+border: none;
+background: #ffcf7a;
+cursor: pointer;
+transition: .3s;
+}
+button:hover {
+transform: scale(1.1);
+background:#ffb347;
+}
+
+
 #communication {
-  position:relative; width:90%; max-width:1800px; height:70vh;
-  background:url('../assets/images/broadcast-bg.png') center/cover no-repeat;
-  border:2px solid #ffcf7a; border-radius:20px; box-shadow:0 0 40px #ff6600 inset; overflow:hidden;
+width: 90%;
+max-width: 1600px;
+height: 60vh;
+background: url('../assets/images/broadcast-bg.png') center/cover;
+border-radius: 20px;
+position: relative;
+overflow: hidden;
+border: 1px solid #ffcf7a;
+box-shadow: 0 0 40px #ff6600 inset;
+}
+.message {
+position: absolute;
+color: #e8e8e8;
+text-shadow: 0 0 5px #ff6600;
+white-space: nowrap;
 }
 
-/* Сообщения */
-.message { position:absolute; font-size:1.1rem; color:#e8e8e8; text-shadow:0 0 5px #ff6600; white-space:nowrap; user-select:none; }
 
-/* Помехи */
-.noiseCanvas { position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%; z-index:10; }
-
-@media(max-width:768px){#logo{font-size:6vw;} button{font-size:.9rem;padding:.5rem 1rem;} #communication{height:60vh;}}
-@media(max-width:480px){#logo{font-size:7vw;} button{font-size:.8rem;padding:.4rem .8rem;} #communication{height:50vh;}}
+.noiseCanvas {
+position: absolute;
+width:100%;
+height:100%;
+pointer-events: none;
+top:0; left:0;
+}
 </style>
 </head>
 <body>
+<div id="logo">Узел связи</div>
 
-<div id="logo">NOSTAI Узел Связи</div>
+
 <div id="buttons">
-  <button onclick="window.location.href='../index.html'">NOSTAI</button>
-  <button onclick="window.location.href='chronicles.html'">Хроники Забвения</button>
+<button onclick="location.href='../index.html'">NOSTAI</button>
+  <button onclick="location.href='chronicles.html'">Хроники</button>
 </div>
+
 
 <div id="communication"></div>
 <canvas class="noiseCanvas"></canvas>
 
-<script>
-// Сообщения
+  <script>
 const comm = document.getElementById('communication');
-const messages=['Секретное сообщение №1','Обновление статуса...','Передача данных...','Внимание: тревога!','Сообщение получено','Ошибка передачи!'];
+const messages = [
+'Секретное сообщение…',
+'Передача данных…',
+'Сообщение получено',
+'Сбой канала',
+'Перегрузка линии…'
+];
 function createMessage(){
-  const msg=document.createElement('div');
-  msg.className='message';
-  msg.textContent=messages[Math.floor(Math.random()*messages.length)];
-  msg.style.top=Math.random()*(comm.clientHeight-20)+'px';
-  msg.style.left='-200px';
-  comm.appendChild(msg);
-  let pos=-200;
-  const speed=Math.random()*2+1;
-  const interval=setInterval(()=>{
-    pos+=speed;
-    msg.style.left=pos+'px';
-    if(pos>comm.clientWidth){ clearInterval(interval); msg.remove(); }
-  },20);
-}
-setInterval(createMessage,800);
+const msg = document.createElement('div');
+msg.className='message';
+msg.textContent = messages[Math.random()*messages.length|0];
+msg.style.top = Math.random()*(comm.clientHeight-20)+'px';
+msg.style.left='-200px';
+comm.appendChild(msg);
 
-// Помехи
-const noiseCanvas=document.querySelector('.noiseCanvas');
-const ctx=noiseCanvas.getContext('2d');
-function resizeCanvas(){noiseCanvas.width=window.innerWidth; noiseCanvas.height=window.innerHeight;}
-window.addEventListener('resize',resizeCanvas); resizeCanvas();
-function drawNoise(){
-  const imageData=ctx.createImageData(noiseCanvas.width,noiseCanvas.height);
-  for(let i=0;i<imageData.data.length;i+=4){
-    const val=Math.random()*255;
-    imageData.data[i]=val; imageData.data[i+1]=val; imageData.data[i+2]=val; imageData.data[i+3]=25;
-  }
-  ctx.putImageData(imageData,0,0);
-  requestAnimationFrame(drawNoise);
+  let pos=-200;
+const speed = 2+Math.random()*2;
+const interval=setInterval(()=>{
+pos+=speed;
+msg.style.left=pos+'px';
+if(pos>comm.clientWidth){
+clearInterval(interval);
+msg.remove();
 }
-drawNoise();
+},20);
+}
+setInterval(createMessage, 900);
+
+    // noise
+t const canvas=document.querySelector('.noiseCanvas');
+const ctx=canvas.getContext('2d');
+function resize(){ canvas.width=canvas.clientWidth; canvas.height=canvas.clientHeight; }
+window.addEventListener('resize',resize); resize();
+function noise(){
+const img=ctx.createImageData(canvas.width, canvas.height);
+for(let i=0;i<img.data.length;i+=4){
+const val=Math.random()*255;
+img.data[i]=val;
+img.data[i+1]=val;
+img.data[i+2]=val;
+img.data[i+3]=25;
+}
+ctx.putImageData(img,0,0);
+requestAnimationFrame(noise);
+}
+noise();
 </script>
 </body>
 </html>
