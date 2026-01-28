@@ -2,188 +2,201 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>NOSTAI</title>
 
 <!-- PRELOAD -->
 <link rel="preload" href="assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/images/Nostai.png" as="image">
+<link rel="preload" href="assets/images/old-notebook.png" as="image">
 
 <style>
-/* ===== ШРИФТ ===== */
-@font-face {
-  font-family: 'destroycyr';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
-  font-display: swap;
-}
-
 /* ===== RESET ===== */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-html, body {
   margin: 0;
   padding: 0;
 }
 
-/* ===== BODY ===== */
-body {
+html, body {
+  width: 100%;
+  height: 100%;
   background: #000;
+  color: #eee;
   overflow: hidden;
-  font-family: 'destroycyr', serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* ===== APP (ЕДИНСТВЕННЫЙ VIEWPORT) ===== */
+/* ===== FONTS ===== */
+@font-face {
+  font-family: 'Destroy';
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* ===== APP WRAPPER ===== */
 #app {
   position: relative;
   width: 100%;
-  height: 100svh;      /* 🔥 стабильнее чем vh/dvh */
-  min-height: 100svh;
-
+  height: 100%;
   background:
-    radial-gradient(ellipse at center, rgba(255,120,40,.15), transparent 70%),
+    radial-gradient(ellipse at center, rgba(255,120,40,.18), transparent 70%),
     url('assets/images/Nostai.png') center / cover no-repeat;
-
-  overflow: hidden;
-}
-
-/* ===== ЛОГО ===== */
-#logo {
-  position: absolute;
-  top: clamp(5%, 8vh, 10%);
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(3rem, 11vw, 7rem);
-  color: #d6d6d6;
-  text-align: center;
-
-  text-shadow:
-    0 4px 6px rgba(0,0,0,.85),
-    0 0 14px rgba(255,80,0,.6),
-    0 0 35px rgba(255,140,0,.5);
-
-  animation: floatLogo 8s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 20;
-}
-
-@keyframes floatLogo {
-  0%,100% { transform: translate(-50%,0); }
-  50% { transform: translate(-50%,8px); }
-}
-
-/* ===== КНОПКИ ===== */
-.book, .radio {
-  position: absolute;
-  transition: transform .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   will-change: transform;
-}
-
-.book {
-  top: 58%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(160px, 28vw, 340px);
-  opacity: .9;
-  z-index: 15;
-}
-
-.book:hover {
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
-.radio {
-  bottom: 4%;
-  right: 4%;
-  width: clamp(80px, 16vw, 160px);
-  z-index: 15;
-}
-
-.radio:hover {
-  transform: scale(1.08);
-}
-
-/* ===== ТУМАН ===== */
-#fog {
-  position: absolute;
-  inset: 0;
-  background: url('assets/images/smoke-fog.gif') center / cover no-repeat;
-  opacity: .22;
-  pointer-events: none;
-  z-index: 5;
   transform: translateZ(0);
 }
 
-/* ===== ПЕПЕЛ ===== */
+/* ===== OVERLAY ===== */
+#fade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .8s ease;
+  z-index: 10;
+}
+
+/* ===== LOGO ===== */
+#logo {
+  position: absolute;
+  top: clamp(24px, 6vh, 60px);
+  text-align: center;
+  font-family: 'Destroy', serif;
+  font-size: clamp(2.8rem, 10vw, 6.5rem);
+  letter-spacing: .15em;
+  color: #ffb266;
+  text-shadow: 0 0 18px rgba(255,140,40,.5);
+  user-select: none;
+  z-index: 2;
+}
+
+/* ===== BOOK ===== */
+.book-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.book {
+  width: clamp(160px, 24vw, 360px);
+  max-width: 80vw;
+  cursor: pointer;
+  filter: drop-shadow(0 0 30px rgba(0,0,0,.8));
+  transition:
+    transform .6s ease,
+    filter .6s ease;
+}
+
+.book:hover {
+  transform: scale(1.06) rotate(-1deg);
+  filter: drop-shadow(0 0 40px rgba(255,140,40,.7));
+}
+
+/* ===== ASH ===== */
 .ash {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(255,255,255,.75);
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,.6);
   border-radius: 50%;
-  animation: fallingAsh linear infinite;
-  z-index: 6;
+  pointer-events: none;
+  animation: ash linear infinite;
 }
 
-@keyframes fallingAsh {
-  from {
-    transform: translateY(-10%) scale(.6);
-    opacity: .8;
-  }
-  to {
-    transform: translateY(110%) scale(1.2);
-    opacity: 0;
-  }
+@keyframes ash {
+  from { transform: translateY(0) translateX(0); opacity: 0; }
+  20% { opacity: .8; }
+  to { transform: translateY(-120vh) translateX(30px); opacity: 0; }
 }
 
-/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+/* ===== MOBILE SAFE ===== */
 @media (max-width: 768px) {
-  .book { top: 65%; }
-  .radio {
-    bottom: 2%;
-    right: 50%;
-    transform: translateX(50%);
-  }
+  #logo { letter-spacing: .1em; }
+  .book { width: 60vw; }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .ash { display: none; }
+  .book { transition: none; }
 }
 </style>
 </head>
 
 <body>
+
 <div id="app">
 
-  <div id="fog"></div>
+  <div id="fade"></div>
 
   <div id="logo">NOSTAI</div>
 
-  <a href="index.html">
-    <img src="assets/images/old-notebook.png"
-         class="book"
-         alt="Хроники Забвения">
-  </a>
-
-  <a href="html/broadcast.html">
-    <img src="assets/images/radio.svg.png"
-         class="radio"
-         alt="Узел связи">
-  </a>
+  <div class="book-wrapper">
+    <img
+      src="assets/images/old-notebook.png"
+      class="book"
+      id="book"
+      alt="Хроники Забвения">
+  </div>
 
 </div>
 
+<!-- AUDIO -->
+<audio id="hoverSound" src="assets/music/book-hover.mp3" preload="auto"></audio>
+<audio id="openSound" src="assets/music/book-open.mp3" preload="auto"></audio>
+
 <script>
-/* ===== ПЕПЕЛ ===== */
-const app = document.getElementById('app');
+/* ===== ASH GENERATOR ===== */
 const ashCount = Math.min(80, Math.floor(window.innerWidth / 20));
 
 for (let i = 0; i < ashCount; i++) {
-  const ash = document.createElement('div');
-  ash.className = 'ash';
-  ash.style.left = Math.random() * 100 + '%';
-  ash.style.animationDuration = 6 + Math.random() * 6 + 's';
-  ash.style.animationDelay = Math.random() * 5 + 's';
-  ash.style.opacity = Math.random() * 0.6 + 0.2;
-  app.appendChild(ash);
+  const a = document.createElement('div');
+  a.className = 'ash';
+  a.style.left = Math.random() * 100 + 'vw';
+  a.style.animationDuration = 6 + Math.random() * 6 + 's';
+  a.style.animationDelay = Math.random() * 8 + 's';
+  document.getElementById('app').appendChild(a);
 }
+
+/* ===== INTERACTION ===== */
+const book = document.getElementById('book');
+const fade = document.getElementById('fade');
+const hoverSound = document.getElementById('hoverSound');
+const openSound = document.getElementById('openSound');
+
+let audioUnlocked = false;
+
+const unlockAudio = () => {
+  if (audioUnlocked) return;
+  hoverSound.play().then(() => hoverSound.pause()).catch(()=>{});
+  openSound.play().then(() => openSound.pause()).catch(()=>{});
+  audioUnlocked = true;
+};
+
+document.addEventListener('pointerdown', unlockAudio, { once: true });
+
+book.addEventListener('mouseenter', () => {
+  if (audioUnlocked) {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  }
+});
+
+book.addEventListener('click', () => {
+  if (audioUnlocked) {
+    openSound.currentTime = 0;
+    openSound.play();
+  }
+  fade.style.opacity = 1;
+  setTimeout(() => {
+    window.location.href = 'html/chronicles.html';
+  }, 700);
+});
 </script>
 
 </body>
