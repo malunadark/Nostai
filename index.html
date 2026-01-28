@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NOSTAI</title>
 
-<!-- PRELOAD КРИТИЧЕСКИХ РЕСУРСОВ -->
+<!-- PRELOAD -->
 <link rel="preload" href="assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/images/Nostai.png" as="image">
 
@@ -17,7 +17,7 @@
   font-display: swap;
 }
 
-/* ===== БАЗА ===== */
+/* ===== RESET ===== */
 * {
   box-sizing: border-box;
 }
@@ -25,13 +25,29 @@
 html, body {
   width: 100%;
   height: 100%;
+  margin: 0;
 }
 
+/* ===== BODY ===== */
 body {
-  margin: 0;
+  min-height: 100dvh;
+  background: #000;
   overflow: hidden;
-  background: #000 url('assets/images/Nostai.png') center / cover no-repeat;
   font-family: 'destroycyr', serif;
+}
+
+/* ===== APP (КОРЕНЬ) ===== */
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+
+  background:
+    radial-gradient(ellipse at center, rgba(255,120,40,.15), transparent 70%),
+    url('assets/images/Nostai.png') center / cover no-repeat;
+
+  overflow: hidden;
 }
 
 /* ===== ЛОГО ===== */
@@ -43,10 +59,12 @@ body {
   font-size: clamp(3rem, 11vw, 7rem);
   color: #d6d6d6;
   text-align: center;
+
   text-shadow:
     0 4px 6px rgba(0,0,0,.85),
     0 0 14px rgba(255,80,0,.6),
     0 0 35px rgba(255,140,0,.5);
+
   animation: floatLogo 8s ease-in-out infinite;
   pointer-events: none;
   z-index: 20;
@@ -70,6 +88,7 @@ body {
   transform: translate(-50%, -50%);
   width: clamp(160px, 28vw, 340px);
   opacity: .9;
+  z-index: 15;
 }
 
 .book:hover {
@@ -80,27 +99,29 @@ body {
   bottom: 4%;
   right: 4%;
   width: clamp(80px, 16vw, 160px);
+  z-index: 15;
 }
 
 .radio:hover {
   transform: scale(1.08);
 }
 
-/* ===== ТУМАН (ОПТИМИЗИРОВАН) ===== */
+/* ===== ТУМАН ===== */
 #fog {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: url('assets/images/smoke-fog.gif') center / cover no-repeat;
   opacity: .22;
   pointer-events: none;
   z-index: 5;
+  transform: translateZ(0); /* Safari fix */
 }
 
 /* ===== ПЕПЕЛ ===== */
 .ash {
-  position: fixed;
-  width: 3px;
-  height: 3px;
+  position: absolute;
+  width: 2px;
+  height: 2px;
   background: rgba(255,255,255,.75);
   border-radius: 50%;
   animation: fallingAsh linear infinite;
@@ -108,42 +129,66 @@ body {
 }
 
 @keyframes fallingAsh {
-  from { transform: translateY(-10vh) scale(.6); opacity:.8; }
-  to { transform: translateY(110vh) scale(1.2); opacity:0; }
+  from {
+    transform: translateY(-10vh) translateX(0) scale(.6);
+    opacity: .8;
+  }
+  to {
+    transform: translateY(110vh) translateX(30px) scale(1.2);
+    opacity: 0;
+  }
 }
 
 /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
 @media (max-width: 768px) {
-  body { overflow-y: auto; }
   .book { top: 65%; }
-  .radio { bottom: 2%; right: 50%; transform: translateX(50%); }
+  .radio {
+    bottom: 2%;
+    right: 50%;
+    transform: translateX(50%);
+  }
 }
 </style>
 </head>
+
 <body>
+<div id="app">
 
-<div id="fog"></div>
-<div id="logo">NOSTAI</div>
+  <div id="fog"></div>
 
-<a href="index.html">
-  <img src="assets/images/old-notebook.png" class="book" alt="Хроники Забвения" loading="lazy">
-</a>
+  <div id="logo">NOSTAI</div>
 
-<a href="html/broadcast.html">
-  <img src="assets/images/radio.svg.png" class="radio" alt="Узел связи" loading="lazy">
-</a>
+  <a href="index.html">
+    <img src="assets/images/old-notebook.png"
+         class="book"
+         alt="Хроники Забвения"
+         loading="lazy">
+  </a>
+
+  <a href="html/broadcast.html">
+    <img src="assets/images/radio.svg.png"
+         class="radio"
+         alt="Узел связи"
+         loading="lazy">
+  </a>
+
+</div>
 
 <script>
 /* ===== АДАПТИВНЫЙ ПЕПЕЛ ===== */
+const app = document.getElementById('app');
 const ashCount = Math.min(80, Math.floor(window.innerWidth / 20));
 
 for (let i = 0; i < ashCount; i++) {
   const ash = document.createElement('div');
   ash.className = 'ash';
+
   ash.style.left = Math.random() * 100 + 'vw';
   ash.style.animationDuration = 6 + Math.random() * 6 + 's';
   ash.style.animationDelay = Math.random() * 5 + 's';
-  document.body.appendChild(ash);
+  ash.style.opacity = Math.random() * 0.6 + 0.2;
+
+  app.appendChild(ash);
 }
 </script>
 
