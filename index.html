@@ -23,25 +23,23 @@
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 /* ===== BODY ===== */
 body {
-  min-height: 100dvh;
   background: #000;
   overflow: hidden;
   font-family: 'destroycyr', serif;
 }
 
-/* ===== APP (КОРЕНЬ) ===== */
+/* ===== APP (ЕДИНСТВЕННЫЙ VIEWPORT) ===== */
 #app {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 100dvh;
+  height: 100svh;      /* 🔥 стабильнее чем vh/dvh */
+  min-height: 100svh;
 
   background:
     radial-gradient(ellipse at center, rgba(255,120,40,.15), transparent 70%),
@@ -78,7 +76,7 @@ body {
 /* ===== КНОПКИ ===== */
 .book, .radio {
   position: absolute;
-  transition: transform .3s ease, opacity .3s ease;
+  transition: transform .3s ease;
   will-change: transform;
 }
 
@@ -114,7 +112,7 @@ body {
   opacity: .22;
   pointer-events: none;
   z-index: 5;
-  transform: translateZ(0); /* Safari fix */
+  transform: translateZ(0);
 }
 
 /* ===== ПЕПЕЛ ===== */
@@ -130,11 +128,11 @@ body {
 
 @keyframes fallingAsh {
   from {
-    transform: translateY(-10vh) translateX(0) scale(.6);
+    transform: translateY(-10%) scale(.6);
     opacity: .8;
   }
   to {
-    transform: translateY(110vh) translateX(30px) scale(1.2);
+    transform: translateY(110%) scale(1.2);
     opacity: 0;
   }
 }
@@ -161,33 +159,29 @@ body {
   <a href="index.html">
     <img src="assets/images/old-notebook.png"
          class="book"
-         alt="Хроники Забвения"
-         loading="lazy">
+         alt="Хроники Забвения">
   </a>
 
   <a href="html/broadcast.html">
     <img src="assets/images/radio.svg.png"
          class="radio"
-         alt="Узел связи"
-         loading="lazy">
+         alt="Узел связи">
   </a>
 
 </div>
 
 <script>
-/* ===== АДАПТИВНЫЙ ПЕПЕЛ ===== */
+/* ===== ПЕПЕЛ ===== */
 const app = document.getElementById('app');
 const ashCount = Math.min(80, Math.floor(window.innerWidth / 20));
 
 for (let i = 0; i < ashCount; i++) {
   const ash = document.createElement('div');
   ash.className = 'ash';
-
-  ash.style.left = Math.random() * 100 + 'vw';
+  ash.style.left = Math.random() * 100 + '%';
   ash.style.animationDuration = 6 + Math.random() * 6 + 's';
   ash.style.animationDelay = Math.random() * 5 + 's';
   ash.style.opacity = Math.random() * 0.6 + 0.2;
-
   app.appendChild(ash);
 }
 </script>
