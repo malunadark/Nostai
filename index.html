@@ -6,9 +6,9 @@
   <title>NOSTAI</title>
 
   <!-- PRELOAD -->
-  <link rel="preload" href="/assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="/assets/images/Nostai.png" as="image">
-  <link rel="preload" href="/assets/images/old-notebook.png" as="image">
+  <link rel="preload" href="./assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./assets/images/Nostai.png" as="image">
+  <link rel="preload" href="./assets/images/old-notebook.png" as="image">
 
   <style>
     /* ===== RESET ===== */
@@ -32,7 +32,7 @@
     /* ===== FONTS ===== */
     @font-face {
       font-family: 'Destroy';
-      src: url('/assets/fonts/destroycyr.ttf') format('truetype');
+      src: url('./assets/fonts/destroycyr.ttf') format('truetype');
       font-display: swap;
     }
 
@@ -43,7 +43,7 @@
       height: 100%;
       background:
         radial-gradient(ellipse at center, rgba(255,120,40,.18), transparent 70%),
-        url('/assets/images/Nostai.png') center / cover no-repeat;
+        url('./assets/images/Nostai.png') center / cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -144,8 +144,8 @@
   </div>
 
   <!-- AUDIO -->
-  <audio id="hoverSound" src="/assets/audio/book-hover.mp3" preload="auto"></audio>
-  <audio id="openSound" src="/assets/audio/book-open.mp3" preload="auto"></audio>
+  <audio id="hoverSound" src="./assets/audio/book-hover.mp3" preload="auto"></audio>
+  <audio id="openSound" src="./assets/audio/book-open.mp3" preload="auto"></audio>
 
   <script>
     /* ===== ASH GENERATOR ===== */
