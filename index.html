@@ -1,199 +1,114 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>NOSTAI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSTAI</title>
 
-  <!-- PRELOAD -->
-  <link rel="preload" href="./assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="./assets/images/Nostai.png" as="image">
-  <link rel="preload" href="./assets/images/old-notebook.png" as="image">
+<style>
+@font-face {
+  font-family: 'Destroy';
+  src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+}
 
-  <style>
-    /* ===== RESET ===== */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: #000;
-      color: #eee;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+body{
+  height:100vh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0.6), #000 80%),
+    url('./assets/images/Nostai.png') center/cover no-repeat;
+  font-family:'Destroy', sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
 
-    /* ===== FONTS ===== */
-    @font-face {
-      font-family: 'Destroy';
-      src: url('./assets/fonts/destroycyr.ttf') format('truetype');
-      font-display: swap;
-    }
+/* Логотип */
+.logo{
+  font-size:clamp(80px, 9vw, 180px);
+  color:#e6b56a;
+  text-align:center;
+  text-shadow:
+    0 0 10px rgba(255,140,0,0.5),
+    0 0 40px rgba(255,69,0,0.4);
+  cursor:pointer;
+  transition:0.4s;
+}
 
-    /* ===== APP WRAPPER ===== */
-    #app {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(ellipse at center, rgba(255,120,40,.18), transparent 70%),
-        url('./assets/images/Nostai.png') center / cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      will-change: transform;
-      transform: translateZ(0);
-    }
+.logo:hover{
+  transform:scale(1.05);
+}
 
-    /* ===== OVERLAY ===== */
-    #fade {
-      position: absolute;
-      inset: 0;
-      background: #000;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .8s ease;
-      z-index: 10;
-    }
-
-    /* ===== LOGO ===== */
-    #logo {
-      position: absolute;
-      top: clamp(24px, 6vh, 60px);
-      text-align: center;
-      font-family: 'Destroy', serif;
-      font-size: clamp(2.8rem, 10vw, 6.5rem);
-      letter-spacing: .15em;
-      color: #ffb266;
-      text-shadow: 0 0 18px rgba(255,140,40,.5);
-      user-select: none;
-      z-index: 2;
-    }
-
-    /* ===== BOOK ===== */
-    .book-wrapper {
-      position: relative;
-      z-index: 2;
-    }
-
-    .book {
-      width: clamp(160px, 24vw, 360px);
-      max-width: 80vw;
-      cursor: pointer;
-      filter: drop-shadow(0 0 30px rgba(0,0,0,.8));
-      transition:
-        transform .6s ease,
-        filter .6s ease;
-    }
-
-    .book:hover {
-      transform: scale(1.06) rotate(-1deg);
-      filter: drop-shadow(0 0 40px rgba(255,140,40,.7));
-    }
-
-    /* ===== ASH ===== */
-    .ash {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: rgba(255,255,255,.6);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: ash linear infinite;
-    }
-
-    @keyframes ash {
-      from { transform: translateY(0) translateX(0); opacity: 0; }
-      20% { opacity: .8; }
-      to { transform: translateY(-120vh) translateX(30px); opacity: 0; }
-    }
-
-    /* ===== MOBILE SAFE ===== */
-    @media (max-width: 768px) {
-      #logo { letter-spacing: .1em; }
-      .book { width: 60vw; }
-    }
-
-    /* ===== REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      .ash { display: none; }
-      .book { transition: none; }
-    }
-  </style>
+/* Пепел */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
+</style>
 </head>
 
 <body>
-  <div id="app">
-    <div id="fade"></div>
 
-    <div id="logo">NOSTAI</div>
+<div class="logo" onclick="goChronicles()">
+  История<br>Фракции<br>Придшие
+</div>
 
-    <div class="book-wrapper">
-      <img
-        src="/assets/images/old-notebook.png"
-        class="book"
-        id="book"
-        alt="Хроники Забвения">
-    </div>
-  </div>
+<canvas id="ash"></canvas>
 
-  <!-- AUDIO -->
-  <audio id="hoverSound" src="./assets/audio/book-hover.mp3" preload="auto"></audio>
-  <audio id="openSound" src="./assets/audio/book-open.mp3" preload="auto"></audio>
+<script>
+function goChronicles(){
+  window.location.href = "./html/chronicles.html";
+}
 
-  <script>
-    /* ===== ASH GENERATOR ===== */
-    const ashCount = Math.min(80, Math.floor(window.innerWidth / 20));
+/* Пепел */
+const canvas = document.getElementById("ash");
+const ctx = canvas.getContext("2d");
 
-    for (let i = 0; i < ashCount; i++) {
-      const a = document.createElement('div');
-      a.className = 'ash';
-      a.style.left = Math.random() * 100 + 'vw';
-      a.style.animationDuration = 6 + Math.random() * 6 + 's';
-      a.style.animationDelay = Math.random() * 8 + 's';
-      document.getElementById('app').appendChild(a);
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+const particles = [];
+
+for(let i=0;i<120;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    size:Math.random()*3+2,
+    speed:Math.random()*0.5+0.2,
+    opacity:Math.random()*0.4+0.2
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.fillStyle=`rgba(180,180,180,${p.opacity})`;
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fill();
+    p.y+=p.speed;
+    if(p.y>canvas.height){
+      p.y=0;
+      p.x=Math.random()*canvas.width;
     }
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
 
-    /* ===== INTERACTION ===== */
-    const book = document.getElementById('book');
-    const fade = document.getElementById('fade');
-    const hoverSound = document.getElementById('hoverSound');
-    const openSound = document.getElementById('openSound');
-
-    let audioUnlocked = false;
-
-    const unlockAudio = () => {
-      if (audioUnlocked) return;
-      hoverSound.play().then(() => { hoverSound.pause(); hoverSound.currentTime = 0; }).catch(()=>{});
-      openSound.play().then(() => { openSound.pause(); openSound.currentTime = 0; }).catch(()=>{});
-      audioUnlocked = true;
-    };
-
-    document.addEventListener('pointerdown', unlockAudio, { once: true });
-
-    book.addEventListener('mouseenter', () => {
-      if (audioUnlocked) {
-        hoverSound.currentTime = 0;
-        hoverSound.play().catch(()=>{});
-      }
-    });
-
-    book.addEventListener('click', () => {
-      if (audioUnlocked) {
-        openSound.currentTime = 0;
-        openSound.play().catch(()=>{});
-      }
-      fade.style.opacity = 1;
-      setTimeout(() => {
-        window.location.href = '/html/chronicles.html';
-      }, 700);
-    });
-  </script>
 </body>
 </html>
