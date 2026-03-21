@@ -2,13 +2,13 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NOSTAI</title>
 
 <style>
 @font-face {
   font-family: 'Destroy';
-  src: url('../assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('./assets/fonts/destroycyr.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -23,73 +23,139 @@ html, body{
   width:100%;
   height:100%;
   overflow:hidden;
+  background:#000;
 }
 
-/* ===== ФОН ===== */
+/* ===== ОСНОВА ===== */
 body{
   display:flex;
   align-items:center;
   justify-content:center;
 
   background:
-    radial-gradient(circle at center, rgba(255,120,40,0.2), rgba(0,0,0,0.95) 70%),
-    url(../assets/images/Nostai.png') center/cover no-repeat;
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)),
+    radial-gradient(circle at center, rgba(255,120,40,0.2), transparent 70%),
+    url('./assets/images/Nostai.png') center/cover no-repeat;
 
   background-blend-mode: overlay;
 }
 
+/* ===== ДЫМ ===== */
+.smoke{
+  position:fixed;
+  inset:0;
+  background:url('./assets/images/smoke-fog.gif') center/cover no-repeat;
+  opacity:0.2;
+  pointer-events:none;
+  z-index:1;
+}
+
 /* ===== ЛОГО ===== */
 .logo{
-  font-family: 'Destroy', serif;
-  font-size: clamp(90px, 10vw, 220px);
-  letter-spacing: 10px;
-  color: #ffb36b;
+  font-family:'Destroy', serif;
+  font-size:clamp(60px, 8vw, 200px);
+  letter-spacing: clamp(5px, 1vw, 12px);
+  color:#ffb36b;
 
   text-align:center;
   cursor:pointer;
+  z-index:2;
+
+  opacity:0;
+  transform:scale(0.85);
 
   text-shadow:
     0 0 10px #ff8c00,
     0 0 25px #ff5a00,
     0 0 50px rgba(255,80,0,0.8),
-    0 0 100px rgba(255,40,0,0.6);
+    0 0 120px rgba(255,40,0,0.6);
 
-  transition: all 0.4s ease;
+  animation:
+    fadeIn 2s ease forwards,
+    pulse 3s ease-in-out infinite 2s;
 }
 
-.logo:hover{
-  transform: scale(1.08);
-  text-shadow:
-    0 0 20px #ffae42,
-    0 0 40px #ff6a00,
-    0 0 80px rgba(255,80,0,1),
-    0 0 140px rgba(255,30,0,0.8);
+/* ===== АНИМАЦИИ ===== */
+@keyframes fadeIn{
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+@keyframes pulse{
+  0%{ transform:scale(1); }
+  50%{ transform:scale(1.05); }
+  100%{ transform:scale(1); }
 }
 
 /* ===== ПЕПЕЛ ===== */
 canvas{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   pointer-events:none;
+  z-index:3;
+}
+
+/* ===== КЛИК ЭФФЕКТ ===== */
+.fade-out{
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+  to{
+    opacity:0;
+    transform:scale(1.2);
+    filter:blur(10px);
+  }
+}
+
+/* ===== МОБИЛКА ===== */
+@media (max-width:768px){
+  .logo{
+    font-size: clamp(40px, 10vw, 90px);
+    letter-spacing:3px;
+  }
+
+  .smoke{
+    opacity:0.15;
+  }
+}
+
+/* ===== СЛАБЫЕ УСТРОЙСТВА ===== */
+@media (prefers-reduced-motion: reduce){
+  .logo{
+    animation:none;
+    opacity:1;
+    transform:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="logo" onclick="goChronicles()">
-  NOSTAI
-</div>
+<div class="smoke"></div>
+
+<div class="logo" id="logo">NOSTAI</div>
 
 <canvas id="ash"></canvas>
 
 <script>
-function goChronicles(){
-  window.location.href = "./html/chronicles.html";
+const logo = document.getElementById("logo");
+
+/* ===== КЛИК / ТАП ===== */
+function startTransition(){
+  logo.classList.add("fade-out");
+  explode();
+
+  setTimeout(()=>{
+    window.location.href = "./html/chronicles.html";
+  }, 900);
 }
+
+logo.addEventListener("click", startTransition);
+logo.addEventListener("touchstart", startTransition);
 
 /* ===== ПЕПЕЛ ===== */
 const canvas = document.getElementById("ash");
@@ -102,19 +168,37 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-const particles = [];
-const COUNT = Math.min(180, Math.floor(window.innerWidth / 10));
+/* адаптивное количество частиц */
+const baseCount = Math.min(150, Math.floor(window.innerWidth / 12));
+let particles = [];
 
-for(let i=0;i<COUNT;i++){
+/* обычный пепел */
+for(let i=0;i<baseCount;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
     size:Math.random()*3+1,
-    speed:Math.random()*0.7+0.2,
-    opacity:Math.random()*0.5+0.2
+    speedX:(Math.random()-0.5)*0.4,
+    speedY:Math.random()*0.6+0.2,
+    opacity:Math.random()*0.4+0.2
   });
 }
 
+/* взрыв */
+function explode(){
+  for(let i=0;i<120;i++){
+    particles.push({
+      x:canvas.width/2,
+      y:canvas.height/2,
+      size:Math.random()*4+2,
+      speedX:(Math.random()-0.5)*6,
+      speedY:(Math.random()-0.5)*6,
+      opacity:1
+    });
+  }
+}
+
+/* анимация */
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -124,12 +208,14 @@ function animate(){
     ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
     ctx.fill();
 
-    p.y += p.speed;
-    p.x += Math.sin(p.y * 0.01) * 0.3;
+    p.x += p.speedX;
+    p.y += p.speedY;
+    p.opacity *= 0.995;
 
-    if(p.y > canvas.height){
-      p.y = -10;
+    if(p.y > canvas.height || p.opacity < 0.05){
       p.x = Math.random()*canvas.width;
+      p.y = -10;
+      p.opacity = Math.random()*0.4+0.2;
     }
   });
 
