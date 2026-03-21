@@ -21,29 +21,40 @@ body{
   height:100vh;
   overflow:hidden;
   background:
-    radial-gradient(circle at center, rgba(0,0,0,0.6), #000 80%),
+    radial-gradient(circle at center, rgba(255,120,40,0.15), rgba(0,0,0,0.9) 70%),
     url('./assets/images/Nostai.png') center/cover no-repeat;
-  font-family:'Destroy', sans-serif;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
+  background-blend-mode: overlay;
 }
 
 /* Логотип */
 .logo{
-  font-size:clamp(80px, 9vw, 180px);
-  color:#e6b56a;
+  font-size:clamp(90px, 9vw, 200px);
   text-align:center;
-  text-shadow:
-    0 0 10px rgba(255,140,0,0.5),
-    0 0 40px rgba(255,69,0,0.4);
   cursor:pointer;
+
+  background: linear-gradient(
+    180deg,
+    #fff3d6 0%,
+    #ffcc80 25%,
+    #ff9933 50%,
+    #ff5500 75%,
+    #662200 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 10px rgba(255,140,0,0.6),
+    0 0 30px rgba(255,80,0,0.6),
+    0 0 60px rgba(255,50,0,0.4);
+
   transition:0.4s;
 }
 
 .logo:hover{
-  transform:scale(1.05);
+  transform:scale(1.07);
+  filter: drop-shadow(0 0 25px rgba(255,120,40,0.8));
 }
 
 /* Пепел */
