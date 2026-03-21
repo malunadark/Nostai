@@ -9,59 +9,70 @@
 @font-face {
   font-family: 'Destroy';
   src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+  font-display: swap;
 }
 
+/* ===== RESET ===== */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
-body{
-  height:100vh;
+html, body{
+  width:100%;
+  height:100%;
   overflow:hidden;
+}
+
+/* ===== ФОН ===== */
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   background:
-    radial-gradient(circle at center, rgba(255,120,40,0.15), rgba(0,0,0,0.9) 70%),
+    radial-gradient(circle at center, rgba(255,120,40,0.2), rgba(0,0,0,0.95) 70%),
     url('./assets/images/Nostai.png') center/cover no-repeat;
+
   background-blend-mode: overlay;
 }
 
-/* Логотип */
+/* ===== ЛОГО ===== */
 .logo{
-  font-size:clamp(90px, 9vw, 200px);
+  font-family: 'Destroy', serif;
+  font-size: clamp(90px, 10vw, 220px);
+  letter-spacing: 10px;
+  color: #ffb36b;
+
   text-align:center;
   cursor:pointer;
 
-  background: linear-gradient(
-    180deg,
-    #fff3d6 0%,
-    #ffcc80 25%,
-    #ff9933 50%,
-    #ff5500 75%,
-    #662200 100%
-  );
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
   text-shadow:
-    0 0 10px rgba(255,140,0,0.6),
-    0 0 30px rgba(255,80,0,0.6),
-    0 0 60px rgba(255,50,0,0.4);
+    0 0 10px #ff8c00,
+    0 0 25px #ff5a00,
+    0 0 50px rgba(255,80,0,0.8),
+    0 0 100px rgba(255,40,0,0.6);
 
-  transition:0.4s;
+  transition: all 0.4s ease;
 }
 
 .logo:hover{
-  transform:scale(1.07);
-  filter: drop-shadow(0 0 25px rgba(255,120,40,0.8));
+  transform: scale(1.08);
+  text-shadow:
+    0 0 20px #ffae42,
+    0 0 40px #ff6a00,
+    0 0 80px rgba(255,80,0,1),
+    0 0 140px rgba(255,30,0,0.8);
 }
 
-/* Пепел */
+/* ===== ПЕПЕЛ ===== */
 canvas{
   position:fixed;
   top:0;
   left:0;
+  width:100%;
+  height:100%;
   pointer-events:none;
 }
 </style>
@@ -70,7 +81,7 @@ canvas{
 <body>
 
 <div class="logo" onclick="goChronicles()">
-  История<br>Фракции<br>Придшие
+  NOSTAI
 </div>
 
 <canvas id="ash"></canvas>
@@ -80,7 +91,7 @@ function goChronicles(){
   window.location.href = "./html/chronicles.html";
 }
 
-/* Пепел */
+/* ===== ПЕПЕЛ ===== */
 const canvas = document.getElementById("ash");
 const ctx = canvas.getContext("2d");
 
@@ -92,32 +103,39 @@ resize();
 window.addEventListener("resize", resize);
 
 const particles = [];
+const COUNT = Math.min(180, Math.floor(window.innerWidth / 10));
 
-for(let i=0;i<120;i++){
+for(let i=0;i<COUNT;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
-    size:Math.random()*3+2,
-    speed:Math.random()*0.5+0.2,
-    opacity:Math.random()*0.4+0.2
+    size:Math.random()*3+1,
+    speed:Math.random()*0.7+0.2,
+    opacity:Math.random()*0.5+0.2
   });
 }
 
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
+
   particles.forEach(p=>{
     ctx.beginPath();
-    ctx.fillStyle=`rgba(180,180,180,${p.opacity})`;
+    ctx.fillStyle=`rgba(200,200,200,${p.opacity})`;
     ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
     ctx.fill();
-    p.y+=p.speed;
-    if(p.y>canvas.height){
-      p.y=0;
-      p.x=Math.random()*canvas.width;
+
+    p.y += p.speed;
+    p.x += Math.sin(p.y * 0.01) * 0.3;
+
+    if(p.y > canvas.height){
+      p.y = -10;
+      p.x = Math.random()*canvas.width;
     }
   });
+
   requestAnimationFrame(animate);
 }
+
 animate();
 </script>
 
