@@ -1,228 +1,251 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NOSTAI</title>
 
+<!-- PRELOAD -->
+<link rel="preload" href="assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/images/Nostai.png" as="image">
+<link rel="preload" href="assets/images/old-notebook.png" as="image">
+
 <style>
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ===== FONT ===== */
 @font-face {
   font-family: 'Destroy';
-  src: url('./assets/fonts/destroycyr.ttf') format('truetype');
+  src: url('assets/fonts/destroycyr.ttf') format('truetype');
   font-display: swap;
 }
 
-/* ===== RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html, body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#000;
-}
-
-/* ===== ОСНОВА ===== */
-body{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* ===== APP ===== */
+#app {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
 
   background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)),
-    radial-gradient(circle at center, rgba(255,120,40,0.2), transparent 70%),
-    url('./assets/images/Nostai.png') center/cover no-repeat;
-
-  background-blend-mode: overlay;
+    radial-gradient(ellipse at center, rgba(255,120,40,.18), transparent 70%),
+    url('assets/images/Nostai.png') center / cover no-repeat;
 }
 
-/* ===== ДЫМ ===== */
-.smoke{
-  position:fixed;
-  inset:0;
-  background:url('./assets/images/smoke-fog.gif') center/cover no-repeat;
-  opacity:0.2;
-  pointer-events:none;
-  z-index:1;
-}
+/* ===== LOGO ===== */
+#logo {
+  position: absolute;
+  top: clamp(20px, 6vh, 60px);
+  left: 50%;
+  transform: translateX(-50%);
 
-/* ===== ЛОГО ===== */
-.logo{
-  font-family:'Destroy', serif;
-  font-size:clamp(60px, 8vw, 200px);
-  letter-spacing: clamp(5px, 1vw, 12px);
-  color:#ffb36b;
+  font-family: 'Destroy';
+  font-size: clamp(2.8rem, 10vw, 6.5rem);
+  letter-spacing: .15em;
 
-  text-align:center;
-  cursor:pointer;
-  z-index:2;
-
-  opacity:0;
-  transform:scale(0.85);
+  color: #ffb266;
 
   text-shadow:
-    0 0 10px #ff8c00,
-    0 0 25px #ff5a00,
-    0 0 50px rgba(255,80,0,0.8),
-    0 0 120px rgba(255,40,0,0.6);
+    0 0 20px rgba(255,140,40,.6),
+    0 0 40px rgba(255,100,0,.4);
 
-  animation:
-    fadeIn 2s ease forwards,
-    pulse 3s ease-in-out infinite 2s;
+  animation: float 8s ease-in-out infinite;
+  z-index: 5;
+  pointer-events: none;
 }
 
-/* ===== АНИМАЦИИ ===== */
-@keyframes fadeIn{
-  to{
-    opacity:1;
-    transform:scale(1);
+@keyframes float {
+  0%,100% { transform: translate(-50%,0); }
+  50% { transform: translate(-50%,10px); }
+}
+
+/* ===== BOOK ===== */
+.book-wrapper {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.book {
+  width: clamp(180px, 26vw, 360px);
+  max-width: 85vw;
+  cursor: pointer;
+
+  filter: drop-shadow(0 0 30px rgba(0,0,0,.8));
+  transition: transform .4s ease, filter .4s ease;
+}
+
+.book:hover {
+  transform: scale(1.05) rotate(-1deg);
+  filter: drop-shadow(0 0 40px rgba(255,140,40,.6));
+}
+
+/* ===== MENU ===== */
+.menu {
+  position: absolute;
+  bottom: clamp(20px, 6vh, 60px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 60px);
+  z-index: 5;
+}
+
+.menu a {
+  font-family: 'Destroy';
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  color: #ffb266;
+  text-decoration: none;
+
+  text-shadow: 0 0 10px rgba(255,140,40,.6);
+
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.menu a:hover {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+/* ===== FADE ===== */
+#fade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .7s ease;
+  z-index: 10;
+}
+
+/* ===== ASH ===== */
+.ash {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255,200,150,.7);
+  border-radius: 50%;
+  pointer-events: none;
+
+  animation: ash linear infinite;
+}
+
+@keyframes ash {
+  from {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  20% { opacity: .8; }
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
   }
 }
 
-@keyframes pulse{
-  0%{ transform:scale(1); }
-  50%{ transform:scale(1.05); }
-  100%{ transform:scale(1); }
-}
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  #logo {
+    letter-spacing: .1em;
+  }
 
-/* ===== ПЕПЕЛ ===== */
-canvas{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:3;
-}
+  .book {
+    width: 60vw;
+  }
 
-/* ===== КЛИК ЭФФЕКТ ===== */
-.fade-out{
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut{
-  to{
-    opacity:0;
-    transform:scale(1.2);
-    filter:blur(10px);
+  .menu {
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
-/* ===== МОБИЛКА ===== */
-@media (max-width:768px){
-  .logo{
-    font-size: clamp(40px, 10vw, 90px);
-    letter-spacing:3px;
-  }
-
-  .smoke{
-    opacity:0.15;
-  }
-}
-
-/* ===== СЛАБЫЕ УСТРОЙСТВА ===== */
-@media (prefers-reduced-motion: reduce){
-  .logo{
-    animation:none;
-    opacity:1;
-    transform:none;
-  }
+/* ===== PERFORMANCE ===== */
+@media (prefers-reduced-motion: reduce) {
+  .ash { display: none; }
+  #logo { animation: none; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="smoke"></div>
+<div id="app">
 
-<div class="logo" id="logo">NOSTAI</div>
+  <div id="fade"></div>
 
-<canvas id="ash"></canvas>
+  <div id="logo">NOSTAI</div>
+
+  <div class="book-wrapper">
+    <img src="assets/images/old-notebook.png" class="book" id="book">
+  </div>
+
+  <div class="menu">
+    <a href="index.html">Nostai</a>
+    <a href="html/chronicles.html">Хроники Забвения</a>
+  </div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="openSound" src="assets/music/book_open_old.wav" preload="auto"></audio>
 
 <script>
-const logo = document.getElementById("logo");
+/* ===== ASH ===== */
+const app = document.getElementById('app');
+const ashCount = Math.min(60, Math.floor(window.innerWidth / 25));
 
-/* ===== КЛИК / ТАП ===== */
-function startTransition(){
-  logo.classList.add("fade-out");
-  explode();
-
-  setTimeout(()=>{
-    window.location.href = "./html/chronicles.html";
-  }, 900);
+for (let i = 0; i < ashCount; i++) {
+  const a = document.createElement('div');
+  a.className = 'ash';
+  a.style.left = Math.random() * 100 + '%';
+  a.style.animationDuration = 6 + Math.random() * 6 + 's';
+  a.style.animationDelay = Math.random() * 5 + 's';
+  app.appendChild(a);
 }
 
-logo.addEventListener("click", startTransition);
-logo.addEventListener("touchstart", startTransition);
+/* ===== INTERACTION ===== */
+const book = document.getElementById('book');
+const fade = document.getElementById('fade');
+const openSound = document.getElementById('openSound');
 
-/* ===== ПЕПЕЛ ===== */
-const canvas = document.getElementById("ash");
-const ctx = canvas.getContext("2d");
+let unlocked = false;
 
-function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+const unlock = () => {
+  if (unlocked) return;
+  openSound.play().then(() => openSound.pause()).catch(()=>{});
+  unlocked = true;
+};
 
-/* адаптивное количество частиц */
-const baseCount = Math.min(150, Math.floor(window.innerWidth / 12));
-let particles = [];
+document.addEventListener('pointerdown', unlock, { once: true });
 
-/* обычный пепел */
-for(let i=0;i<baseCount;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    size:Math.random()*3+1,
-    speedX:(Math.random()-0.5)*0.4,
-    speedY:Math.random()*0.6+0.2,
-    opacity:Math.random()*0.4+0.2
-  });
-}
-
-/* взрыв */
-function explode(){
-  for(let i=0;i<120;i++){
-    particles.push({
-      x:canvas.width/2,
-      y:canvas.height/2,
-      size:Math.random()*4+2,
-      speedX:(Math.random()-0.5)*6,
-      speedY:(Math.random()-0.5)*6,
-      opacity:1
-    });
+book.addEventListener('click', () => {
+  if (unlocked) {
+    openSound.currentTime = 0;
+    openSound.play();
   }
-}
 
-/* анимация */
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  fade.style.opacity = 1;
 
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.fillStyle=`rgba(200,200,200,${p.opacity})`;
-    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    ctx.fill();
-
-    p.x += p.speedX;
-    p.y += p.speedY;
-    p.opacity *= 0.995;
-
-    if(p.y > canvas.height || p.opacity < 0.05){
-      p.x = Math.random()*canvas.width;
-      p.y = -10;
-      p.opacity = Math.random()*0.4+0.2;
-    }
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
+  setTimeout(() => {
+    window.location.href = 'html/chronicles.html';
+  }, 600);
+});
 </script>
 
 </body>
