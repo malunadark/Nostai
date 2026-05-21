@@ -1,0 +1,141 @@
+@font-face{
+    font-family:'Destroy';
+    src:url('../assets/fonts/destroycyr.ttf')
+    format('truetype');
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:'Destroy', sans-serif;
+}
+
+body{
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    radial-gradient(circle at center,
+    rgba(255,120,40,0.15),
+    rgba(0,0,0,0.92) 70%),
+
+    url('../assets/images/Nostai.png');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+/* Туман */
+
+body::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:url('../assets/images/smoke-fog.gif');
+
+    background-size:cover;
+    background-position:center;
+
+    opacity:0.15;
+
+    pointer-events:none;
+}
+
+/* Логотип */
+
+.logo{
+    position:relative;
+    z-index:5;
+
+    font-size:clamp(90px,8vw,220px);
+
+    letter-spacing:10px;
+
+    cursor:pointer;
+
+    background:linear-gradient(
+        180deg,
+        #fff3d6 0%,
+        #ffcc80 25%,
+        #ff9933 50%,
+        #ff5500 75%,
+        #5b1d00 100%
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 0 10px rgba(255,140,0,0.6),
+        0 0 30px rgba(255,80,0,0.5),
+        0 0 70px rgba(255,50,0,0.3);
+
+    animation:floatLogo 6s ease-in-out infinite;
+}
+
+.logo:hover{
+    transform:scale(1.04);
+}
+
+@keyframes floatLogo{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(10px);
+    }
+}
+
+/* Пепел */
+
+canvas{
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+    z-index:2;
+}
+
+/* Fade */
+
+.fade{
+    position:fixed;
+    inset:0;
+
+    background:#000;
+
+    opacity:0;
+
+    transition:1s ease;
+
+    pointer-events:none;
+
+    z-index:10;
+}
+
+/* Адаптив */
+
+@media(max-width:768px){
+
+.logo{
+    font-size:clamp(50px,14vw,120px);
+    letter-spacing:4px;
+}
+
+}
