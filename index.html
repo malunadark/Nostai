@@ -1,252 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NOSTAI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<!-- PRELOAD -->
-<link rel="preload" href="assets/fonts/destroycyr.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="assets/images/Nostai.png" as="image">
-<link rel="preload" href="assets/images/old-notebook.png" as="image">
+    <title>NOSTAI</title>
 
-<style>
-/* ===== RESET ===== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  overflow: hidden;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-/* ===== FONT ===== */
-@font-face {
-  font-family: 'Destroy';
-  src: url('assets/fonts/destroycyr.ttf') format('truetype');
-  font-display: swap;
-}
-
-/* ===== APP ===== */
-#app {
-  position: relative;
-  width: 100%;
-  height: 100svh;
-  overflow: hidden;
-
-  background:
-    radial-gradient(ellipse at center, rgba(255,120,40,.18), transparent 70%),
-    url('assets/images/Nostai.png') center / cover no-repeat;
-}
-
-/* ===== LOGO ===== */
-#logo {
-  position: absolute;
-  top: clamp(20px, 6vh, 60px);
-  left: 50%;
-  transform: translateX(-50%);
-
-  font-family: 'Destroy';
-  font-size: clamp(2.8rem, 10vw, 6.5rem);
-  letter-spacing: .15em;
-
-  color: #ffb266;
-
-  text-shadow:
-    0 0 20px rgba(255,140,40,.6),
-    0 0 40px rgba(255,100,0,.4);
-
-  animation: float 8s ease-in-out infinite;
-  z-index: 5;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0%,100% { transform: translate(-50%,0); }
-  50% { transform: translate(-50%,10px); }
-}
-
-/* ===== BOOK ===== */
-.book-wrapper {
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 5;
-}
-
-.book {
-  width: clamp(180px, 26vw, 360px);
-  max-width: 85vw;
-  cursor: pointer;
-
-  filter: drop-shadow(0 0 30px rgba(0,0,0,.8));
-  transition: transform .4s ease, filter .4s ease;
-}
-
-.book:hover {
-  transform: scale(1.05) rotate(-1deg);
-  filter: drop-shadow(0 0 40px rgba(255,140,40,.6));
-}
-
-/* ===== MENU ===== */
-.menu {
-  position: absolute;
-  bottom: clamp(20px, 6vh, 60px);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: clamp(20px, 5vw, 60px);
-  z-index: 5;
-}
-
-.menu a {
-  font-family: 'Destroy';
-  font-size: clamp(1rem, 3vw, 1.6rem);
-  color: #ffb266;
-  text-decoration: none;
-
-  text-shadow: 0 0 10px rgba(255,140,40,.6);
-
-  transition: transform .2s ease, opacity .2s ease;
-}
-
-.menu a:hover {
-  transform: scale(1.1);
-  opacity: 0.85;
-}
-
-/* ===== FADE ===== */
-#fade {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .7s ease;
-  z-index: 10;
-}
-
-/* ===== ASH ===== */
-.ash {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(255,200,150,.7);
-  border-radius: 50%;
-  pointer-events: none;
-
-  animation: ash linear infinite;
-}
-
-@keyframes ash {
-  from {
-    transform: translateY(-10vh);
-    opacity: 0;
-  }
-  20% { opacity: .8; }
-  to {
-    transform: translateY(110vh);
-    opacity: 0;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  #logo {
-    letter-spacing: .1em;
-  }
-
-  .book {
-    width: 60vw;
-  }
-
-  .menu {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-/* ===== PERFORMANCE ===== */
-@media (prefers-reduced-motion: reduce) {
-  .ash { display: none; }
-  #logo { animation: none; }
-}
-</style>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
-<div id="app">
+    <div class="fade" id="fade"></div>
 
-  <div id="fade"></div>
+    <div class="logo"
+         onclick="openChronicles()">
+         NOSTAI
+    </div>
 
-  <div id="logo">NOSTAI</div>
+    <canvas id="ash"></canvas>
 
-  <div class="book-wrapper">
-    <img src="assets/images/old-notebook.png" class="book" id="book">
-  </div>
+    <audio
+        id="openSound"
+        src="./assets/music/book-page-turn-4_z1xaim4u.mp3">
+    </audio>
 
-  <div class="menu">
-    <a href="index.html">Nostai</a>
-    <a href="html/chronicles.html">Хроники Забвения</a>
-  </div>
-
-</div>
-
-<!-- AUDIO -->
-<audio id="openSound" src="assets/music/book_open_old.wav" preload="auto"></audio>
-
-<script>
-/* ===== ASH ===== */
-const app = document.getElementById('app');
-const ashCount = Math.min(60, Math.floor(window.innerWidth / 25));
-
-for (let i = 0; i < ashCount; i++) {
-  const a = document.createElement('div');
-  a.className = 'ash';
-  a.style.left = Math.random() * 100 + '%';
-  a.style.animationDuration = 6 + Math.random() * 6 + 's';
-  a.style.animationDelay = Math.random() * 5 + 's';
-  app.appendChild(a);
-}
-
-/* ===== INTERACTION ===== */
-const book = document.getElementById('book');
-const fade = document.getElementById('fade');
-const openSound = document.getElementById('openSound');
-
-let unlocked = false;
-
-const unlock = () => {
-  if (unlocked) return;
-  openSound.play().then(() => openSound.pause()).catch(()=>{});
-  unlocked = true;
-};
-
-document.addEventListener('pointerdown', unlock, { once: true });
-
-book.addEventListener('click', () => {
-  if (unlocked) {
-    openSound.currentTime = 0;
-    openSound.play();
-  }
-
-  fade.style.opacity = 1;
-
-  setTimeout(() => {
-    window.location.href = 'html/chronicles.html';
-  }, 600);
-});
-</script>
-
+    <script src="js/nostai-main.js"></script>
 </body>
 </html>
